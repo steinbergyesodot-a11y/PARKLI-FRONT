@@ -1,8 +1,9 @@
+import { Link } from 'react-router'
 import '../style/Home.css'
 
 export function Home(){
     return(
-        <div>
+        <div className='HomePage'>
          
           <div className='header'>
             <img src="https://copilot.microsoft.com/th/id/BCO.6be1ae1b-cfe5-43e0-bd6f-244454c0578c.png" alt="logo" className="logo"/>
@@ -10,15 +11,15 @@ export function Home(){
             <nav className="btnNavbar">
 
                 <section className='sectionA'>
-                <button className='btn'>Menu</button>
-                <button className='btn'>Find parking</button>
-                <button className='btn'>Host now</button>
-                <button className='btn'>About</button>
+                <Link to="/Menu" className='btn'>Menu</Link>
+                <Link to="/FindParking" className='btn'>Find parking</Link>
+                <Link to="/AddOwner" className='btn'>Host Now</Link>
+                <Link to="/About" className='btn'>About</Link>
                 </section>
 
                 <section className='sectionB'>
-                <button className='btn'>Sign up</button>
-                <button className='btn'>Login</button>
+                <Link to="SignUp" className='btn'>Sign up</Link>
+                <Link to="Login" className='btn'>Login</Link>
                 </section>
                 
             </nav>
