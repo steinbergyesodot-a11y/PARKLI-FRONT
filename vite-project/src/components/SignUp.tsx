@@ -7,6 +7,7 @@ export function SignUp(){
     const [fname, setFname] = useState('')
     const [lname, setLname] = useState('')
     const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
 
     const navigate = useNavigate();
 
@@ -23,6 +24,11 @@ export function SignUp(){
     function handleEmail(event:any){
         const email = event.target.value
         setEmail(email)
+    }
+
+    function handlePassword(event:any){
+        const password = event.target.value
+        setPassword(password)
     }
 
     function sendHome(){
@@ -80,8 +86,11 @@ export function SignUp(){
 
              
            <input type="email" id="email"  placeholder="youremail@gmail.com" onChange={handleEmail} className="email"/>
+           <input type="text" id="password" placeholder="Create a Password" onChange={handlePassword} className="password" />
            <button type="submit" className="submitBtn">Submit</button>
            </div>
+
+           
 
 
            </form>

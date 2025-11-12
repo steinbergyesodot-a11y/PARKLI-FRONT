@@ -62,6 +62,8 @@ input:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     height: 15vh;
     width: 100vw;
-   
-    
+}
+
+.password{
+    height: 5vh;
 }
