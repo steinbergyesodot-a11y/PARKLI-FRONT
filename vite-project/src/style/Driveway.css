@@ -1,0 +1,50 @@
+.head{
+    display: flex;
+    width: 100vw;
+    height: 10vh;
+    border-radius: 3px;
+    background-color:white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+
+.logo2{
+    cursor: pointer;
+}
+
+
+.imageArea{
+    display: flex;
+    width: 80vw;
+    height: 60vh;
+    gap: 3vw
+}
+
+
+.imageLeft{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    
+} 
+
+.imageRight{
+    width: 70%;
+} 
+
+.A{
+    background-color: red;
+    height: 50%;
+}
+
+.B{
+    background-color: yellow;
+    height: 50%;
+}
+
+.C{
+    background-color: aqua;
+    height: 93%;
+    
+}

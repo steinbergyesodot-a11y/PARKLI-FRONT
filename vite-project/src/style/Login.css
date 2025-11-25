@@ -1,0 +1,22 @@
+.loginBox{
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    gap: 1vh;
+    padding: 25px;
+    border-radius: 3px;
+    background-color:whitesmoke;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+.input{
+    height: 5vh;
+}
+
+.containor2{
+    display: flex;
+    justify-content: center;
+    margin-top: 15vh;
+}
+

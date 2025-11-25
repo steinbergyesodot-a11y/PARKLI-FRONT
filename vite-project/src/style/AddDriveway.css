@@ -1,0 +1,163 @@
+.box{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.location{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50vw;
+    height: 30vh;
+    background-color:white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.locationHeader{
+    margin-top: 8%;
+    margin-top: 5%;
+}
+
+.safety{
+    margin-top: 5px;
+    font-size: 0.8rem;
+    margin-right: 11%;
+    color: gray;
+}
+
+.locationInput{
+  
+  height: 15%;
+  width: 50%;
+}
+
+.nextBtn{
+    background-color: black;
+    color: whitesmoke;
+    font-weight: 700;
+    border-radius: 5%;
+    cursor: pointer;
+    height: 5vh;
+    width: 5%;
+    margin-top: 3%;
+    
+}
+
+.buttonWrapper{
+    display: flex;
+    justify-content: center;
+    gap: 1%;
+}
+
+
+.stadium input[type="radio"] {
+  display: none;
+}
+
+
+.stadium label {
+  display: inline-block;
+  padding: 12px 20px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  margin: 5px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+
+.stadium input[type="radio"]:checked + label {
+  border-color: #007bff;
+  background-color: #eef6ff;
+}
+
+
+.walk input[type="radio"] {
+  display: none; /* hide the circle */
+}
+
+.walk label {
+  display: inline-block;
+  padding: 12px 20px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  margin: 5px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.walk input[type="radio"]:checked + label {
+  border-color: #007bff;
+  background-color: #eef6ff;
+}
+
+
+.title2{
+    color: rgb(144, 144, 144);
+    font-style:normal;
+}
+
+.stadiumInfo{
+    display: flex;
+    flex-direction: column;
+}
+
+.line{
+    width: 100vw;
+    height: 1px;
+    background-color: darkgray;
+    
+}
+
+.step {
+  animation: fadeIn 1.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px); /* starts slightly lower */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* ends in place */
+  }
+}
+
+
+.subBtn{
+    background-color: rgb(11, 53, 194);
+    color: whitesmoke;
+    font-weight: 800;
+    border-radius: 5%;
+    cursor: pointer;
+    height: 5vh;
+    width: 5%;
+    margin-top: 3%;
+
+
+}
+
+.helper{
+    text-align: center;
+    font-weight: 500;
+}
+
+.footer{
+  height: 20vh;         
+  
+  background: linear-gradient(to top, orange 0%, white 100%);
+  position: fixed;       
+  bottom: 0; 
+}
+
+
+.message {
+  opacity: 0;
+  transition: opacity 1.5s ease-in; 
+}
+
+

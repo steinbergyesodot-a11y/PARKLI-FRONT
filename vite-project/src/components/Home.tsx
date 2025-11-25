@@ -1,10 +1,12 @@
 import { Link } from 'react-router'
 import '../style/Home.css'
 import { QA } from './FQAitem'
+import { Login } from './Login'
+import {AddDriveway} from './AddDriveway'
 
 export function Home(){
     return(
-        <div>
+        <div className='app-container'>
         <div className='header2'>
          
           <div className='header'>
@@ -14,8 +16,8 @@ export function Home(){
 
                 <section className='sectionA'>
                 <Link to="/Menu" className='btn'>Menu</Link>
-                <Link to="/FindParking" className='btn'>Find parking</Link>
-                <Link to="/AddOwner" className='btn'>Host Now</Link>
+                <Link to="/Dashboard" className='btn'>Find parking</Link>
+                <Link to="/AddDriveway" className='btn'>Host Now</Link>
                 <Link to="/About" className='btn'>About</Link>
                 </section>
 
@@ -59,6 +61,7 @@ export function Home(){
             
 
         </section>
+        
         </div>
 
 

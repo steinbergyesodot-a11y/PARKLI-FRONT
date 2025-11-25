@@ -31,6 +31,8 @@ export function SignUp(){
         setPassword(password)
     }
 
+ 
+
     function sendHome(){
         navigate('/Home')
     }
@@ -45,12 +47,14 @@ export function SignUp(){
             body: JSON.stringify({
                 firstName: fname,
                 lastName: lname,
-                email: email
+                email: email,
+                password:password
             })
         })
         .then(response => response.json())
         .then(data => {
             window.alert(data.Message)
+            sendHome();
         })
         .catch(error => {
             console.log(error)
@@ -61,8 +65,8 @@ export function SignUp(){
 
     return(
         <>
-        <div className="top">
-            <img src="assets/PARKLI LOGO.png" alt="logo" className="logo" onClick={sendHome} />
+        <div className="top app-container">
+            <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logo" onClick={sendHome} />
             
             
         </div>
@@ -86,7 +90,16 @@ export function SignUp(){
 
              
            <input type="email" id="email"  placeholder="youremail@gmail.com" onChange={handleEmail} className="email"/>
-           <input type="text" id="password" placeholder="Create a Password" onChange={handlePassword} className="password" />
+
+           <input
+            type="password"
+            id="password"
+            minLength={8}
+            placeholder="Create a Password  (At least 8 charachters)"
+            onChange={handlePassword}
+            className="password" 
+            />
+                  
            <button type="submit" className="submitBtn">Submit</button>
            </div>
 
@@ -94,6 +107,12 @@ export function SignUp(){
 
 
            </form>
+           <section className="footer">
+                   <section className="line"></section>
+           
+                   <section className="buttonWrapper"></section>
+                                                       
+          </section>
 
         </div>
         </>

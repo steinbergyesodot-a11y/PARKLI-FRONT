@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vis.gl/react-google-maps": "^1.7.1",
+    "framer-motion": "^12.23.24",
+    "leaflet": "^1.9.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-dropzone": "^14.3.8",
+    "react-leaflet": "^5.0.0",
     "react-router": "^7.9.5"
   },
   "devDependencies": {

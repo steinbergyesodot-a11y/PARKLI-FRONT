@@ -67,3 +67,21 @@ input:hover {
 .password{
     height: 5vh;
 }
+
+.line{
+    width: 100vw;
+    height: 1px;
+    background-color: darkgray;
+    
+}
+
+
+.footer{
+  height: 20vh;         
+  
+  background: linear-gradient(to top, orange 0%, white 100%);
+  position: fixed;       
+  bottom: 0; 
+}
+
+

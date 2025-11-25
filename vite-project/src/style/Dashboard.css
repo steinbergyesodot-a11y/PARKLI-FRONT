@@ -1,0 +1,15 @@
+.topDashboard{
+     display: flex;
+    background-color:white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 15vh;
+    width: 100vw;
+    margin-bottom: 3%;
+}
+
+
+.dashboard{
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
