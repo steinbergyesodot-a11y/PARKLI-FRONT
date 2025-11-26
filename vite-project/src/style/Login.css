@@ -1,7 +1,9 @@
 .loginBox{
     display: flex;
     flex-direction: column;
-    width: 20vw;
+    width: 25vw;
+    height: 20vh;
+    justify-content: end;
     gap: 1vh;
     padding: 25px;
     border-radius: 3px;
@@ -20,3 +22,19 @@
     margin-top: 15vh;
 }
 
+
+.line{
+    width: 100vw;
+    height: 1px;
+    background-color: darkgray;
+    
+}
+
+
+.footer{
+  height: 20vh;         
+  
+  background: linear-gradient(to top, orange 0%, white 100%);
+  position: fixed;       
+  bottom: 0; 
+}

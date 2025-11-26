@@ -1,17 +1,10 @@
-import React, { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import '../style/AddDriveway.css'
 import { useNavigate } from "react-router";
 import { button } from "framer-motion/client";
 
-type GeoapifyPlace = {
-  properties: {
-    formatted: string;
-    place_id: string;
-    [key: string]: any; 
-  };
-};
 
-const apiKey = '7acd13c9bd4b438fb789f912937d5fc7'
+
 
 export function AddDriveway() {
   const [step, setStep] = useState(1);
@@ -23,42 +16,33 @@ export function AddDriveway() {
     image: "",
     description: ""
   });
-  const[suggestions,setSuggestions] = useState<GeoapifyPlace[]>([])
   const [blink, setBlink] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
+
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
   const navigate = useNavigate();
 
-  
-    // async function handleSuggestions(e:any){
-    //     const value = e.target.value;
-        
-
-    //      if (!value || value.trim() === '') {
-    //      setSuggestions([]);
-    //      return;
-    //     }
-    //     if (value.length < 5) {
-    //         setSuggestions([]);
-    //         return;
-    //     }
-    //     try {
-    //       const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=${apiKey}`;
-    //       const response = await fetch(url);
-    //       const data = await response.json();
-    //         setSuggestions(data.features);
-    //       }catch (error) {
-    //         console.error('Fetch error:', error);
-    //     }
-    // }
-    
-    //    function handleSelect(place: GeoapifyPlace){
-    //     formData.address =(place.properties.formatted);
-    //     setSuggestions([])
-    // }
 
 
+   useEffect(() => {
+    if (!window.google || !inputRef.current) return;
+
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      { types: ["address"] } // only suggest addresses
+    );
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      setFormData(prev => ({
+        ...prev,
+        address: place.formatted_address || "" // update with full address
+      }));
+    });
+  }, []);
 
 
   const handleChange = (field: string, value: string) => {
@@ -111,6 +95,7 @@ export function AddDriveway() {
 
               <label htmlFor="location"></label>
               <input
+              ref={inputRef}
               className="locationInput"
               placeholder="Driveway address"
               id="location"
@@ -237,8 +222,8 @@ export function AddDriveway() {
               <textarea
                 id="message"
                 name="message"
-                rows={5}
-                cols={40}
+                rows={10}
+                cols={60}
                 placeholder="Write your text here..."
                 value={formData.description}
                 onChange={e => handleChange("description",e.target.value)}

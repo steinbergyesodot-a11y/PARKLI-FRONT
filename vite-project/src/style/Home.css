@@ -33,6 +33,7 @@
     padding: 1%;
     border-radius: 5px;
     margin-left: 12%;
+    text-decoration: none;
     
     
 }
@@ -45,6 +46,7 @@
   font-size: 1.1rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  text-decoration: none;
 }
 
 

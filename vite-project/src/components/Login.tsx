@@ -66,6 +66,12 @@ export function Login(){
                    <button type='submit' className='submitBtn'>Login</button>
                 </form>
             </section>
+            <section className="footer">
+                   <section className="line"></section>
+           
+                   <section className="buttonWrapper"></section>
+                                                       
+          </section>
         </div>
     )
 }
