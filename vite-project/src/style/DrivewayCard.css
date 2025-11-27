@@ -1,34 +1,28 @@
 .AddContainer{
-    border-radius: 3px;
-    background-color: #f2f2f2;   /* soft gray */
-    padding: 3px;
-    border-radius: 3px;
-    position: relative; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
     width: 55vw;
     height: 25vh;
-    display: flex;
-    justify-content:flex-start;
+    justify-content: center;
+    border-radius: 3px;
+    background-color: #f2f2f2;   
+    padding: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     gap:3%;
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.AddContainer:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* slightly deeper */
-  transform: translateY(-2px);                /* tiny lift */
-}
 
 .AddContainer img{
-   max-height: 98%;   
-   max-width: 35%;   
-   object-fit: contain;
+    max-height: 98%;   
+    max-width: 25%;   
+    object-fit: contain;
+     flex: 0 0 25%; 
 }
 
 
 
 
 .carData{
-    width: 40%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     justify-content:flex-start;
@@ -55,12 +49,50 @@
 }
 
 .price{
-     position: absolute;
-     bottom: 10px;             
-     right: 10px; 
-     font-size: 1.2rem; 
-}
+    width: 50%;
+    align-self: flex-end;
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 0;
+} 
 
 .distance{
     font-style: italic;
+}
+
+.moreDetails{
+    color: whitesmoke;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: blue;
+    width: 50%;
+    height: 25%;
+    align-self: flex-end;
+    cursor: pointer;
+    border-radius: 9999px;
+    border: 1px solid rgb(158, 156, 156);
+    margin-bottom: 2%;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+}
+
+.moreDetails:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* slightly deeper */
+  transform: translateY(-2px);                /* tiny lift */
+}
+
+
+
+.smallerText{
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+
+.rightSide{
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-right: 1%;
 }

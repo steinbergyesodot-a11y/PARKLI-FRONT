@@ -9,6 +9,7 @@ import { Login } from './components/Login.tsx'
 import { Dashboard } from './components/Dashboard.tsx'
 import {About} from './components/About.tsx'
 import {AddDriveway} from './components/AddDriveway.tsx'
+import { DrivewayDetailed } from './components/DrivewayDetailed.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,14 +22,8 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/Login" element={<Login/>} />
       <Route path="/Dashboard" element={<Dashboard/>} />
       <Route path="/About" element={<About/>} />
-
-
-
-
-
-
-
-    </Routes>
+      <Route path="DrivewayDetailed/:id" element={<DrivewayDetailed/>}/>
+   </Routes>
     </BrowserRouter>
   </StrictMode>,
 )

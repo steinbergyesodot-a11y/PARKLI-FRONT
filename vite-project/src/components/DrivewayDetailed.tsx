@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../style/DrivewayDetailed.css'
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 
 
 export function DrivewayDetailed(){
-    const[carData,setCarData] = useState({});
+    const[imageUrl,setImageUrl] = useState('')
+    const[address,setAddress] = useState('')
+    const[walk, setWalk] = useState('')
+    const[price,setPrice] = useState('')
+    const[stadium,setStadium] = useState('')
+    const[description,setDescription] = useState('')
+    const { id } = useParams();
     
     const navigate = useNavigate();
 
@@ -13,21 +19,36 @@ export function DrivewayDetailed(){
         navigate('/Home')
     }
 
+    async function getDrivewayDetailed(){
+      const response = await fetch(`http://localhost:4000/spots/getSpot/${id}`)
+      const data = await response.json()
+      const spot = data.spot
+      setAddress(spot.address)
+      setImageUrl(spot.imageUrl)
+      setWalk(spot.walk)
+      setStadium(spot.stadium)
+      setDescription(spot.description)
+      setPrice(spot.price)
+    }
+
+    
+    useEffect(() => {
+          getDrivewayDetailed();
+    },[])
+    
 
     return(
         <div>
              <div className="top">
                <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logo" onClick={sendHome} />
-            
-            
-            </div>
+             </div>
 
 
            <div className='containor22'>    
                        
             <section className='imagesArea'>
                <div className='leftSide'>
-                    <img src="" alt="" className='leftImage' />
+                    <img src={imageUrl} alt="" className='leftImage' />
                </div>
                <div className='rightSide'>
                 <img src="https://www.bing.com/th/id/OIP.jvY78OZ04uIJJVeUg4NgPgHaEC?w=283&h=211&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.3&pid=3.1&rm=2" alt="" className='topImage' />
@@ -37,8 +58,8 @@ export function DrivewayDetailed(){
             </section>
 
             <section className='firstLine'>
-            <p className='address'>Collins Ave, North Miami Beach, FL</p>
-            <p className='price1'>20$ per game</p>
+            <p className='address'>{address}</p>
+            <p className='price1'>{price}$ per game</p>
             </section>
 
 

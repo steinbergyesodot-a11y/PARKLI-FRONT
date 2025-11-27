@@ -88,15 +88,15 @@ export function AddDriveway() {
         <br />
         <br />
 
-    <div className="box">
+    <div className="box5">
         {step === 1 && (
-          <div className="location step">
-              <h2 className="locationHeader">Where's your driveway located?</h2>
+          <div className="location5 step">
+              <h2 className="locationHeader5">Where's your driveway located?</h2>
 
               <label htmlFor="location"></label>
               <input
               ref={inputRef}
-              className="locationInput"
+              className="locationInput5"
               placeholder="Driveway address"
               id="location"
               value={formData.address}
@@ -109,10 +109,10 @@ export function AddDriveway() {
         )}
 
         {step === 2 && (
-            <div className="stadiumInfo step">
+            <div className="stadiumInfo5 step">
          
             <h2 className="title2">My driveway is near:</h2>
-      <section className="stadium">
+      <section className="stadium5">
 
             <input
               type="radio"

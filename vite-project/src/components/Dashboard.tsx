@@ -50,7 +50,9 @@ export function Dashboard(){
                 {cards.map((driveway, index) => (
 
                     <DrivewayCard
+                    
                     key={index}
+                    drivewayCardId={driveway._id}
                     imageUrl={driveway.image}
                     address={driveway.address}
                     distance={driveway.walk}           
