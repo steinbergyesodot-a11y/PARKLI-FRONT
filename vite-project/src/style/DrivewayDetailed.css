@@ -1,0 +1,148 @@
+.imagesArea{
+    display: flex;
+    width: 70vw;
+    height: 70vh;
+    gap: 15px;
+    margin-top: 5%;
+}
+
+.rightSide{
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    height: 100%;
+    width: 40%;
+
+}
+
+.leftSide{
+    background-color: fuchsia;
+    height: 100%;
+    width: 60%;
+}
+
+.topImage{
+   width: 100%;
+  height: 49%;
+  object-fit: contain;
+  object-fit: cover;
+}
+
+.bottomImage{
+   width: 100%;
+  height: 48%;
+  object-fit: contain;
+  object-fit: cover;
+}
+
+.imagesContainer{
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.address{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+.firstLine{
+    display: flex;
+    width: 70vw;
+    
+    gap: 15%;
+    
+}
+
+.price1{
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 200;
+    border: solid lightgrey 1px;
+    padding: 10px;
+    border-radius: 3px;
+    
+}
+
+.infoBox{
+    margin-top: 3%;
+    display: flex;
+    justify-content:space-evenly;
+    height: 7vh;
+    width: 35vw;
+    border-radius: 3px;
+    border: 1px solid rgb(214, 208, 208);
+    font-style: italic;
+}
+
+.walking{
+    width: 25%;
+    display: flex;
+    
+}
+
+.walkIcon{
+    height: 100%;
+    width: 30%;
+}
+
+.distance1{
+    width: 25%;
+    
+
+}
+
+.stadium{
+    width: 25%;
+}
+
+.ratings{
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+    width: 25%;
+}
+
+.starIcon{
+    max-width: 50%;
+    height: 60%;
+    object-fit: cover;
+    margin-top: 6%;
+}
+
+.description{
+    max-width: 70vw;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.moreInfo{
+    margin-top: 5%;
+    font-weight: 600;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.bookNow{
+    background-color: rgb(59, 59, 236);
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 300;
+    width: 15%;
+    height: 20%;
+    color: whitesmoke;
+    padding: 1.2%;
+    border-radius: 9999px;
+    margin-left: 4%;
+    margin-top: 3%;
+}
+
+.secondLine{
+    display: flex;
+    width: 70vw;
+    margin-top: 2%;
+}
+
+.containor22{
+    margin-left: 12%;
+}
