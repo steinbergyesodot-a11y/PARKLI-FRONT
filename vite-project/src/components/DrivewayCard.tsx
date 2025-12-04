@@ -33,11 +33,11 @@ export function DrivewayCard({drivewayCardId,imageUrl,address,distance,stadium,p
                 </div>
 
                 <section className='rightSide'>
-                <p className='price'>
-                <span className='smallerText'>$</span>
-                {price} Per Game
-                </p>
-               <button className='moreDetails' onClick={drivewayDetailed}>More Details</button>
+                    <p className='price'>
+                    <span className='smallerText'>$</span>
+                    {price} Per Game
+                    </p>
+                    <button className='moreDetails' onClick={drivewayDetailed}>More Details</button>
                 </section>
                 
                

@@ -103,11 +103,9 @@ export function SignUp(){
            <button type="submit" className="submitBtn">Submit</button>
            </div>
 
-           
-
-
            </form>
-           <section className="footer">
+
+            <section className="footer">
                    <section className="line"></section>
            
                    <section className="buttonWrapper"></section>

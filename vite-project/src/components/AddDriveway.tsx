@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import '../style/AddDriveway.css'
 import { useNavigate } from "react-router";
 import { button } from "framer-motion/client";
+import { useContext } from "react";
+import { UserContext } from '../userContext'
 
 
 
@@ -19,6 +21,9 @@ export function AddDriveway() {
   const [blink, setBlink] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+   const userContext = useContext(UserContext)
+   const user = userContext?.user
 
 
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -60,12 +65,15 @@ export function AddDriveway() {
       return
     }
     setError("")
-    const response = await fetch('http://localhost:4000/spots/addSpot',{
+      const token = localStorage.getItem("jwt")
+      const response = await fetch('http://localhost:4000/spots/addSpot',{
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+         "Content-Type": "application/json",
+         "Authorization": `Bearer ${token}` 
+        },
       body: JSON.stringify(formData)
     })
-    console.log(response.status)
      if (response.status === 201) {
       setMessage("Your driveway has been uploaded successfully!!");
       alert("Added driveway successfully!")
@@ -77,8 +85,21 @@ export function AddDriveway() {
 
   return (
     <div>
-        <div className="top">
-            <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logo" onClick={sendHome} />
+        <div className="topAddDriveway">
+               <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logo" onClick={sendHome} />
+             <div className='topRightCorner'>
+             {user && (
+                <>
+             <img
+              src="https://copilot.microsoft.com/th/id/BCO.9c01cdcd-a0cd-4826-9953-b441d374daa2.png"
+              alt="avatar"
+              className='avatarImage'
+            />
+            <span className='userName'>{user.name}</span>
+            </>
+             )}
+        </div>
+            
         </div>
 
         <br />

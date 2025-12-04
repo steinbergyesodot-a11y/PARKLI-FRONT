@@ -1,14 +1,26 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import '../style/Login.css'
 import { useNavigate } from 'react-router';
+import { UserContext } from '../userContext';
+import {jwtDecode} from "jwt-decode";
+
+interface JwtPayload {
+  exp: number;
+  name: string;
+  id: string
+}
+
+
 
 export function Login(){
     const[email,setEmail] = useState('')
     const[password,setPassword] = useState('')
 
+    const userContext = useContext(UserContext)
+
     const navigate = useNavigate();
 
-
+    
     function handleEmail(event: any){
         setEmail(event.target.value)
     }
@@ -21,8 +33,11 @@ export function Login(){
         navigate('/Home')
     }
 
+
+    
     function handleSubmit(event: any){
         event.preventDefault();
+
 
         fetch('http://localhost:4000/users/Login',{
             method: 'POST',
@@ -41,7 +56,19 @@ export function Login(){
                window.alert(data.error);
             } else {
                const token = data.token
+               const payload = jwtDecode<JwtPayload>(token);
+               const now = Math.floor(Date.now() / 1000)
+               if(payload.exp > now){
+                   userContext?.setUser({
+                     name: payload.name
+                   })
+               }else{
+                 userContext?.setUser(null)
+               }
+
                localStorage.setItem('jwt',token)
+               const logout = () => setUser(null);
+               
                window.alert(data.message);
                sendHome();
   
@@ -74,4 +101,8 @@ export function Login(){
           </section>
         </div>
     )
+}
+
+function setUser(arg0: null) {
+    throw new Error('Function not implemented.');
 }

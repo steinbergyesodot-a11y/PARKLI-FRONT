@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import '../style/DrivewayDetailed.css';
-import { useNavigate, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { GoogleMap, LoadScript, LoadScriptNext, Marker } from '@react-google-maps/api';
+import { useContext } from "react";
+import { UserContext } from '../userContext'
 
 
 interface Spot {
@@ -127,7 +129,10 @@ useEffect(() => {
               />
             </div>
           </section>
-          <p className="bookNow">Book Now</p>
+
+          <Link to="/Booking" className="bookNow">Book Now</Link>
+                          
+
         </div>
 
         <h3 className="moreInfo">More information</h3>

@@ -1,3 +1,21 @@
+.topAddDriveway{
+    display: flex;
+    justify-content: space-between;
+    background-color:white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 15vh;
+    width: 100vw;
+}
+
+.userName{
+  color: rgb(27, 26, 26);
+  font-weight: 700;
+  align-self: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+}
+
+
 .box5{
     display: flex;
     justify-content: center;
@@ -8,7 +26,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50vw;
+    width: 40vw;
     height: 30vh;
     background-color:white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

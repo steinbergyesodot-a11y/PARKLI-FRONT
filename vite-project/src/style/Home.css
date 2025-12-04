@@ -1,6 +1,7 @@
 
-.header2 {
+.firstSection{
   height: 100vh;
+  width: 100vw;
   margin: 0;
   padding: 0;
   background-image: url('/assets/PARKLI-BACKGROUND.jpeg');
@@ -12,13 +13,45 @@
 
 
 
-.header{
+.homeHeader{
     display: flex;
-    width: 85vw;
-    justify-content:center;
-    position: relative;
-    
+    width: 100vw;
+    height: 15vh;
+    justify-content: space-between;
 }
+
+.topRightCorner{
+  margin-right: 45px; 
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;   
+  
+}
+
+.avatar{
+  width: 3vw;
+}
+
+.linkChoice{
+  color: whitesmoke;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+
+
+.userName{
+  color: rgb(27, 26, 26);
+  font-weight: 700;
+  align-self: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+}
+
 
 
 
@@ -27,13 +60,12 @@
     display: flex;
     gap: 3%;
     justify-content:space-between;
-    height: 20%;
-    width: 50%;
+    height: 45%;
+    width: 40%;
     background-color: whitesmoke;
-    padding: 1%;
     border-radius: 5px;
-    margin-left: 12%;
     text-decoration: none;
+   
     
     
 }
@@ -43,21 +75,13 @@
     background: none;
   border: none;
   color: #444;; 
-  font-size: 1.1rem;
+  font-size: 2rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
   text-decoration: none;
 }
 
 
-
-
-
-.logo{
-    width: 10vw;
-    position: absolute;
-  left: 0;
-}
 
 
 .text{
