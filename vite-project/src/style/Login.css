@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 25vw;
-    height: 20vh;
+    height: 25vh;
     justify-content: end;
     gap: 1vh;
     padding: 25px;
@@ -12,14 +12,12 @@
     
 }
 
-/* Your custom CSS file */
+
 .input.myComp {
    height: 10vh !important;
-  /* You may also need to override the padding, 
-     as it affects the total visual height */
   padding-top: 0; 
   padding-bottom: 0;
-  box-sizing: border-box; /* Optional, but highly recommended */
+  box-sizing: border-box;
 }
 
 .containor2{
@@ -39,7 +37,6 @@
 
 .footer{
   height: 20vh;         
-  
   background: linear-gradient(to top, orange 0%, white 100%);
   position: fixed;       
   bottom: 0; 

@@ -81,11 +81,12 @@ export function Login(){
 
     return(
         <div className='app-container'>
-             <div className="top">
+            
+            <div className="top">
                <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logo" onClick={sendHome} />
-            
-            
             </div>
+
+
             <section className='containor2' >
                 <form action="" onSubmit={handleSubmit} className='loginBox'>
 
@@ -94,12 +95,12 @@ export function Login(){
                    <button type='submit' className='submitBtn'>Login</button>
                 </form>
             </section>
+
+
             <section className="footer">
                    <section className="line"></section>
-           
                    <section className="buttonWrapper"></section>
-                                                       
-          </section>
+            </section>
         </div>
     )
 }
