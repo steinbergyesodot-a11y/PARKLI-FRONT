@@ -1,4 +1,5 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+
 import '../style/Home.css';
 import { QA } from './FQAitem';
 import { Login } from './Login';
@@ -11,9 +12,16 @@ import { Nav, NavDropdown } from 'react-bootstrap';
 export function Home() {
   const [Query, setQuery] = useState("");
   const userContext = useContext(UserContext);
-  const user = userContext?.user;
+  let user = userContext?.user;
+
+  const navigate = useNavigate();
 
 
+ function logOut(){
+   localStorage.removeItem("token")
+   userContext?.setUser(null)
+   navigate("/Home");
+ }
 
   return (
     <div className='app-container'>
@@ -66,7 +74,7 @@ export function Home() {
 
                 <NavDropdown.Divider />
 
-                <NavDropdown.Item as={Link} to="/logout" className="linkChoice">
+                <NavDropdown.Item  className="linkChoice" onClick={logOut}>
                   Log Out
                 </NavDropdown.Item>
 
