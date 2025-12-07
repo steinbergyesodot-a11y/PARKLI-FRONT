@@ -19,7 +19,6 @@ export function Login(){
 
     const userContext = useContext(UserContext)
 
-    const navigate = useNavigate();
 
     
     function handleEmail(event: any){
