@@ -9,9 +9,11 @@ import { Nav, NavDropdown } from 'react-bootstrap';
 
 
 export function Home() {
-  const [show, setShow] = useState(false);
+  const [Query, setQuery] = useState("");
   const userContext = useContext(UserContext);
   const user = userContext?.user;
+
+
 
   return (
     <div className='app-container'>
@@ -72,12 +74,27 @@ export function Home() {
               </NavDropdown>
             )}
           </Nav>
+         
 
         </div>
 
         <div className='text'>
           <h1>Empty driveway. Full wallet.</h1>
           <h3>It’s not just pavement, it’s potential.</h3>
+        </div>
+        
+        <div className='search-container'>
+            <input
+              type="text"
+              value={Query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Enter address..."
+              className="search-input"
+            />
+            <button className="search-button">
+            🔍
+            </button>
+
         </div>
       </section>
 

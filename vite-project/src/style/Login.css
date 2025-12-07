@@ -12,8 +12,14 @@
     
 }
 
-.input{
-    height: 5vh;
+/* Your custom CSS file */
+.input.myComp {
+   height: 10vh !important;
+  /* You may also need to override the padding, 
+     as it affects the total visual height */
+  padding-top: 0; 
+  padding-bottom: 0;
+  box-sizing: border-box; /* Optional, but highly recommended */
 }
 
 .containor2{

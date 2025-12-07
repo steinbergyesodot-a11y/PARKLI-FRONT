@@ -1,8 +1,9 @@
 import { useContext, useState } from 'react'
-import '../style/Login.css'
 import { useNavigate } from 'react-router';
 import { UserContext } from '../userContext';
 import {jwtDecode} from "jwt-decode";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../style/Login.css'
 
 interface JwtPayload {
   exp: number;
@@ -88,8 +89,8 @@ export function Login(){
             <section className='containor2' >
                 <form action="" onSubmit={handleSubmit} className='loginBox'>
 
-                   <input type="email" id='email' placeholder='Your email' className='input' onChange={handleEmail} />
-                   <input type="password" id='password' placeholder='Your password' className='input' onChange={handlePassword} />
+                   <input type="email" id='email' placeholder='Your email' className='input myComp' onChange={handleEmail} />
+                   <input type="password" id='password' placeholder='Your password' className='input myComp' onChange={handlePassword} />
                    <button type='submit' className='submitBtn'>Login</button>
                 </form>
             </section>

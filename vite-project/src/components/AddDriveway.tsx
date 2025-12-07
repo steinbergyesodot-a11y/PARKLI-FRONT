@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import '../style/AddDriveway.css'
-import { useNavigate } from "react-router";
-import { button } from "framer-motion/client";
+import { Link, useNavigate } from "react-router";
+import { button, div, p } from "framer-motion/client";
 import { useContext } from "react";
 import { UserContext } from '../userContext'
 
@@ -30,7 +30,7 @@ export function AddDriveway() {
 
   const navigate = useNavigate();
 
-
+   
 
    useEffect(() => {
     if (!window.google || !inputRef.current) return;
@@ -64,75 +64,67 @@ export function AddDriveway() {
       alert("Missing field")
       return
     }
-    setError("")
+    try{
+
+      setError("")
       const token = localStorage.getItem("jwt")
       const response = await fetch('http://localhost:4000/spots/addSpot',{
-      method: "POST",
-      headers: {
-         "Content-Type": "application/json",
-         "Authorization": `Bearer ${token}` 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` 
         },
-      body: JSON.stringify(formData)
-    })
-     if (response.status === 201) {
-      setMessage("Your driveway has been uploaded successfully!!");
-      alert("Added driveway successfully!")
-      sendHome()
+        body: JSON.stringify(formData)
+      })
+      if (response.status === 201) {
+        const data = response.json().catch()
+        console.log(data)
+        setMessage("Your driveway has been uploaded successfully!!");
+        alert("Added driveway successfully!")
+        sendHome()
+     
     } else {
       setMessage("❌ Something went wrong, please try again.");
+      
+      
     }
+  }catch(error){
+    console.log(error)
+  }
 }
-
+  
   return (
     <div>
         <div className="topAddDriveway">
                <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logo" onClick={sendHome} />
-             <div className='topRightCorner'>
-             {user && (
-                <>
-             <img
-              src="https://copilot.microsoft.com/th/id/BCO.9c01cdcd-a0cd-4826-9953-b441d374daa2.png"
-              alt="avatar"
-              className='avatarImage'
-            />
-            <span className='userName'>{user.name}</span>
-            </>
-             )}
-        </div>
-            
         </div>
 
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
 
-    <div className="box5">
+        
+  <>
+    {user ? (
+      <div className="box5">
         {step === 1 && (
           <div className="location5 step">
-              <h2 className="locationHeader5">Where's your driveway located?</h2>
-
-              <label htmlFor="location"></label>
-              <input
+            <h2 className="locationHeader5">Where's your driveway located?</h2>
+            <label htmlFor="location"></label>
+            <input
               ref={inputRef}
               className="locationInput5"
               placeholder="Driveway address"
               id="location"
               value={formData.address}
               onChange={e => handleChange("address", e.target.value)}
-              />
-
-              <p className="safety">Your exact location stays private until a reservation is confirmed</p>
-        
+            />
+            <p className="safety">
+              Your exact location stays private until a reservation is confirmed
+            </p>
           </div>
         )}
 
         {step === 2 && (
-            <div className="stadiumInfo5 step">
-         
-            <h2 className="title2">My driveway is near:</h2>
+          <div className="stadiumInfo5 step">
+             <h2 className="title2">My driveway is near:</h2>
       <section className="stadium5">
 
             <input
@@ -201,45 +193,44 @@ export function AddDriveway() {
               <label htmlFor="10to20">10–20 min</label>
 
           </section>
-      </div>
-)}
+      
 
-           
+
+          </div>
+        )}
+
         {step === 3 && (
           <div className="step">
-          <h2>Price</h2>
-          <p>How much would you like to charge per game?(dollars)</p>
-          <input
-          className="input"
-           type="text"
-           value={formData.price}
-           onChange={e => handleChange("price",e.target.value)} 
-           />
-          
-        </div>
-      )}
+            <h2>Price</h2>
+            <p>How much would you like to charge per game?(dollars)</p>
+            <input
+              className="input"
+              type="text"
+              value={formData.price}
+              onChange={e => handleChange("price", e.target.value)}
+            />
+          </div>
+        )}
 
-      {step === 4 && (
-        <div className="step">
-          <h2>Add your pictures!</h2>
-          <input
-          className="input"
-           type="text"
-           name=""
-           id=""
-           placeholder="Image URL"
-           value={formData.image}
-           onChange={e => handleChange("image",e.target.value)}
-           
-           />
-        </div>
-      )}
+        {step === 4 && (
+          <div className="step">
+            <h2>Add your pictures!</h2>
+            <input
+              className="input"
+              type="text"
+              placeholder="Image URL"
+              value={formData.image}
+              onChange={e => handleChange("image", e.target.value)}
+            />
+          </div>
+        )}
 
-      {step === 5 && (
+        {step === 5 && (
           <div className="step">
             <h3>Additional Information</h3>
             <div>
-              <label htmlFor="message">Your Message:</label><br />
+              <label htmlFor="message">Your Message:</label>
+              <br />
               <textarea
                 id="message"
                 name="message"
@@ -247,30 +238,58 @@ export function AddDriveway() {
                 cols={60}
                 placeholder="Write your text here..."
                 value={formData.description}
-                onChange={e => handleChange("description",e.target.value)}
+                onChange={e => handleChange("description", e.target.value)}
               />
             </div>
-        </div>
-      )}
+          </div>
+        )}
 
-       </div>
-      
-       <section className="footer">
-        <section className="line"></section>
+        <section className="footer">
+          <section className="line"></section>
+          <section className="buttonWrapper">
+            {step > 1 && (
+              <button className="nextBtn" onClick={() => setStep(step - 1)}>
+                Back
+              </button>
+            )}
+            {step < 5 && (
+              <button className="nextBtn" onClick={() => setStep(step + 1)}>
+                Next
+              </button>
+            )}
+            {step === 5 && (
+              <button className="subBtn" onClick={handleSubmit}>
+                Submit
+              </button>
+            )}
+          </section>
+          <p className="helper">Step {step} of 5</p>
+        </section>
 
-        <section className="buttonWrapper">
-         {step > 1 && <button className="nextBtn" onClick={() => setStep(step - 1)}>Back</button>}
-         {step < 5 && <button className="nextBtn" onClick={() => setStep(step + 1)}>Next</button>}
-         {step === 5 && <button className="subBtn" onClick={handleSubmit}>Submit</button>}
-        </section>
-        <p className="helper">Step {step} of 5</p>
-        </section>
         {message && <p className="message">{message}</p>}
+        </div>
+      ) : (
+      
+        <>
+      <div className="signUpMessageBox">
+      <h4 className="signUpMessage">Please Login or Signup to continue.</h4>
+      <div className="bottomButtons">
+          <Link to="/Signup" className='btn'>Signup</Link>
+          <Link to="/Login" className='btn'>Login</Link>
+      </div>
+      </div>
+      </>
+    )}
+  </>
 
 
-    </div>
+        
+    
+        </div>
   );
+
 }
+
 
 
 export default AddDriveway;

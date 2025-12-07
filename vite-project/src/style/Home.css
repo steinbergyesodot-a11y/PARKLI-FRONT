@@ -1,7 +1,10 @@
 
 .firstSection{
-  height: 100vh;
+  height: 93vh;
   width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0;
   padding: 0;
   background-image: url('/assets/PARKLI-BACKGROUND.jpeg');
@@ -58,6 +61,7 @@
 
 .btnNavbar{
     display: flex;
+    margin-right: 3%;
     gap: 3%;
     justify-content:space-between;
     height: 45%;
@@ -91,6 +95,44 @@
   font-size:1.8em;
   font-family:'geometric sans-serif';
 }
+
+.search-container {
+  position: relative;
+  width: 40vw;
+  margin-top: 3%;
+  
+}
+
+.search-input {
+  width: 100%;
+  padding: 2%;
+  border: 1px solid rgba(255, 255, 255, 0.2); 
+  border-radius: 9999px;
+  font-size: 1.3rem;
+  background-color: rgba(255, 255, 255, 0.4); 
+  color: #fff; 
+  backdrop-filter: blur(4px); 
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.85); 
+  font-size: 1.3rem;
+}
+
+.search-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #fff; 
+}
+
+
+
 
 .middle{
   height: 80vh;
