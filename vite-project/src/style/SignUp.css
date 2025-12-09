@@ -1,87 +1,106 @@
-.names{
-    display: flex;
-    width: 30vw;
-    gap: 5px
+.signup-form {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f9f9f9;
+  font-family: Arial, sans-serif;
 }
 
-.n{
-    width: 48%;
-    height: 5vh;
+.signup-form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
-.email{
-    width: 29.6vw;
-    height: 5vh;
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.signup{
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
-
-input::placeholder {
-  font-size: 1rem; 
-  color: #888;    
+.form-group input {
+  padding: 0.5rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  width: 100%;
 }
 
-input:hover {
-  border: 2px solid #4A90E2; 
-  outline: none;            
-  transition: border 0.8s ease; 
-}
-
-.submitBtn{
-    color: whitesmoke;
-    background-color: orange;
-    font-weight: 700;
-    border: none;
-    width: 25%;
-    height: 4vh;
-    border-radius: 9999px;
-    align-self: center;
-    cursor: pointer;
-}
-
-.containor{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.logo{
-    width: 7vw;
-    cursor: pointer;
-   
-}
-
-.top{
-    display: flex;
-    background-color:white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 15vh;
-    width: 100vw;
-}
-
-.password{
-    height: 5vh;
-}
-
-.line{
-    width: 100vw;
-    height: 1px;
-    background-color: darkgray;
-    
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #ffb432;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 
-.footer{
-  height: 20vh;         
-  
-  background: linear-gradient(to top, orange 0%, white 100%);
-  position: fixed;       
-  bottom: 0; 
+/* Back to Home button */
+.back-home {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
+.back-home button {
+  width: auto; /* only as wide as content */
+  padding: 0.5rem 1rem;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem; /* spacing between icon and text */
+}
 
+.back-home button:hover {
+  background: #5a6268;
+}
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+  .signup-form {
+    margin: 1rem;
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .form-group input {
+    font-size: 1rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 0.6rem;
+  }
+
+  .back-home button {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+/* 💻 Tablet */
+@media (min-width: 768px) {
+  .signup-form {
+    max-width: 500px;
+  }
+}
+
+/* 🖥 Desktop */
+@media (min-width: 1024px) {
+  .signup-form {
+    max-width: 600px;
+  }
+}

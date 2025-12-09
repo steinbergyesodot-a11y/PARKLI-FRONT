@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-// import '../style/About.css'
+import '../style/About.css'
 
 
 export function About() {

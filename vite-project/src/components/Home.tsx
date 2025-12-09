@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router';
-
 import '../style/Home.css';
 import { QA } from './FQAitem';
 import { Login } from './Login';
@@ -27,6 +26,7 @@ export function Home() {
     <div className='app-container'>
 
       <section className='firstSection'>
+        <div className='topLine'>
         <div className='homeHeader'>
 
           <img
@@ -34,19 +34,21 @@ export function Home() {
             alt="logo"
           />
 
-          <nav className="btnNavbar">
+          <nav className="Navbar">
             <section className='sectionA'>
-              <Link to="/Menu" className='btn'>Menu</Link>
-              <Link to="/Dashboard" className='btn'>Find parking</Link>
-              <Link to="/AddDriveway" className='btn'>Host Now</Link>
-              <Link to="/About" className='btn'>About</Link>
+              <Link to="/Menu" className='btnNav'>Menu</Link>
+              <Link to="/Dashboard" className='btnNav'>Find parking</Link>
+              <Link to="/AddDriveway" className='btnNav'>Host Now</Link>
+              <Link to="/About" className='btnNav'>About</Link>
             </section>
 
             <section className='sectionB'>
-              <Link to="/SignUp" className='btn'>Sign up</Link>
-              <Link to="/Login" className='btn'>Login</Link>
+              <Link to="/SignUp" className='btnNav'>Sign up</Link>
+              <Link to="/Login" className='btnNav'>Login</Link>
             </section>
           </nav>
+
+          </div>
 
           <Nav className="topRightCorner">
             {user && (
@@ -82,28 +84,28 @@ export function Home() {
               </NavDropdown>
             )}
           </Nav>
+          </div>
          
 
-        </div>
 
         <div className='text'>
-          <h1>Empty driveway. Full wallet.</h1>
-          <h3>It’s not just pavement, it’s potential.</h3>
+          <h2>Empty driveway. Full wallet.</h2>
+          <p>It’s not just pavement, it’s potential.</p>
         </div>
         
-        <div className='search-container'>
-            <input
-              type="text"
-              value={Query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Enter address..."
-              className="search-input"
-            />
-            <button className="search-button">
-            🔍
-            </button>
 
-        </div>
+      <div className="search-container">
+  <input
+    type="text"
+    value={Query}
+    onChange={(e) => setQuery(e.target.value)}
+    placeholder="Enter address..."
+    className="search-input"
+  />
+  <span className="search-icon"></span>
+</div>
+
+
       </section>
 
       <section className='middle'>
@@ -125,6 +127,32 @@ export function Home() {
 
         <p className='user'>-Donald J. Trump-</p>
       </section>
+      
+      
+      <section className='convincing'>
+            <p className='convincing-title'>Why Choose Parkli Parking?</p>
+            <div className='topRow'>
+               <div className='quarter1'>
+               <p className='biggerFont'>Stress free</p>
+               <p className='smallerFont'>"Relax, your spot is waiting".</p>
+               <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
+
+               <img src="https://www.rrp.com.au/wp-content/uploads/2023/11/Blog-Post-Banner-Template.png" alt="" />
+               </div>
+                <p className='quarter2'>Budget-Friendly</p>
+            </div>
+
+            <div className='bottomRow'>
+                 <p className='quarter1'>Prime Location</p>
+                <p className='quarter2'>right</p>
+            </div>
+
+
+
+
+      </section>
+
+
 
       <p className='frequently'>Frequently asked questions</p>
 

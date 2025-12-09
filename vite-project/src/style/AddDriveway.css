@@ -175,28 +175,77 @@
 }
 
 
-.message {
-  opacity: 0;
-  transition: opacity 1.5s ease-in; 
+.signUpMessageBox {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
 }
 
-
-
-.signUpMessage{
-  color: grey;
-  margin-top: 5%;
+.signUpMessage {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: #333;
 }
 
-.bottomButtons{
+.bottomButtons {
   display: flex;
-  
-  
-  gap: 20%;
-  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
-.signUpMessageBox{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.bottomButtons .btn {
+  padding: 0.6rem 1.2rem;
+  background: rgba(247, 174, 85, 0.957);;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
+
+.bottomButtons .btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 📱 Mobile responsiveness */
+@media (max-width: 500px) {
+  .signUpMessageBox {
+    margin: 1rem;
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .bottomButtons {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .bottomButtons .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* 💻 Tablet */
+@media (min-width: 768px) {
+  .signUpMessageBox {
+    max-width: 500px;
+  }
+}
+
+/* 🖥 Desktop */
+@media (min-width: 1024px) {
+  .signUpMessageBox {
+    max-width: 600px;
+  }
+}
+
+
+
+

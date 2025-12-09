@@ -1,46 +1,121 @@
-.loginBox{
-    display: flex;
-    flex-direction: column;
-    width: 25vw;
-    height: 20vh;
-    justify-content: end;
-    gap: 1vh;
-    padding: 25px;
-    border-radius: 3px;
-    background-color:whitesmoke;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
+/* Fullscreen center layout */
+.login-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fa;
+  padding: 20px; /* Prevent cut-off on very small screens */
+  box-sizing: border-box;
 }
 
-/* Your custom CSS file */
-.input.myComp {
-   height: 10vh !important;
-  /* You may also need to override the padding, 
-     as it affects the total visual height */
-  padding-top: 0; 
-  padding-bottom: 0;
-  box-sizing: border-box; /* Optional, but highly recommended */
+/* Card */
+.login-card {
+  width: 100%;
+  max-width: 380px; /* Limits size but allows shrinking on mobile */
+  background: white;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
 }
 
-.containor2{
-    display: flex;
-    justify-content: center;
-    margin-top: 15vh;
+.login-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #222;
 }
 
-
-.line{
-    width: 100vw;
-    height: 1px;
-    background-color: darkgray;
-    
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
+.input-group label {
+  font-size: 14px;
+  color: #444;
+}
 
-.footer{
-  height: 20vh;         
+.input-group input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: black;
+  /* box-shadow: 0 0 0 3px rgba(74,144,226,0.25); */
+}
+
+/* Button */
+.login-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  background:rgba(247, 174, 85, 0.957);;
+  color: white;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.login-btn:hover {
   
-  background: linear-gradient(to top, orange 0%, white 100%);
-  position: fixed;       
-  bottom: 0; 
+  transform: translateY(-2px);
+}
+
+.login-btn:active {
+  transform: translateY(0);
+}
+
+/* -------------------------------------------- */
+/* RESPONSIVE BREAKPOINTS */
+/* -------------------------------------------- */
+
+/* Mobile: small screens (under 480px) */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 25px; 
+    border-radius: 12px;
+  }
+
+  .login-title {
+    font-size: 22px;
+  }
+
+  .login-btn {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .input-group input {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Larger mobile / small tablets */
+@media (max-width: 768px) {
+  .login-card {
+    max-width: 330px;
+  }
+}
+
+/* Large desktops */
+@media (min-width: 1400px) {
+  .login-card {
+    max-width: 420px; /* Slightly larger for big screens */
+  }
 }

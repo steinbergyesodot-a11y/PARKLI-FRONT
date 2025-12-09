@@ -1,24 +1,24 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
-import '../style/SignUp.css'
 import { Home } from "./Home"
+import '../style/SignUp.css'
 
 export function SignUp(){
-    const [fname, setFname] = useState('')
-    const [lname, setLname] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
 
     const navigate = useNavigate();
 
-    function handlefName(event:any){
-        const fname = event.target.value
-        setFname(fname)
+    function handlefirstName(event:any){
+        const firstName = event.target.value
+        setFirstName(firstName)
     }
 
-    function handlelName(event:any){
-        const lname = event.target.value
-        setLname(lname)
+    function handlelastName(event:any){
+        const lastName = event.target.value
+        setLastName(lastName)
     }
 
     function handleEmail(event:any){
@@ -45,8 +45,8 @@ export function SignUp(){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                firstName: fname,
-                lastName: lname,
+                firstName: firstName,
+                lastName: lastName,
                 email: email,
                 password:password
             })
@@ -65,54 +65,60 @@ export function SignUp(){
 
     return(
         <>
-        <div className="top app-container">
-            <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logo" onClick={sendHome} />
-            
-            
-        </div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
 
-        <div className="containor">
-          <h2>Complete your registration</h2>
-            <form onSubmit={handleSubmit} action="">
-            
-           <div className="signup">
-           <section className="names">
-            <input type="text" id="fname" placeholder="First name" onChange={handlefName} className="n"/>
-            <input type="text" id="lname" placeholder="Last name" onChange={handlelName} className="n"/>
-            </section>
-           
+       <form className="signup-form" onSubmit={handleSubmit}>
+        <h2>Signup</h2>
 
-             
-           <input type="email" id="email"  placeholder="youremail@gmail.com" onChange={handleEmail} className="email"/>
+       <div className="form-group">
+        <label htmlFor="firstName">First Name:</label>
+        <input
+          id="firstName"
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+      </div>
 
-           <input
-            type="password"
-            id="password"
-            minLength={8}
-            placeholder="Create a Password  (At least 8 charachters)"
-            onChange={handlePassword}
-            className="password" 
-            />
-                  
-           <button type="submit" className="submitBtn">Submit</button>
-           </div>
+      <div className="form-group">
+        <label htmlFor="lastName">Last Name:</label>
+        <input
+          id="lastName"
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+      </div>
 
-           </form>
+      <div className="form-group">
+        <label htmlFor="email">Email:</label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
 
-            <section className="footer">
-                   <section className="line"></section>
-           
-                   <section className="buttonWrapper"></section>
-                                                       
-          </section>
+      <div className="form-group">
+        <label htmlFor="password">Create Password:</label>
+        <input
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
 
-        </div>
+      <button type="submit">Sign Up</button>
+    </form>
+    <div className="back-home">
+        <button onClick={sendHome}>Back to Home</button>
+      </div>
+        
         </>
     )
 }
