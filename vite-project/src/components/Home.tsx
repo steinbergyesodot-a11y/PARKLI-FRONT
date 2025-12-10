@@ -6,6 +6,7 @@ import { AddDriveway } from './AddDriveway';
 import { useContext, useState } from "react";
 import { UserContext } from '../userContext';
 import { Nav, NavDropdown } from 'react-bootstrap';
+import React, { Suspense, lazy } from "react";
 
 
 export function Home() {
@@ -128,32 +129,63 @@ export function Home() {
         <p className='user'>-Donald J. Trump-</p>
       </section>
       
-      
+       <Suspense fallback={<div>Loading section...</div>}>
       <section className='convincing'>
             <p className='convincing-title'>Why Choose Parkli Parking?</p>
-            <div className='topRow'>
+            <section className='topRow'>
+
                <div className='quarter1'>
+               <div className='textBox'>
                <p className='biggerFont'>Stress free</p>
                <p className='smallerFont'>"Relax, your spot is waiting".</p>
                <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
-
+               </div>
                <img src="https://www.rrp.com.au/wp-content/uploads/2023/11/Blog-Post-Banner-Template.png" alt="" />
                </div>
-                <p className='quarter2'>Budget-Friendly</p>
-            </div>
+                
 
-            <div className='bottomRow'>
-                 <p className='quarter1'>Prime Location</p>
-                <p className='quarter2'>right</p>
-            </div>
+                <div className='quarter2'>
+                <div className='textBox'>
+                  <p className='biggerFont'>Budget-friendly</p>
+                  <p className='smallerFont'>Affordable without compromise.</p>
+                  <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
+                  </div>
+                  <img src="https://www.grantthornton.in/globalassets/1.-member-firms/india/media/budget-2024/union-budget-2024/1400-658-ub-2024.jpg" className='imgQ2' alt="" />
+                </div>
+
+
+            </section>
+
+            <section className='bottomRow'>
+               <div className='quarter1'>
+               <div className='textBox'>
+               <p className='biggerFont'>Best Location</p>
+               <p className='smallerFont'>In the heart of it all.</p>
+               <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
+               </div>
+               <img src="https://i.redd.it/fenway-or-wrigley-and-why-consider-the-atmosphere-too-but-v0-d53zamjcf95e1.jpg?width=1800&format=pjpg&auto=webp&s=2d799a0ac8ee25846ef2f3930f311194efb879a9" alt="" />
+               </div>
+                
+                <div className='quarter2'>
+                <div className='textBox'>
+                  <p className='biggerFont'>Security</p>
+                  <p className='smallerFont'>Protected every step of the way.</p>
+                  <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
+                  </div>
+                  <img src="https://d372kicx7ya6yg.cloudfront.net/upload/content/articles/main/gtn_mitm_top-10-threats_hero.jpg" className='imgQ2' alt="" />
+                </div>
+
+            </section>
 
 
 
 
       </section>
+      </Suspense>
 
 
 
+      <div className='QAbox'>
       <p className='frequently'>Frequently asked questions</p>
 
       <section className='QaA'>
@@ -170,6 +202,7 @@ export function Home() {
         <QA question={'Are there any hidden fees?'} answer={'No hidden fees. A small service fee is included in the final price shown before booking.'} />
         <QA question={'Can I cancel my booking?'} answer={'Yes. You can cancel up to 24 hours before the booking for a full refund.'} />
       </section>
+      </div>
 
     </div>
   );

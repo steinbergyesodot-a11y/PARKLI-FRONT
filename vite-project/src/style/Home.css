@@ -88,6 +88,7 @@
 .search-input {
   color: whitesmoke;
   width: 100%;
+  height: 7vh;
   padding: 0.75rem 2.5rem 0.75rem 1rem; /* extra right padding for icon */
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -100,8 +101,8 @@
 
 input::placeholder {
   color: white;
-  font-style: italic;
-  font-size: 1rem;
+  font-style:initial;
+  font-size: 1.3rem;
 }
 
 .search-button {
@@ -187,7 +188,7 @@ input::placeholder {
 
 .middle{
   height: 80vh;
-  background-color: rgba(247, 174, 85, 0.957);
+  background-color: rgba(247, 191, 122, 0.957);
 }
 
 .stars{
@@ -264,6 +265,7 @@ input::placeholder {
 
 .convincing{
   display: flex;
+  gap: 4vh;
   flex-direction: column;
   align-items: center;
 }
@@ -315,17 +317,16 @@ input::placeholder {
 
 .biggerFont{
   font-size: 2.5rem;
-  margin-bottom:20px;
-  margin-left: 7%;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  
 }
 
 .smallerFont{
   font-size: 1.5rem;
+  margin-top: 10px;
   color: rgb(68, 64, 64);
-  margin-top: 20px;
-  margin-bottom: 25px;
-    margin-left: 7%;
-    font-family:sans-serif;
+  font-family:sans-serif;
 
 }
 
@@ -340,8 +341,52 @@ input::placeholder {
 }
 
 .btn-convincing{
-  margin-left: 7%;
   color: rgb(123, 123, 226);
   text-decoration: none;
   font-size: 1.5rem;
+}
+
+.imgQ2{
+    height: 50%; 
+    max-width: 90%;
+    object-fit: cover;
+    margin-top: 13%;
+    border-radius: 2%;
+}
+
+.textBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-left: 6%;
+}
+
+
+.convincing img {
+  width: 100%;        /* fills its container */
+  height: 250px;      /* fixed height for all images */
+  object-fit: cover;  /* crops nicely without distortion */
+  border-radius: 8px; /* optional: rounded corners */
+}
+
+
+.quarter1, .quarter2 {
+  position: relative;   /* parent is positioning context */
+}
+
+.quarter1 img, .quarter2 img {
+  position: absolute;   /* take image out of normal flow */
+  bottom: 0;            /* lock to bottom */
+  right: 0;             /* lock to right */
+  width: 100%;          /* same width as before */
+  height: 250px;        /* fixed height for consistency */
+  object-fit: cover;    /* crop nicely without distortion */
+  border-radius: 8px;   /* optional styling */
+}
+
+.QAbox{
+    background-color: lab(91.99% 4.3 19.49);
+
+  padding: 1vh;
+  margin-top: 2%;
 }
