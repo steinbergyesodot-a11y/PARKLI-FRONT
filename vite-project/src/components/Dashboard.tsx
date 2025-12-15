@@ -31,7 +31,7 @@ export function Dashboard(){
     
 
     function fetchData(){
-        fetch('http://localhost:4000/spots/getAllSpots')
+        fetch('http://localhost:4000/api/driveways/')
         .then(response => response.json())
         .then(data => setCards(data))
     }

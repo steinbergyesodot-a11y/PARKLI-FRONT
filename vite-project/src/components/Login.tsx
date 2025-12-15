@@ -32,7 +32,7 @@ export function Login() {
   function handleSubmit(event: any) {
     event.preventDefault();
 
-    fetch('http://localhost:4000/users/Login', {
+    fetch('http://localhost:4000/api/users/Login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -42,6 +42,7 @@ export function Login() {
         email: email
       })
     })
+    
       .then(response => response.json())
       .then(data => {
         if (data.error) {
