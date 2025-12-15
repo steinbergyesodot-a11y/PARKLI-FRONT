@@ -39,7 +39,7 @@ export function Login() {
       },
       body: JSON.stringify({
         password: password,
-        email: email
+        
       })
     })
     
