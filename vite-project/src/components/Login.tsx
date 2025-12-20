@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { UserContext } from '../userContext';
 import { jwtDecode } from "jwt-decode";
+import axios from 'axios'
 import '../style/Login.css';
 
 interface JwtPayload {
@@ -29,44 +30,37 @@ export function Login() {
     navigate('/Home');
   }
 
-  function handleSubmit(event: any) {
+  async function handleSubmit(event: any) {
     event.preventDefault();
-
-    fetch('http://localhost:4000/api/users/Login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        password: password,
-        
+    try{
+      const response = axios.post('http://localhost:4000/api/users/login', {
+          password: password,
+          email: email
       })
-    })
+      console.log("success:",(await response).data.token)
+      const token = (await response).data.token
+
+      localStorage.setItem("authToken", token);
+
+      const decoded: JwtPayload = jwtDecode(token);
+      const now = Date.now() / 1000;
+      if(decoded.exp > now){
+        userContext?.setUser({ name: decoded.name });
+        sendHome();
+        
+      }else{
+        localStorage.removeItem("authToken"); 
+        userContext?.setUser(null);
+      }
+     
+    }catch(error:any){
+      console.error("error",error.response?.data || error.message);
+      
+    }
     
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          window.alert(data.error);
-        } else {
-          const token = data.token;
-          const payload = jwtDecode<JwtPayload>(token);
-          const now = Math.floor(Date.now() / 1000);
-
-          if (payload.exp > now) {
-            userContext?.setUser({
-              name: payload.name
-            });
-          } else {
-            userContext?.setUser(null);
-          }
-
-          localStorage.setItem('jwt', token);
-
-          window.alert(data.message);
-          sendHome();
-        }
-      });
   }
+
+    
 
   return (
     <div className="login-container">

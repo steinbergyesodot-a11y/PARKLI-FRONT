@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import { Home } from "./Home"
+import axios from "axios";
 import '../style/SignUp.css'
 
 export function SignUp(){
@@ -37,31 +38,30 @@ export function SignUp(){
         navigate('/Home')
     }
 
-    function handleSubmit(event: any){
-        event.preventDefault();
-        fetch('http://localhost:4000/users/addUser',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                password:password
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            window.alert(data.Message)
-            sendHome();
-        })
-        .catch(error => {
-            console.log(error)
-            window.alert("Something went wrong. Please try again.");
-        })
-    }
-
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+       event.preventDefault(); 
+       if (!firstName || !lastName || !email || !password) {
+         window.alert("All fields are required.");
+          return;
+      }
+       if(password.length < 8){
+            window.alert("Password must be at least 8 characters long.");
+             return;
+       }
+       try{
+         const response = await axios.post("http://localhost:4000/api/users/addUser", { 
+          firstName,
+          lastName,
+          email,
+          password,
+        }); 
+        window.alert(response.data.Message);
+        sendHome();
+       } catch (error: any) {
+        console.error(error); 
+       window.alert("Something went wrong. Please try again."); 
+      }
+     }
 
     return(
         <>

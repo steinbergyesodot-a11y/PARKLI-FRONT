@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router"
 import { DrivewayCard } from "./DrivewayCard"
-
 import '../style/Dashboard.css'
 import { useContext } from "react";
 import { UserContext } from '../userContext'
 import { Nav, NavDropdown } from "react-bootstrap";
+import axios from "axios";
 
 
 
@@ -29,11 +29,15 @@ export function Dashboard(){
     const navigate = useNavigate();
 
     
-
-    function fetchData(){
-        fetch('http://localhost:4000/api/driveways/')
-        .then(response => response.json())
-        .then(data => setCards(data))
+    async function fetchData(){ 
+      try{ 
+      const res = await axios.get("http://localhost:4000/api/driveways/");
+       setCards(res.data.driveways);
+       console.log(res.data.drivways)
+      }
+      catch (err){
+        console.error("Failed to fetch driveways:", err); 
+      } 
     }
     
     useEffect(() => {
@@ -47,11 +51,11 @@ export function Dashboard(){
 
     return(
         <div className='app-container'>
+          
             <div className="topDashboard">
-               <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logoDash" onClick={sendHome} />
-                
-                 <Nav className="topRightCornerDashboard">
-            {user && (
+               <img src="assets/logo.png" alt="logo" className="logoDash" onClick={sendHome} />
+              <Nav className="topRightCornerDashboard">
+              {user && (
               <NavDropdown
                 title={
                     <img
@@ -87,13 +91,14 @@ export function Dashboard(){
          
                 
             </div>
+
             <section className="dashboard">
                
-                {cards.map((driveway, index) => (
+                {cards.map((driveway) => (
 
                     <DrivewayCard
                     
-                    key={index}
+                    key={driveway._id}
                     drivewayCardId={driveway._id}
                     imageUrl={driveway.image}
                     address={driveway.address}

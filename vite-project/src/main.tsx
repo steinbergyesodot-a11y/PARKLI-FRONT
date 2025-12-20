@@ -12,25 +12,16 @@ import {AddDriveway} from './components/AddDriveway.tsx'
 import { DrivewayDetailed } from './components/DrivewayDetailed.tsx'
 import { Booking } from './components/Booking.tsx'
 import { UserProvider } from './userContext.tsx'
+import { AnimatedRoutes } from './components/AnimatedRoutes.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <UserProvider>
 
     <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/Home" element={<Home />} />
-      <Route path="/AddDriveway" element={<AddDriveway />} />
-      <Route path="/SignUp" element={<SignUp />} />
-      <Route path="/Login" element={<Login/>} />
-      <Route path="/Dashboard" element={<Dashboard/>} />
-      <Route path="/About" element={<About/>} />
-      <Route path="DrivewayDetailed/:id" element={<DrivewayDetailed/>}/>
-      <Route path="/Booking" element={<Booking/>}/>
-
-
-   </Routes>
+     
+    <AnimatedRoutes/>
+   
     </BrowserRouter>
     </UserProvider>
   </StrictMode>,

@@ -1,9 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import '../style/AddDriveway.css'
-import { Link, useNavigate } from "react-router";
-import { button, div, p } from "framer-motion/client";
 import { useContext } from "react";
 import { UserContext } from '../userContext'
+import axios from 'axios'
+import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode, type JwtPayload } from "jwt-decode";
+
+
+type MyPayload = JwtPayload & { _id?: string; name?: string; };
 
 
 
@@ -11,27 +15,27 @@ import { UserContext } from '../userContext'
 export function AddDriveway() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
+    ownerId: "",
     address: "",
     walk: "",
-    stadium: "",
     price: "",
     image: "",
     description: ""
   });
-  const [blink, setBlink] = useState(false);
-  const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
    const userContext = useContext(UserContext)
    const user = userContext?.user
-
-
-  const inputRef = useRef<HTMLInputElement | null>(null)
-
-  const navigate = useNavigate();
-
    
-
+   
+   const inputRef = useRef<HTMLInputElement | null>(null)
+   
+   const navigate = useNavigate();
+   
+   
+   
+   
+   
    useEffect(() => {
     if (!window.google || !inputRef.current) return;
 
@@ -56,58 +60,87 @@ export function AddDriveway() {
   
 
   function sendHome(){
-        navigate('/Home')
-    }
-
-  async function handleSubmit(){
-    if(!formData.address || !formData.image || !formData.price || !formData.stadium || !formData.walk){
-      alert("Missing field")
-      return
-    }
-    try{
-
-      setError("")
-      const token = localStorage.getItem("jwt")
-      const response = await fetch('http://localhost:4000/spots/addSpot',{
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` 
-        },
-        body: JSON.stringify(formData)
-      })
-      if (response.status === 201) {
-        const data = response.json().catch()
-        console.log(data)
-        setMessage("Your driveway has been uploaded successfully!!");
-        alert("Added driveway successfully!")
-        sendHome()
-     
-    } else {
-      setMessage("❌ Something went wrong, please try again.");
-      
-      
-    }
-  }catch(error){
-    console.log(error)
+    navigate('/Home')
   }
-}
   
+  async function handleSubmit(){
+
+        if(!formData.address || !formData.image || !formData.price  || !formData.walk){
+          alert("Missing field")
+          return
+        }
+    
+    const token = localStorage.getItem("authToken")     // In login, the server returns a token. the payload has name and _id.
+                                                       //  extracting the _id and assigning the ownerId from formData
+    if (token){
+    
+      const decoded = jwtDecode<MyPayload>(token);
+      const userId = decoded._id;
+      console.log(decoded)
+      
+    
+
+        try{
+          const response = await axios.post(
+            'http://localhost:4000/api/driveways',{
+            ownerId : userId,
+            address : formData.address,
+            walk: formData.walk,
+            price: formData.price,
+            image: formData.image,
+            description: formData.description,
+            },
+            {
+           headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}` 
+          },
+       }
+      
+      );
+      
+      if(response.status === 201){
+        setMessage("Thanks for adding your driveway! It’s now available for bookings:)")
+      }
+      
+      console.log("success", response.data)
+    }catch(error : any){
+      if(error.response){
+        console.error("Backend error:", error.response.status, error.response.data);
+      }
+      else if(error.request){
+        console.error("No response received:", error.request);
+      }
+      else{
+        console.error("Axios setup error:", error.message);
+      }
+    }
+  }
+  
+  }
+
   return (
-    <div>
-        <div className="topAddDriveway">
-               <img src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png" alt="logo" className="logo" onClick={sendHome} />
-        </div>
+  <div>
+    <div className="topAddDriveway">
+      <img
+        src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png"
+        alt="logo"
+        className="logo"
+        onClick={sendHome}
+      />
+    </div>
 
-
-        
-  <>
-    {user ? (
+    {message ? (
+      // Success message replaces everything else
+      <div className="success-message animated">
+        {message}
+      </div>
+    ) : user ? (
+      // Show the multi-step form if logged in
       <div className="box5">
         {step === 1 && (
           <div className="location5 step">
             <h2 className="locationHeader5">Where's your driveway located?</h2>
-            <label htmlFor="location"></label>
             <input
               ref={inputRef}
               className="locationInput5"
@@ -124,44 +157,8 @@ export function AddDriveway() {
 
         {step === 2 && (
           <div className="stadiumInfo5 step">
-             <h2 className="title2">My driveway is near:</h2>
-      <section className="stadium5">
-
-            <input
-              type="radio"
-              name="stadium"
-              id="MarlinsPark"
-              value="Marlins Park"
-              checked={formData.stadium === "Marlins Park"}
-              onChange={e => handleChange("stadium", e.target.value)}
-              />
-            <label htmlFor="MarlinsPark">Marlins Park</label>
-
-            <input
-              type="radio"
-              name="stadium"
-              id="WrigleyField"
-              value="Wrigley Field"
-              checked={formData.stadium === "Wrigley Field"}
-              onChange={e => handleChange("stadium", e.target.value)}
-            />
-            <label htmlFor="WrigleyField">Wrigley Field</label>
-
-            <input
-              type="radio"
-              name="stadium"
-              id="CitiField"
-              value="Citi Field"
-              checked={formData.stadium === "Citi Field"}
-              onChange={e => handleChange("stadium", e.target.value)}
-            />
-            <label htmlFor="CitiField">Citi Field</label>
-
-     </section>
-
-        <h3 className="title2">Walk from driveway to stadium:</h3>
+            <h3 className="title2">Walk from driveway to stadium:</h3>
             <section className="walk">
-
               <input
                 type="radio"
                 name="walk"
@@ -191,20 +188,16 @@ export function AddDriveway() {
                 onChange={e => handleChange("walk", e.target.value)}
               />
               <label htmlFor="10to20">10–20 min</label>
-
-          </section>
-      
-
-
+            </section>
           </div>
         )}
 
         {step === 3 && (
           <div className="step">
             <h2>Price</h2>
-            <p>How much would you like to charge per game?(dollars)</p>
+            <h4>Set your price per reservation (in USD).</h4>
             <input
-              className="input"
+              className="inputPrice"
               type="text"
               value={formData.price}
               onChange={e => handleChange("price", e.target.value)}
@@ -228,19 +221,15 @@ export function AddDriveway() {
         {step === 5 && (
           <div className="step">
             <h3>Additional Information</h3>
-            <div>
-              <label htmlFor="message">Your Message:</label>
-              <br />
-              <textarea
-                id="message"
-                name="message"
-                rows={10}
-                cols={60}
-                placeholder="Write your text here..."
-                value={formData.description}
-                onChange={e => handleChange("description", e.target.value)}
-              />
-            </div>
+            <textarea
+              id="message"
+              name="message"
+              rows={10}
+              cols={60}
+              placeholder="Write your text here..."
+              value={formData.description}
+              onChange={e => handleChange("description", e.target.value)}
+            />
           </div>
         )}
 
@@ -265,31 +254,19 @@ export function AddDriveway() {
           </section>
           <p className="helper">Step {step} of 5</p>
         </section>
-
-        {message && <p className="message">{message}</p>}
-        </div>
-      ) : (
-      
-        <>
+      </div>
+    ) : (
+      // Show login/signup prompt if no user
       <div className="signUpMessageBox">
-      <h4 className="signUpMessage">Please Login or Signup to continue.</h4>
-      <div className="bottomButtons">
-          <Link to="/Signup" className='btn'>Signup</Link>
-          <Link to="/Login" className='btn'>Login</Link>
-      </div>
-      </div>
-      </>
-    )}
-  </>
-
-
-        
-    
+        <h4 className="signUpMessage">Please Login or Signup to continue.</h4>
+        <div className="bottomButtons">
+          <Link to="/Signup" className="btn">Signup</Link>
+          <Link to="/Login" className="btn">Login</Link>
         </div>
-  );
-
+      </div>
+    )}
+  </div>
+);
 }
-
-
 
 export default AddDriveway;

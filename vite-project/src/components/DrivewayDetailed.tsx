@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-
 import '../style/DrivewayDetailed.css';
 import { Link, useNavigate, useParams } from 'react-router';
 import { GoogleMap, LoadScript, LoadScriptNext, Marker } from '@react-google-maps/api';
 import { useContext } from "react";
 import { UserContext } from '../userContext'
+import axios from 'axios';
 
 
-interface Spot {
+interface Driveway {
   address: string;
   imageUrl: string;
   walk: string;
   price: string;
-  stadium: string;
   description: string;
 }
 
@@ -23,7 +22,7 @@ type Coords = {
 
 
 export function DrivewayDetailed() {
-  const [spot, setSpot] = useState<Spot | null>(null);
+  const [driveway, setDriveway] = useState<Driveway | null>(null);
   const [coords, setCoords] = useState<Coords | null>(null);
 
   const { id } = useParams();
@@ -34,17 +33,19 @@ export function DrivewayDetailed() {
   }
 
   async function getDrivewayDetailed() {
-    const response = await fetch(`http://localhost:4000/spots/getSpot/${id}`);
-    const data: { spot: Spot } = await response.json();
-    setSpot(data.spot);
+    const response = await axios(`http://localhost:4000/api/driveways/${id}`);
+    const data = response.data
+    console.log(data)
+    console.log(data.driveway)
+    setDriveway(data.driveway);
   }
 
 useEffect(() => {
-  if (!spot?.address) return;
+  if (!driveway?.address) return;
 
   const geocodeAddress = async () => {
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(spot.address)}&key=AIzaSyBCuQJ5ztmnPHGjtp8yXJ3_tzufzchq3jg`
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(driveway.address)}&key=AIzaSyBCuQJ5ztmnPHGjtp8yXJ3_tzufzchq3jg`
 
     );
     const data = await response.json();
@@ -55,7 +56,7 @@ useEffect(() => {
   };
 
   geocodeAddress();
-}, [spot?.address]);
+}, [driveway?.address]);
 
 
 
@@ -67,9 +68,9 @@ useEffect(() => {
     <div>
       <div className="top">
         <img
-          src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png"
+          src="assets/logo.png"
           alt="logo"
-          className="logo"
+          className='logoDash'
           onClick={sendHome}
         />
       </div>
@@ -106,8 +107,8 @@ useEffect(() => {
         </section>
 
         <section className="firstLine">
-          <p className="address">{spot?.address}</p>
-          <p className="price1">{spot?.price}$ per game</p>
+          <p className="address">{driveway?.address}</p>
+          <p className="price1">{driveway?.price}$ per game</p>
         </section>
 
         <div className="secondLine">
@@ -118,9 +119,9 @@ useEffect(() => {
                 alt=""
                 className="walkIcon"
               />
-              <p>{spot?.walk}</p>
+              <p>{driveway?.walk}</p>
             </div>
-            <p className="stadium">{spot?.stadium}</p>
+            <p className="stadium">Fenway Park</p>
             <div className="ratings">
               <p>4.5</p>
               <img
@@ -137,7 +138,7 @@ useEffect(() => {
         </div>
 
         <h3 className="moreInfo">More information</h3>
-        <p className="description">{spot?.description}</p>
+        <p className="description">{driveway?.description}</p>
       </div>
     </div>
   );
