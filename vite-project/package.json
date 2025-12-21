@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-google-maps/api": "^2.20.7",
     "@vis.gl/react-google-maps": "^1.7.1",
+    "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
     "framer-motion": "^12.23.24",
     "jwt-decode": "^4.0.0",
@@ -20,6 +21,7 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
     "react-dropzone": "^14.3.8",
+    "react-icons": "^5.5.0",
     "react-leaflet": "^5.0.0",
     "react-router": "^7.9.5",
     "react-router-dom": "^7.10.1"

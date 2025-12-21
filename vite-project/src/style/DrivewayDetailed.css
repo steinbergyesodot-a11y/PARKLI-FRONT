@@ -1,5 +1,7 @@
 .containor22 {
   height: 100vh;
+  margin-left: 12%;
+
 }
 
 
@@ -38,94 +40,145 @@
   object-fit: cover;
 }
 
-.imagesContainer{
+.details{
     display: flex;
-    justify-content: center;
-}
-
-
-
-.address{
-    font-size: 1.2rem;
+    flex-direction: column;
+    font-family:'Times New Roman', Times, serif;
     font-weight: 600;
+    margin-top: 5%;
 }
 
-
-.firstLine{
+.locationInfo{
+    font-size: 1.3rem;
     display: flex;
-    width: 70vw;
-    
-    gap: 15%;
-    
+    gap: 2vw;
 }
 
-.price1{
-    color: black;
-    font-size: 1.2rem;
-    font-weight: 200;
-    border: solid lightgrey 1px;
-    padding: 10px;
-    border-radius: 3px;
-    
+.locationIcon{
+    font-size: 2rem;
 }
 
-.infoBox{
-    margin-top: 3%;
+.walkInfo{
+    font-size: 1.3rem;
     display: flex;
-    justify-content:space-evenly;
-    height: 7vh;
-    width: 35vw;
-    border-radius: 3px;
-    border: 1px solid rgb(214, 208, 208);
-    font-style: italic;
-}
-
-.walking{
-    width: 25%;
-    display: flex;
-    
+    gap: 2vw;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .walkIcon{
-    height: 100%;
-    width: 30%;
+    font-size: 2rem;
 }
 
-.distance1{
-    width: 25%;
-    
 
-}
-
-.stadium{
-    width: 25%;
-}
-
-.ratings{
+.priceInfo{
+    font-size: 1.3rem;
     display: flex;
-    justify-content: center;
-    gap: 2%;
-    width: 25%;
+    gap: 2vw;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.moneyIcon{
+    font-size: 2rem;
 }
 
 .starIcon{
+    width: 6%;
+}
+
+.ratingInfo{
+    display: flex;
+    align-items: center;
+    gap: 2.3%;
+    font-size: 1.3rem;
+}
+
+
+.line2 {
+  width: 100%;
+  height: 1px;
+  background-color: #4b3e3e;
+   
+}
+
+.describe{
     max-width: 50%;
-    height: 60%;
-    object-fit: cover;
-    margin-top: 6%;
+    font-size: 1.3rem;
+    color: gray;
 }
 
-.description{
-    max-width: 70vw;
-    font-family:'Times New Roman', Times, serif;
+
+.middleArea{
+    display: flex;
+    justify-content: space-between;
+    width: 65vw;
 }
 
-.moreInfo{
+.cancelBox{
+
+   background-color: rgb(197, 236, 236);
+   border-radius: 5px;
+   padding: 10px;
+} 
+
+.rowCancel{
+    display: flex;
+    gap: 3%;
+    font-size: 1.1rem;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+} 
+
+.middleRight{
     margin-top: 5%;
-    font-weight: 600;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+    width: 33%;
 }
 
+.paymantIcons{
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap:2%;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.visa{
+    color:rgb(45, 45, 120);
+}
+
+.paypal{
+    color: rgb(58, 58, 247);
+    font-size: 1.5rem;
+}
+
+.google{
+        font-size: 1.5rem;
+
+}
+
+.amex{
+    color: rgb(55, 55, 209);
+}
+
+.masterCard{
+    color:#FF3C00;
+}
+
+.master{
+    max-width: 3vw;
+}
+
+.googlePay{
+    max-width: 2vw;
+}
+
+.more{
+    font-size: 1rem;
+}
 .bookNow{
     background-color: rgb(59, 59, 236);
     font-size: 1.2rem;
@@ -143,12 +196,3 @@
      text-decoration: none;
 }
 
-.secondLine{
-    display: flex;
-    width: 70vw;
-    margin-top: 2%;
-}
-
-.containor22{
-    margin-left: 12%;
-}

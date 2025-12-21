@@ -5,6 +5,23 @@ import { GoogleMap, LoadScript, LoadScriptNext, Marker } from '@react-google-map
 import { useContext } from "react";
 import { UserContext } from '../userContext'
 import axios from 'axios';
+import { FaLocationDot } from "react-icons/fa6";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { RiWalkFill } from "react-icons/ri";
+import { MdAttachMoney } from "react-icons/md";
+import { FaRegCheckSquare } from "react-icons/fa";
+import { CiCircleInfo } from "react-icons/ci";
+import { FaGooglePay } from "react-icons/fa";
+import { FaCcApplePay } from "react-icons/fa";
+import { RiVisaFill } from "react-icons/ri";
+import { FcGoogle } from "react-icons/fc";
+import { FaApplePay } from "react-icons/fa6";
+import { BsPaypal } from "react-icons/bs";
+import { LiaCcAmex } from "react-icons/lia";
+import { FaCcMastercard } from "react-icons/fa";
+
+
+
 
 
 interface Driveway {
@@ -68,7 +85,7 @@ useEffect(() => {
     <div>
       <div className="top">
         <img
-          src="assets/logo.png"
+          src="/assets/logo.png"
           alt="logo"
           className='logoDash'
           onClick={sendHome}
@@ -106,40 +123,90 @@ useEffect(() => {
           </div>
         </section>
 
-        <section className="firstLine">
-          <p className="address">{driveway?.address}</p>
-          <p className="price1">{driveway?.price}$ per game</p>
-        </section>
+            
 
-        <div className="secondLine">
-          <section className="infoBox">
-            <div className="walking">
-              <img
-                src="https://tse2.mm.bing.net/th/id/OIP._uYZ_A6Ui3YnJLbEMWP_cwHaHa?w=198&h=198&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-                alt=""
-                className="walkIcon"
-              />
-              <p>{driveway?.walk}</p>
-            </div>
-            <p className="stadium">Fenway Park</p>
-            <div className="ratings">
-              <p>4.5</p>
+            <section className='middleArea'>
+           <div className='details'>
+
+
+           <p className='locationInfo'>
+            <FaMapMarkerAlt className="locationIcon" />
+            {driveway?.address}
+           </p>
+
+           <p className='walkInfo'>
+            <RiWalkFill className='walkIcon' />
+            {driveway?.walk}
+          </p>
+
+          <p className='priceInfo'>
+            <MdAttachMoney className='moneyIcon' />
+            {driveway?.price} (USA)
+          </p> 
+
+              <p className='ratingInfo'>
               <img
                 src="https://tse1.mm.bing.net/th/id/OIP.Qrq7XBSs71OgklY--yU_uQHaHa?w=169&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
                 alt=""
                 className="starIcon"
               />
+              4.5
+              </p>
             </div>
-          </section>
 
-          <Link to="/Booking" className="bookNow">Book Now</Link>
+              
+              <section className='middleRight'>
+             <div className='cancelBox'>
+                  <p className='rowCancel'>
+                      <FaRegCheckSquare/>
+                      Free Cancelation
+                      <CiCircleInfo />
+                  </p> 
+
+                <p className='rowCancel'>
+                   <FaRegCheckSquare/>
+                  Guaranteed parking
+                  <CiCircleInfo />
+                </p> 
+           </div>
+
+           <div className='paymantIcons'>
+            <FaApplePay />
+            <RiVisaFill className='visa'/>
+            <img src="https://tse2.mm.bing.net/th/id/OIP.ugrhTJ4gxQKWstWBQkLYyQHaHa?o=7&cb=ucfimg2&rm=3&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="" className='googlePay'/>
+            <LiaCcAmex className='amex'/>
+            <FcGoogle className='google'/>
+            <BsPaypal className='paypal'/>
+            <img src="https://i.pinimg.com/originals/56/fd/48/56fd486a48ff235156b8773c238f8da9.png" alt="" className='master'/>
+            <p className='more'>+more</p>
+           </div>
+
+           <button>Check Availablity</button>
+           </section>
+ 
+
+
+            </section>
+
+
+              <div className="line2"></div>
+             <p className='describe'>{driveway?.description}</p>
+        
+
+       
+
+
+          
+          
+           
+            </div>
+          
+
                           
 
-        </div>
-
-        <h3 className="moreInfo">More information</h3>
-        <p className="description">{driveway?.description}</p>
+        
+    
       </div>
-    </div>
+    
   );
 }
