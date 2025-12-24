@@ -92,6 +92,7 @@ export function Dashboard(){
                 
             </div>
 
+<div className="dashboard-panel">
             <section className="dashboard">
                
                 {cards.map((driveway) => (
@@ -110,6 +111,7 @@ export function Dashboard(){
                 ))}
 
             </section>
+            </div>
         </div>
     )
 }

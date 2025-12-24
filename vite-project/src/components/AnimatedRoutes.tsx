@@ -9,6 +9,7 @@ import { About } from "./About";
 import AddDriveway from "./AddDriveway";
 import { DrivewayDetailed } from "./DrivewayDetailed";
 import { Booking } from "./Booking";
+import { Payment } from "./Paymant";
 
 export function AnimatedRoutes() {
   const location = useLocation();
@@ -30,6 +31,8 @@ export function AnimatedRoutes() {
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/About" element={<About />} />
         <Route path="DrivewayDetailed/:id" element={<DrivewayDetailed />} />
+        <Route path="DrivewayDetailed/:id/Payment" element={<Payment />} />
+
         <Route path="/Booking" element={<Booking />} />
       </Routes>
     </div>

@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState,useContext } from 'react';
 import '../style/DrivewayDetailed.css';
 import { Link, useNavigate, useParams } from 'react-router';
 import { GoogleMap, LoadScript, LoadScriptNext, Marker } from '@react-google-maps/api';
-import { useContext } from "react";
-import { UserContext } from '../userContext'
 import axios from 'axios';
 import { FaLocationDot } from "react-icons/fa6";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -19,18 +17,28 @@ import { FaApplePay } from "react-icons/fa6";
 import { BsPaypal } from "react-icons/bs";
 import { LiaCcAmex } from "react-icons/lia";
 import { FaCcMastercard } from "react-icons/fa";
-
+import { address, h2, p } from 'framer-motion/client';
+import { BsCurrencyDollar } from "react-icons/bs";
 
 
 
 
 interface Driveway {
   address: string;
+  ownerId: string;
   imageUrl: string;
   walk: string;
   price: string;
   description: string;
+  games?: Game[];
 }
+
+type Game = {
+  visiting_team: string;
+  date: string;
+  booked: boolean;
+};
+
 
 type Coords = {
   lat: number;
@@ -38,24 +46,51 @@ type Coords = {
 };
 
 
+
+
 export function DrivewayDetailed() {
   const [driveway, setDriveway] = useState<Driveway | null>(null);
   const [coords, setCoords] = useState<Coords | null>(null);
+  const [showSchedual, setShowSchedual] = useState(false)
+  const [games, setGames] = useState<Game[]>([]);
+
+  
+
 
   const { id } = useParams();
   const navigate = useNavigate();
 
+  function paymentPage(game:any) {
+        navigate(`/DrivewayDetailed/${id}/Payment`,{
+          state: {
+            driveway_id: id,
+            owner_id: driveway?.ownerId,
+            address: driveway?.address,
+            price: driveway?.price,
+            visiting_team: game.visiting_team,
+            gameDate: game.date
+            
+          }
+        });
+  }
+         
   function sendHome() {
     navigate('/Home');
   }
 
-  async function getDrivewayDetailed() {
-    const response = await axios(`http://localhost:4000/api/driveways/${id}`);
-    const data = response.data
-    console.log(data)
-    console.log(data.driveway)
-    setDriveway(data.driveway);
+  function handleSchedual(){
+     setShowSchedual(!showSchedual)
   }
+
+  async function getDrivewayDetailed() {
+  const response = await axios.get(
+    `http://localhost:4000/api/driveways/${id}`
+  );
+  const driveway = response.data.driveway;
+  setGames(response.data.driveway.games || []);
+  setDriveway(driveway);
+  
+}
 
 useEffect(() => {
   if (!driveway?.address) return;
@@ -81,8 +116,14 @@ useEffect(() => {
     getDrivewayDetailed();
   }, [id]);
 
+ useEffect(() => {
+  console.log("Updated games:", games);
+}, [games]);
+
+
   return (
     <div>
+     
       <div className="top">
         <img
           src="/assets/logo.png"
@@ -91,6 +132,47 @@ useEffect(() => {
           onClick={sendHome}
         />
       </div>
+
+      {showSchedual ? 
+      <>
+      <div className='showSchedual'>
+
+        <section className='topLineSchedual'>
+            <h2>{driveway?.address}</h2> 
+        </section>
+      <p className='line'></p>
+
+         
+    <section className='games'>
+        <h3>Future Games</h3>
+
+         {games.length === 0 ? (
+            <p>No games available</p>
+          ) : (
+          games.map((game, index) => (
+            <div key={index}>
+              
+
+              <section className='gameRow'>
+              <span className="game-date">{game.date}</span>
+              <span className="game-vs">vs</span>
+              <span className="game-team">{game.visiting_team}</span>
+              <span className={`game-status ${game.booked ? 'booked' : 'available'}`} onClick={() => paymentPage(game)}>
+            {game.booked ? 'Booked' : 'Available'}
+             </span>  
+              </section>
+              
+            </div>
+          ))
+        )}
+    </section>
+
+
+
+
+      </div>
+      </>
+      : 
 
       <div className="containor22">
         <section className="imagesArea">
@@ -136,7 +218,7 @@ useEffect(() => {
 
            <p className='walkInfo'>
             <RiWalkFill className='walkIcon' />
-            {driveway?.walk}
+            {driveway?.walk} min
           </p>
 
           <p className='priceInfo'>
@@ -181,7 +263,7 @@ useEffect(() => {
             <p className='more'>+more</p>
            </div>
 
-           <button>Check Availablity</button>
+           <button onClick={handleSchedual}>Check Availablity</button>
            </section>
  
 
@@ -191,22 +273,9 @@ useEffect(() => {
 
               <div className="line2"></div>
              <p className='describe'>{driveway?.description}</p>
-        
-
-       
-
-
-          
-          
-           
-            </div>
-          
-
-                          
-
-        
-    
-      </div>
+        </div>
+  }
+    </div>
     
   );
 }

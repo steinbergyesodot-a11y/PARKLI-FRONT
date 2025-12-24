@@ -76,7 +76,7 @@ export function AddDriveway() {
     
       const decoded = jwtDecode<MyPayload>(token);
       const userId = decoded._id;
-      console.log(decoded)
+      
       
     
 
@@ -103,7 +103,7 @@ export function AddDriveway() {
         setMessage("Thanks for adding your driveway! It’s now available for bookings:)")
       }
       
-      console.log("success", response.data)
+      console.log(response.data)
     }catch(error : any){
       if(error.response){
         console.error("Backend error:", error.response.status, error.response.data);

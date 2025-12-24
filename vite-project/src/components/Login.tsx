@@ -8,7 +8,7 @@ import '../style/Login.css';
 interface JwtPayload {
   exp: number;
   name: string;
-  id: string;
+  _id: string;
 }
 
 export function Login() {
@@ -45,7 +45,10 @@ export function Login() {
       const decoded: JwtPayload = jwtDecode(token);
       const now = Date.now() / 1000;
       if(decoded.exp > now){
-        userContext?.setUser({ name: decoded.name });
+        userContext?.setUser({ 
+          name: decoded.name,
+          _id: decoded._id
+        });
         sendHome();
         
       }else{

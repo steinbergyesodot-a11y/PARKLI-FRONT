@@ -25,11 +25,14 @@
 }
 
 
-.dashboard{
+/* .dashboard{
     display: flex;
     flex-direction: column;
     gap: 3vh;
-}
+    height: 500px;
+overflow-y: auto;
+
+} */
 
 .logoDash{
     cursor: pointer;
@@ -46,4 +49,64 @@
   position: relative;
   z-index: 1000;   
   
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  width: 56vw;
+
+  /* Scroll behavior */
+  height: 500px;
+  overflow-y: auto;
+
+  /* Make the scroll area visually obvious */
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+
+  /* Add spacing so it feels like a panel */
+  padding: 16px;
+
+  /* Shadow to separate it from the page */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+}
+
+/* Optional: custom scrollbar (looks modern) */
+.dashboard::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.dashboard::-webkit-scrollbar-thumb {
+  background: #c7c7c7;
+  border-radius: 10px;
+}
+
+.dashboard::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.dashboard-panel {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  height: 550px; /* panel height */
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px; /* space for scrollbar */
 }

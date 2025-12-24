@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 export type User = {
   name?: string;
   email?: string;
+  _id?: string;
+  
 };
 
 export type UserContextType = {
