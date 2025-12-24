@@ -17,15 +17,21 @@ type PaymentState = {
   gameDate: string;
 };
 
-export function Payment() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const state = location.state as PaymentState | null;
-    
-    const context = useContext(UserContext);
-    const user = context?.user;
-    const userId = user?._id
 
+
+
+export function Payment() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as PaymentState | null;
+  
+  const context = useContext(UserContext);
+  const user = context?.user;
+  const userId = user?._id
+  
+  function sendHome() {
+    navigate('/Home');
+  }
     // Guard for refresh / direct access
     if (!state) {
     return (
@@ -59,10 +65,10 @@ export function Payment() {
     
             })
             console.log("Payment response:", response.data);
-            if(response.status === 201){
-                alert("Payment Successful! Booking Confirmed.");
-                navigate('/Home');
-            }
+            
+            const response2 = await axios.put(`http://localhost:4000/api/driveways/${driveway_id}/${gameDate}`)
+            alert("Payment successful! Your spot is booked.");
+            sendHome();
 
         }catch(error:any){
             console.log(error.response?.data);

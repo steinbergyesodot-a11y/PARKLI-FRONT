@@ -123,7 +123,7 @@ export function AddDriveway() {
   <div>
     <div className="topAddDriveway">
       <img
-        src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png"
+        src="assets/logo.png"
         alt="logo"
         className="logo"
         onClick={sendHome}

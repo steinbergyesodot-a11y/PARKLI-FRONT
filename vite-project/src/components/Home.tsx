@@ -28,11 +28,13 @@ export function Home() {
 
       <section className='firstSection'>
         <div className='topLine'>
-        <div className='homeHeader'>
 
+
+        <div className='homeHeader'>
           <img
-            src="https://copilot.microsoft.com/th/id/BCO.3ed9eebf-b8d1-4d88-b6e0-2ba831a1eea3.png"
+            src="https://copilot.microsoft.com/th/id/BCO.75a92754-03f4-435a-9557-6149e9abe70f.png"
             alt="logo"
+            className='homeLogo'
           />
 
           <nav className="Navbar">
@@ -113,7 +115,7 @@ export function Home() {
         <p className='stars'>★★★★☆</p>
         <p className='reviews'>230,000+ Reviews | 4.2 stars</p>
 
-        <p className='line1'>
+        <p className='line3'>
           "This site is so clean and intuitive, I found exactly what I needed without even thinking.
         </p>
         <p className='line2'>It feels like it was designed just for me!"</p>

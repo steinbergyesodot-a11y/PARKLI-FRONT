@@ -53,6 +53,7 @@ export function DrivewayDetailed() {
   const [coords, setCoords] = useState<Coords | null>(null);
   const [showSchedual, setShowSchedual] = useState(false)
   const [games, setGames] = useState<Game[]>([]);
+  
 
   
 
@@ -157,7 +158,8 @@ useEffect(() => {
               <span className="game-date">{game.date}</span>
               <span className="game-vs">vs</span>
               <span className="game-team">{game.visiting_team}</span>
-              <span className={`game-status ${game.booked ? 'booked' : 'available'}`} onClick={() => paymentPage(game)}>
+              <span className={`game-status ${game.booked ? 'booked' : 'available'}`} 
+              onClick={game.booked ? undefined : () => paymentPage(game)}>
             {game.booked ? 'Booked' : 'Available'}
              </span>  
               </section>
@@ -218,7 +220,7 @@ useEffect(() => {
 
            <p className='walkInfo'>
             <RiWalkFill className='walkIcon' />
-            {driveway?.walk} min
+            {driveway?.walk} 
           </p>
 
           <p className='priceInfo'>
@@ -271,7 +273,7 @@ useEffect(() => {
             </section>
 
 
-              <div className="line2"></div>
+              <div className="line4"></div>
              <p className='describe'>{driveway?.description}</p>
         </div>
   }
