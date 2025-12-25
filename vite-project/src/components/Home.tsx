@@ -34,7 +34,7 @@ export function Home() {
 
       <div className='homeHeader'>
         <img
-          src="https://copilot.microsoft.com/th/id/BCO.75a92754-03f4-435a-9557-6149e9abe70f.png"
+          src="assets/logo.png"
           alt="logo"
           className='homeLogo'
         />

@@ -7,7 +7,7 @@
   align-items: center; */
   margin: 0;
   padding: 0;
-  background-image: url('/assets/PARKLI-BACKGROUND.jpeg');
+  background-image: url('/assets/white.jpeg');
   background-size: cover;     
   background-repeat: no-repeat; 
   background-position: center;
@@ -34,7 +34,7 @@
       align-items:center;
       height: 40%;
       width: 60%;
-      background-color: whitesmoke;
+      background-color: white;
       border-radius: 5px;
       text-decoration: none;
   }
@@ -71,8 +71,8 @@
 
 .text{
   text-align: center;
-  margin-top: 8%;
-  color: whitesmoke;
+  margin-top: 5%;
+  color: gray;
   font-family:Didot, serif;
   font-size: 2.2rem;
 }
@@ -88,7 +88,7 @@
 }
 
 .search-input {
-  color: whitesmoke;
+  color: rgb(179, 210, 252);
   width: 100%;
   height: 7vh;
   padding: 0.75rem 2.5rem 0.75rem 1rem; /* extra right padding for icon */
@@ -96,13 +96,14 @@
   border: 1px solid #ccc;
   border-radius: 9999px;
   outline: none;
-   background: rgba(255, 255, 255, 0.4); 
-  backdrop-filter: blur(1px);           /* frosted glass effect */
+   background: rgba(255, 255, 255, 0.1); 
+  backdrop-filter: blur(6px);
+          /* frosted glass effect */
   box-sizing: border-box;               /* ensures padding doesn’t break width */
 }
 
 input::placeholder {
-  color: white;
+  color: rgb(178, 202, 229);
   font-style:initial;
   font-size: 1.3rem;
 }
@@ -190,7 +191,7 @@ input::placeholder {
 
 .middle{
   height: 80vh;
-  background-color: rgba(247, 191, 122, 0.957);
+  background-color:rgb(200, 222, 249);
 }
 
 .stars{
@@ -387,7 +388,8 @@ input::placeholder {
 }
 
 .QAbox{
-    background-color: lab(91.99% 4.3 19.49);
+    
+background: rgba(248, 237, 214, 0.7);
 
   padding: 1vh;
   margin-top: 2%;
