@@ -47,14 +47,14 @@ type Coords = {
 
 
 
-
 export function DrivewayDetailed() {
   const [driveway, setDriveway] = useState<Driveway | null>(null);
   const [coords, setCoords] = useState<Coords | null>(null);
   const [showSchedual, setShowSchedual] = useState(false)
   const [games, setGames] = useState<Game[]>([]);
   
-
+  
+  const token = localStorage.getItem("authToken")  
   
 
 
@@ -80,7 +80,12 @@ export function DrivewayDetailed() {
   }
 
   function handleSchedual(){
-     setShowSchedual(!showSchedual)
+    
+    if(!token){
+      alert("Please Login or Sign up to continue!")
+      return
+    }
+      setShowSchedual(!showSchedual)
   }
 
   async function getDrivewayDetailed() {

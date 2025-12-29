@@ -10,7 +10,6 @@ import { Dashboard } from './components/Dashboard.tsx'
 import {About} from './components/About.tsx'
 import {AddDriveway} from './components/AddDriveway.tsx'
 import { DrivewayDetailed } from './components/DrivewayDetailed.tsx'
-import { Booking } from './components/Booking.tsx'
 import { UserProvider } from './userContext.tsx'
 import { AnimatedRoutes } from './components/AnimatedRoutes.tsx'
 

@@ -1,12 +1,23 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import '../style/ProfileDropdown.css'
+import { UserContext } from "../userContext";
+import { useNavigate } from "react-router";
 
 export function ProfileDropdown() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
-  
+  const navigate = useNavigate();
+
+
+  const userContext = useContext(UserContext);
+  let user = userContext?.user;
  
+   function logOut(){
+   localStorage.removeItem("authToken")
+   userContext?.setUser(null)
+   navigate("/Home");
+ }
 
   return (
     <div className="profile-wrapper" ref={menuRef}>
@@ -22,7 +33,7 @@ export function ProfileDropdown() {
           <button>Profile</button>
           <button>Settings</button>
           <button>Help</button>
-          <button className="logout">Log out</button>
+          <button className="logout" onClick={logOut}>Log out</button>
         </div>
       )}
     </div>

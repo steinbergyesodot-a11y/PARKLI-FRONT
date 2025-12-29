@@ -194,8 +194,8 @@ export function AddDriveway() {
 
         {step === 3 && (
           <div className="step">
-            <h2>Price</h2>
-            <h4>Set your price per reservation (in USD).</h4>
+            <h2 className="priceTitle">Price</h2>
+            <h4 className="priceTitle">Set your price per reservation (in USD).</h4>
             <input
               className="inputPrice"
               type="text"
@@ -207,9 +207,9 @@ export function AddDriveway() {
 
         {step === 4 && (
           <div className="step">
-            <h2>Add your pictures!</h2>
+            <h2 className="priceTitle">Add your pictures!</h2>
             <input
-              className="input"
+              className="imageInput"
               type="text"
               placeholder="Image URL"
               value={formData.image}
@@ -220,8 +220,9 @@ export function AddDriveway() {
 
         {step === 5 && (
           <div className="step">
-            <h3>Additional Information</h3>
+            <h3 className="priceTitle">Additional Information</h3>
             <textarea
+            className="textarea"
               id="message"
               name="message"
               rows={10}

@@ -40,13 +40,19 @@
 .locationHeader5{
     margin-top: 8%;
     margin-top: 5%;
+    color: rgb(128, 125, 125);
 }
 
 .safety{
     margin-top: 5px;
     font-size: 0.8rem;
-    margin-right: 4%;
     color: gray;
+}
+
+input::placeholder {
+  color: grey;
+  font-style:initial;
+  font-size: 1.2rem;
 }
 
 .locationInput5{
@@ -58,7 +64,16 @@
 
 .inputPrice{
   height: 5vh;
+  font-size: 1.2rem;
 }
+
+.imageInput{
+  width: 100%;
+  height: 50%;
+    font-size: 1.2rem;
+
+}
+
 
 .nextBtn{
     background-color: black;
@@ -122,7 +137,7 @@
 
 
 .title2{
-    color: rgb(144, 144, 144);
+    color: rgb(128, 125, 125);
     font-style:normal;
 }
 
@@ -131,11 +146,17 @@
     flex-direction: column;
 }
 
+
+.priceTitle{
+  color: rgb(128, 125, 125);
+}
+
+
 .line{
     width: 100vw;
     height: 1px;
-    background-color: darkgray;
-    
+      background: linear-gradient(to top, rgb(110, 161, 249) 0%, white 100%);
+ 
 }
 
 .step {
@@ -175,7 +196,7 @@
 .footer{
   height: 20vh;         
   
-  background: linear-gradient(to top, orange 0%, white 100%);
+  background: linear-gradient(to top, rgb(110, 161, 249) 0%, white 100%);
   position: fixed;       
   bottom: 0; 
 }
@@ -195,7 +216,7 @@
 
 .signUpMessage {
   margin-bottom: 1.5rem;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #333;
 }
 
@@ -206,17 +227,22 @@
 }
 
 .bottomButtons .btn {
+  width: 20%;
   padding: 0.6rem 1.2rem;
-  background: rgba(247, 174, 85, 0.957);;
+  background-color:rgb(105, 170, 250);
+
   color: #fff;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
 .bottomButtons .btn:hover {
   transform: translateY(-2px);
+  background-color: rgb(85, 150, 230);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
 /* 📱 Mobile responsiveness */

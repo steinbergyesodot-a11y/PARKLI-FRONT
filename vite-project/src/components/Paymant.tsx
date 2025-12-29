@@ -3,8 +3,15 @@ import '../style/Paymant.css'
 import axios from "axios";
 import { use, useContext } from "react";
 import { UserContext } from "../userContext";
+import { jwtDecode } from "jwt-decode";
 
 
+
+interface MyTokenPayload {
+  _id: string;
+  name: string;
+  role: string;
+}
 
 
  
@@ -25,14 +32,15 @@ export function Payment() {
   const location = useLocation();
   const state = location.state as PaymentState | null;
   
-  const context = useContext(UserContext);
-  const user = context?.user;
-  const userId = user?._id
+  const token = localStorage.getItem("authToken");
+  if (!token) return; 
+  const decoded = jwtDecode<MyTokenPayload>(token);
+  const userId = decoded._id;
   
   function sendHome() {
     navigate('/Home');
   }
-    // Guard for refresh / direct access
+    
     if (!state) {
     return (
         <div className="payment-fallback">
@@ -52,6 +60,8 @@ export function Payment() {
   } = state;
 
     async function handlePay(){
+      
+
        
         try{
             const response = await axios.post('http://localhost:4000/api/bookings', {
@@ -64,7 +74,6 @@ export function Payment() {
                 gameDate: gameDate 
     
             })
-            console.log("Payment response:", response.data);
             
             const response2 = await axios.put(`http://localhost:4000/api/driveways/${driveway_id}/${gameDate}`)
             alert("Payment successful! Your spot is booked.");

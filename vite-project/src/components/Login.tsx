@@ -37,8 +37,8 @@ export function Login() {
           password: password,
           email: email
       })
-      console.log("success:",(await response).data.token)
       const token = (await response).data.token
+      console.log(token)
 
       localStorage.setItem("authToken", token);
 
@@ -92,6 +92,7 @@ export function Login() {
 
         <button className="login-btn" type="submit">Log In</button>
       </form>
+
     </div>
   );
 }

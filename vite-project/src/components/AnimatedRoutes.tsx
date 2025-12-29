@@ -8,7 +8,6 @@ import { Dashboard } from "./Dashboard";
 import { About } from "./About";
 import AddDriveway from "./AddDriveway";
 import { DrivewayDetailed } from "./DrivewayDetailed";
-import { Booking } from "./Booking";
 import { Payment } from "./Paymant";
 
 export function AnimatedRoutes() {
@@ -33,7 +32,6 @@ export function AnimatedRoutes() {
         <Route path="DrivewayDetailed/:id" element={<DrivewayDetailed />} />
         <Route path="DrivewayDetailed/:id/Payment" element={<Payment />} />
 
-        <Route path="/Booking" element={<Booking />} />
       </Routes>
     </div>
   );

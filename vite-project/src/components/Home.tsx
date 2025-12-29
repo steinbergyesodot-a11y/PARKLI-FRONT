@@ -20,7 +20,7 @@ export function Home() {
 
 
  function logOut(){
-   localStorage.removeItem("token")
+   localStorage.removeItem("authToken")
    userContext?.setUser(null)
    navigate("/Home");
  }
