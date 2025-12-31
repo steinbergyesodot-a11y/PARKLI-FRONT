@@ -5,21 +5,32 @@ import { UserContext } from '../userContext'
 import axios from 'axios'
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
+import { address, object } from "framer-motion/client";
+import imageCompression from "browser-image-compression";
+
 
 
 type MyPayload = JwtPayload & { _id?: string; name?: string; };
 
+interface drivewayFormData {
+  ownerId: string;
+  address: string;
+  walk: string;
+  price: string;
+  images: File[];
 
+  description: string;
+}
 
 
 export function AddDriveway() {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<drivewayFormData>({
     ownerId: "",
     address: "",
     walk: "",
     price: "",
-    image: "",
+    images: [],
     description: ""
   });
   const [message, setMessage] = useState("");
@@ -54,18 +65,21 @@ export function AddDriveway() {
   }, []);
 
 
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-  
+  const handleChange = (
+  field: keyof drivewayFormData,
+  value: string | File | File[] | null
+) => {
+  setFormData(prev => ({ ...prev, [field]: value }));
+};
+
 
   function sendHome(){
     navigate('/Home')
   }
   
   async function handleSubmit(){
-
-        if(!formData.address || !formData.image || !formData.price  || !formData.walk){
+  
+        if(!formData.address || !formData.images || !formData.price  || !formData.walk){
           alert("Missing field")
           return
         }
@@ -77,45 +91,54 @@ export function AddDriveway() {
       const decoded = jwtDecode<MyPayload>(token);
       const userId = decoded._id;
       
+
+      const data = new FormData()
+      data.append("ownerId", userId || "");
+      data.append("address", formData.address);
+      data.append("walk", formData.walk);
+      data.append("price", formData.price);
+      data.append("description", formData.description);
+      const options = { 
+        maxSizeMB: 1,
+         maxWidthOrHeight: 1920, 
+        useWebWorker: true 
+      };
+      for (const file of formData.images) { 
+        console.log("Original size:", file.size);
+        const compressedFile = await imageCompression(file, options); 
+        console.log("Compressed size:", compressedFile.size);
+        data.append("images", compressedFile); 
+      }
       
     
 
         try{
-          const response = await axios.post(
-            'http://localhost:4000/api/driveways',{
-            ownerId : userId,
-            address : formData.address,
-            walk: formData.walk,
-            price: formData.price,
-            image: formData.image,
-            description: formData.description,
-            },
-            {
-           headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}` 
-          },
-       }
-      
-      );
-      
-      if(response.status === 201){
-        setMessage("Thanks for adding your driveway! It’s now available for bookings:)")
-      }
-      
-      console.log(response.data)
-    }catch(error : any){
-      if(error.response){
-        console.error("Backend error:", error.response.status, error.response.data);
-      }
-      else if(error.request){
-        console.error("No response received:", error.request);
-      }
-      else{
-        console.error("Axios setup error:", error.message);
-      }
+            console.log(data)
+            const response = await axios.post('http://localhost:4000/api/driveways',data,{
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data"
+              }
+            })
+            
+            if(response.status === 201){
+              setMessage("Thanks for adding your driveway! It’s now available for bookings:)")
+            }
+        
+            console.log(response.data)
+
+        }catch(error : any){
+            if(error.response){
+              console.error("Backend error:", error.response.status, error.response.data);
+            }
+            else if(error.request){
+              console.error("No response received:", error.request);
+            }
+            else{
+              console.error("Axios setup error:", error.message);
+            }
+          }
     }
-  }
   
   }
 
@@ -207,15 +230,35 @@ export function AddDriveway() {
 
         {step === 4 && (
           <div className="step">
-            <h2 className="priceTitle">Add your pictures!</h2>
-            <input
-              className="imageInput"
-              type="text"
-              placeholder="Image URL"
-              value={formData.image}
-              onChange={e => handleChange("image", e.target.value)}
-            />
-          </div>
+  <h2 className="priceTitle">Add your pictures!</h2>
+
+  <div className="imageUploadBox">
+    <label className="uploadArea">
+      <span className="uploadText">Click to upload or drag images here</span>
+      <input
+        className="imageInput"
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={e => {
+          const newFiles = e.target.files ? Array.from(e.target.files) : [];
+          handleChange("images", [...formData.images, ...newFiles]);
+        }}
+      />
+      {formData.images.length > 0 && (
+  <div className="previewGrid">
+    {formData.images.map((file, index) => (
+      <div key={index} className="previewItem">
+        <img src={URL.createObjectURL(file)} alt={`preview-${index}`} />
+      </div>
+    ))}
+  </div>
+)}
+
+    </label>
+  </div>
+</div>
+
         )}
 
         {step === 5 && (
