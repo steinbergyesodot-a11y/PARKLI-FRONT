@@ -15,7 +15,7 @@ interface Spot {
   walk: number;
   stadium: string;
   price: number;
-  image: string;
+  images: string[];
   PostedAt: string;
 }
 
@@ -101,10 +101,9 @@ export function Dashboard(){
                     
                     key={driveway._id}
                     drivewayCardId={driveway._id}
-                    imageUrl={driveway.image}
                     address={driveway.address}
-                    distance={driveway.walk}           
-                    stadium={driveway.stadium}
+                    distance={driveway.walk}
+                    images={driveway.images}           
                     price={driveway.price} 
                     />
 

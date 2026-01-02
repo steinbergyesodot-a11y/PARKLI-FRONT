@@ -2,17 +2,18 @@ import { useNavigate } from 'react-router';
 import '../style/DrivewayCard.css'
 import { DrivewayDetailed } from './DrivewayDetailed';
 
+
 type DrivewayCard = {
     drivewayCardId: string,
-    imageUrl: string,
     address: string,
     distance: number,
-    stadium: string,
-    price: number
+    price: number,
+    images: string[]
 }
 
 
-export function DrivewayCard({drivewayCardId,imageUrl,address,distance,stadium,price}:DrivewayCard){
+
+export function DrivewayCard({drivewayCardId,address,distance,price,images}:DrivewayCard){
 
     const navigate = useNavigate();
 
@@ -24,7 +25,7 @@ export function DrivewayCard({drivewayCardId,imageUrl,address,distance,stadium,p
     return(
         <div>
             <div className='AddContainer'>
-                <img src={imageUrl}alt="driveway" />
+                <img src={images[0]}alt="driveway" />
 
                 <div className='carData'>
                     <h3 className='address'>{address}</h3>

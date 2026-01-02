@@ -19,6 +19,9 @@ import { LiaCcAmex } from "react-icons/lia";
 import { FaCcMastercard } from "react-icons/fa";
 import { address, h2, p } from 'framer-motion/client';
 import { BsCurrencyDollar } from "react-icons/bs";
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
+import { FaRegArrowAltCircleRight } from "react-icons/fa";
+
 
 
 
@@ -26,7 +29,7 @@ import { BsCurrencyDollar } from "react-icons/bs";
 interface Driveway {
   address: string;
   ownerId: string;
-  imageUrl: string;
+  images: string[];
   walk: string;
   price: string;
   description: string;
@@ -52,6 +55,8 @@ export function DrivewayDetailed() {
   const [coords, setCoords] = useState<Coords | null>(null);
   const [showSchedual, setShowSchedual] = useState(false)
   const [games, setGames] = useState<Game[]>([]);
+  const [images,setImages] = useState([])
+  const [curImage,setCurImage] = useState(1)
   
   
   const token = localStorage.getItem("authToken")  
@@ -79,6 +84,19 @@ export function DrivewayDetailed() {
     navigate('/Home');
   }
 
+function handleCurImage() {
+  setCurImage(prev =>
+    prev === images.length - 1 ? 0 : prev + 1
+  );
+}
+
+function handleCurImageBack() {
+  setCurImage(prev =>
+    prev === 0 ? images.length - 1 : prev - 1
+  );
+}
+
+
   function handleSchedual(){
     
     if(!token){
@@ -93,6 +111,9 @@ export function DrivewayDetailed() {
     `http://localhost:4000/api/driveways/${id}`
   );
   const driveway = response.data.driveway;
+  const images = response.data.driveway.images
+  console.log(images)
+  setImages(images)
   setGames(response.data.driveway.games || []);
   setDriveway(driveway);
   
@@ -123,7 +144,6 @@ useEffect(() => {
   }, [id]);
 
  useEffect(() => {
-  console.log("Updated games:", games);
 }, [games]);
 
 
@@ -153,10 +173,10 @@ useEffect(() => {
         <h3>Future Games</h3>
 
          {games.length === 0 ? (
-            <p>No games available</p>
+           <p>No games available</p>
           ) : (
-          games.map((game, index) => (
-            <div key={index}>
+            games.map((game, index) => (
+              <div key={index}>
               
 
               <section className='gameRow'>
@@ -180,10 +200,12 @@ useEffect(() => {
       </div>
       </>
       : 
-
+      
       <div className="containor22">
+
+
         <section className="imagesArea">
-        <div className="leftSide">
+        <div className="map">
            {coords && (
              <LoadScriptNext googleMapsApiKey="AIzaSyBCuQJ5ztmnPHGjtp8yXJ3_tzufzchq3jg">
                <GoogleMap
@@ -197,19 +219,22 @@ useEffect(() => {
             )}
       </div>
 
+            <div className="image-wrapper">
+                <FaRegArrowAltCircleLeft className="arrowLeft" onClick={handleCurImageBack}/>
+                <img
+                key={curImage}  
+                  src={images[curImage]}
+                  alt=""
+                  className='pictures fade'
+                />
+                <FaRegArrowAltCircleRight className="arrowRight" onClick={handleCurImage}/>
 
-          <div className="rightSide">
-            <img
-              src="https://www.bing.com/th/id/OIP.jvY78OZ04uIJJVeUg4NgPgHaEC?w=283&h=211&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.3&pid=3.1&rm=2"
-              alt=""
-              className="topImage"
-            />
-            <img
-              src="https://tse3.mm.bing.net/th/id/OIP.KfZRliBlBQ2eWo4e2w2BVgHaFj?w=260&h=195&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
-              alt=""
-              className="bottomImage"
-            />
-          </div>
+                <div className="image-index">
+                  {curImage + 1} / {images.length} 
+                </div>
+            </div>
+
+        
         </section>
 
             

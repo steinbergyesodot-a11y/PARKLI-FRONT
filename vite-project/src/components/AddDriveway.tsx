@@ -104,9 +104,7 @@ export function AddDriveway() {
         useWebWorker: true 
       };
       for (const file of formData.images) { 
-        console.log("Original size:", file.size);
         const compressedFile = await imageCompression(file, options); 
-        console.log("Compressed size:", compressedFile.size);
         data.append("images", compressedFile); 
       }
       
