@@ -14,6 +14,8 @@ interface JwtPayload {
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
+
 
   const userContext = useContext(UserContext);
   const navigate = useNavigate();
@@ -32,12 +34,13 @@ export function Login() {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
+    setErrorMsg("");
     try{
-      const response = axios.post('http://localhost:4000/api/users/login', {
+      const response = await axios.post('http://localhost:4000/api/users/login', {
           password: password,
           email: email
       })
-      const token = (await response).data.token
+      const token = response.data.token
       console.log(token)
 
       localStorage.setItem("authToken", token);
@@ -57,8 +60,13 @@ export function Login() {
       }
      
     }catch(error:any){
-      console.error("error",error.response?.data || error.message);
-      
+      const message = 
+        error.response?.data?.message ||
+        error.response?.data ||
+        error.message ||
+        "Login failed"
+      ;
+      setErrorMsg(message);      
     }
     
   }
@@ -87,8 +95,10 @@ export function Login() {
             value={password} 
             onChange={handlePassword} 
             placeholder="Enter your password"
+             className={errorMsg ? "shake" : ""}
           />
         </div>
+        {errorMsg && <p className="error-msg">{errorMsg}</p>}
 
         <button className="login-btn" type="submit">Log In</button>
       </form>

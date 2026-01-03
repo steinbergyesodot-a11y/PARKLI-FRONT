@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { UserContext } from '../userContext'
 import { Nav, NavDropdown } from "react-bootstrap";
 import axios from "axios";
+import { ProfileDropdown } from "./ProfileDropdown";
 
 
 
@@ -56,36 +57,7 @@ export function Dashboard(){
                <img src="assets/logo.png" alt="logo" className="logoDash" onClick={sendHome} />
               <Nav className="topRightCornerDashboard">
               {user && (
-              <NavDropdown
-                title={
-                    <img
-                      src="https://copilot.microsoft.com/th/id/BCO.ac148c78-7814-4bb5-ad6e-a5b326076eab.png"
-                      alt="User avatar"
-                      className="avatar"
-                    />
-                  
-                }
-                id="profile-dropdown"
-                align="end"
-              >
-                <NavDropdown.Item as={Link} to="/profile" className="linkChoice">
-                  Profile
-                </NavDropdown.Item>
-
-                <NavDropdown.Divider />
-
-                <NavDropdown.Item as={Link} to="/settings" className="linkChoice">
-                  Settings
-                </NavDropdown.Item>
-
-                <NavDropdown.Divider />
-
-                <NavDropdown.Item as={Link} to="/logout" className="linkChoice">
-                  Log Out
-                </NavDropdown.Item>
-
-
-              </NavDropdown>
+              <ProfileDropdown/>
             )}
           </Nav>
          

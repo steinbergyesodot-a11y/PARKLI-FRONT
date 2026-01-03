@@ -156,9 +156,16 @@ export function AddDriveway() {
       <div className="success-message animated">
         {message}
       </div>
-    ) : user ? (
+    ) : 
+
+    user ? (
       // Show the multi-step form if logged in
+
       <div className="box5">
+       
+
+
+
         {step === 1 && (
           <div className="location5 step">
             <h2 className="locationHeader5">Where's your driveway located?</h2>
@@ -217,12 +224,24 @@ export function AddDriveway() {
           <div className="step">
             <h2 className="priceTitle">Price</h2>
             <h4 className="priceTitle">Set your price per reservation (in USD).</h4>
-            <input
+            {/* <input
               className="inputPrice"
               type="text"
               value={formData.price}
-              onChange={e => handleChange("price", e.target.value)}
-            />
+              /> */}
+            <select
+            value={formData.price}
+            onChange={e => handleChange("price", e.target.value)}
+            className="price-dropdown"
+            >
+              <option value="">Select price</option> 
+              {Array.from({ length: 100 }, (_, i) => i + 1).map((num) => (
+                 <option key={num} value={num}>
+                   {num} 
+                   </option>
+                   ))}
+
+            </select>
           </div>
         )}
 
@@ -294,7 +313,7 @@ export function AddDriveway() {
               </button>
             )}
           </section>
-          <p className="helper">Step {step} of 5</p>
+          <p className="helper">Step {step} of 5</p> 
         </section>
       </div>
     ) : (

@@ -21,6 +21,10 @@ import { address, h2, p } from 'framer-motion/client';
 import { BsCurrencyDollar } from "react-icons/bs";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { FaRegArrowAltCircleRight } from "react-icons/fa";
+import { MdArrowCircleRight } from "react-icons/md";
+import { MdArrowCircleLeft } from "react-icons/md";
+
+
 
 
 
@@ -220,14 +224,14 @@ useEffect(() => {
       </div>
 
             <div className="image-wrapper">
-                <FaRegArrowAltCircleLeft className="arrowLeft" onClick={handleCurImageBack}/>
+                <MdArrowCircleLeft className="arrowLeft" onClick={handleCurImageBack}/>
                 <img
                 key={curImage}  
                   src={images[curImage]}
                   alt=""
                   className='pictures fade'
                 />
-                <FaRegArrowAltCircleRight className="arrowRight" onClick={handleCurImage}/>
+                <MdArrowCircleRight className="arrowRight" onClick={handleCurImage}/>
 
                 <div className="image-index">
                   {curImage + 1} / {images.length} 

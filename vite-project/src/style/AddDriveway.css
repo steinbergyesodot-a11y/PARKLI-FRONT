@@ -152,6 +152,22 @@ input::placeholder {
 }
 
 
+.price-dropdown {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.price-dropdown:hover {
+  border-color: #888;
+}
+
+
+
 .line{
     width: 100vw;
     height: 1px;
