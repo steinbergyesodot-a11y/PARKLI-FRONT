@@ -374,3 +374,133 @@ input::placeholder {
   border-radius: 8px;
   border: 1px solid #ccc;
 }
+
+
+
+.policy-container {
+  max-width: 40vw;   /* narrow container */
+  margin: 0 auto;
+  margin-top: 3%;
+}
+
+.policy-box {
+  height: 50vh;        /* fixed height */
+  overflow-y: scroll;   /* scrollable */
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f8f8f8;
+}
+
+.policy-box p {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.agree-label {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.agree-label input {
+  margin-right: 10px;
+}
+
+.agreeButton{
+    padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  background:rgb(105, 170, 250);
+  color: white;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.agreeButton:disabled { 
+   background-color: #b5c7e0;
+    cursor: not-allowed;
+     opacity: 0.6;
+}
+
+
+.priceInfo{
+    font-size: 1.3rem;
+    display: flex;
+    gap: 2vw;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.pricing-note {
+  background: #f5f7fa;
+  border-left: 4px solid #4a90e2;
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.pricing-note strong {
+  color: #2a5db0;
+}
+
+.pricing-note:hover {
+  background: #eef3f8;
+  transition: background 0.25s ease;
+}
+
+.image-note {
+  border-left: 4px solid #3a8dde;
+    border-left: 4px solid #3a8dde;
+
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #5a4a2e;
+  line-height: 1.5;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.image-note strong {
+  color: #b57a00;
+}
+
+.image-note:hover {
+  transition: background 0.25s ease;
+}
+
+.info-note {
+  background: #eef7ff;
+  border-left: 4px solid #3a8dde;
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #2f3e4d;
+  line-height: 1.5;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.info-note strong {
+  color: #1f6fb2;
+}
+
+.info-note:hover {
+  background: #e4f1ff;
+  transition: background 0.25s ease;
+}
+
+
+.addedCarMsg{
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 5%;
+  font-weight: 600;
+}

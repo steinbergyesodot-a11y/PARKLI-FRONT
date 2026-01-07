@@ -42,6 +42,7 @@ interface Driveway {
 
 type Game = {
   visiting_team: string;
+  game_time: string;
   date: string;
   booked: boolean;
 };
@@ -78,7 +79,8 @@ export function DrivewayDetailed() {
             address: driveway?.address,
             price: driveway?.price,
             visiting_team: game.visiting_team,
-            gameDate: game.date
+            gameDate: game.date,
+            parkingTime : "7:00"
             
           }
         });
@@ -160,7 +162,7 @@ useEffect(() => {
           alt="logo"
           className='logoDash'
           onClick={sendHome}
-        />
+          />
       </div>
 
       {showSchedual ? 
@@ -180,19 +182,26 @@ useEffect(() => {
            <p>No games available</p>
           ) : (
             games.map((game, index) => (
-              <div key={index}>
+            
+                
               
+              <div key={index}>
+              <>
+                
 
               <section className='gameRow'>
               <span className="game-date">{game.date}</span>
               <span className="game-vs">vs</span>
               <span className="game-team">{game.visiting_team}</span>
+              <span className="game-date">@ {game.game_time}</span>
+
               <span className={`game-status ${game.booked ? 'booked' : 'available'}`} 
               onClick={game.booked ? undefined : () => paymentPage(game)}>
             {game.booked ? 'Booked' : 'Available'}
              </span>  
               </section>
               
+            </>
             </div>
           ))
         )}

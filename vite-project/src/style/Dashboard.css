@@ -105,8 +105,72 @@ overflow-y: auto;
   flex-direction: column;
 }
 
-.dashboard {
-  flex: 1;
+.dashboard { 
+    display: flex;
+    flex-direction: column;
+    gap: 16px; width: 60vw;
+    height: 500px;
+    overflow-y: auto; 
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    scroll-behavior: smooth;
+  }
+
+/* Wraps dashboard + right panel side by side */
+.dashboard-wrapper { 
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 100%; 
+  padding-left: 40px;
+ }
+
+
+
+
+.rightPanel {
+  width: 25%;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  height: 550px; /* match dashboard height */
+}
+
+
+.rightPanel {
+  width: 22vw;
+  max-width: 350px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  height: 500px;
   overflow-y: auto;
-  padding-right: 8px; /* space for scrollbar */
+}
+
+.rulesTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.rulesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rulesList li {
+  margin-bottom: 10px;
+  padding-left: 12px;
+  border-left: 3px solid #007bff;
+  color: #444;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

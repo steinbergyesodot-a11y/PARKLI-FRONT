@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { use, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { UserContext } from '../userContext';
 import { jwtDecode } from "jwt-decode";
@@ -41,8 +41,7 @@ export function Login() {
           email: email
       })
       const token = response.data.token
-      console.log(token)
-
+      
       localStorage.setItem("authToken", token);
 
       const decoded: JwtPayload = jwtDecode(token);

@@ -115,12 +115,6 @@
 }
 
 
-.priceInfo{
-    font-size: 1.3rem;
-    display: flex;
-    gap: 2vw;
-    font-family: 'Times New Roman', Times, serif;
-}
 
 .moneyIcon{
     font-size: 2rem;
@@ -282,11 +276,12 @@ button {
   border-radius: 8px;
 }
 
-.gameRow{
-  display: flex;
+.gameRow {
+  display: grid;
+  grid-template-columns: 120px 40px 200px 100px auto;
   align-items: center;
-  width: 30%;
-  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .games h3 {
@@ -326,7 +321,7 @@ button {
 }
 
 .game-status.booked {
-  background-color: red;
+  background-color: rgb(220, 6, 6);
   color: white;
   padding: 4px 6px;
   border-radius: 3px;

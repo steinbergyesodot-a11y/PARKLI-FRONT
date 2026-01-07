@@ -21,68 +21,77 @@ interface Spot {
 }
 
 
-export function Dashboard(){
-    const [cards, setCards] = useState<Spot[]>([]);
+export function Dashboard() {
+  const [cards, setCards] = useState<Spot[]>([]);
+  const userContext = useContext(UserContext);
+  const user = userContext?.user;
+  const navigate = useNavigate();
 
-    const userContext = useContext(UserContext)
-    const user = userContext?.user
-
-    const navigate = useNavigate();
-
-    
-    async function fetchData(){ 
-      try{ 
+  async function fetchData() {
+    try {
       const res = await axios.get("http://localhost:4000/api/driveways/");
-       setCards(res.data.driveways);
-       console.log(res.data.drivways)
-      }
-      catch (err){
-        console.error("Failed to fetch driveways:", err); 
-      } 
+      setCards(res.data.driveways);
+    } catch (err) {
+      console.error("Failed to fetch driveways:", err);
     }
-    
-    useEffect(() => {
-        fetchData();
-    },[])
+  }
 
-   function sendHome(){
-        navigate('/Home')
-    }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
+  function sendHome() {
+    navigate("/Home");
+  }
 
-    return(
-        <div className='app-container'>
-          
-            <div className="topDashboard">
-               <img src="assets/logo.png" alt="logo" className="logoDash" onClick={sendHome} />
-              <Nav className="topRightCornerDashboard">
-              {user && (
-              <ProfileDropdown/>
-            )}
-          </Nav>
-         
-                
-            </div>
+  return (
+    <div className="app-container">
+      <div className="topDashboard">
+        <img
+          src="assets/logo.png"
+          alt="logo"
+          className="logoDash"
+          onClick={sendHome}
+        />
+        <Nav className="topRightCornerDashboard">
+          {user && <ProfileDropdown />}
+        </Nav>
+      </div>
 
-<div className="dashboard-panel">
-            <section className="dashboard">
-               
-                {cards.map((driveway) => (
+      {/* FLEX ROW WRAPPER ADDED HERE */}
+      <section className="dashboard-wrapper">
+        {/* LEFT SIDE — SCROLLABLE LIST */}
+        <section className="dashboard">
+          {cards.map((driveway) => (
+            <DrivewayCard
+              key={driveway._id}
+              drivewayCardId={driveway._id}
+              address={driveway.address}
+              distance={driveway.walk}
+              images={driveway.images}
+              price={driveway.price}
+            />
+          ))}
+        </section>
 
-                    <DrivewayCard
-                    
-                    key={driveway._id}
-                    drivewayCardId={driveway._id}
-                    address={driveway.address}
-                    distance={driveway.walk}
-                    images={driveway.images}           
-                    price={driveway.price} 
-                    />
-
-                ))}
-
-            </section>
-            </div>
+        {/* RIGHT SIDE — TEXT */}
+        <div className="rightPanel">
+          <h2 className="rulesTitle">Booking Rules</h2>
+          <ul className="rulesList"> 
+            <li>Arrive up to 30 minutes before the start of the game or event.</li>
+            <li>Park only in the assigned driveway or spot.</li>
+            <li>Respect the booking time and leave on schedule.</li>
+            <li>Follow any instructions provided by the host.</li> 
+            <li>Keep noise to a minimum when arriving or leaving.</li> 
+            <li>Use only the registered vehicle for your booking.</li> 
+            <li>No overnight parking unless the listing allows it.</li> 
+            <li>Do not leave trash or belongings behind.</li> 
+            <li>Report any issues immediately through the app.</li> 
+            <li>No illegal or unsafe activities on the property.</li> 
+            <li>Cancellations must follow the platform policy.</li> 
+          </ul>
         </div>
-    )
+      </section>
+    </div>
+  );
 }

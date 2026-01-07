@@ -22,6 +22,7 @@ type PaymentState = {
   price: number;
   visiting_team: string;
   gameDate: string;
+  parkingTime: string
 };
 
 
@@ -55,6 +56,7 @@ export function Payment() {
     owner_id,
     address,
     price,
+    parkingTime,
     visiting_team,
     gameDate
   } = state;
@@ -64,14 +66,15 @@ export function Payment() {
 
        
         try{
-            const response = await axios.post('http://localhost:4000/api/bookings', {
+            const response = await axios.post('http://localhost:4000/api/bookings', { // add to bookings collection
                 renterId: userId,
                 ownerId: owner_id,
                 drivewayId: driveway_id,
                 address: address,
                 price: price,
                 visiting_team: visiting_team,
-                gameDate: gameDate 
+                gameDate: gameDate,
+                parkingTime: parkingTime
     
             })
             
