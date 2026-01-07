@@ -16,30 +16,29 @@
 }
 
 
+.topLine{
+  display: flex;
+  justify-content: center;
+}
 
 
 .homeHeader{
     display: flex;
-    justify-content: space-between;
-    width: 70vw;
-    height: 15vh;
-    
+    /* justify-content: space-between; */
 }    
    
 .homeLogo{
-  /* margin-left: 2%; */
   height: 150px; width: auto;
-  
-  
 }
+
 .Navbar{
       display: flex;
-      gap: 3%;
+      gap: 7%;
       padding: 0.5%;
-      justify-content:space-between;
+      /* justify-content:space-between; */
       align-items:center;
-      height: 40%;
-      width: 60%;
+      height: 10vh;
+      width: 75vw;
       background-color: white;
       border-radius: 5px;
       text-decoration: none;
@@ -50,12 +49,21 @@
 
   }
   
-  
+  .sectionA{
+    display: flex;
+    gap: 1vw;
+  }
+
+    .sectionB{
+      margin-left: 9%;
+    display: flex;
+    gap: 1vw;
+  }
   
 .btnNav {
   height: 50%;
   color: #444;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
   text-decoration: none;
@@ -83,7 +91,7 @@
 }
 
 
-.topRightCorner{
+/* .topRightCorner{
   display:block;
   margin-right: 45px; 
   height: 50%;
@@ -93,13 +101,9 @@
   position: relative;
   z-index: 1000;   
   
-}  
+}   */
 
 
-.topLine{
-  display: flex;
-  justify-content: space-between;
-}
 
 .text{
   text-align: center;
@@ -109,39 +113,41 @@
   font-size: 2.5rem;
 }
 
+.text h1{
+  color: #ffffff; font-weight: 800;
+}
+
+.searching{
+  display: flex;
+  justify-content: center;
+}
 
 
 .search-container {
   position: relative;
   border-radius: 9999px;
   width: 100%;
-  max-width: 700px;              /* keeps it from stretching too wide */
-  margin: 0 auto;                /* center horizontally */
+  max-width: 700px;              
 }
 
 .search-input {
   color: white;
   width: 100%;
-  height: 7vh;
-  padding: 0.75rem 2.5rem 0.75rem 1rem; /* extra right padding for icon */
+  height: 8vh;
+  padding: 0.75rem 2.5rem 0.75rem 1rem; 
   font-size: 1rem;
   border: 3px solid #ccc;
   border-radius: 9999px;
   outline: none;
-  background: rgba(255, 255, 255, 0.1);
-
-
-backdrop-filter: blur(2px);
-
-
-          /* frosted glass effect */
-  box-sizing: border-box;               /* ensures padding doesn’t break width */
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;               
 }
 
 input::placeholder {
   color: white;
   font-style:initial;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 
 .search-button {
