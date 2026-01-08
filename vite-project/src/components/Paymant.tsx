@@ -11,6 +11,7 @@ interface MyTokenPayload {
   _id: string;
   name: string;
   role: string;
+  userType: string
 }
 
 interface Confirmation {
@@ -48,6 +49,7 @@ export function Payment() {
   if (!token) return; 
   const decoded = jwtDecode<MyTokenPayload>(token);
   const userId = decoded._id;
+  const userType = decoded.userType
   const userName = decoded.name
 
   function sendHome() {

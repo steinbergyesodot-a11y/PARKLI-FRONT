@@ -340,36 +340,36 @@ export function AddDriveway() {
                     <div className="step">
                     <h2 className="priceTitle">Add your pictures!</h2>
                     <div className="image-note">
-  <strong>Tip:</strong> Please upload clear, high‑quality photos of your driveway. Good lighting and accurate angles help renters feel confident and increase your chances of getting booked.
-  </div>
+                    <strong>Tip:</strong> Please upload clear, high‑quality photos of your driveway. Good lighting and accurate angles help renters feel confident and increase your chances of getting booked.
+                    </div>
   
   
-  <div className="imageUploadBox">
-  <label className="uploadArea">
-  <span className="uploadText">Click to upload or drag images here</span>
-  <input
-  className="imageInput"
-  type="file"
-  accept="image/*"
-  multiple
-  onChange={e => {
-    const newFiles = e.target.files ? Array.from(e.target.files) : [];
-    handleChange("images", [...formData.images, ...newFiles]);
-  }}
+                    <div className="imageUploadBox">
+                    <label className="uploadArea">
+                    <span className="uploadText">Click to upload or drag images here</span>
+                    <input
+                    className="imageInput"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={e => {
+                      const newFiles = e.target.files ? Array.from(e.target.files) : [];
+                      handleChange("images", [...formData.images, ...newFiles]);
+                    }}
   />
-      {formData.images.length > 0 && (
-        <div className="previewGrid">
-    {formData.images.map((file, index) => (
-      <div key={index} className="previewItem">
-        <img src={URL.createObjectURL(file)} alt={`preview-${index}`} />
-      </div>
-    ))}
-    </div>
-  )}
-  
-  </label>
-  </div>
-  </div>
+            {formData.images.length > 0 && (
+              <div className="previewGrid">
+          {formData.images.map((file, index) => (
+            <div key={index} className="previewItem">
+              <img src={URL.createObjectURL(file)} alt={`preview-${index}`} />
+            </div>
+          ))}
+          </div>
+        )}
+        
+        </label>
+        </div>
+        </div>
   
         )}
         
