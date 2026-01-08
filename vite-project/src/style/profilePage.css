@@ -1,0 +1,55 @@
+.profileAvatar{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.topLineProfile{
+    display: flex;
+    gap: 3%;
+}
+
+.namemail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10%;
+}
+
+.namemail p{
+    font-size: 1.2rem;
+    margin: 0%;
+}
+
+.name{
+    font-weight: 800;
+}
+
+.email{
+    color: gray;
+}
+
+.navs{
+    margin-top: 2vh;
+    display: flex;
+    width: 50vw;
+    justify-content: flex-start;
+}
+
+
+.navsBtn { 
+    padding: 5px;
+    font-size: 1.2rem;
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.63);
+    border: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-bottom-color 0.2s;
+} 
+
+.navsBtn.active { 
+    color: rgba(0, 0, 0, 0.9);
+    border-bottom-color: rgba(0, 0, 0, 0.9);
+}

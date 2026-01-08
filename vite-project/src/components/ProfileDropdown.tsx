@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import '../style/ProfileDropdown.css'
 import { UserContext } from "../userContext";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export function ProfileDropdown() {
   const [open, setOpen] = useState(false);
@@ -19,6 +19,10 @@ export function ProfileDropdown() {
    navigate("/Home");
  }
 
+  function toProfile(){
+    navigate('/Profile')
+  }
+
   return (
     <div className="profile-wrapper" ref={menuRef}>
       <img
@@ -30,7 +34,7 @@ export function ProfileDropdown() {
 
       {open && (
         <div className="dropdown-menu">
-          <button>Profile</button>
+          <button onClick={toProfile}>Profile</button>
           <button>Settings</button>
           <button>Help</button>
           <button className="logout" onClick={logOut}>Log out</button>

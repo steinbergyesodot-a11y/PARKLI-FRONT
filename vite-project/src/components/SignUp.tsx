@@ -8,6 +8,8 @@ export function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState<"renter" | "DrivewayOwner">("renter");
+
 
   const navigate = useNavigate();
 
@@ -36,6 +38,7 @@ export function SignUp() {
           lastName,
           email,
           password,
+          userType
         }
       );
 
@@ -91,6 +94,25 @@ export function SignUp() {
             required
           />
         </div>
+
+        <div className="userTypeSelector">
+            <button
+              type="button"
+              className={userType === "DrivewayOwner" ? "active" : ""}
+              onClick={() => setUserType("DrivewayOwner")}
+            >
+              Driveway Owner
+            </button>
+            <button
+              type="button"
+              className={userType === "renter" ? "active" : ""}
+              onClick={() => setUserType("renter")}
+            >
+              Renter
+            </button>
+
+        </div>
+
 
         <button className="signup-btn" type="submit">
           Sign Up

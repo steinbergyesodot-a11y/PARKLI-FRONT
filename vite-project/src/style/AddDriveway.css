@@ -31,10 +31,10 @@
     align-items: center;
     width: 40vw;
     height: 30vh;
-    background-color:white;
+    /* background-color:white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    border: 1px solid black;
+    border-radius: 5px; */
+    /* border: 1px solid black; */
 }
 
 .locationHeader5{

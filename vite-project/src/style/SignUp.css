@@ -128,3 +128,32 @@
     max-width: 420px;
   }
 }
+
+.userTypeSelector {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.userTypeSelector button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 2px solid #b5b5b5;      /* gray border */
+  background: #e0e0e0;            /* light gray background */
+  color: #333;                    /* dark gray text */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.userTypeSelector button:hover {
+  background: #d5d5d5;
+}
+
+/* 🔵 Active = Blue */
+.userTypeSelector button.active {
+  background: #1e6ffb;           /* blue background */
+  border-color: #1e6ffb;
+  color: white;
+  transform: scale(1.03);
+}
