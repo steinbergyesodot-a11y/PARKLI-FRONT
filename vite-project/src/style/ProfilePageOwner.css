@@ -1,0 +1,186 @@
+.games {
+  padding: 1rem;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+}
+
+/* Title */
+.games h2 {
+  margin-bottom: 0.8rem;
+  font-size: 1.4rem;
+  color: gray;
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* Game row layout */
+.gameRow {
+  display: grid;
+  grid-template-columns: 120px 40px 200px 100px auto;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Date + time */
+.game-date {
+  font-weight: 600;
+  color: #333;
+}
+
+/* VS */
+.game-vs {
+  text-align: center;
+  color: #888;
+  font-weight: 500;
+}
+
+/* Team name */
+.game-team {
+  font-weight: 500;
+  color: #0055aa;
+}
+
+/* Status pill */
+.game-status {
+  justify-self: end;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* Booked */
+.game-status.booked {
+  width: 8vw;
+  background-color: rgb(220, 6, 6);
+  color: white;
+}
+
+/* Available */
+.game-status.available {
+    width: 8vw;
+
+  background-color: green;
+  color: white;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.game-status.available:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Remove border from last row */
+.gameRow:last-child {
+  border-bottom: none;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .gameRow {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 0.8rem 0;
+  }
+
+  .game-status {
+    justify-self: start;
+  }
+}
+
+
+.block-info {
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  background-color: #eef6ff;
+  border-radius: 8px;
+  border: 1px solid #d0e4ff;
+}
+
+.block-info-title {
+  margin: 0 0 0.4rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #004a99;
+}
+
+.block-info-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+.block-info-keyword {
+  font-weight: 600;
+  color: #0055aa;
+}
+
+
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.confirm-box {
+  background: white;
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 380px;
+padding: 1.5rem;
+
+}
+
+.confirm-box h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.confirm-box p {
+  margin: 0.5rem 0 1.2rem;
+  color: #444;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirm-yes {
+  background: #d9534f;
+  color: white;
+  width: 250px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirm-no {
+  background: #ccc;
+    width: 250px;
+
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirm-yes:hover {
+  background: #c9302c;
+}
+
+.confirm-no:hover {
+  background: #b3b3b3;
+}

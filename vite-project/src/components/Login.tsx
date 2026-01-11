@@ -45,6 +45,7 @@ export function Login() {
       localStorage.setItem("authToken", token);
 
       const decoded: JwtPayload = jwtDecode(token);
+      console.log(decoded)
       const now = Date.now() / 1000;
       if(decoded.exp > now){
         userContext?.setUser({ 

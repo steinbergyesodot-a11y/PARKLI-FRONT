@@ -2,6 +2,18 @@ import { useState, useEffect, useRef, useContext } from "react";
 import '../style/ProfileDropdown.css'
 import { UserContext } from "../userContext";
 import { Link, useNavigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
+
+
+
+interface MyTokenPayload {
+  _id: string;
+  name: string;
+  role: string;
+  userType: string;
+  email: string
+}
+
 
 export function ProfileDropdown() {
   const [open, setOpen] = useState(false);
@@ -12,6 +24,14 @@ export function ProfileDropdown() {
 
   const userContext = useContext(UserContext);
   let user = userContext?.user;
+
+  const token = localStorage.getItem("authToken");
+      if (!token) return; 
+      const decoded = jwtDecode<MyTokenPayload>(token);
+      const userId = decoded._id;
+      const userType = decoded.userType
+      const userName = decoded.name
+      const userEmail = decoded.email
  
    function logOut(){
    localStorage.removeItem("authToken")
@@ -19,9 +39,13 @@ export function ProfileDropdown() {
    navigate("/Home");
  }
 
-  function toProfile(){
-    navigate('/Profile')
+ function toProfile() {
+  if (userType === "renter") {
+    navigate("/Profile/renter");
+  } else if (userType === "DrivewayOwner") {
+    navigate("/Profile/DrivewayOwner");
   }
+}
 
   return (
     <div className="profile-wrapper" ref={menuRef}>

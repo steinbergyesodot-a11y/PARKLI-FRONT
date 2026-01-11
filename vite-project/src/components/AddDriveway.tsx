@@ -5,7 +5,6 @@ import { UserContext } from '../userContext'
 import axios from 'axios'
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
-import { address, object, p } from "framer-motion/client";
 import imageCompression from "browser-image-compression";
 import { ProfileDropdown } from "./ProfileDropdown";
 
@@ -37,6 +36,8 @@ export function AddDriveway() {
   const [message, setMessage] = useState("");
   const [policyNotAgreed, setPolicyNotAgreed] = useState(true)
   const [checked,setChecked] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+
 
    const userContext = useContext(UserContext)
    const user = userContext?.user
@@ -126,7 +127,7 @@ export function AddDriveway() {
     
 
         try{
-            console.log(data)
+          setIsLoading(true);
             const response = await axios.post('http://localhost:4000/api/driveways',data,{
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -414,6 +415,13 @@ export function AddDriveway() {
           </section>
           <p className="helper">Step {step} of 5</p> 
         </section>
+            {isLoading && (
+  <div className="loading-overlay">
+    <div className="loading-spinner"></div>
+    <p>Uploading your driveway…</p>
+  </div>
+)}
+
       </div>
     ) : (
       // Show login/signup prompt if no user

@@ -1,9 +1,19 @@
 import { useNavigate } from 'react-router';
 import '../style/About.css'
+import { jwtDecode } from 'jwt-decode';
+
 
 
 export function About() {
-      const navigate = useNavigate();
+       
+      
+          const navigate = useNavigate();
+
+
+
+
+ 
+      
 
    function sendHome(){
         navigate('/Home')
@@ -16,6 +26,7 @@ export function About() {
             
             </div>
       {/* Hero Section */}
+      
       <section className="hero">
         <div className="hero-overlay">
           <h1>About Parkli</h1>

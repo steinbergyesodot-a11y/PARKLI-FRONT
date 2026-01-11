@@ -23,6 +23,9 @@ import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { FaRegArrowAltCircleRight } from "react-icons/fa";
 import { MdArrowCircleRight } from "react-icons/md";
 import { MdArrowCircleLeft } from "react-icons/md";
+import { GrMoney } from "react-icons/gr";
+
+
 
 
 
@@ -61,7 +64,7 @@ export function DrivewayDetailed() {
   const [showSchedual, setShowSchedual] = useState(false)
   const [games, setGames] = useState<Game[]>([]);
   const [images,setImages] = useState([])
-  const [curImage,setCurImage] = useState(1)
+  const [curImage,setCurImage] = useState(0)
   
   
   const token = localStorage.getItem("authToken")  
@@ -267,8 +270,8 @@ useEffect(() => {
           </p>
 
           <p className='priceInfo'>
-            <MdAttachMoney className='moneyIcon' />
-            {driveway?.price} (USA)
+            <GrMoney className='moneyIcon' />
+           <div><MdAttachMoney /> {driveway?.price} (USD)</div>
           </p> 
 
               <p className='ratingInfo'>
@@ -308,7 +311,7 @@ useEffect(() => {
             <p className='more'>+more</p>
            </div>
 
-           <button onClick={handleSchedual}>Check Availablity</button>
+           <button onClick={handleSchedual} className='availBtn'>Reserve Now</button>
            </section>
  
 

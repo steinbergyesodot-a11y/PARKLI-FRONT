@@ -127,7 +127,7 @@
 .ratingInfo{
     display: flex;
     align-items: center;
-    gap: 2.3%;
+    gap: 2vw;
     font-size: 1.3rem;
 }
 
@@ -181,7 +181,7 @@
     justify-content: center;
     width: 100%;
     gap:2%;
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.26);
     border-radius: 5px;
 }
 
@@ -251,6 +251,21 @@ button {
   cursor: pointer;
 }
 
+.availBtn{
+  font-weight: 700;
+  background-color: #007BFF; /* Bold blue */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 8px; /* Rounded edges */
+  font-size: 1.3rem;
+
+}
+
+.availBtn:hover { 
+     background-color: #0056b3;
+     transform: scale(1.03);
+    }
+
 
 button {
   position: relative;
@@ -278,7 +293,8 @@ button {
 
 .gameRow {
   display: grid;
-  grid-template-columns: 120px 40px 200px 100px auto;
+  grid-template-columns: 120px 40px 200px 100px max-content;
+
   align-items: center;
   padding: 0.5rem 0;
   border-bottom: 1px solid #ddd;
@@ -317,11 +333,21 @@ button {
 .game-status {
   margin-left: auto;
   font-weight: 600;
+  display: inline-flex;
+   align-items: center;
+    justify-content: center;
+     min-width: 70px; 
+     height: 34px;
+  padding: 0;
+   border-radius: 6px; 
+   font-size: 14px; 
+   cursor: pointer;
   
 }
 
 .game-status.booked {
-  background-color: rgb(220, 6, 6);
+  background-color: #C0392B;
+
   color: white;
   padding: 4px 6px;
   border-radius: 3px;

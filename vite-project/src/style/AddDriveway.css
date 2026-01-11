@@ -397,6 +397,20 @@ input::placeholder {
   line-height: 1.5;
 }
 
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .agree-label {
   display: flex;
   align-items: center;
@@ -503,4 +517,30 @@ input::placeholder {
   font-size: 2rem;
   margin-top: 5%;
   font-weight: 600;
+    opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+  font-weight: 600;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #ccc;
+  border-top-color: #007bff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
 }
