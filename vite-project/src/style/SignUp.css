@@ -58,6 +58,14 @@
   border-color: black;
 }
 
+.userTypeNote {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+  margin-bottom: -10px; /* pulls it closer to the buttons */
+  text-align: center;
+}
+
 /* Button */
 .signup-btn {
   padding: 12px;

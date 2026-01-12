@@ -1,4 +1,3 @@
-import { FaUserEdit } from "react-icons/fa";
 import '../style/profilePage.css'
 import { act, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
@@ -6,7 +5,6 @@ import axios from "axios";
 import { BookingDash } from "./BookingsDash";
 import { useNavigate } from "react-router";
 import { ProfileDropdown } from "./ProfileDropdown";
-import { div } from "framer-motion/client";
 
 
 
@@ -60,8 +58,9 @@ export function ProfilePageRenter(){
           </div>
 
         <div className="topLineProfile">
-          <img src="/assets/avatar.png"           className="profileAvatar"
-alt="avatar" />
+          <img src="/assets/avatar.png" className="profileAvatar"
+          alt="avatar"
+           />
            
            <div className="namemail">
                 <p className="name">{userName}</p>
@@ -125,16 +124,7 @@ alt="avatar" />
             <div>
               <p>My settings</p>
             </div>
-            }
-          
-          
-         
-
-         
-
-        
-   
-            
+            }          
 
         </>
     )

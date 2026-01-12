@@ -30,7 +30,7 @@ export function DrivewayCard({drivewayCardId,address,distance,price,images}:Driv
                 <div className='carData'>
                     <h3 className='address'>{address}</h3>
                     <p className='distance'>{distance}  walk to stadium</p>
-                    <p className='tag'>Fenway Park</p>
+                    <p className='tag'>Wrigley Field</p>
                 </div>
 
                 <section className='rightSide'>

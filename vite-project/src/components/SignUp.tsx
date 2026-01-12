@@ -95,6 +95,8 @@ export function SignUp() {
           />
         </div>
 
+
+        <p className="userTypeNote"> Select your primary use, this doesn’t commit you to anything. </p>
         <div className="userTypeSelector">
             <button
               type="button"

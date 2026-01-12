@@ -24,6 +24,8 @@ import { FaRegArrowAltCircleRight } from "react-icons/fa";
 import { MdArrowCircleRight } from "react-icons/md";
 import { MdArrowCircleLeft } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
+import { CiLocationOn } from "react-icons/ci";
+
 
 
 
@@ -173,6 +175,7 @@ useEffect(() => {
       <div className='showSchedual'>
 
         <section className='topLineSchedual'>
+          <CiLocationOn className='locationIcon2'/>
             <h2>{driveway?.address}</h2> 
         </section>
       <p className='line'></p>
