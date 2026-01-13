@@ -395,7 +395,7 @@ export function AddDriveway() {
         )}
 
         <section className="footer">
-          <section className="line"></section>
+          <section className="line2"></section>
           <section className="buttonWrapper">
             {step > 1 && (
               <button className="nextBtn" onClick={() => setStep(step - 1)}>
