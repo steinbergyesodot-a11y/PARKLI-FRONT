@@ -8,9 +8,8 @@ export function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState<"renter" | "DrivewayOwner">("renter");
 
-
+  const roles = ["renter"]
   const navigate = useNavigate();
 
   function sendHome() {
@@ -38,7 +37,9 @@ export function SignUp() {
           lastName,
           email,
           password,
-          userType
+          roles
+
+          
         }
       );
 
@@ -96,25 +97,7 @@ export function SignUp() {
         </div>
 
 
-        <p className="userTypeNote"> Select your primary use, this doesn’t commit you to anything. </p>
-        <div className="userTypeSelector">
-            <button
-              type="button"
-              className={userType === "DrivewayOwner" ? "active" : ""}
-              onClick={() => setUserType("DrivewayOwner")}
-            >
-              Driveway Owner
-            </button>
-            <button
-              type="button"
-              className={userType === "renter" ? "active" : ""}
-              onClick={() => setUserType("renter")}
-            >
-              Renter
-            </button>
-
-        </div>
-
+        
 
         <button className="signup-btn" type="submit">
           Sign Up

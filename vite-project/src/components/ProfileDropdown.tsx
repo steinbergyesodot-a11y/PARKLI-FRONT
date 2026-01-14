@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import '../style/ProfileDropdown.css'
 import { UserContext } from "../userContext";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
+import { MainProfilePage } from "./MainProfilePage";
 
 
 
@@ -10,7 +11,7 @@ interface MyTokenPayload {
   _id: string;
   name: string;
   role: string;
-  userType: string;
+  roles: string[];
   email: string
 }
 
@@ -29,7 +30,7 @@ export function ProfileDropdown() {
       if (!token) return; 
       const decoded = jwtDecode<MyTokenPayload>(token);
       const userId = decoded._id;
-      const userType = decoded.userType
+      const userRoles = decoded.roles
       const userName = decoded.name
       const userEmail = decoded.email
  
@@ -39,13 +40,7 @@ export function ProfileDropdown() {
    navigate("/Home");
  }
 
- function toProfile() {
-  if (userType === "renter") {
-    navigate("/Profile/renter");
-  } else if (userType === "DrivewayOwner") {
-    navigate("/Profile/DrivewayOwner");
-  }
-}
+
 
   return (
     <div className="profile-wrapper" ref={menuRef}>
@@ -58,7 +53,7 @@ export function ProfileDropdown() {
 
       {open && (
         <div className="dropdown-menu">
-          <button onClick={toProfile}>Profile</button>
+          <button onClick={() => navigate("/profile")}>Profile</button>
           <button>Settings</button>
           <button>Help</button>
           <button className="logout" onClick={logOut}>Log out</button>

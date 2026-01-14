@@ -11,25 +11,8 @@
     margin-top: 1%;
 }
 
-.namemail{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10%;
-}
 
-.namemail p{
-    font-size: 1.2rem;
-    margin: 0%;
-}
 
-.name{
-    font-weight: 800;
-}
-
-.email{
-    color: gray;
-}
 
 .navs{
     margin-top: 2vh;

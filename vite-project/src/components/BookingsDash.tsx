@@ -15,8 +15,7 @@ interface BookingDashProps {
 interface MyTokenPayload {
   _id: string;
   name: string;
-  role: string;
-  userType: string;
+  roles: string[];
 }
 
 interface Booking {
@@ -112,6 +111,15 @@ export function BookingDash({ renterId }: BookingDashProps) {
             setShowCancelConfirm(false);
             setIsModalOpen(false);
         }, 250);
+    }
+    console.log("Bookings state:", upcomingBookings);
+
+    if(!upcomingBookings){
+        return(
+            <>
+            <p className="upcomingMsg">No upcoming bookings :(</p>
+            </>
+        )
     }
 
     return (

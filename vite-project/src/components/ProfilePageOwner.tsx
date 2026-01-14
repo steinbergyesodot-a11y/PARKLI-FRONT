@@ -8,8 +8,7 @@ import '../style/ProfilePageOwner.css'
 interface MyTokenPayload {
   _id: string;
   name: string;
-  role: string;
-  userType: string;
+  roles: string[];
   email: string;
   drivewayIds:string
 }
@@ -24,7 +23,7 @@ type Game = {
 export function ProfilePageOwner() {
   const navigate = useNavigate();
 
-  const [active, setActive] = useState("Bookings");
+  const [active, setActive] = useState("Host Bookings");
   const [games, setGames] = useState<Game[]>([]);
   const [user, setUser] = useState<MyTokenPayload | null>(null);
   const [loading, setLoading] = useState(true);
@@ -153,16 +152,17 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
           alt="avatar"
           className="profileAvatar"
         />
-
         <div className="namemail">
           <p className="name">{user.name}</p>
           <p className="email">{user.email}</p>
+          <button className="editBtn">Edit Profile</button>
+
           
         </div>
       </div>
-
+<p className="hostSection">My Host Section</p>
       <section className="navs">
-        {["Profile Info", "Bookings", "My Driveway", "Settings"].map(tab => (
+        {["Host Bookings", "My Driveways", "My Earnings"].map(tab => (
           <button
             key={tab}
             className={`navsBtn ${active === tab ? "active" : ""}`}
@@ -173,7 +173,7 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         ))}
       </section>
 
-      {active === "Bookings" && (
+      {active === "Host Bookings" && (
         <section className="games">
           <h2>Upcoming Bookings</h2>
 <p className="block-info-text">
@@ -185,7 +185,7 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
             games.map((game, index) => (
             <section className="gameRow">
                 <span className="game-date">{game.date}</span>
-                <span className="game-vs">vs</span>
+                <span className="game-vs">vs  </span>
                 <span className="game-team">{game.visiting_team}</span>
                 <span className="game-date">@ {game.game_time}</span>
                 <button
@@ -249,9 +249,8 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         </section>
       )}
 
-      {active === "Profile Info" && <p>My profile info</p>}
-      {active === "My Driveway" && <p>My driveway</p>}
-      {active === "Settings" && <p>Settings</p>}
+      {active === "My Driveways" && <p>My driveways</p>}
+      {active === "My Earnings" && <p>My Earnings</p>}
     </>
   );
 }

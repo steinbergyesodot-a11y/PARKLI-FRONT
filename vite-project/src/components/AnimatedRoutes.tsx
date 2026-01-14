@@ -11,6 +11,7 @@ import { DrivewayDetailed } from "./DrivewayDetailed";
 import { Payment } from "./Paymant";
 import { ProfilePageRenter } from "./ProfilePageRenter";
 import { ProfilePageOwner } from "./ProfilePageOwner";
+import { MainProfilePage } from "./MainProfilePage";
 
 
 export function AnimatedRoutes() {
@@ -32,9 +33,11 @@ export function AnimatedRoutes() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/About" element={<About />} />
+        <Route path="/profile" element={<MainProfilePage />} />
+
         <Route path="/Profile/renter" element={<ProfilePageRenter />} />
         <Route path="/Profile/DrivewayOwner" element={<ProfilePageOwner />} />
-
+ 
         <Route path="DrivewayDetailed/:id" element={<DrivewayDetailed />} />
         <Route path="DrivewayDetailed/:id/Payment" element={<Payment />} />
 

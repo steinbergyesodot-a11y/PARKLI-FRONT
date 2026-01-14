@@ -27,7 +27,6 @@ export function ProfilePageRenter(){
     if (!token) return; 
     const decoded = jwtDecode<MyTokenPayload>(token);
     const userId = decoded._id;
-    const userType = decoded.userType
     const userName = decoded.name
     const userEmail = decoded.email
 
@@ -65,7 +64,6 @@ export function ProfilePageRenter(){
            <div className="namemail">
                 <p className="name">{userName}</p>
                 <p className="email">{userEmail}</p>
-                <p>{userType}</p>
            </div>
         </div>
 
@@ -101,7 +99,6 @@ export function ProfilePageRenter(){
 
             {active === "My Bookings" &&
             <div>
-             <h2 className="upcoming">Upcoming Bookings</h2>
             
             <BookingDash renterId={userId} />
             </div>
