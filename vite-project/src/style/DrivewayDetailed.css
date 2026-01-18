@@ -89,7 +89,7 @@
     display: flex;
     flex-direction: column;
     font-family:'Times New Roman', Times, serif;
-    font-weight: 600;
+    font-weight: 400;
     margin-top: 5%;
 }
 
@@ -101,7 +101,7 @@
 }
 
 .locationIcon{
-    font-size: 2rem;
+    font-size: 1.2rem;
         color: rgba(0, 0, 0, 0.76);
 
 }
@@ -116,13 +116,13 @@
 }
 
 .walkIcon{
-    font-size: 2rem;
+    font-size: 1.3rem;
 }
 
 
 
 .moneyIcon{
-    font-size: 2rem;
+    font-size: 1.2rem;
 }
 
 .starIcon{
@@ -286,8 +286,8 @@ button {
 }
 
 .locationIcon2{
-  height: 50%;
-  width: 3%;
+  height: 40%;
+  width: 2%;
 }
 
 .topLineSchedual h2{
@@ -304,16 +304,27 @@ button {
   border-radius: 8px;
 }
 
+.games p{
+  font-size: 1.2rem;
+  font-weight: 800;
+  /* color: rgb(105, 170, 250); */
+}
+
 .games h3{
   margin-top: 2%;
 }
 .gameRow {
-  display: grid;
-  grid-template-columns: 120px 40px 200px 100px max-content;
+  display: flex;
+  /* grid-template-columns: 120px 40px 200px 100px max-content; */
 
   align-items: center;
   padding: 0.5rem 0;
   border-bottom: 1px solid #ddd;
+}
+
+.gameRow2{
+  display: flex;
+  gap: 2vw;
 }
 
 .games h3 {

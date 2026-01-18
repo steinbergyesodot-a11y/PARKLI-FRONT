@@ -47,7 +47,7 @@ export function ProfilePageRenter(){
         <>
          <div className="topAddDriveway">
               <img
-                src="/assets/logo.png"
+                src="/logo.png"
                 alt="logo"
                 className="logo"
                 onClick={sendHome}

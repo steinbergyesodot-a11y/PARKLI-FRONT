@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from '../userContext';
 import { useNavigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
-import { div } from "framer-motion/client";
 
 interface MyTokenPayload {
   _id: string;
@@ -21,8 +20,8 @@ export function MainProfilePage(){
     
     const userContext = useContext(UserContext);
     let user = userContext?.user;
-    const navigate = useNavigate();
     const [userRoles, setUserRoles] = useState<string[]>([]);
+    const navigate = useNavigate();
 
 
 
@@ -55,7 +54,6 @@ if (userRoles.length === 0) {
 {userRoles.includes("host") ? 
 <div>
 <ProfilePageOwner/>
-<ProfilePageRenter/>
 </div>
  :
 <div> 

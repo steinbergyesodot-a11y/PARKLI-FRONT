@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import '../style/ProfilePageOwner.css'
+import { p } from "framer-motion/client";
+import { BookingDash } from "./BookingsDash";
 
 interface MyTokenPayload {
   _id: string;
@@ -33,6 +35,10 @@ export function ProfilePageOwner() {
   date: string;
   type: "block" | "unblock";
 } | null>(null);
+const[renterActive,setRenterActive] = useState("My Bookings")
+
+
+
 
   useEffect(() => {
   const token = localStorage.getItem("authToken");
@@ -138,7 +144,7 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
     <>
       <div className="topAddDriveway">
         <img
-          src="/assets/logo.png"
+          src="/logo.png"
           alt="logo"
           className="logo"
           onClick={sendHome}
@@ -160,7 +166,9 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
           
         </div>
       </div>
-<p className="hostSection">My Host Section</p>
+ 
+<p className="hostSection"></p>
+
       <section className="navs">
         {["Host Bookings", "My Driveways", "My Earnings"].map(tab => (
           <button
@@ -172,6 +180,7 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
           </button>
         ))}
       </section>
+      
 
       {active === "Host Bookings" && (
         <section className="games">
@@ -183,11 +192,14 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
             <p>No upcoming bookings</p>
           ) : (
             games.map((game, index) => (
-            <section className="gameRow">
-                <span className="game-date">{game.date}</span>
-                <span className="game-vs">vs  </span>
-                <span className="game-team">{game.visiting_team}</span>
-                <span className="game-date">@ {game.game_time}</span>
+            <section className="gameRow2">
+
+                <div className="gameData">
+                    <span className="game-date">{game.date}</span>
+                    <span className="game-vs">vs </span>
+                    <span className="game-team">{game.visiting_team}</span>
+                    <span className="game-date">@ {game.game_time}</span>
+                </div>
                 <button
                     className={`game-status ${game.booked ? "booked" : "available"}`}
                     onClick={() => askToConfirm(user.drivewayIds[0], game.date, game.booked)}
@@ -245,12 +257,35 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
   </div>
 )}
 
+<p className="hostSection"></p>
 
         </section>
       )}
 
       {active === "My Driveways" && <p>My driveways</p>}
       {active === "My Earnings" && <p>My Earnings</p>}
+
+
+
+        <section className="navs">
+        {["My Bookings", "Paymant method"].map(tab => (
+          <button
+            key={tab}
+            className={`navsBtn ${renterActive === tab ? "active" : ""}`}
+            onClick={() => setRenterActive(tab)}
+          >
+            {tab}
+          </button>
+        ))}
+      </section>
+      {renterActive === "My Bookings" && (
+        <>
+        <div>
+                    
+                    <BookingDash renterId={user._id} />
+                    </div>
+                    </>
+      )}
     </>
   );
 }

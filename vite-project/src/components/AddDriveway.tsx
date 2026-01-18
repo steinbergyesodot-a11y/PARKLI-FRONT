@@ -160,7 +160,7 @@ export function AddDriveway() {
   <div>
     <div className="topAddDriveway">
       <img
-        src="assets/logo.png"
+        src="/logo.png"
         alt="logo"
         className="logo"
         onClick={sendHome}
@@ -271,42 +271,28 @@ export function AddDriveway() {
           </div>
         )}
 
-        {step === 2 && (
-          <div className="stadiumInfo5 step">
-            <h3 className="title2">Walk from driveway to stadium:</h3>
-            <section className="walk">
-              <input
-                type="radio"
-                name="walk"
-                id="under5"
-                value="5 min"
-                checked={formData.walk === "5 min"}
-                onChange={e => handleChange("walk", e.target.value)}
-              />
-              <label htmlFor="under5">5 min</label>
+       {step === 2 && (
+  <div className="stadiumInfo5 step">
+    <h3 className="title2">Walk from driveway to stadium:</h3>
 
-              <input
-                type="radio"
-                name="walk"
-                id="5to10"
-                value="5-10 min"
-                checked={formData.walk === "5-10 min"}
-                onChange={e => handleChange("walk", e.target.value)}
-                />
-              <label htmlFor="5to10">5–10 min</label>
+    <section className="walk">
+      <select
+        value={formData.walk}
+        onChange={e => handleChange("walk", e.target.value)}
+        className="walk-select"
+      >
+        <option value="">Select walking time</option>
 
-              <input
-                type="radio"
-                name="walk"
-                id="10to20"
-                value="10-20 min"
-                checked={formData.walk === "10-20 min"}
-                onChange={e => handleChange("walk", e.target.value)}
-                />
-                <label htmlFor="10to20">10–20 min</label>
-                </section>
-                </div>
-        )}
+        {Array.from({ length: 30 }, (_, i) => i + 1).map(num => (
+          <option key={num} value={num}>
+            {num} minutes
+          </option>
+        ))}
+      </select>
+    </section>
+  </div>
+)}
+
 
         {step === 3 && (
           <div className="step">

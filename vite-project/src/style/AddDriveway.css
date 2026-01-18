@@ -40,7 +40,9 @@
 .locationHeader5{
     margin-top: 8%;
     margin-top: 5%;
-    color: rgb(128, 125, 125);
+    color: #222;
+font-weight: 600;
+;
 }
 
 .safety{
@@ -137,7 +139,8 @@ input::placeholder {
 
 
 .title2{
-    color: rgb(128, 125, 125);
+    color: #222;
+    font-weight: 600;
     font-style:normal;
 }
 
@@ -148,7 +151,9 @@ input::placeholder {
 
 
 .priceTitle{
-  color: rgb(128, 125, 125);
+  color: #222;
+font-weight: 600;
+
 }
 
 
@@ -543,4 +548,91 @@ input::placeholder {
   border-top-color: #007bff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
+}
+
+
+.walk-select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 15px;
+  color: #333;
+  appearance: none; /* removes default arrow */
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.walk-select:focus {
+  outline: none;
+  border-color: #1e6ffb;
+  box-shadow: 0 0 0 3px rgba(30, 111, 251, 0.25);
+}
+
+.walk-select:hover {
+  border-color: #999;
+}
+
+.walk {
+  width: 100%;
+  margin-top: 10px;
+}
+
+
+/* Container */
+.location5 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  /* background: #fff; */
+  border-radius: 14px;
+  /* box-shadow: 0 8px 24px rgba(0,0,0,0.08); */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Header */
+.locationHeader5 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+/* Input */
+.locationInput5 {
+  width: 40%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  background: #fafafa;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.locationInput5:focus {
+  outline: none;
+  border-color: #1e6ffb;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(30, 111, 251, 0.25);
+}
+
+/* Safety text */
+.safety {
+  font-size: 14px;
+  color: #666;
+  margin-top: -4px;
+  line-height: 1.4;
+  background: #f5f7fa;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 4px solid #1e6ffb;
 }

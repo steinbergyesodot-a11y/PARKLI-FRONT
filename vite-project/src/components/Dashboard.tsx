@@ -48,7 +48,7 @@ export function Dashboard() {
     <div className="app-container">
       <div className="topDashboard">
         <img
-          src="assets/logo.png"
+          src="/logo.png"
           alt="logo"
           className="logoDash"
           onClick={sendHome}

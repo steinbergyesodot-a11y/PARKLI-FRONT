@@ -37,7 +37,7 @@ export function Home() {
             <nav className="Navbar">
 
                 <img
-                  src="assets/logo.png"
+                  src="/logo.png"
                   alt="logo"
                   className='homeLogo'
                 />

@@ -165,3 +165,96 @@
   color: white;
   transform: scale(1.03);
 }
+
+
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #dadce0;
+  background: white;
+  color: #3c4043;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.google-btn:hover {
+  background: #f7f8f9;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #888;
+  margin: 10px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 10px;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 10px;
+}
+
+.createdMessage{
+  font-size: 2rem;
+}
+
+/* 1. The Dark Overlay - The 'Cover' */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;       /* Full viewport width */
+  height: 100vh;      /* Full viewport height */
+  background-color: rgba(0, 0, 0, 0.7); /* Darker dim (70% black) */
+  
+  /* Use a massive z-index to stay above navbars and buttons */
+  z-index: 9999; 
+  
+  /* Disable pointer events for the background elements */
+  pointer-events: all; 
+  
+  /* Smooth entry */
+  backdrop-filter: blur(2px); /* Adds a professional 'glass' blur to the site */
+}
+
+/* 2. The Message - The 'Focus' */
+.createdMessage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  /* Must be higher than overlay (.overlay is 9999, so this is 10000) */
+  z-index: 10000; 
+  
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  
+  /* Optional: prevent text from being weirdly small on mobile */
+  min-width: 300px;
+  text-align: center;
+}

@@ -1,6 +1,5 @@
 .games {
   padding: 1rem;
-  background-color: #f7f7f7;
   border-radius: 8px;
 }
 
@@ -12,14 +11,19 @@
   font-family: "Times New Roman", Times, serif;
 }
 
-/* Game row layout */
-.gameRow {
-  display: grid;
-  grid-template-columns: 120px 40px 200px 100px auto;
+.gameRow2 {
+  display: flex;
   align-items: center;
   padding: 0.6rem 0;
   border-bottom: 1px solid #ddd;
 }
+
+.gameData{
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+}
+
 
 /* Date + time */
 .game-date {
@@ -71,7 +75,6 @@
   opacity: 0.9;
 }
 
-/* Remove border from last row */
 .gameRow:last-child {
   border-bottom: none;
 }
@@ -218,6 +221,7 @@ padding: 1.5rem;
 }
 
 .hostSection{
-  margin-left: 3%;
-  font-size: 1.2rem;
+  background-color: rgba(0, 0, 0, 0.066);
 }
+
+

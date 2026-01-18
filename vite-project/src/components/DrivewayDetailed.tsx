@@ -163,7 +163,7 @@ useEffect(() => {
      
       <div className="top">
         <img
-          src="/assets/logo.png"
+          src="/logo.png"
           alt="logo"
           className='logoDash'
           onClick={sendHome}
@@ -176,13 +176,13 @@ useEffect(() => {
 
         <section className='topLineSchedual'>
           <CiLocationOn className='locationIcon2'/>
-            <h2>{driveway?.address}</h2> 
+            <h3>{driveway?.address}</h3> 
         </section>
       <p className='line'></p>
 
          
     <section className='games'>
-        <h3>Future Games</h3>
+        <p>Future Games</p>
 
          {games.length === 0 ? (
            <p>No games available</p>
@@ -196,11 +196,12 @@ useEffect(() => {
                 
 
               <section className='gameRow'>
+                <div className='gameRow2'>
               <span className="game-date">{game.date}</span>
               <span className="game-vs">vs</span>
               <span className="game-team">{game.visiting_team}</span>
               <span className="game-date">@ {game.game_time}</span>
-
+                </div>
               <span className={`game-status ${game.booked ? 'booked' : 'available'}`} 
               onClick={game.booked ? undefined : () => paymentPage(game)}>
             {game.booked ? 'Booked' : 'Available'}
@@ -227,13 +228,10 @@ useEffect(() => {
         <div className="map">
            {coords && (
              <LoadScriptNext googleMapsApiKey="AIzaSyBCuQJ5ztmnPHGjtp8yXJ3_tzufzchq3jg">
-               <GoogleMap
-                  mapContainerStyle={{ width: '100%', height: '100%' }}
-                  center={coords}
-                  zoom={15}
-                >
-                <Marker position={coords} />
-               </GoogleMap>
+               <GoogleMap mapContainerStyle={{ width: "100%", height: "100%" }} center={coords} zoom={15} options={{ zoomControl: true, scrollwheel: true, draggable: true, disableDoubleClickZoom: false, fullscreenControl: true, mapTypeControl: true, streetViewControl: true, gestureHandling: "greedy" }} >
+        <Marker position={coords} />
+      </GoogleMap>
+
              </LoadScriptNext>
             )}
       </div>
