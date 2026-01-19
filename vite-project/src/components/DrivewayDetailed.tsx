@@ -25,11 +25,7 @@ import { MdArrowCircleRight } from "react-icons/md";
 import { MdArrowCircleLeft } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
 import { CiLocationOn } from "react-icons/ci";
-
-
-
-
-
+import { MdOutlineCheck } from "react-icons/md";
 
 
 
@@ -43,6 +39,7 @@ interface Driveway {
   price: string;
   description: string;
   games?: Game[];
+  rules: string[]
 }
 
 type Game = {
@@ -123,7 +120,6 @@ function handleCurImageBack() {
   );
   const driveway = response.data.driveway;
   const images = response.data.driveway.images
-  console.log(images)
   setImages(images)
   setGames(response.data.driveway.games || []);
   setDriveway(driveway);
@@ -159,7 +155,7 @@ useEffect(() => {
 
 
   return (
-    <div>
+    <>
      
       <div className="top">
         <img
@@ -221,20 +217,19 @@ useEffect(() => {
       </>
       : 
       
-      <div className="containor22">
+      <div className="detailPageContainer">
 
 
         <section className="imagesArea">
-        <div className="map">
-           {coords && (
-             <LoadScriptNext googleMapsApiKey="AIzaSyBCuQJ5ztmnPHGjtp8yXJ3_tzufzchq3jg">
-               <GoogleMap mapContainerStyle={{ width: "100%", height: "100%" }} center={coords} zoom={15} options={{ zoomControl: true, scrollwheel: true, draggable: true, disableDoubleClickZoom: false, fullscreenControl: true, mapTypeControl: true, streetViewControl: true, gestureHandling: "greedy" }} >
-        <Marker position={coords} />
-      </GoogleMap>
-
-             </LoadScriptNext>
-            )}
-      </div>
+          <div className="map">
+            {coords && (
+              <LoadScriptNext googleMapsApiKey="AIzaSyBCuQJ5ztmnPHGjtp8yXJ3_tzufzchq3jg">
+                <GoogleMap mapContainerStyle={{ width: "100%", height: "100%" }} center={coords} zoom={15} options={{ zoomControl: true, scrollwheel: true, draggable: true, disableDoubleClickZoom: false, fullscreenControl: true, mapTypeControl: true, streetViewControl: true, gestureHandling: "greedy" }} >
+                  <Marker position={coords} />
+                </GoogleMap>
+              </LoadScriptNext>
+              )}
+          </div>
 
             <div className="image-wrapper">
                 <MdArrowCircleLeft className="arrowLeft" onClick={handleCurImageBack}/>
@@ -250,25 +245,25 @@ useEffect(() => {
                   {curImage + 1} / {images.length} 
                 </div>
             </div>
-
-        
         </section>
 
             
 
-            <section className='middleArea'>
+      <section className='middleArea'>
            <div className='details'>
-
 
            <p className='locationInfo'>
             <FaMapMarkerAlt className="locationIcon" />
             {driveway?.address}
            </p>
 
-           <p className='walkInfo'>
-            <RiWalkFill className='walkIcon' />
-            {driveway?.walk} 
-          </p>
+         <p className='walkInfo'>
+           <RiWalkFill className='walkIcon' />
+            <div>
+              {driveway?.walk} Min
+            </div>
+        </p>
+
 
           <p className='priceInfo'>
             <GrMoney className='moneyIcon' />
@@ -314,17 +309,39 @@ useEffect(() => {
 
            <button onClick={handleSchedual} className='availBtn'>Reserve Now</button>
            </section>
- 
-
-
-            </section>
+      </section>
 
 
               <div className="line4"></div>
+              {driveway?.description ? 
+              <>
+             <p className='abtDriveway'>About this driveway</p>
              <p className='describe'>{driveway?.description}</p>
+             </>
+             : ""
+              }
+
+
+     <section className="rulesSection">
+
+  <div className="rulesBox">
+    <div className="rulesGrid">
+      {driveway?.rules?.map((rule, index) => (
+        <div key={index} className="rule">
+          <span className="rule-icon">✓</span>
+          <span>{rule}</span>
         </div>
-  }
+      ))}
     </div>
+  </div>
+</section>
+
+
+
+
+        </div>
+      }
+    </>
     
   );
 }

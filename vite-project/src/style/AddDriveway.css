@@ -636,3 +636,111 @@ font-weight: 600;
   border-radius: 8px;
   border-left: 4px solid #1e6ffb;
 }
+
+.rules-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rule-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #333;
+}
+
+.rule-item input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+
+
+/* Main rules container */
+.rules-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Section title */
+.rules-section .title2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 10px 0;
+}
+
+/* Category container */
+.rule-category {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Category title */
+.category-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e1e1e;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+/* Each rule item */
+.rule-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Checkbox styling */
+.rule-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #1e6ffb; /* modern browsers support this */
+}
+
+/* Hover effect */
+.rule-item:hover {
+  color: #1e6ffb;
+  transition: 0.2s ease;
+}
+
+
+.title3{
+    color: #222;
+    font-weight: 700;
+    font-style:normal;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+
+.title4{
+    color: #222222c0;
+    font-weight: 200;
+    font-style:normal;
+    text-align: center;
+    font-size: 1.1rem;
+    margin-top: 0;
+}
+

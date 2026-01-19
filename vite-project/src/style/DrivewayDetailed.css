@@ -1,4 +1,4 @@
-.containor22 {
+.detailPageContainer {
   height: 100vh;
   margin-left: 12%;
 
@@ -91,6 +91,7 @@
     font-family:'Times New Roman', Times, serif;
     font-weight: 400;
     margin-top: 5%;
+    justify-content: space-evenly;
 }
 
 .locationInfo{
@@ -393,4 +394,56 @@ cursor: text;
    cursor: pointer;
   transform: scale(1.03); 
 
+}
+
+
+.abtDriveway{
+  margin-top: 5%;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+
+
+.rulesSection {
+  margin-top: 5%;
+}
+
+.rulesTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+/* The card box */
+.rulesBox {
+  background: #f7f9fc; /* soft, modern background */
+  border: 1px solid #e3e7ee;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 650px; /* keeps it from stretching too wide */
+}
+
+/* Two-column layout */
+.rulesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+
+/* Each rule */
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #333;
+}
+
+/* Checkmark icon */
+.rule-icon {
+  color: #1e6ffb;
+  font-weight: bold;
+  font-size: 16px;
 }

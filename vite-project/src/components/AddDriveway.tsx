@@ -18,9 +18,75 @@ interface drivewayFormData {
   walk: string;
   price: string;
   images: File[];
-
+  rules: string[];
   description: string;
 }
+
+
+const ruleCategories = {
+  parking: [
+    "Pull all the way forward",
+    "Do not block the garage",
+    "Stay off the grass",
+    "Park on the left side only",
+    "Park on the right side only",
+    "Park in the center of the driveway",
+    "Back-in parking only",
+    "Front-in parking only",
+    "Stay within the marked area",
+    "Park between the cones",
+    "Do not block the sidewalk",
+    "Do not block the walkway",
+    "Park under the carport only"
+  ],
+
+  vehicleRestrictions: [
+    "No oversized vehicles",
+    "No trucks",
+    "No commercial vans",
+    "Motorcycles only",
+    "No trailers",
+    "No RVs",
+    "No buses",
+    "No dually trucks",
+    "Compact cars only",
+    "No electric vehicles",
+    "EVs allowed but no charging",
+    "EV charging available"
+  ],
+
+  timeRestrictions: [
+    "No overnight parking",
+    "Must leave by midnight",
+    "Must arrive within 1 hour of event",
+    "No early arrival",
+    "No late departure",
+    "No re-entry",
+    "No idling in the driveway",
+    "No waiting in the driveway"
+  ],
+
+  behavior: [
+    "No loud music",
+    "No honking",
+    "No littering",
+    "Keep noise low",
+    "Do not disturb neighbors",
+    "No smoking on property",
+    "No alcohol on property"
+  ],
+
+  neighborhood: [
+    "Drive slowly in neighborhood",
+    "Watch for kids playing",
+    "Do not block neighbor’s driveway",
+    "Be respectful of neighbors",
+    "Do not leave trash behind",
+    "Follow posted neighborhood signs"
+  ]
+};
+
+
 
 
 export function AddDriveway() {
@@ -31,6 +97,7 @@ export function AddDriveway() {
     walk: "",
     price: "",
     images: [],
+    rules:[] as string[],
     description: ""
   });
   const [message, setMessage] = useState("");
@@ -83,10 +150,26 @@ export function AddDriveway() {
 
   const handleChange = (
   field: keyof drivewayFormData,
-  value: string | File | File[] | null
+  value: string | string[]| File | File[] | null
 ) => {
   setFormData(prev => ({ ...prev, [field]: value }));
 };
+
+
+
+function handleRuleToggle(rule:any) {
+  setFormData(prev => {
+    const alreadySelected = prev.rules.includes(rule);
+
+    return {
+      ...prev,
+      rules: alreadySelected
+        ? prev.rules.filter(r => r !== rule) // remove
+        : [...prev.rules, rule]              // add
+    };
+  });
+}
+
 
 
   function sendHome(){
@@ -114,6 +197,7 @@ export function AddDriveway() {
       data.append("walk", formData.walk);
       data.append("price", formData.price);
       data.append("description", formData.description);
+      data.append("rules", JSON.stringify(formData.rules));
       const options = { 
         maxSizeMB: 1,
          maxWidthOrHeight: 1920, 
@@ -247,7 +331,7 @@ export function AddDriveway() {
 
     
     user ? (
-      // Show the multi-step form if logged in
+      
 
       <div className="box5">
        
@@ -299,14 +383,8 @@ export function AddDriveway() {
             <h2 className="priceTitle">Price</h2>
             <h4 className="priceTitle">Set your price per reservation (in USD).</h4>
            <div className="pricing-note">
-  <strong>Note:</strong> You can update your pricing at any time. Whether it’s due to playoffs, special events, or changing demand, you’re always in full control of your rates.
-</div>
-
-            {/* <input
-              className="inputPrice"
-              type="text"
-              value={formData.price}
-              /> */}
+            <strong>Note:</strong> You can update your pricing at any time. Whether it’s due to playoffs, special events, or changing demand, you’re always in full control of your rates.
+           </div>
             <select
             value={formData.price}
             onChange={e => handleChange("price", e.target.value)}
@@ -322,6 +400,8 @@ export function AddDriveway() {
                    </select>
                    </div>
                   )}
+                
+
                   
                   {step === 4 && (
                     <div className="step">
@@ -344,23 +424,52 @@ export function AddDriveway() {
                       handleChange("images", [...formData.images, ...newFiles]);
                     }}
   />
-            {formData.images.length > 0 && (
-              <div className="previewGrid">
-          {formData.images.map((file, index) => (
-            <div key={index} className="previewItem">
-              <img src={URL.createObjectURL(file)} alt={`preview-${index}`} />
-            </div>
-          ))}
-          </div>
-        )}
+                  {formData.images.length > 0 && (
+                    <div className="previewGrid">
+                {formData.images.map((file, index) => (
+                  <div key={index} className="previewItem">
+                    <img src={URL.createObjectURL(file)} alt={`preview-${index}`} />
+                  </div>
+                ))}
+                </div>
+              )}
+              
+              </label>
+              </div>
+              </div>
         
-        </label>
-        </div>
-        </div>
-  
-        )}
-        
+              )}
+
+
         {step === 5 && (
+          <>
+           <div className="rules-section">
+           <p className="title3">Rules for your driveway</p>
+           <p className="title4">Select all the rules that apply to your driveway.</p>
+
+
+          {Object.entries(ruleCategories).map(([category, rules]) => (
+          <div key={category} className="rule-category">
+            <h4 className="category-title">{category}</h4>
+
+       {rules.map(rule => (
+        <label key={rule} className="rule-item">
+          <input
+            type="checkbox"
+            checked={formData.rules.includes(rule)}
+            onChange={() => handleRuleToggle(rule)}
+          />
+          {rule}
+        </label>
+          ))}
+        </div>
+      ))}
+    </div>
+    </>
+    )}
+
+
+        {step === 6 && (
           <div className="step">
             <h3 className="priceTitle">Additional Information</h3>
             <div className="info-note">
@@ -388,18 +497,18 @@ export function AddDriveway() {
                 Back
               </button>
             )}
-            {step < 5 && (
+            {step < 6 && (
               <button className="nextBtn" onClick={() => setStep(step + 1)}>
                 Next
               </button>
             )}
-            {step === 5 && (
+            {step === 6 && (
               <button className="subBtn" onClick={handleSubmit}>
                 Submit
               </button>
             )}
           </section>
-          <p className="helper">Step {step} of 5</p> 
+          <p className="helper">Step {step} of 6</p> 
         </section>
             {isLoading && (
   <div className="loading-overlay">
