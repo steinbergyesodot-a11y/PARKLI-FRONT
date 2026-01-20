@@ -12,6 +12,8 @@ import { Payment } from "./Paymant";
 import { ProfilePageRenter } from "./ProfilePageRenter";
 import { ProfilePageOwner } from "./ProfilePageOwner";
 import { MainProfilePage } from "./MainProfilePage";
+import { TermsOfService } from "./TermsOfService";
+import { PrivacyPolicy } from "./PrivacyPolicy";
 
 
 export function AnimatedRoutes() {
@@ -34,6 +36,9 @@ export function AnimatedRoutes() {
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/About" element={<About />} />
         <Route path="/profile" element={<MainProfilePage />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
 
         <Route path="/Profile/renter" element={<ProfilePageRenter />} />
         <Route path="/Profile/DrivewayOwner" element={<ProfilePageOwner />} />

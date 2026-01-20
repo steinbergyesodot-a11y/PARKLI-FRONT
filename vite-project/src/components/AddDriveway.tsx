@@ -109,8 +109,7 @@ export function AddDriveway() {
    const userContext = useContext(UserContext)
    const user = userContext?.user
    
-   
-   const inputRef = useRef<HTMLInputElement | null>(null)
+ 
    
    const navigate = useNavigate();
    
@@ -122,29 +121,52 @@ export function AddDriveway() {
   setChecked(e.target.checked);  // true when checked, false when unchecked
 };
 
-   
-   
    useEffect(() => {
-  const interval = setInterval(() => {
-    if (window.google && inputRef.current) {
-      const autocomplete = new window.google.maps.places.Autocomplete(
-        inputRef.current,
-        { types: ["address"] }
-      );
+  console.log("google:", window.google);
+  console.log("places:", window.google?.maps?.places);
+  console.log("inputRef:", inputRef.current);
 
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        setFormData(prev => ({
-          ...prev,
-          address: place.formatted_address || ""
-        }));
-      });
+}, []);
 
-      clearInterval(interval); // stop checking once initialized
-    }
-  }, 300);
 
-  return () => clearInterval(interval);
+
+const inputRef = useRef<HTMLInputElement | null>(null);
+const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+useEffect(() => {
+  if (!inputRef.current) return;
+
+  const initAutocomplete = () => {
+    if (autocompleteRef.current) return;
+
+    const ac = new window.google.maps.places.Autocomplete(inputRef.current, {
+      types: ["address"],
+      fields: ["formatted_address", "address_components", "geometry"]
+    });
+
+    autocompleteRef.current = ac;
+
+    ac.addListener("place_changed", () => {
+      const place = ac.getPlace(); // TS is happy now
+
+      setFormData(prev => ({
+        ...prev,
+        address: place.formatted_address || ""
+      }));
+    });
+  };
+
+  if (window.google?.maps?.places) {
+    initAutocomplete();
+    return;
+  }
+
+  const handleLoad = () => initAutocomplete();
+  window.addEventListener("google-maps-callback", handleLoad);
+
+  return () => {
+    window.removeEventListener("google-maps-callback", handleLoad);
+  };
 }, []);
 
 

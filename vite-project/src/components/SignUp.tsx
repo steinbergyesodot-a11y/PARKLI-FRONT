@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import "../style/SignUp.css";
 import { jwtDecode } from "jwt-decode";
-import { p } from "framer-motion/client";
+import "../style/SignUp.css";
 
 export function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -172,9 +171,19 @@ export function SignUp() {
           <span className="gsi-material-button-contents">Sign Up with Google</span>
         </div>
       </button>
-        <div className="back-home">
+<p className="agreeing">
+  By signing up, you agree to our{" "}
+  <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">
+    Terms of Service
+  </a>{" "}
+  and{" "}
+  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+    Privacy Policy
+  </a>.
+</p>
+        {/* <div className="back-home">
           <button onClick={sendHome}>Back to Home</button>
-        </div>
+        </div> */}
       </form>
      
       {message && (

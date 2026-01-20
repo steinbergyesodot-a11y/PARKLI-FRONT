@@ -5,7 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Parkli</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCuQJ5ztmnPHGjtp8yXJ3_tzufzchq3jg&libraries=places"></script>
+    
+    <script>
+      window.googleMapsLoaded = function () {
+        window.dispatchEvent(new Event("google-maps-callback"));
+      };
+    </script>
+
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYRefixacCtq1k2jieJnyPhZcAjPt5ePo&libraries=places&callback=googleMapsLoaded"
+async
+defer
+></script>
+
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 
