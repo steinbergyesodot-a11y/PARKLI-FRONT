@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
 import imageCompression from "browser-image-compression";
 import { ProfileDropdown } from "./ProfileDropdown";
+import { p } from "framer-motion/client";
 
 
 
@@ -118,17 +119,8 @@ export function AddDriveway() {
    }
 
  const handleCheck = (e: any) => {
-  setChecked(e.target.checked);  // true when checked, false when unchecked
+  setChecked(e.target.checked);  
 };
-
-   useEffect(() => {
-  console.log("google:", window.google);
-  console.log("places:", window.google?.maps?.places);
-  console.log("inputRef:", inputRef.current);
-
-}, []);
-
-
 
 const inputRef = useRef<HTMLInputElement | null>(null);
 const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -279,6 +271,7 @@ function handleRuleToggle(rule:any) {
       {message === "" ? (
         <>
       {policyNotAgreed ? (
+        
         <div className="policy-container">
         <div className="policy-box">
         <h3>Host Rules Agreement</h3>
