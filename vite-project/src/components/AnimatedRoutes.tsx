@@ -14,6 +14,7 @@ import { ProfilePageOwner } from "./ProfilePageOwner";
 import { MainProfilePage } from "./MainProfilePage";
 import { TermsOfService } from "./TermsOfService";
 import { PrivacyPolicy } from "./PrivacyPolicy";
+import { AddDriveway2 } from "./AddDriveway2";
 
 
 export function AnimatedRoutes() {
@@ -30,7 +31,7 @@ export function AnimatedRoutes() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/Home" element={<Home />} />
-        <Route path="/AddDriveway" element={<AddDriveway />} />
+        <Route path="/AddDriveway" element={<AddDriveway2 />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Dashboard" element={<Dashboard />} />

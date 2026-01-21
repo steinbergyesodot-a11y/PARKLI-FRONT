@@ -14,15 +14,20 @@ interface MyJwtPayload {
   drivewayIds?: string[];
 }
 
+type LoginProps = { from?: string; };
 
-export function Login() {
+
+export function Login({ from }: LoginProps) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState("");
 
 
   const userContext = useContext(UserContext);
-  const navigate = useNavigate();
+
+ 
+
 
   function handleEmail(event: any) {
     setEmail(event.target.value);
@@ -33,7 +38,9 @@ export function Login() {
   }
 
  async function handleGoogleLogin() {
+   console.log("CLIENT ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
   const google = window.google;
+
 
   const client = google.accounts.oauth2.initTokenClient({
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
@@ -68,7 +75,9 @@ export function Login() {
        
 
         // 4. Redirect
-        sendHome();
+        const redirectTo = from || "/Home";
+        navigate(redirectTo, { replace: true });
+
       } else {
         localStorage.removeItem("authToken");
         userContext?.setUser(null);

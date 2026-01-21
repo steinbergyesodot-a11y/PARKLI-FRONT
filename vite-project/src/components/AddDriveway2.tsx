@@ -7,20 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
 import imageCompression from "browser-image-compression";
 import { ProfileDropdown } from "./ProfileDropdown";
-
-
-
-type MyPayload = JwtPayload & { _id?: string; name?: string; };
-
-interface drivewayFormData {
-  ownerId: string;
-  address: string;
-  walk: string;
-  price: string;
-  images: File[];
-  rules: string[];
-  description: string;
-}
+import { button, p } from "framer-motion/client";
+import { Login } from "./Login";
+import { useLocation } from "react-router-dom";
 
 
 const ruleCategories = {
@@ -85,11 +74,22 @@ const ruleCategories = {
     "Follow posted neighborhood signs"
   ]
 };
+ 
+type MyPayload = JwtPayload & { _id?: string; name?: string; };
+
+interface drivewayFormData {
+  ownerId: string;
+  address: string;
+  walk: string;
+  price: string;
+  images: File[];
+  rules: string[];
+  description: string;
+}
 
 
+export function AddDriveway2(){
 
-
-export function AddDriveway() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<drivewayFormData>({
     ownerId: "",
@@ -104,8 +104,9 @@ export function AddDriveway() {
   const [policyNotAgreed, setPolicyNotAgreed] = useState(true)
   const [checked,setChecked] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
+  const[startListing,setStartListing] = useState(false)
 
-
+   const location = useLocation();
    const userContext = useContext(UserContext)
    const user = userContext?.user
    const token = localStorage.getItem("authToken")     // In login, the server returns a token. the payload has name and _id.
@@ -123,44 +124,84 @@ export function AddDriveway() {
   setChecked(e.target.checked);  
 };
 
+function handleListing(){
+    setStartListing(true)
+}
+
+
+
 const inputRef = useRef<HTMLInputElement | null>(null);
 const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
 useEffect(() => {
-  if (!inputRef.current) return;
+  if (!inputRef.current || autocompleteRef.current) return;
 
-  const initAutocomplete = () => {
-    if (autocompleteRef.current) return;
+  const interval = setInterval(() => {
+    if (!window.google?.maps?.places || !inputRef.current) return;
 
-    const ac = new window.google.maps.places.Autocomplete(inputRef.current, {
-      types: ["address"],
-      fields: ["formatted_address", "address_components", "geometry"]
-    });
+    const ac = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      {
+        types: ["address"],
+        fields: ["formatted_address", "address_components", "geometry"],
+      }
+    );
 
     autocompleteRef.current = ac;
 
     ac.addListener("place_changed", () => {
-      const place = ac.getPlace(); // TS is happy now
+      const place = ac.getPlace();
+
+      if (!place.geometry) return;
 
       setFormData(prev => ({
         ...prev,
-        address: place.formatted_address || ""
+        address: place.formatted_address || "",
       }));
     });
-  };
 
-  if (window.google?.maps?.places) {
-    initAutocomplete();
+    clearInterval(interval);
+  }, 100);
+
+  return () => clearInterval(interval);
+}, []);
+
+
+const initAutocomplete = () => {
+  if (
+    autocompleteRef.current ||
+    !window.google?.maps?.places ||
+    !inputRef.current
+  ) {
     return;
   }
 
-  const handleLoad = () => initAutocomplete();
-  window.addEventListener("google-maps-callback", handleLoad);
+  const ac = new window.google.maps.places.Autocomplete(
+    inputRef.current,
+    {
+      types: ["address"],
+      fields: ["formatted_address", "address_components", "geometry"],
+    }
+  );
 
-  return () => {
-    window.removeEventListener("google-maps-callback", handleLoad);
-  };
-}, []);
+  autocompleteRef.current = ac;
+
+  ac.addListener("place_changed", () => {
+    const place = ac.getPlace();
+    if (!place.geometry) return;
+
+    setFormData(prev => ({
+      ...prev,
+      address: place.formatted_address || "",
+    }));
+  });
+};
+
+
+
+
+
+
 
 
   const handleChange = (
@@ -255,9 +296,10 @@ function handleRuleToggle(rule:any) {
   
   }
 
+if (startListing === false) {
   return (
-  <div>
-    <div className="topAddDriveway">
+    <>
+       <div className="topAddDriveway">
       <img
         src="/logo.png"
         alt="logo"
@@ -267,109 +309,58 @@ function handleRuleToggle(rule:any) {
       <ProfileDropdown/>
 
     </div>
-      
+    <div className="listing-intro">
+      <h2 className="listing-title">Start Earning With Your Driveway</h2>
 
-      {message === "" ? (
+      <p className="listing-subtitle">
+        Earn money by renting out your driveway on game days.  
+        It only takes a few minutes to get started.
+      </p>
+
+      <button className="listing-start-btn" onClick={handleListing}>
+        Start Listing
+      </button>
+    </div>
+    </>
+  );
+}
+
+
+  if(!policyNotAgreed){
+    return(
         <>
-      {policyNotAgreed ? (
-        
-        <div className="policy-container">
-        <div className="policy-box">
-        <h3>Host Rules Agreement</h3>
-         <p><strong>1. Accuracy of Information</strong><br />
-         I agree to provide accurate details about my driveway, including location, size,
-          access instructions, and any restrictions. I will update my listing if anything changes.
-          </p>
-          
-        <p><strong>2. Availability</strong><br />
-        I am responsible for keeping my availability accurate. If my driveway becomes unavailable,
-        I will update the listing immediately.
-        </p>
-
-        <p><strong>3. Arrival Time</strong><br />
-          Renters may arrive up to <strong>30 minutes before the game or event</strong>, unless I specify
-          a different rule in my listing. I agree to honor the arrival window shown to the renter.
-        </p>
-
-        <p><strong>4. Safety & Accessibility</strong><br />
-          My driveway will be safe, accessible, and free of hazards. I will clearly communicate any
-          special instructions such as gates, codes, or narrow entrances.
-        </p>
-        
-        <p><strong>5. Compliance With Local Laws</strong><br />
-        I am responsible for ensuring that listing my driveway complies with local laws, property rules,
-        and any HOA or building regulations.
-        </p>
-        
-        <p><strong>6. Respectful Communication</strong><br />
-        I will communicate with renters only through the app and respond promptly to questions or issues.
-        </p>
-        
-        <p><strong>7. Cancellations</strong><br />
-          If I need to cancel a booking, I will do so through the app. I understand that frequent cancellations
-          may result in penalties or removal from the platform.
-        </p>
-
-        <p><strong>8. No Unauthorized Tow‑Away</strong><br />
-          I will not tow or threaten to tow a renter’s vehicle unless they violate clearly stated rules.
-          Any towing must follow local laws.
-        </p>
-
-        <p><strong>9. Condition of the Space</strong><br />
-        My driveway will be available, clean, and usable at the renter’s arrival time. I will not block
-          the space or allow others to use it during a confirmed booking.
-          </p>
-
-        <p><strong>10. Platform Policies</strong><br />
-        I agree to follow all platform rules, terms of service, and safety guidelines. I understand that
-          violations may result in suspension or removal from the platform.
-        </p>
-      </div>
-      <label className="agree-label">
-        <input type="checkbox" onChange={handleCheck} />
-        I have read and agree to the Host Rules.
-        
-      </label>
-      <button
-      onClick={handlePolicy} 
-      className="agreeButton"
-      disabled={!checked} 
-      >
-          Agree and continue
-          </button>
-
-      </div>
-    ) : 
-
-
-    
-
-
-    
-    user ? (
-      
-
-      <div className="box5">
-       
-      
-
-
-        {step === 1 && (
+           <div className="topAddDriveway">
+              <img
+                src="/logo.png"
+                alt="logo"
+                className="logo"
+                onClick={sendHome}
+              />
+              <ProfileDropdown/>
+           </div>
+           
+          <div className="box5">
+            
+       {step === 1 && (
           <div className="location5 step">
             <h2 className="locationHeader5">Where's your driveway located?</h2>
             <input
               ref={inputRef}
               className="locationInput5"
               placeholder="Driveway address"
-              id="location"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
               value={formData.address}
               onChange={e => handleChange("address", e.target.value)}
+              onFocus={initAutocomplete}
             />
             <p className="safety">
-            Your exact location stays private until a reservation is confirmed
+              We only show renters your street and approximate location. 
+              Your full address is shared after a confirmed reservation.
             </p>
           </div>
-        )}
+      )}
 
        {step === 2 && (
   <div className="stadiumInfo5 step">
@@ -397,7 +388,7 @@ function handleRuleToggle(rule:any) {
         {step === 3 && (
           <div className="step">
             <h2 className="priceTitle">Price</h2>
-            <h4 className="priceTitle">Set your price per reservation (in USD).</h4>
+            <h4 className="priceTitle">Set your price per reservation (USD).</h4>
            <div className="pricing-note">
             <strong>Note:</strong> You can update your pricing at any time. Whether it’s due to playoffs, special events, or changing demand, you’re always in full control of your rates.
            </div>
@@ -504,28 +495,135 @@ function handleRuleToggle(rule:any) {
               />
               </div>
         )}
+        {step === 7 && (
+          <>
+          {/* <h2>Review Your Driveway Listing</h2> */}
+          <section className="reviewBox">
 
-        <section className="footer">
-          <section className="line2"></section>
-          <section className="buttonWrapper">
-            {step > 1 && (
-              <button className="nextBtn" onClick={() => setStep(step - 1)}>
-                Back
-              </button>
-            )}
-            {step < 6 && (
-              <button className="nextBtn" onClick={() => setStep(step + 1)}>
-                Next
-              </button>
-            )}
-            {step === 6 && (
-              <button className="subBtn" onClick={handleSubmit}>
-                Submit
-              </button>
-            )}
-          </section>
-          <p className="helper">Step {step} of 6</p> 
-        </section>
+              <div className="reviewLocation">
+                <div>
+                <h3>LOCATION</h3>
+                <p>{formData.address}</p>
+                <p className="exact">Exact address shown only after booking</p>
+                </div>
+                <button className="editButton" >Edit</button>
+              </div>
+              <hr />
+
+              <div className="reviewPrice">
+                <div>
+                <h3>PRICE</h3>
+                <p>${formData.price} per game</p>
+                </div>
+                <button className="editButton">Edit</button>
+              </div>
+              <hr />
+
+
+              <div className="reviewWalk">
+              <div>
+                <h3>WALKING DISTANCE</h3>
+                <p>{formData.walk} minute walk</p>
+              </div>
+              <button className="editButton">Edit</button>
+            </div>
+              <hr />
+
+            <div className="reviewDescription">
+              <div>
+                <h3>Description</h3>
+                <p>{formData.description}</p>
+              </div>
+              <button className="editButton">Edit</button>
+            </div>
+                          <hr />
+
+
+            <div className="reviewRules">
+              <div>
+            <h3>RULES</h3>
+            <ul>
+              {formData.rules.map((rule, index) => (
+                <li key={index}>✔ {rule}</li>
+              ))}
+            </ul>
+            </div>
+              <button className="editButton">Edit</button>
+
+          </div>
+                                    <hr />
+
+
+          <div className="reviewImages">
+  <h3>PHOTOS</h3>
+
+  <div className="imageGrid">
+    {formData.images.map((file, index) => (
+      <img
+        key={index}
+        src={URL.createObjectURL(file)}
+        alt={`Driveway ${index}`}
+        className="previewImage"
+      />
+    ))}
+  </div>
+</div>
+            <hr />
+
+<p className="agreementText">
+  By publishing your listing, you confirm that all information is accurate and
+  that you agree to follow our hosting rules and community guidelines.
+  <br />
+  <a href="/terms" className="termsLink">View Terms of Use</a>
+</p>
+
+<button onClick={handleSubmit} className="listBtn">List Driveway</button>
+
+       </section>
+
+          
+          </>
+        )}
+</div>
+
+        <section className="buttonWrapper">
+
+  
+  {step === 1 && (
+    <button className="nextBtn" onClick={() => setStep(step + 1)}>
+      Next
+    </button>
+  )}
+
+
+  {step > 1 && step < 7 && (
+    <>
+      <button className="nextBtn" onClick={() => setStep(step - 1)}>
+        Back
+      </button>
+
+      <button className="nextBtn" onClick={() => setStep(step + 1)}>
+        Next
+      </button>
+    </>
+  )}
+
+ 
+  {step === 7 && (
+    <>
+      <button className="nextBtn" onClick={() => setStep(step - 1)}>
+        Back
+      </button>
+
+    </>
+  )}
+
+</section>
+
+<p className="helper">Step {step} of 7</p>
+
+
+
             {isLoading && (
   <div className="loading-overlay">
     <div className="loading-spinner"></div>
@@ -533,21 +631,109 @@ function handleRuleToggle(rule:any) {
   </div>
 )}
 
-      </div>
-    ) : (
-      // Show login/signup prompt if no user
-      <div className="signUpMessageBox">
-      <h4 className="signUpMessage">Please Login or Signup to continue.</h4>
-        <div className="bottomButtons">
-          <Link to="/Signup" className="btn">Signup</Link>
-          <Link to="/Login" className="btn">Login</Link>
-        </div>
-      </div>
-    )}
-</>
-) : <p className="addedCarMsg">{message}</p>}
-    </div>
-);
-}
+        </>
+    )
+  }
 
-export default AddDriveway;
+    return(
+        <>
+       {token ? (
+        <>
+           <div className="topAddDriveway">
+      <img
+        src="/logo.png"
+        alt="logo"
+        className="logo"
+        onClick={sendHome}
+      />
+      <ProfileDropdown/>
+
+    </div>
+        <div className="policy-container">
+        <div className="policy-box">
+        <h3>Host Rules Agreement</h3>
+         <p><strong>1. Accuracy of Information</strong><br />
+         I agree to provide accurate details about my driveway, including location, size,
+          access instructions, and any restrictions. I will update my listing if anything changes.
+          </p>
+          
+        <p><strong>2. Availability</strong><br />
+        I am responsible for keeping my availability accurate. If my driveway becomes unavailable,
+        I will update the listing immediately.
+        </p>
+
+        <p><strong>3. Arrival Time</strong><br />
+          Renters may arrive up to <strong>30 minutes before the game or event</strong>, unless I specify
+          a different rule in my listing. I agree to honor the arrival window shown to the renter.
+        </p>
+
+        <p><strong>4. Safety & Accessibility</strong><br />
+          My driveway will be safe, accessible, and free of hazards. I will clearly communicate any
+          special instructions such as gates, codes, or narrow entrances.
+        </p>
+        
+        <p><strong>5. Compliance With Local Laws</strong><br />
+        I am responsible for ensuring that listing my driveway complies with local laws, property rules,
+        and any HOA or building regulations.
+        </p>
+        
+        <p><strong>6. Respectful Communication</strong><br />
+        I will communicate with renters only through the app and respond promptly to questions or issues.
+        </p>
+        
+        <p><strong>7. Cancellations</strong><br />
+          If I need to cancel a booking, I will do so through the app. I understand that frequent cancellations
+          may result in penalties or removal from the platform.
+        </p>
+
+        <p><strong>8. No Unauthorized Tow‑Away</strong><br />
+          I will not tow or threaten to tow a renter’s vehicle unless they violate clearly stated rules.
+          Any towing must follow local laws.
+        </p>
+
+        <p><strong>9. Condition of the Space</strong><br />
+        My driveway will be available, clean, and usable at the renter’s arrival time. I will not block
+          the space or allow others to use it during a confirmed booking.
+          </p>
+
+        <p><strong>10. Platform Policies</strong><br />
+        I agree to follow all platform rules, terms of service, and safety guidelines. I understand that
+          violations may result in suspension or removal from the platform.
+        </p>
+        </div>
+        <label className="agree-label">
+            <input type="checkbox" onChange={handleCheck} />
+            I have read and agree to the Host Rules.
+            
+        </label>
+        <button
+        onClick={handlePolicy} 
+        className="agreeButton"
+        disabled={!checked} 
+        >
+            Agree and continue
+            </button>
+
+        </div>
+
+        </>
+
+       ) 
+       :
+       <>
+       <div className="login-overlay-container">
+  <p className="login-overlay-text">
+    In order to start listing your driveway, you need to Login or Signup
+  </p>
+
+  <Login from={location.pathname} />
+</div>
+
+       </>
+    
+       }
+       
+        </>
+        
+    )
+}
