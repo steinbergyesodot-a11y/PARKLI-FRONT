@@ -47,6 +47,7 @@ type Game = {
   game_time: string;
   date: string;
   booked: boolean;
+  blocked:boolean
 };
 
 
@@ -198,9 +199,13 @@ useEffect(() => {
               <span className="game-team">{game.visiting_team}</span>
               <span className="game-date">@ {game.game_time}</span>
                 </div>
-              <span className={`game-status ${game.booked ? 'booked' : 'available'}`} 
-              onClick={game.booked ? undefined : () => paymentPage(game)}>
-            {game.booked ? 'Booked' : 'Available'}
+              <span className={`game-status ${game.booked || game.blocked ? 'booked' : 'available'}`} 
+              onClick={game.booked || game.blocked ? undefined : () => paymentPage(game)}>
+            {game.booked ? 'Booked' : 
+            game.blocked ? 
+            'Booked':
+             'Available'
+             }
              </span>  
               </section>
               

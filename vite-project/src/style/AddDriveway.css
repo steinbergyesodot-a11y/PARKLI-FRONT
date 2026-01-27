@@ -5,8 +5,115 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     height: 15vh;
     width: 100vw;
+  }
+  
+  .listing-intro {
+    max-width: 480px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+  }
+  
+  .listing-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #222;
+  }
+  
+  .listing-subtitle {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+  
+  .listing-start-btn {
+    background: #007bff;
+    color: white;
+    padding: 14px 26px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+  
+  .listing-start-btn:hover {
+    background: #005fcc;
+    transform: translateY(-2px);
+  }
+
+  
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+.box5 {
+  flex: 1; /* content grows and pushes footer down */
+  padding: 20px;
+
+}
+
+.buttonWrapper {
+  height: 20vh;
+  background: #f0f0f0;
+  border-top: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.bothButtons{
+  display: flex;
+  gap: 5%;
+}
+.nextBtn{
+  background-color: black;
+  color: whitesmoke;
+  font-weight: 700;
+  border-radius: 5%;
+  cursor: pointer;
+  height: 5vh;
+  
+  margin-top: 3%;
+  padding: 10px 20px; 
+  width: auto;
+  height: auto;
+  
+}
+
+
+.helper{
+  text-align: center;
+  font-weight: 500;
+  background: #f0f0f0;
+  margin: 0;
+  
+}
+
+
+.locationHeader5{
+  margin-top: 8%;
+  margin-top: 5%;
+  color: #222;
+  font-weight: 600;
+  ;
+}
+
+.safety{
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: gray;
+}
 .userName{
   color: rgb(27, 26, 26);
   font-weight: 700;
@@ -15,36 +122,30 @@
   
 }
 
+.locationBox {
 
-
-
-.box5{
-    display: flex;
-    justify-content: center;
-    margin-top: 5%;
-    
+  display: flex;
+  flex-direction: column;
+  margin-top: 3%;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 14px;
+  /* box-sizing: border-box; */
+  align-items: center;
 }
 
-.location5{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 40vw;
+.priceBoxLarger{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  margin-top: 3%;
+}
+.priceBox{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
 }
 
-.locationHeader5{
-    margin-top: 8%;
-    margin-top: 5%;
-    color: #222;
-font-weight: 600;
-;
-}
-
-.safety{
-    margin-top: 5px;
-    font-size: 0.8rem;
-    color: gray;
-}
 
 input::placeholder {
   color: grey;
@@ -58,6 +159,18 @@ input::placeholder {
   width: 40%;
   font-size: 2vh;
 }
+
+.stadiumInfoBox{
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  margin-top: 3%;
+}
+.stadiumInfo5{
+    display: flex;
+    flex-direction: column;
+}
+
 
 .inputPrice{
   height: 5vh;
@@ -76,23 +189,6 @@ input::placeholder {
 }
 
 
-.nextBtn{
-    background-color: black;
-    color: whitesmoke;
-    font-weight: 700;
-    border-radius: 5%;
-    cursor: pointer;
-    height: 5vh;
-    width: 5%;
-    margin-top: 3%;
-    
-}
-
-.buttonWrapper{
-    display: flex;
-    justify-content: center;
-    gap: 1%;
-}
 
 
 .stadium5 input[type="radio"] {
@@ -108,20 +204,64 @@ input::placeholder {
   margin: 5px;
   cursor: pointer;
   transition: border-color 0.3s, background-color 0.3s;
+}  
+
+.priceTitle{
+  color: #222;
+font-weight: 600;  
+text-align: center;
 }
 
+.priceTitle2{
+    color: #222222af;
+    text-align: center;
+    font-weight: 100;
+}
 
 .stadium5 input[type="radio"]:checked + label {
   border-color: #007bff;
   background-color: #eef6ff;
-}
+}  
 
 
 .walk input[type="radio"] {
   display: none; /* hide the circle */
+}  
+
+.walk-select {
+   width: 100%; 
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 15px;
+  color: #333;
+  appearance: none; /* removes default arrow */
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
 }
 
-.walk label {
+.walk-select:focus {
+  outline: none;
+  border-color: #1e6ffb;
+  box-shadow: 0 0 0 3px rgba(30, 111, 251, 0.25);
+}
+
+.walk-select:hover {
+  border-color: #999;
+}
+
+.walk {
+  width: 100%;
+  margin-top: 10px;
+}
+
+ .walk label {
   display: inline-block;
   padding: 12px 20px;
   border: 2px solid #ccc;
@@ -129,31 +269,43 @@ input::placeholder {
   margin: 5px;
   cursor: pointer;
   transition: border-color 0.3s, background-color 0.3s;
-}
+}   
 
 .walk input[type="radio"]:checked + label {
   border-color: #007bff;
   background-color: #eef6ff;
-}
+}  
 
 
 .title2{
     color: #222;
     font-weight: 600;
     font-style:normal;
+}    
+
+
+.imagesBoxLarger{
+  display: flex;
+  width: 100vw;
+  justify-content: center;
 }
 
-.stadiumInfo5{
-    display: flex;
-    flex-direction: column;
+.imagesBox{
+  display: flex;
+  flex-direction: column;
 }
 
-
-.priceTitle{
-  color: #222;
-font-weight: 600;
-
+.descriptionBox{
+  display: flex;
+  flex-direction: column;
 }
+
+.descriptionBoxLarger{
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+}
+
 
 
 .price-dropdown {
@@ -164,11 +316,36 @@ font-weight: 600;
   background: white;
   cursor: pointer;
   transition: border-color 0.3s ease;
-}
+}  
+
+
+.textarea {
+  width: 100%;
+  max-width: 500px;        /* keeps it nicely centered */
+  min-height: 150px;
+  padding: 14px 16px;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 1.5;
+
+  resize: vertical;        /* allows resizing only up/down */
+  outline: none;
+
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}  
+
+.textarea:focus {
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+}  
 
 .price-dropdown:hover {
   border-color: #888;
-}
+}  
 
 
 
@@ -177,22 +354,22 @@ font-weight: 600;
     height: 1px;
       background: linear-gradient(to top, rgb(110, 161, 249) 0%, white 100%);
  
-}
+}      
 
 .step {
   animation: fadeIn 1.4s ease;
-}
+}  
 
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(10px); /* starts slightly lower */
-  }
+  }  
   to {
     opacity: 1;
     transform: translateY(0); /* ends in place */
-  }
-}
+  }  
+}  
 
 
 .subBtn{
@@ -206,12 +383,8 @@ font-weight: 600;
     margin-top: 3%;
 
 
-}
+}    
 
-.helper{
-    text-align: center;
-    font-weight: 500;
-}
 
 .footer{
   height: 20vh;         
@@ -219,7 +392,7 @@ font-weight: 600;
   background: linear-gradient(to top, rgb(110, 161, 249) 0%, white 100%);
   position: fixed;       
   bottom: 0; 
-}
+}  
 
 
 .signUpMessageBox {
@@ -232,7 +405,7 @@ font-weight: 600;
   text-align: center;
   /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
   font-family: Arial, sans-serif;
-}
+}  
 
 .signUpMessage {
   margin-bottom: 1.5rem;
@@ -454,6 +627,7 @@ font-weight: 600;
 
 .pricing-note {
   background: #f5f7fa;
+  text-align: center;
   border-left: 4px solid #4a90e2;
   padding: 1rem 1.2rem;
   margin: 1.2rem 0;
@@ -550,52 +724,8 @@ font-weight: 600;
 }
 
 
-.walk-select {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  background: #fff;
-  font-size: 15px;
-  color: #333;
-  appearance: none; /* removes default arrow */
-  cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
-}
-
-.walk-select:focus {
-  outline: none;
-  border-color: #1e6ffb;
-  box-shadow: 0 0 0 3px rgba(30, 111, 251, 0.25);
-}
-
-.walk-select:hover {
-  border-color: #999;
-}
-
-.walk {
-  width: 100%;
-  margin-top: 10px;
-}
-
 
 /* Container */
-.location5 {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
-  /* background: #fff; */
-  border-radius: 14px;
-  /* box-shadow: 0 8px 24px rgba(0,0,0,0.08); */
-  width: 100%;
-  box-sizing: border-box;
-}
 
 /* Header */
 .locationHeader5 {
@@ -776,51 +906,43 @@ font-weight: 600;
   z-index: 10;
 }
 
-.listing-intro {
-  max-width: 480px;
-  margin: 80px auto;
-  padding: 40px 30px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  text-align: center;
-  animation: fadeIn 0.4s ease;
-}
-
-.listing-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: #222;
-}
-
-.listing-subtitle {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 28px;
-  line-height: 1.5;
-}
-
-.listing-start-btn {
-  background: #007bff;
-  color: white;
-  padding: 14px 26px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.listing-start-btn:hover {
-  background: #005fcc;
-  transform: translateY(-2px);
-}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.listBtn {
+  background: #007bff;
+  color: white;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.listBtn:hover {
+  background: #005fcc;   /* darker blue */
+  transform: translateY(-2px); /* subtle lift */
+}
+
+.listBtn:active {
+  transform: translateY(0); /* resets on click */
+}
+
+.reviewOuterBox{
+ display: flex;
+ width: 100vw;
+ justify-content: center;
+}
+
+.logo {
+  height: 130px;     /* or whatever size you want */
+  width: auto;      /* keeps the aspect ratio */
+  object-fit: contain;
+  cursor: pointer;
 }
 
 
@@ -919,23 +1041,10 @@ hr {
   text-decoration: underline;
 }
 
-.listBtn {
-  background-color: #005fcc;
-  color: white;
-  font-size: 1.2rem;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color .25s ease, transform .2s ease;
+
+
+.nextBtn {
+  padding: 10px 18px;
+  white-space: nowrap;
 }
 
-.listBtn:hover {
-  background-color: #004bb0;   /* slightly darker blue */
-  transform: translateY(-2px); /* subtle lift */
-}
-
-.listBtn:active {
-  transform: translateY(0);    /* removes lift on click */
-  background-color: #003f94;   /* even darker on press */
-}

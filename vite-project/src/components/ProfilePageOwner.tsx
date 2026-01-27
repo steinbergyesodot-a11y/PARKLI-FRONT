@@ -4,7 +4,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import '../style/ProfilePageOwner.css'
-import { p } from "framer-motion/client";
 import { BookingDash } from "./BookingsDash";
 
 interface MyTokenPayload {
@@ -20,6 +19,7 @@ type Game = {
   game_time: string;
   date: string;
   booked: boolean;
+  blocked: boolean
 };
 
 export function ProfilePageOwner() {
@@ -52,7 +52,7 @@ const[renterActive,setRenterActive] = useState("My Bookings")
     const decoded = jwtDecode<MyTokenPayload>(token);
     setUser(decoded);
     fetchGames(decoded._id);
-    setLoading(false);   // <-- move here
+    setLoading(false);   
   } catch (err) {
     console.error("Invalid token", err);
     navigate("/login");
@@ -103,7 +103,7 @@ async function fetchGames(userId: string) {
 async function handleBlock(drivewayId: string, gameDate: string) {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/driveways/${drivewayId}/${gameDate}`
+      `http://localhost:4000/api/driveways/${drivewayId}/block/${gameDate}`
     );
 
     console.log("Updated driveway:", response.data.updatedDriveway);
@@ -115,6 +115,7 @@ async function handleBlock(drivewayId: string, gameDate: string) {
     console.error("Error blocking date:", error);
   }
 }
+
 
 
 async function handleUnblock(drivewayId: string, gameDate: string) {
@@ -151,7 +152,6 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         />
         <ProfileDropdown />
       </div>
-
       <div className="topLineProfile">
         <img
           src="/assets/avatar.png"
@@ -161,7 +161,7 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         <div className="namemail">
           <p className="name">{user.name}</p>
           <p className="email">{user.email}</p>
-          <button className="editBtn">Edit Profile</button>
+          <button className="editBtn" onClick={() => setActive("My Profile")}>Edit Profile</button>
 
           
         </div>
@@ -170,7 +170,7 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
 <p className="hostSection"></p>
 
       <section className="navs">
-        {["Host Bookings", "My Driveways", "My Earnings"].map(tab => (
+        {["Host Bookings", "My Driveways", "My Earnings","My Profile"].map(tab => (
           <button
             key={tab}
             className={`navsBtn ${active === tab ? "active" : ""}`}
@@ -201,19 +201,22 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
                     <span className="game-date">@ {game.game_time}</span>
                 </div>
                 <button
-                    className={`game-status ${game.booked ? "booked" : "available"}`}
+                    className={`game-status ${game.booked ? "booked" : game.blocked ? "blocked":"available"}`}
                     onClick={() => askToConfirm(user.drivewayIds[0], game.date, game.booked)}
 
                     >
-                    {game.booked ? "Booked" : "Block"}
+                    {game.booked
+                    ? "Booked"
+                    : game.blocked
+                      ? "Blocked"
+                      : "Available"
+                    }
+
                </button>
 
             </section>
-                
-
-              
-            ))
-          )}
+          ))
+        )}
 
 
           {showConfirm && pendingAction && (

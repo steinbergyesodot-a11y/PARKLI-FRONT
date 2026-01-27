@@ -55,9 +55,9 @@
 }
 
 /* Booked */
-.game-status.booked {
+button.game-status.booked {
   width: 8vw;
-  background-color: rgb(220, 6, 6);
+  background-color:rgb(84, 84, 244);
   color: white;
 }
 
@@ -68,6 +68,12 @@
   background-color: green;
   color: white;
   transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.game-status.blocked{
+  background-color: #4444442d;
+  width: 8vw;
+
 }
 
 .game-status.available:hover {

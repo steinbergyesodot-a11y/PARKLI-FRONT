@@ -7,9 +7,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
 import imageCompression from "browser-image-compression";
 import { ProfileDropdown } from "./ProfileDropdown";
-import { button, p } from "framer-motion/client";
+import { button, div, p, section } from "framer-motion/client";
 import { Login } from "./Login";
 import { useLocation } from "react-router-dom";
+import { PlaceAutocompleteTS } from "./PlaceComplete";
 
 
 const ruleCategories = {
@@ -111,9 +112,6 @@ export function AddDriveway2(){
    const user = userContext?.user
    const token = localStorage.getItem("authToken")     // In login, the server returns a token. the payload has name and _id.
 
-   
- 
-   
    const navigate = useNavigate();
    
    function handlePolicy(){
@@ -127,75 +125,6 @@ export function AddDriveway2(){
 function handleListing(){
     setStartListing(true)
 }
-
-
-
-const inputRef = useRef<HTMLInputElement | null>(null);
-const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-
-useEffect(() => {
-  if (!inputRef.current || autocompleteRef.current) return;
-
-  const interval = setInterval(() => {
-    if (!window.google?.maps?.places || !inputRef.current) return;
-
-    const ac = new window.google.maps.places.Autocomplete(
-      inputRef.current,
-      {
-        types: ["address"],
-        fields: ["formatted_address", "address_components", "geometry"],
-      }
-    );
-
-    autocompleteRef.current = ac;
-
-    ac.addListener("place_changed", () => {
-      const place = ac.getPlace();
-
-      if (!place.geometry) return;
-
-      setFormData(prev => ({
-        ...prev,
-        address: place.formatted_address || "",
-      }));
-    });
-
-    clearInterval(interval);
-  }, 100);
-
-  return () => clearInterval(interval);
-}, []);
-
-
-const initAutocomplete = () => {
-  if (
-    autocompleteRef.current ||
-    !window.google?.maps?.places ||
-    !inputRef.current
-  ) {
-    return;
-  }
-
-  const ac = new window.google.maps.places.Autocomplete(
-    inputRef.current,
-    {
-      types: ["address"],
-      fields: ["formatted_address", "address_components", "geometry"],
-    }
-  );
-
-  autocompleteRef.current = ac;
-
-  ac.addListener("place_changed", () => {
-    const place = ac.getPlace();
-    if (!place.geometry) return;
-
-    setFormData(prev => ({
-      ...prev,
-      address: place.formatted_address || "",
-    }));
-  });
-};
 
 
 
@@ -239,8 +168,8 @@ function handleRuleToggle(rule:any) {
           return
         }
     
-    const token = localStorage.getItem("authToken")     // In login, the server returns a token. the payload has name and _id.
-                                                       //  extracting the _id and assigning the ownerId from formData
+    const token = localStorage.getItem("authToken")     
+                                                      
     if (token){
     
       const decoded = jwtDecode<MyPayload>(token);
@@ -291,6 +220,8 @@ function handleRuleToggle(rule:any) {
             else{
               console.error("Axios setup error:", error.message);
             }
+          }finally{
+            setIsLoading(false)
           }
     }
   
@@ -329,6 +260,15 @@ if (startListing === false) {
   if(!policyNotAgreed){
     return(
         <>
+        <div className="page">
+
+             {isLoading && (
+               <div className="loading-overlay">
+                 <div className="loading-spinner"></div>
+                 <p>Uploading your driveway…</p>
+               </div>
+             )}
+
            <div className="topAddDriveway">
               <img
                 src="/logo.png"
@@ -338,32 +278,47 @@ if (startListing === false) {
               />
               <ProfileDropdown/>
            </div>
-           
-          <div className="box5">
+
+          {message ? (
+            <p className="addedCarMsg">{message}</p>
+          ) : (
+
             
-       {step === 1 && (
-          <div className="location5 step">
-            <h2 className="locationHeader5">Where's your driveway located?</h2>
-            <input
-              ref={inputRef}
-              className="locationInput5"
-              placeholder="Driveway address"
-              autoComplete="off"
-              autoCorrect="off"
-              spellCheck={false}
-              value={formData.address}
-              onChange={e => handleChange("address", e.target.value)}
-              onFocus={initAutocomplete}
-            />
-            <p className="safety">
-              We only show renters your street and approximate location. 
-              Your full address is shared after a confirmed reservation.
-            </p>
-          </div>
-      )}
+            <div className="box5">
+            
+            {message && (
+             <>
+             <p className="addedCarMsg">{message}</p>
+             </>
+           )}
+
+           
+{step === 1 && (
+  <div className="locationBox step">
+    <h2>Where's your driveway located?</h2>
+
+  <PlaceAutocompleteTS
+  
+  onSelect={address => {
+    console.log("Selected:", address);
+    setFormData(prev => ({ ...prev, address }));
+  }}
+/>
+
+
+
+
+    <p className="safety">
+      We only show renters your street and approximate location.
+    </p>
+  </div>
+)}
+
+
 
        {step === 2 && (
-  <div className="stadiumInfo5 step">
+        <section className="stadiumInfoBox">
+    <div className="stadiumInfo5 step">
     <h3 className="title2">Walk from driveway to stadium:</h3>
 
     <section className="walk">
@@ -382,13 +337,15 @@ if (startListing === false) {
       </select>
     </section>
   </div>
+  </section>
 )}
 
 
         {step === 3 && (
-          <div className="step">
-            <h2 className="priceTitle">Price</h2>
-            <h4 className="priceTitle">Set your price per reservation (USD).</h4>
+          <section className="priceBoxLarger">
+          <div className="priceBox">
+            <h2 className="priceTitle">Set YourPrice</h2>
+            <h4 className="priceTitle2">Set your price per reservation (USD).</h4>
            <div className="pricing-note">
             <strong>Note:</strong> You can update your pricing at any time. Whether it’s due to playoffs, special events, or changing demand, you’re always in full control of your rates.
            </div>
@@ -405,16 +362,21 @@ if (startListing === false) {
                    ))}
                    
                    </select>
-                   </div>
-                  )}
+          </div>
+          </section>
+        )}
                 
 
                   
                   {step === 4 && (
-                    <div className="step">
-                    <h2 className="priceTitle">Add your pictures!</h2>
+                    <div className="imagesBoxLarger">
+                    <section className="imagesBox step">
+                    
+                    <h2>Add your pictures!</h2>
                     <div className="image-note">
-                    <strong>Tip:</strong> Please upload clear, high‑quality photos of your driveway. Good lighting and accurate angles help renters feel confident and increase your chances of getting booked.
+                      <strong>Tip:</strong> Please upload clear, high‑quality photos of your driveway.<br />
+Good lighting and accurate angles help renters feel confident and increase your chances of getting booked.
+
                     </div>
   
   
@@ -430,7 +392,7 @@ if (startListing === false) {
                       const newFiles = e.target.files ? Array.from(e.target.files) : [];
                       handleChange("images", [...formData.images, ...newFiles]);
                     }}
-  />
+                    />
                   {formData.images.length > 0 && (
                     <div className="previewGrid">
                 {formData.images.map((file, index) => (
@@ -443,6 +405,8 @@ if (startListing === false) {
               
               </label>
               </div>
+              
+              </section>
               </div>
         
               )}
@@ -456,7 +420,7 @@ if (startListing === false) {
 
 
           {Object.entries(ruleCategories).map(([category, rules]) => (
-          <div key={category} className="rule-category">
+            <div key={category} className="rule-category">
             <h4 className="category-title">{category}</h4>
 
        {rules.map(rule => (
@@ -465,7 +429,7 @@ if (startListing === false) {
             type="checkbox"
             checked={formData.rules.includes(rule)}
             onChange={() => handleRuleToggle(rule)}
-          />
+            />
           {rule}
         </label>
           ))}
@@ -477,16 +441,19 @@ if (startListing === false) {
 
 
         {step === 6 && (
-          <div className="step">
-            <h3 className="priceTitle">Additional Information</h3>
+          <section className="descriptionBoxLarger">
+          <div className="descriptionBox step">
+            <h3>Additional Information</h3>
             <div className="info-note">
-  <strong>Additional Information:</strong> Feel free to include any extra details that might help renters understand your driveway better — such as access instructions, nearby landmarks, or anything unique about your space.
+  <strong>Additional Information:</strong> Feel free to include any extra details that might help renters understand your driveway better.<br />
+  Such as access instructions, nearby landmarks, or anything unique about your space.
 </div>
+
 
             <textarea
             className="textarea"
             id="message"
-              name="message"
+            name="message"
               rows={10}
               cols={60}
               placeholder="Write your text here..."
@@ -494,10 +461,11 @@ if (startListing === false) {
               onChange={e => handleChange("description", e.target.value)}
               />
               </div>
+              </section>
         )}
         {step === 7 && (
           <>
-          {/* <h2>Review Your Driveway Listing</h2> */}
+          <div className="reviewOuterBox">
           <section className="reviewBox">
 
               <div className="reviewLocation">
@@ -564,7 +532,7 @@ if (startListing === false) {
         src={URL.createObjectURL(file)}
         alt={`Driveway ${index}`}
         className="previewImage"
-      />
+        />
     ))}
   </div>
 </div>
@@ -580,66 +548,63 @@ if (startListing === false) {
 <button onClick={handleSubmit} className="listBtn">List Driveway</button>
 
        </section>
+       </div>
 
           
           </>
         )}
-</div>
+</div>      
 
-        <section className="buttonWrapper">
+)}
+  <div className="buttonWrapper">
 
-  
-  {step === 1 && (
-    <button className="nextBtn" onClick={() => setStep(step + 1)}>
-      Next
-    </button>
-  )}
-
-
-  {step > 1 && step < 7 && (
-    <>
-      <button className="nextBtn" onClick={() => setStep(step - 1)}>
-        Back
-      </button>
-
+    {step === 1 && (
       <button className="nextBtn" onClick={() => setStep(step + 1)}>
         Next
       </button>
-    </>
-  )}
+    )}
 
- 
-  {step === 7 && (
-    <>
-      <button className="nextBtn" onClick={() => setStep(step - 1)}>
-        Back
-      </button>
+    {step > 1 && step < 7 && (
+      <>
+        <div className="bothButtons">
+        <button className="nextBtn" onClick={() => setStep(step - 1)}>
+          Back
+        </button>
 
-    </>
-  )}
+        <button className="nextBtn" onClick={() => setStep(step + 1)}>
+          Next
+        </button>
+        </div>
+      </>
+    )}
 
-</section>
+    {step === 7 && (
+      <>
+        <button className="nextBtn" onClick={() => setStep(step - 1)}>
+          Back
+        </button>
+      </>
+    )}
 
-<p className="helper">Step {step} of 7</p>
-
-
-
-            {isLoading && (
-  <div className="loading-overlay">
-    <div className="loading-spinner"></div>
-    <p>Uploading your driveway…</p>
+  <p className="helper">Step {step} of 7</p>
   </div>
-)}
+
+
+
+
+
+          
+</div>
 
         </>
     )
   }
 
-    return(
+    return(   // if user is logged in
         <>
-       {token ? (
+      {token ? (
         <>
-           <div className="topAddDriveway">
+      <div className="topAddDriveway">
       <img
         src="/logo.png"
         alt="logo"
