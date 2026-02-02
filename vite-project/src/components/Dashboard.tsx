@@ -14,6 +14,7 @@ interface Spot {
   _id: string;
   address: string;
   walk: number;
+  name: string;
   stadium: string;
   price: number;
   images: string[];
@@ -65,6 +66,7 @@ export function Dashboard() {
           {cards.map((driveway) => (
             <DrivewayCard
               key={driveway._id}
+              name={driveway.name}
               drivewayCardId={driveway._id}
               address={driveway.address}
               distance={driveway.walk}

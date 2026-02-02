@@ -81,6 +81,7 @@ type MyPayload = JwtPayload & { _id?: string; name?: string; };
 interface drivewayFormData {
   ownerId: string;
   address: string;
+  name:string;
   walk: string;
   price: string;
   images: File[];
@@ -95,6 +96,7 @@ export function AddDriveway2(){
   const [formData, setFormData] = useState<drivewayFormData>({
     ownerId: "",
     address: "",
+    name: "",
     walk: "",
     price: "",
     images: [],
@@ -127,13 +129,7 @@ function handleListing(){
 }
 
 
-
-
-
-
-
-
-  const handleChange = (
+const handleChange = (
   field: keyof drivewayFormData,
   value: string | string[]| File | File[] | null
 ) => {
@@ -179,6 +175,7 @@ function handleRuleToggle(rule:any) {
       const data = new FormData()
       data.append("ownerId", userId || "");
       data.append("address", formData.address);
+      data.append("name",formData.name)
       data.append("walk", formData.walk);
       data.append("price", formData.price);
       data.append("description", formData.description);
@@ -291,24 +288,36 @@ if (startListing === false) {
              <p className="addedCarMsg">{message}</p>
              </>
            )}
-
+  {step === 1 && (
+    <>
+    <section className="nameOuter">
+    <div className="nameBox">
+    <p>
+      Choose a driveway name (this will appear on your property page)
+    </p>
+    <input
+     type="text" 
+     value={formData.name}
+     onChange={e => handleChange("name", e.target.value)}
+     className="nameInput"
+     placeholder="e.g., John's driveway"
+     />
+     </div>
+     </section>
+    </>
+  )}
            
-{step === 1 && (
+  {step === 2 && (
   <div className="locationBox step">
     <h2>Where's your driveway located?</h2>
 
   <PlaceAutocompleteTS
   
   onSelect={address => {
-    console.log("Selected:", address);
     setFormData(prev => ({ ...prev, address }));
   }}
 />
-
-
-
-
-    <p className="safety">
+ <p className="safety">
       We only show renters your street and approximate location.
     </p>
   </div>
@@ -316,7 +325,7 @@ if (startListing === false) {
 
 
 
-       {step === 2 && (
+       {step === 3 && (
         <section className="stadiumInfoBox">
     <div className="stadiumInfo5 step">
     <h3 className="title2">Walk from driveway to stadium:</h3>
@@ -341,7 +350,7 @@ if (startListing === false) {
 )}
 
 
-        {step === 3 && (
+        {step === 4 && (
           <section className="priceBoxLarger">
           <div className="priceBox">
             <h2 className="priceTitle">Set YourPrice</h2>
@@ -368,51 +377,61 @@ if (startListing === false) {
                 
 
                   
-                  {step === 4 && (
-                    <div className="imagesBoxLarger">
-                    <section className="imagesBox step">
-                    
-                    <h2>Add your pictures!</h2>
-                    <div className="image-note">
-                      <strong>Tip:</strong> Please upload clear, high‑quality photos of your driveway.<br />
-Good lighting and accurate angles help renters feel confident and increase your chances of getting booked.
+       {step === 5 && (
+  <div className="imagesBoxLarger">
+    <section className="imagesBox step">
 
-                    </div>
-  
-  
-                    <div className="imageUploadBox">
-                    <label className="uploadArea">
-                    <span className="uploadText">Click to upload or drag images here</span>
-                    <input
-                    className="imageInput"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={e => {
-                      const newFiles = e.target.files ? Array.from(e.target.files) : [];
-                      handleChange("images", [...formData.images, ...newFiles]);
+      <h2>Add your pictures!</h2>
+      <div className="image-note">
+        <strong>Tip:</strong> Please upload clear, high‑quality photos of your driveway.<br />
+        Good lighting and accurate angles help renters feel confident and increase your chances of getting booked.
+      </div>
+
+      <div className="imageUploadBox">
+        <label className="uploadArea">
+          <span className="uploadText">Click to upload or drag images here</span>
+
+          <input
+            className="imageInput"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const newFiles = e.target.files ? Array.from(e.target.files) : [];
+              handleChange("images", [...formData.images, ...newFiles]);
+            }}
+          />
+
+          {formData.images.length > 0 && (
+            <div className="previewGrid">
+              {formData.images.map((file: File, index: number) => (
+                <div key={index} className="previewItem">
+                  <img src={URL.createObjectURL(file)} alt={`preview-${index}`} />
+
+                  <button
+                    type="button"
+                    className="removeBtn"
+                    onClick={() => {
+                      const updated: File[] = formData.images.filter((_, i) => i !== index);
+                      handleChange("images", updated);
                     }}
-                    />
-                  {formData.images.length > 0 && (
-                    <div className="previewGrid">
-                {formData.images.map((file, index) => (
-                  <div key={index} className="previewItem">
-                    <img src={URL.createObjectURL(file)} alt={`preview-${index}`} />
-                  </div>
-                ))}
+                  >
+                    ✕
+                  </button>
                 </div>
-              )}
-              
-              </label>
-              </div>
-              
-              </section>
-              </div>
-        
-              )}
+              ))}
+            </div>
+          )}
+
+        </label>
+      </div>
+
+    </section>
+  </div>
+)}
 
 
-        {step === 5 && (
+        {step === 6 && (
           <>
            <div className="rules-section">
            <p className="title3">Rules for your driveway</p>
@@ -440,7 +459,7 @@ Good lighting and accurate angles help renters feel confident and increase your 
     )}
 
 
-        {step === 6 && (
+        {step === 7 && (
           <section className="descriptionBoxLarger">
           <div className="descriptionBox step">
             <h3>Additional Information</h3>
@@ -463,10 +482,19 @@ Good lighting and accurate angles help renters feel confident and increase your 
               </div>
               </section>
         )}
-        {step === 7 && (
+        {step === 8 && (
           <>
           <div className="reviewOuterBox">
           <section className="reviewBox">
+
+             <div className="reviewLocation">
+                <div>
+                <h3>NAME</h3>
+                <p>{formData.name}</p>
+                </div>
+                <button className="editButton" onClick={() => setStep(1)}>Edit</button>
+              </div>
+              <hr />
 
               <div className="reviewLocation">
                 <div>
@@ -474,7 +502,7 @@ Good lighting and accurate angles help renters feel confident and increase your 
                 <p>{formData.address}</p>
                 <p className="exact">Exact address shown only after booking</p>
                 </div>
-                <button className="editButton" >Edit</button>
+                <button className="editButton" onClick={() => setStep(2)}>Edit</button>
               </div>
               <hr />
 
@@ -483,7 +511,7 @@ Good lighting and accurate angles help renters feel confident and increase your 
                 <h3>PRICE</h3>
                 <p>${formData.price} per game</p>
                 </div>
-                <button className="editButton">Edit</button>
+                <button className="editButton" onClick={() => setStep(4)}>Edit</button>
               </div>
               <hr />
 
@@ -493,7 +521,7 @@ Good lighting and accurate angles help renters feel confident and increase your 
                 <h3>WALKING DISTANCE</h3>
                 <p>{formData.walk} minute walk</p>
               </div>
-              <button className="editButton">Edit</button>
+              <button className="editButton" onClick={() => setStep(3)}>Edit</button>
             </div>
               <hr />
 
@@ -502,7 +530,7 @@ Good lighting and accurate angles help renters feel confident and increase your 
                 <h3>Description</h3>
                 <p>{formData.description}</p>
               </div>
-              <button className="editButton">Edit</button>
+              <button className="editButton" onClick={() => setStep(7)}>Edit</button>
             </div>
                           <hr />
 
@@ -516,13 +544,14 @@ Good lighting and accurate angles help renters feel confident and increase your 
               ))}
             </ul>
             </div>
-              <button className="editButton">Edit</button>
+              <button className="editButton" onClick={() => setStep(6)}>Edit</button>
 
           </div>
                                     <hr />
 
 
           <div className="reviewImages">
+            <div>
   <h3>PHOTOS</h3>
 
   <div className="imageGrid">
@@ -535,6 +564,9 @@ Good lighting and accurate angles help renters feel confident and increase your 
         />
     ))}
   </div>
+  </div>
+                <button className="editButton" onClick={() => setStep(5)}>Edit</button>
+
 </div>
             <hr />
 
@@ -564,7 +596,7 @@ Good lighting and accurate angles help renters feel confident and increase your 
       </button>
     )}
 
-    {step > 1 && step < 7 && (
+    {step > 1 && step < 8 && (
       <>
         <div className="bothButtons">
         <button className="nextBtn" onClick={() => setStep(step - 1)}>
@@ -578,7 +610,7 @@ Good lighting and accurate angles help renters feel confident and increase your 
       </>
     )}
 
-    {step === 7 && (
+    {step === 8 && (
       <>
         <button className="nextBtn" onClick={() => setStep(step - 1)}>
           Back
@@ -586,7 +618,7 @@ Good lighting and accurate angles help renters feel confident and increase your 
       </>
     )}
 
-  <p className="helper">Step {step} of 7</p>
+  <p className="helper">Step {step} of 8</p>
   </div>
 
 

@@ -2,10 +2,12 @@ import { createContext, useState} from "react";
 import type { ReactNode } from "react";
 
 export type User = {
-  name?: string;
+  firstName?: string;
+  lastName: string;
   email?: string;
   _id?: string;
-  
+  roles?: string[]; // Add this drivewayIds?: string[];
+drivewayIds?: string[];
 };
 
 export type UserContextType = {

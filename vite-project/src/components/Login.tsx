@@ -6,7 +6,8 @@ import axios from 'axios'
 import '../style/Login.css';
 
 interface MyJwtPayload {
-  name: string;
+  firstName: string;
+  lastName:string
   _id: string;
   exp: number;
   roles?: string[];
@@ -37,20 +38,19 @@ export function Login({ from }: LoginProps) {
     setPassword(event.target.value);
   }
 
- async function handleGoogleLogin() {
-   console.log("CLIENT ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
+async function handleGoogleLogin() {
+  console.log("CLIENT ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
   const google = window.google;
-
 
   const client = google.accounts.oauth2.initTokenClient({
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     scope: "email profile",
-    callback: async (response:any) => {
+    callback: async (response: any) => {
       const accessToken = response.access_token;
 
       // Send token to backend
       const res = await axios.post(
-        "http://localhost:4000/api/users/googleLogin",
+        "http://localhost:4000/api/users/google-login", // note the route name
         { accessToken }
       );
 
@@ -63,16 +63,20 @@ export function Login({ from }: LoginProps) {
       const decoded = jwtDecode<MyJwtPayload>(token);
 
       const now = Date.now() / 1000;
-     if (!decoded.exp) { throw new Error("Invalid token: missing exp"); }
+      if (!decoded.exp) {
+        throw new Error("Invalid token: missing exp");
+      }
 
       if (decoded.exp > now) {
-           // 3. Update user context
-           userContext?.setUser({
-             name: decoded.name,
-             _id: decoded._id
-           });
-
-       
+        // 3. Update user context using firstName / lastName
+        userContext?.setUser({
+          _id: decoded._id,
+          firstName: decoded.firstName,
+          lastName: decoded.lastName,
+          email: decoded.email,
+          roles: decoded.roles,
+          drivewayIds: decoded.drivewayIds
+        });
 
         // 4. Redirect
         const redirectTo = from || "/Home";
@@ -92,47 +96,57 @@ export function Login({ from }: LoginProps) {
   function sendHome() {
     navigate('/Home');
   }
+async function handleSubmit(event: any) {
+  event.preventDefault();
+  setErrorMsg("");
 
-  async function handleSubmit(event: any) {
-    event.preventDefault();
-    setErrorMsg("");
-    try{
-      const response = await axios.post('http://localhost:4000/api/users/login', {
-          password: password,
-          email: email
-      })
-      const token = response.data.token
-      
-      localStorage.setItem("authToken", token);
-const decoded = jwtDecode<MyJwtPayload>(token);
-
-      console.log(decoded)
-      const now = Date.now() / 1000;
-      if(decoded.exp > now){
-        userContext?.setUser({ 
-          name: decoded.name,
-          _id: decoded._id
-        });
-        sendHome();
-        
-      }else{
-        localStorage.removeItem("authToken"); 
-        userContext?.setUser(null);
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/api/users/login",
+      {
+        email,
+        password
       }
-     
-    }catch(error:any){
-      const message = 
-        error.response?.data?.message ||
-        error.response?.data ||
-        error.message ||
-        "Login failed"
-      ;
-      setErrorMsg(message);      
-    }
-    
-  }
+    );
 
-    
+    const token = response.data.token;
+    localStorage.setItem("authToken", token);
+
+    const decoded = jwtDecode<MyJwtPayload>(token);
+    const now = Date.now() / 1000;
+
+    if (!decoded.exp) {
+      throw new Error("Invalid token: missing exp");
+    }
+
+    if (decoded.exp > now) {
+      userContext?.setUser({
+        _id: decoded._id,
+        firstName: decoded.firstName,
+        lastName: decoded.lastName,
+        email: decoded.email,
+        roles: decoded.roles,
+        drivewayIds: decoded.drivewayIds
+      });
+
+      sendHome();
+
+    } else {
+      localStorage.removeItem("authToken");
+      userContext?.setUser(null);
+    }
+
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message ||
+      error.response?.data ||
+      error.message ||
+      "Login failed";
+
+    setErrorMsg(message);
+  }
+}
+
 
   return (
   <div className="login-container">

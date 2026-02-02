@@ -1,0 +1,15 @@
+.addressWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;   /* centers horizontally */
+  margin-top: 20px;
+}
+
+.addressInput {
+  width: 80%;                /* adjust to match your design */
+  max-width: 400px;          /* keeps it from getting too wide */
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}

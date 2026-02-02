@@ -143,11 +143,10 @@ button.game-status.booked {
 .confirm-box {
   background: white;
   border-radius: 10px;
-  width: 320px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  width: 380px;
 padding: 1.5rem;
+width: 25vw;
 
 }
 
@@ -164,21 +163,23 @@ padding: 1.5rem;
 
 .confirm-actions {
   display: flex;
-  justify-content: space-between;
+  gap: 3px;
+  width: 100%;
+  justify-content:center;
 }
 
 .confirm-yes {
   background: #d9534f;
   color: white;
-  width: 250px;
   border: none;
+  width: 40%;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .confirm-no {
   background: #ccc;
-    width: 250px;
+  width: 40%;
 
   color: #333;
   border: none;
@@ -231,3 +232,7 @@ padding: 1.5rem;
 }
 
 
+.game-status.booked {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

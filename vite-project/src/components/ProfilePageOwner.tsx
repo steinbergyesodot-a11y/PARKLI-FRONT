@@ -1,17 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { ProfileDropdown } from "./ProfileDropdown";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { act, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import '../style/ProfilePageOwner.css'
 import { BookingDash } from "./BookingsDash";
+import { MdEdit } from "react-icons/md";
+import { AllDrivewaysByUser } from "./AllDrivewaysByUser";
 
 interface MyTokenPayload {
   _id: string;
-  name: string;
+  firstName: string;
+  lastName:string;
   roles: string[];
   email: string;
-  drivewayIds:string
+  drivewayIds:string;
+  authProvider:string
 }
 
 type Game = {
@@ -24,10 +28,13 @@ type Game = {
 
 export function ProfilePageOwner() {
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("authToken");
+  
+  if (!token) {
+    return null;
+  }
   const [active, setActive] = useState("Host Bookings");
   const [games, setGames] = useState<Game[]>([]);
-  const [user, setUser] = useState<MyTokenPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingAction, setPendingAction] = useState<{
@@ -35,36 +42,63 @@ export function ProfilePageOwner() {
   date: string;
   type: "block" | "unblock";
 } | null>(null);
-const[renterActive,setRenterActive] = useState("My Bookings")
+  const [userId, setUserId] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const[authProvider,setAuthProvider] = useState("")
+  const[renterActive,setRenterActive] = useState("My Bookings")
 
+  const [user, setUser] = useState<MyTokenPayload | null>(null);
+ 
+  const [editingField, setEditingField] = useState("");
+  const [tempValue, setTempValue] = useState("");
+  const [message, setMessage] = useState("");
+  const [onConfirm, setOnConfirm] = useState<null | (() => void)>(null);
+  const [showProfileConfirm, setShowProfileConfirm] = useState(false);
+  const [userHasBookings,setUserHasBookings] = useState(false)
 
-
+ 
+    
 
   useEffect(() => {
-  const token = localStorage.getItem("authToken");
-
-  if (!token) {
-    navigate("/login");
-    return;
-  }
-
-  try {
     const decoded = jwtDecode<MyTokenPayload>(token);
-    setUser(decoded);
-    fetchGames(decoded._id);
-    setLoading(false);   
-  } catch (err) {
-    console.error("Invalid token", err);
-    navigate("/login");
-  }
-}, []);
+    setUser(decoded); 
+    setUserId(decoded._id);
+    setFirstName(decoded.firstName);
+    setLastName(decoded.lastName);
+    setEmail(decoded.email);
+    setAuthProvider(decoded.authProvider)
+    fetchGames(decoded._id)
+    setLoading(false)
 
-function askToConfirm(drivewayId: string, date: string, booked: boolean) {
-  setPendingAction({
-    drivewayId,
-    date,
-    type: booked ? "unblock" : "block"
-  });
+  }, [token]);
+
+  useEffect(() => { 
+    if (!userId) return;
+     async function checkBooking() { 
+      try { 
+        const res = await axios.get(`http://localhost:4000/api/bookings/checkIfUserHasBookings/${userId}`);
+         setUserHasBookings(res.data);
+        } catch (err) { 
+          console.error("Error checking booking:", err); 
+          setUserHasBookings(false); 
+        } finally { 
+          setLoading(false);
+         } } checkBooking(); 
+  }, [userId]);
+
+function askToConfirm(
+  drivewayId: string,
+  date: string,
+  booked: boolean,
+  blocked: boolean
+) {
+  if (booked) return; // booked → no action allowed
+
+  const type = blocked ? "unblock" : "block";
+
+  setPendingAction({ drivewayId, date, type });
   setShowConfirm(true);
 }
 
@@ -74,7 +108,6 @@ async function fetchGames(userId: string) {
     const res = await axios.get(
       `http://localhost:4000/api/driveways/getGames/${userId}`
     );
-    console.log("RAW BACKEND RESPONSE:", res.data); // <-- ADD THIS
 
     const gamesData = res.data?.games;
 
@@ -91,8 +124,27 @@ async function fetchGames(userId: string) {
   }
 }
 
+async function handleUpdateFirstName(name: string) {
+  try {
+    await axios.put(`http://localhost:4000/api/users/${userId}/firstName/${name}`);
+    setFirstName(name); // <-- THIS updates the header
+    setMessage("Changes saved");
+  } catch (error) {
+    console.error("Error updating first name:", error);
+  }
+}
 
 
+
+ async function handleUpdateLastName(name: string) {
+  try {
+    await axios.put(`http://localhost:4000/api/users/${userId}/lastName/${name}`);
+    setLastName(name); // <-- THIS updates the header
+    setMessage("Changes saved");
+  } catch (error) {
+    console.error("Error updating last name:", error);
+  }
+}
 
 
   function sendHome() {
@@ -100,13 +152,13 @@ async function fetchGames(userId: string) {
   }
 
 
+
 async function handleBlock(drivewayId: string, gameDate: string) {
   try {
     const response = await axios.put(
       `http://localhost:4000/api/driveways/${drivewayId}/block/${gameDate}`
     );
-
-    console.log("Updated driveway:", response.data.updatedDriveway);
+     
 
     // 🔥 Refresh UI
     if (user) fetchGames(user._id);
@@ -121,7 +173,7 @@ async function handleBlock(drivewayId: string, gameDate: string) {
 async function handleUnblock(drivewayId: string, gameDate: string) {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/driveways/unblock/${drivewayId}/${gameDate}`
+      `http://localhost:4000/api/driveways/${drivewayId}/unblock/${gameDate}`
     );
 
     console.log("Unblocked:", response.data);
@@ -139,156 +191,313 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
 
 
   if (loading) return <p>Loading...</p>;
-  if (!user) return null;
 
-  return (
-    <>
-      <div className="topAddDriveway">
-        <img
-          src="/logo.png"
-          alt="logo"
-          className="logo"
-          onClick={sendHome}
-        />
-        <ProfileDropdown />
+return (
+  <>
+    {/* TOP BAR */}
+    <div className="topAddDriveway">
+      <img
+        src="/logo.png"
+        alt="logo"
+        className="logo"
+        onClick={sendHome}
+      />
+      <ProfileDropdown />
+    </div>
+
+    {/* HEADER */}
+    <div className="topLineProfile">
+      <img src="/assets/avatar.png" alt="avatar" className="profileAvatar" />
+      <div className="namemail">
+        <p className="name">{firstName}</p>
+        <p className="email">{email}</p>
+        <button className="editBtn" onClick={() => setActive("My Profile")}>
+          Edit Profile
+        </button>
       </div>
-      <div className="topLineProfile">
-        <img
-          src="/assets/avatar.png"
-          alt="avatar"
-          className="profileAvatar"
-        />
-        <div className="namemail">
-          <p className="name">{user.name}</p>
-          <p className="email">{user.email}</p>
-          <button className="editBtn" onClick={() => setActive("My Profile")}>Edit Profile</button>
+    </div>
 
-          
-        </div>
-      </div>
- 
-<p className="hostSection"></p>
+    {/* OWNER NAV */}
+    <section className="navs">
+      {["Host Bookings", "My Driveways", "My Earnings", "My Profile"].map(tab => (
+        <button
+          key={tab}
+          className={`navsBtn ${active === tab ? "active" : ""}`}
+          onClick={() => setActive(tab)}
+        >
+          {tab}
+        </button>
+      ))}
+    </section>
 
-      <section className="navs">
-        {["Host Bookings", "My Driveways", "My Earnings","My Profile"].map(tab => (
-          <button
-            key={tab}
-            className={`navsBtn ${active === tab ? "active" : ""}`}
-            onClick={() => setActive(tab)}
-          >
-            {tab}
-          </button>
-        ))}
-      </section>
-      
+    {/* OWNER CONTENT */}
+    {active === "Host Bookings" && (
+      <section className="games">
+        <h2>Upcoming Bookings</h2>
+        <p className="block-info-text">
+          If you don’t want your driveway booked for a specific game, you can block it.
+        </p>
 
-      {active === "Host Bookings" && (
-        <section className="games">
-          <h2>Upcoming Bookings</h2>
-<p className="block-info-text">
-    If you don’t want your driveway booked for a specific game, you can block it by pressing <span className="block-info-keyword">Block</span> next to that game.
-  </p>
-          {games.length === 0 ? (
-            <p>No upcoming bookings</p>
-          ) : (
-            games.map((game, index) => (
-            <section className="gameRow2">
+        {games.length === 0 ? (
+          <p>No upcoming bookings</p>
+        ) : (
+          games.map((game, index) => (
+            <section className="gameRow2" key={index}>
+              <div className="gameData">
+                <span className="game-date">{game.date}</span>
+                <span className="game-vs">vs </span>
+                <span className="game-team">{game.visiting_team}</span>
+                <span className="game-date">@ {game.game_time}</span>
+              </div>
 
-                <div className="gameData">
-                    <span className="game-date">{game.date}</span>
-                    <span className="game-vs">vs </span>
-                    <span className="game-team">{game.visiting_team}</span>
-                    <span className="game-date">@ {game.game_time}</span>
-                </div>
-                <button
-                    className={`game-status ${game.booked ? "booked" : game.blocked ? "blocked":"available"}`}
-                    onClick={() => askToConfirm(user.drivewayIds[0], game.date, game.booked)}
-
-                    >
-                    {game.booked
-                    ? "Booked"
-                    : game.blocked
-                      ? "Blocked"
-                      : "Available"
-                    }
-
-               </button>
-
+              <button
+                disabled={game.booked}
+                className={`game-status ${
+                  game.booked ? "booked" :
+                  game.blocked ? "blocked" :
+                  "available"
+                }`}
+                onClick={() => {
+                  if (game.booked) return;
+                  askToConfirm(
+                    user!.drivewayIds[0],
+                    game.date,
+                    game.booked,
+                    game.blocked
+                  );
+                }}
+              >
+                {game.booked
+                  ? "Booked"
+                  : game.blocked
+                    ? "Blocked"
+                    : "Available"}
+              </button>
             </section>
           ))
         )}
 
+        {/* OWNER BLOCK/UNBLOCK MODAL */}
+        {showConfirm && pendingAction && (
+          <div className="confirm-overlay">
+            <div className="confirm-box">
+              <h3>
+                {pendingAction.type === "block"
+                  ? "Block this date?"
+                  : "Unblock this date?"}
+              </h3>
 
-          {showConfirm && pendingAction && (
-  <div className="confirm-overlay">
-    <div className="confirm-box">
-      <h3>
-        {pendingAction.type === "block"
-          ? "Block this date?"
-          : "Unblock this date?"}
-      </h3>
+              <p>
+                {pendingAction.type === "block"
+                  ? "Are you sure you want to block bookings for this game?"
+                  : "Do you want to allow bookings again?"}
+              </p>
 
-      <p>
-        {pendingAction.type === "block"
-          ? "Are you sure you want to block bookings for this game?"
-          : "Do you want to allow bookings for this game again?"}
-      </p>
+              <div className="confirm-actions">
+                <button
+                  className="confirm-yes"
+                  onClick={() => {
+                    if (pendingAction.type === "block") {
+                      handleBlock(pendingAction.drivewayId, pendingAction.date);
+                    } else {
+                      handleUnblock(pendingAction.drivewayId, pendingAction.date);
+                    }
+                    setShowConfirm(false);
+                  }}
+                >
+                  Yes
+                </button>
 
-      <div className="confirm-actions">
-        <button
-          className="confirm-yes"
-          onClick={() => {
-            if (pendingAction.type === "block") {
-              handleBlock(pendingAction.drivewayId, pendingAction.date);
-            } else {
-              handleUnblock(pendingAction.drivewayId, pendingAction.date);
-            }
-            setShowConfirm(false);
-          }}
-        >
-          Yes
-        </button>
+                <button
+                  className="confirm-no"
+                  onClick={() => setShowConfirm(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+    )}
 
-        <button
-          className="confirm-no"
-          onClick={() => setShowConfirm(false)}
-        >
-          Cancel
-        </button>
+{active === "My Driveways" && (
+  <AllDrivewaysByUser user={userId}/>
+)}
+{active === "My Profile" && (
+  <div className="editSections">
+    {message && <div className="successMessage">{message}</div>}
+
+    {/* FIRST NAME — only for local users */}
+    {authProvider === "local" && (
+      editingField === "firstName" ? (
+        <div className="row">
+          <input
+            value={tempValue}
+            onChange={(e) => setTempValue(e.target.value)}
+          />
+          <div className="editButtons">
+            <button
+              className="saveBtn"
+              onClick={() => {
+                setOnConfirm(() => () => {
+                  setEditingField("");
+                  handleUpdateFirstName(tempValue);
+                });
+                setShowProfileConfirm(true);
+              }}
+            >
+              Save
+            </button>
+            <button onClick={() => setEditingField("")} className="cancelBtn">
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="row">
+          <p>
+            <span className="fn">First Name: </span>
+            {firstName}
+          </p>
+          <MdEdit
+            className="editIcon"
+            onClick={() => {
+              setEditingField("firstName");
+              setTempValue(firstName);
+            }}
+          />
+        </div>
+      )
+    )}
+
+    {/* LAST NAME — only for local users */}
+    {authProvider === "local" && (
+      editingField === "lastName" ? (
+        <div className="row">
+          <input
+            value={tempValue}
+            onChange={(e) => setTempValue(e.target.value)}
+          />
+          <div className="editButtons">
+            <button
+              className="saveBtn"
+              onClick={() => {
+                setOnConfirm(() => () => {
+                  setEditingField("");
+                  handleUpdateLastName(tempValue);
+                });
+                setShowProfileConfirm(true);
+              }}
+            >
+              Save
+            </button>
+            <button onClick={() => setEditingField("")} className="cancelBtn">
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="row">
+          <p>
+            <span className="fn">Last Name: </span>
+            {lastName}
+          </p>
+          <MdEdit
+            className="editIcon"
+            onClick={() => {
+              setEditingField("lastName");
+              setTempValue(lastName);
+            }}
+          />
+        </div>
+      )
+    )}
+
+    {/* EMAIL — always shown */}
+    {editingField === "email" ? (
+      <div className="row">
+        <input
+          value={tempValue}
+          onChange={(e) => setTempValue(e.target.value)}
+        />
+        <div className="editButtons">
+          <button className="saveBtn" onClick={() => setEditingField("")}>
+            Save
+          </button>
+          <button className="cancelBtn" onClick={() => setEditingField("")}>
+            Cancel
+          </button>
+        </div>
       </div>
-    </div>
+    ) : (
+      <div className="row">
+        <p>
+          <span className="fn">Email address: </span>
+          {email}
+        </p>
+        <MdEdit
+          className="editIcon"
+          onClick={() => {
+            setEditingField("email");
+            setTempValue(email);
+          }}
+        />
+      </div>
+    )}
   </div>
 )}
 
-<p className="hostSection"></p>
 
-        </section>
-      )}
-
-      {active === "My Driveways" && <p>My driveways</p>}
-      {active === "My Earnings" && <p>My Earnings</p>}
-
-
-
+    {/* RENTER SECTION — ONLY IF USER IS ALSO A RENTER */}
+    {user?.roles.includes("renter") &&  userHasBookings &&(
+      <>
         <section className="navs">
-        {["My Bookings", "Paymant method"].map(tab => (
-          <button
-            key={tab}
-            className={`navsBtn ${renterActive === tab ? "active" : ""}`}
-            onClick={() => setRenterActive(tab)}
-          >
-            {tab}
-          </button>
-        ))}
-      </section>
-      {renterActive === "My Bookings" && (
-        <>
-        <div>
-                    
-                    <BookingDash renterId={user._id} />
-                    </div>
-                    </>
-      )}
-    </>
-  );
+          {["My Bookings", "Payment method"].map(tab => (
+            <button
+              key={tab}
+              className={`navsBtn ${renterActive === tab ? "active" : ""}`}
+              onClick={() => setRenterActive(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </section>
+
+        {renterActive === "My Bookings" && (
+          <BookingDash renterId={userId} />
+        )}
+      </>
+    )}
+
+    {/* PROFILE CONFIRMATION MODAL */}
+    {showProfileConfirm && (
+      <div className="confirmOverlay">
+        <div className="confirmBox">
+          <p>Are you sure you want to save?</p>
+
+          <div className="confirmButtons">
+            <button
+              className="yesBtn"
+              onClick={() => {
+                if (onConfirm) onConfirm();
+                setShowProfileConfirm(false);
+              }}
+            >
+              Yes
+            </button>
+
+            <button
+              className="noBtn"
+              onClick={() => setShowProfileConfirm(false)}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
+);
+
 }

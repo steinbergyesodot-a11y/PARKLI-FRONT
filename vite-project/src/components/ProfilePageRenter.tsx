@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { MdEdit } from "react-icons/md";
 
+
 interface MyTokenPayload {
   _id: string;
   firstName: string;
@@ -100,7 +101,7 @@ export function ProfilePageRenter() {
         <div className="namemail">
           <p className="name">{firstName}</p>
           <p className="email">{email}</p>
-          <button className='editBtn' onClick={() => setActive("Profile Info")}>
+          <button className='editBtn' onClick={() => setActive("My Profile")}>
             Edit Profile
           </button>
         </div>
@@ -123,10 +124,10 @@ export function ProfilePageRenter() {
         </button>
 
         <button
-          className={`navsBtn ${active === "Profile Info" ? "active" : ""}`}
-          onClick={() => setActive("Profile Info")}
+          className={`navsBtn ${active === "My Profile" ? "active" : ""}`}
+          onClick={() => setActive("My Profile")}
         >
-          Profile Info
+          My Profile
         </button>
 
         <button
@@ -142,8 +143,8 @@ export function ProfilePageRenter() {
         <div>{userId && <BookingDash renterId={userId} />}</div>
       )}
 
-      {/* PROFILE INFO */}
-      {active === "Profile Info" && (
+     
+      {active === "My Profile" && (
         <div className='editSections'>
 
           {message && <div className="successMessage">{message}</div>}
@@ -179,7 +180,7 @@ export function ProfilePageRenter() {
             </div>
           ) : (
             <div className='row'>
-              <p>First Name: {firstName}</p>
+              <p> <span className='fn'>First Name:</span> {firstName}</p>
               <MdEdit
                 className='editIcon'
                 onClick={() => {
@@ -217,7 +218,7 @@ export function ProfilePageRenter() {
             </div>
           ) : (
             <div className='row'>
-              <p>Last Name: {lastName}</p>
+              <p><span className='fn'>Last Name:</span> {lastName}</p>
               <MdEdit
                 className='editIcon'
                 onClick={() => {
@@ -246,7 +247,7 @@ export function ProfilePageRenter() {
             </div>
           ) : (
             <div className='row'>
-              <p>Email address: {email}</p>
+              <p><span className='fn'>Email address:</span>{email}</p>
               <MdEdit
                 className='editIcon'
                 onClick={() => {

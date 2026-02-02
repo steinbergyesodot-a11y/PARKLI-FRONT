@@ -29,7 +29,9 @@
     justify-content: flex-start;
 }
 
-
+.fn{
+  font-weight: 600;
+}
 .navsBtn { 
     padding: 5px;
     font-size: 1.2rem;
@@ -67,7 +69,7 @@
   background: #fafafa;
   padding: 16px 18px;
   border-radius: 14px;
-  border: 1px solid #e8e8e8;
+  border: 3px solid #e8e8e8;
   transition: all 0.25s ease;
 }
 

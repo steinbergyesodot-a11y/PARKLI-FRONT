@@ -23,9 +23,10 @@
 
 .carData{
     width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content:flex-start;
+    /* display: flex;
+    flex-direction: column; */
+
+
 }
 
 
@@ -39,11 +40,9 @@
     width: fit-content;
     font-weight: 500;
     padding: 2px;
-    margin-top: 15%;
 }
 
 .address{
-    margin-bottom: 0;
     font-weight: 200;
     background-size:contain;
 }
@@ -99,4 +98,10 @@
     justify-content: flex-end;
     gap: 5%;
     margin-right: 1%;
+}
+
+.walkk{
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
