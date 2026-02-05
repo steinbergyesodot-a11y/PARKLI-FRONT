@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { BookingDash } from "./BookingsDash";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { MdEdit } from "react-icons/md";
 

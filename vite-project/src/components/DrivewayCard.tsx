@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import '../style/DrivewayCard.css'
 import { DrivewayDetailed } from './DrivewayDetailed';
 import { FaPersonWalkingArrowRight } from "react-icons/fa6";

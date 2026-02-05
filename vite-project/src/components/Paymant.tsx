@@ -1,28 +1,19 @@
-import { data, useLocation, useNavigate } from "react-router-dom";
-import '../style/Paymant.css'
+import { useLocation, useNavigate } from "react-router-dom";
+import "../style/Paymant.css";
 import axios from "axios";
-import { use, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../userContext";
 import { jwtDecode } from "jwt-decode";
-
-
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import BookingSuccess from "./BookingConfirmed";
 
 interface MyTokenPayload {
   _id: string;
   name: string;
   role: string;
-  userType: string
+  userType: string;
 }
 
-interface Confirmation {
-  address: string;
-  gameDate: string;
-  parkingTime: string;
-  visiting_team: string;
-}
-
-
- 
 type PaymentState = {
   driveway_id: string;
   owner_id: string;
@@ -30,37 +21,31 @@ type PaymentState = {
   price: number;
   visiting_team: string;
   gameDate: string;
-  parkingTime: string
+  parkingTime: string;
 };
-
-
-
-
 
 export function Payment() {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as PaymentState | null;
-  const [loading,setLoading] = useState(false)
-  const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
 
-  
+  const stripe = useStripe(); 
+  const elements = useElements()
+
+  const [loading, setLoading] = useState(false);
+  const [confirmation, setConfirmation] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+
+
   const token = localStorage.getItem("authToken");
-  if (!token) return; 
+  if (!token) return null;
+
   const decoded = jwtDecode<MyTokenPayload>(token);
   const userId = decoded._id;
-  const userType = decoded.userType
-  const userName = decoded.name
 
-  function sendHome() {
-    navigate('/Home');
-  }
-
-
-    
-    if (!state) {
+  if (!state) {
     return (
-        <div className="payment-fallback">
+      <div className="payment-fallback">
         <p>Loading checkout details...</p>
         <button onClick={() => navigate(-1)}>Go Back</button>
       </div>
@@ -74,47 +59,86 @@ export function Payment() {
     price,
     parkingTime,
     visiting_team,
-    gameDate
+    gameDate,
   } = state;
 
 
 
-    async function handlePay(){
-      setLoading(true)
-      
-      try{
-            const response = await axios.post('http://localhost:4000/api/bookings', { // add to bookings collection
-                renterId: userId,
-                ownerId: owner_id,
-                drivewayId: driveway_id,
-                address: address,
-                price: price,
-                visiting_team: visiting_team,
-                gameDate: gameDate,
-                parkingTime: parkingTime
-                
-              })
-              
-              const response2 = await axios.put(`http://localhost:4000/api/driveways/${driveway_id}/${gameDate}`)
-              setConfirmation(response.data.booking)
-              
-              
-            }catch(error:any){
-              console.log(error.response?.data);
-            }
-            finally{
-              setLoading(false)
-            }
-          }
-   return (
-  <div className="payment-page">
+async function handlePay() {
+  setLoading(true);
 
-    {!confirmation ? (
+  try {
+    const response = await axios.post("http://localhost:4000/api/bookings/createPaymentIntent", {
+      renterId: userId,
+      ownerId: owner_id,
+      drivewayId: driveway_id,
+      address,
+      visiting_team,
+      gameDate,
+      price,
+      parkingTime
+    });
+
+    const clientSecret = response.data.clientSecret;
+
+    if (!stripe || !elements) return;
+
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) return;
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: { card: cardElement }
+      }
+    );
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    if (paymentIntent?.status === "succeeded") {
+
+      // ⭐ 1. Create booking in MongoDB
+      await axios.post("http://localhost:4000/api/bookings", {
+        renterId: userId,
+        ownerId: owner_id,
+        drivewayId: driveway_id,
+        address,
+        visiting_team,
+        gameDate,
+        price,
+        parkingTime
+      });
+
+      // ⭐ 2. Update driveway availability
+      await axios.put(
+        `http://localhost:4000/api/driveways/${driveway_id}/${gameDate}`
+      );
+
+      // ⭐ 3. Show success UI
+      setShowSuccess(true);
+    }
+
+  } finally {
+    setLoading(false);
+  }
+}
+
+
+
+  function sendHome() {
+    navigate("/Home");
+  }
+
+  return (
+  <div className="payment-page">
+    {!showSuccess ? (
       <>
         <h1 className="checkout-title">Checkout</h1>
 
         <div className="checkout-layout">
-
           {/* LEFT – PAYMENT FORM */}
           <div className="payment-form">
             <h2>Payment Details</h2>
@@ -125,25 +149,19 @@ export function Payment() {
             </label>
 
             <label>
-              Card Number
-              <input type="text" placeholder="•••• •••• •••• 1234" />
+              Card Details
+              <div className="card-element-wrapper">
+                <CardElement />
+              </div>
             </label>
-
-            <div className="card-row">
-              <label>
-                Expiry
-                <input type="text" placeholder="MM / YY" />
-              </label>
-
-              <label>
-                CVV
-                <input type="text" placeholder="123" />
-              </label>
-            </div>
 
             <p className="secure-text">🔒 Secure payment</p>
 
-            <button className="pay-btn" onClick={handlePay} disabled={loading}>
+            <button
+              className="pay-btn"
+              onClick={handlePay}
+              disabled={loading}
+            >
               {loading ? (
                 <div className="spinner-container">
                   <div className="spinner"></div>
@@ -188,21 +206,14 @@ export function Payment() {
         </div>
       </>
     ) : (
-      <div className="confirmation-screen">
-        <h2>Booking Confirmed!</h2>
-        <p><strong>Address:</strong> {confirmation.address}</p>
-        <p><strong>Game Date:</strong> {confirmation.gameDate}</p>
-        <p><strong>Parking Time:</strong> {confirmation.parkingTime}</p>
-        <p><strong>Visiting Team:</strong> {confirmation.visiting_team}</p>
-
-        <button className="pay-btn" onClick={sendHome}>
-          Go Home
-        </button>
-      </div>
+      <BookingSuccess
+        gameDate={gameDate}
+        parkingTime={parkingTime}
+        address={address}
+        visitingTeam={visiting_team}
+      />
     )}
-
   </div>
 );
-
 
 }

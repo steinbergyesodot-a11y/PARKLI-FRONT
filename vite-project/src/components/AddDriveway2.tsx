@@ -202,6 +202,11 @@ function handleRuleToggle(rule:any) {
             })
             
             if(response.status === 201){
+              const onboardingUrl = response.data.onboardingUrl;
+               if (onboardingUrl) { 
+                window.location.href = onboardingUrl;
+                 return;
+             }
               setMessage("Thanks for adding your driveway! It’s now available for bookings:)")
             }
         

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import '../style/ProfileDropdown.css'
 import { UserContext } from "../userContext";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { MainProfilePage } from "./MainProfilePage";
 

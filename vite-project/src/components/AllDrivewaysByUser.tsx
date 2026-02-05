@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import '../style/AllDrivewaysByUser.css'
 
 interface Driveway {
   _id: string;
   address: string;
   walk: number;
+  name:string;
   price: number;
   images: string[];
 }
@@ -19,6 +21,7 @@ export function AllDrivewaysByUser({ user }: { user: string }) {
           `http://localhost:4000/api/driveways/getAllDrivewaysByUserId/${user}`
         );
         setDriveways(res.data.driveways);
+        console.log(res.data.driveways)
       } catch (err) {
         console.error(err);
       }
@@ -28,9 +31,16 @@ export function AllDrivewaysByUser({ user }: { user: string }) {
   }, [user]);
 
   return (
-    <div className="myDrivewaysList">
-      <h2>My Driveways</h2>
-
-    </div>
+  <>
+        {driveways[0] && (
+        <>
+          <div className="drivewayCard">
+          <h3 className="drivewayName">{driveways[0].name}</h3>
+          <button className="editDrivewayBtn">Edit Driveway</button>
+          </div>
+        </>
+      
+        )}
+  </>
   );
 }

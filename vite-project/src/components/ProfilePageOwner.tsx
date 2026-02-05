@@ -324,6 +324,7 @@ return (
 {active === "My Driveways" && (
   <AllDrivewaysByUser user={userId}/>
 )}
+
 {active === "My Profile" && (
   <div className="editSections">
     {message && <div className="successMessage">{message}</div>}

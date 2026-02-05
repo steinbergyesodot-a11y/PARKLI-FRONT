@@ -2,7 +2,7 @@ import { ProfilePageOwner } from "./ProfilePageOwner"
 import { ProfilePageRenter } from "./ProfilePageRenter"
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from '../userContext';
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 interface MyTokenPayload {

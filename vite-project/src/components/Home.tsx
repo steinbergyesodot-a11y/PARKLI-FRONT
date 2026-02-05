@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import '../style/Home.css';
 import { QA } from './FQAitem';
 import { Login } from './Login';
