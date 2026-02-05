@@ -21,7 +21,7 @@ interface Spot {
   PostedAt: string;
 }
 
-const name = "ben"
+
 
 export function Dashboard() {
   const [cards, setCards] = useState<Spot[]>([]);
