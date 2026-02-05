@@ -117,7 +117,7 @@ function handleCurImageBack() {
 
   async function getDrivewayDetailed() {
   const response = await axios.get(
-    `http://localhost:4000/api/driveways/${id}`
+    `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${id}`
   );
   const driveway = response.data.driveway;
   const images = response.data.driveway.images
