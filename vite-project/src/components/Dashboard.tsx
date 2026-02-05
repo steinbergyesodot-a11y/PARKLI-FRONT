@@ -30,7 +30,8 @@ export function Dashboard() {
 
   async function fetchData() {
     try {
-      const res = await axios.get("http://localhost:4000/api/driveways/");
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/driveways/`)
+
       setCards(res.data.driveways);
     } catch (err) {
       console.error("Failed to fetch driveways:", err);
