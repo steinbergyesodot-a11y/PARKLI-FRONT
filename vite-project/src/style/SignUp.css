@@ -1,0 +1,269 @@
+/* Fullscreen center layout */
+.signup-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fa;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Card */
+.signup-card {
+  width: 100%;
+  max-width: 380px;
+  background: white;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.signup-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* Input groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #444;
+}
+
+.form-group input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: black;
+}
+
+.userTypeNote {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+  margin-bottom: -10px; /* pulls it closer to the buttons */
+  text-align: center;
+}
+
+/* Button */
+.signup-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  background:rgb(105, 170, 250);
+  color: white;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.signup-btn:hover {
+  transform: translateY(-2px);
+}
+
+.signup-btn:active {
+  transform: translateY(0);
+}
+
+/* Back button */
+.back-home {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.back-home button {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .signup-card {
+    padding: 25px;
+    border-radius: 12px;
+  }
+
+  .signup-title {
+    font-size: 22px;
+  }
+
+  .signup-btn {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .form-group input {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .signup-card {
+    max-width: 330px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .signup-card {
+    max-width: 420px;
+  }
+}
+
+.userTypeSelector {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.userTypeSelector button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 2px solid #b5b5b5;      /* gray border */
+  background: #e0e0e0;            /* light gray background */
+  color: #333;                    /* dark gray text */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.userTypeSelector button:hover {
+  background: #d5d5d5;
+}
+
+/* 🔵 Active = Blue */
+.userTypeSelector button.active {
+  background: #1e6ffb;           /* blue background */
+  border-color: #1e6ffb;
+  color: white;
+  transform: scale(1.03);
+}
+
+
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #dadce0;
+  background: white;
+  color: #3c4043;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.google-btn:hover {
+  background: #f7f8f9;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #888;
+  margin: 10px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 10px;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 10px;
+}
+
+.createdMessage{
+  font-size: 2rem;
+}
+
+/* 1. The Dark Overlay - The 'Cover' */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;       /* Full viewport width */
+  height: 100vh;      /* Full viewport height */
+  background-color: rgba(0, 0, 0, 0.7); /* Darker dim (70% black) */
+  
+  /* Use a massive z-index to stay above navbars and buttons */
+  z-index: 9999; 
+  
+  /* Disable pointer events for the background elements */
+  pointer-events: all; 
+  
+  /* Smooth entry */
+  backdrop-filter: blur(2px); /* Adds a professional 'glass' blur to the site */
+}
+
+/* 2. The Message - The 'Focus' */
+.createdMessage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  /* Must be higher than overlay (.overlay is 9999, so this is 10000) */
+  z-index: 10000; 
+  
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  
+  /* Optional: prevent text from being weirdly small on mobile */
+  min-width: 300px;
+  text-align: center;
+}
+
+.agreeing{
+  font-size: 0.85rem;
+  
+  text-align: center;
+  line-height: 1.4;
+
+
+}

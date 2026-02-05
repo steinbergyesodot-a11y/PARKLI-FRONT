@@ -1,0 +1,256 @@
+.payment-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.checkout-title {
+  margin-bottom: 24px;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+/* PAYMENT FORM */
+
+.payment-form {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.payment-form h2 {
+  margin-bottom: 16px;
+}
+
+.payment-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.payment-form input {
+  margin-top: 6px;
+  padding: 10px 12px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.payment-form input:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+
+.card-row {
+  display: flex;
+  gap: 16px;
+}
+
+.secure-text {
+  font-size: 13px;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* PAY BUTTON */
+
+.pay-button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: white;
+  cursor: pointer;
+}
+
+.pay-button:hover {
+  background: #4338ca;
+}
+
+/* ORDER SUMMARY */
+
+.order-summary {
+  background: #fafafa;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.order-summary h2 {
+  margin-bottom: 16px;
+}
+
+.summary-item {
+  margin-bottom: 12px;
+}
+
+.summary-label {
+  font-size: 13px;
+  color: #666;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.total-price {
+  color: #4f46e5;
+}
+
+.ids-note {
+  display: block;
+  margin-top: 12px;
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* FALLBACK */
+
+.payment-fallback {
+  text-align: center;
+  margin-top: 100px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.pay-btn {
+  background: #4a6cff;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pay-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+.confirmation-screen {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  max-width: 420px;
+  margin: 2rem auto;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Title */
+.confirmation-screen h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  color: #6d8cf4; /* success green */
+  font-weight: 700;
+}
+
+/* Details */
+.confirmation-screen p {
+  font-size: 1.1rem;
+  margin: 0.4rem 0;
+  color: #333;
+}
+
+.confirmation-screen strong {
+  color: #111;
+}
+
+/* Button */
+.confirmation-screen .pay-btn {
+  margin-top: 1.8rem;
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  background: #4a6cff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.confirmation-screen .pay-btn:hover {
+  background: #3d59d6;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.card-element-wrapper {
+  padding: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  transition: border-color 0.2s ease;
+}
+
+.card-element-wrapper:hover {
+  border-color: #9ca3af;
+}
+
+.card-element-wrapper:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}

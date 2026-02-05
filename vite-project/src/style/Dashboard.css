@@ -1,0 +1,176 @@
+.topDashboard{
+     display: flex;
+     justify-content:space-between;
+    background-color:white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 15vh;
+    width: 100vw;
+    margin-bottom: 3%;
+}
+
+.userName{
+  color: rgb(27, 26, 26);
+  font-weight: 700;
+  align-self: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+}
+
+.top{
+    display: flex;
+    background-color:white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 15vh;
+    width: 100vw;
+}
+
+
+/* .dashboard{
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    height: 500px;
+overflow-y: auto;
+
+} */
+
+.logoDash{
+    cursor: pointer;
+    height: 100%;
+}
+
+
+.topRightCornerDashboard{
+  margin-right: 45px; 
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;   
+  
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  width: 56vw;
+
+  /* Scroll behavior */
+  height: 500px;
+  overflow-y: auto;
+
+  /* Make the scroll area visually obvious */
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+
+  /* Add spacing so it feels like a panel */
+  padding: 16px;
+
+  /* Shadow to separate it from the page */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+}
+
+/* Optional: custom scrollbar (looks modern) */
+.dashboard::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.dashboard::-webkit-scrollbar-thumb {
+  background: #c7c7c7;
+  border-radius: 10px;
+}
+
+.dashboard::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.dashboard-panel {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  height: 550px; /* panel height */
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard { 
+    display: flex;
+    flex-direction: column;
+    gap: 16px; width: 60vw;
+    height: 500px;
+    overflow-y: auto; 
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    scroll-behavior: smooth;
+  }
+
+/* Wraps dashboard + right panel side by side */
+.dashboard-wrapper { 
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 100%; 
+  padding-left: 40px;
+ }
+
+
+
+
+.rightPanel {
+  width: 25%;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  height: 550px; /* match dashboard height */
+}
+
+
+.rightPanel {
+  width: 22vw;
+  max-width: 350px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  height: 500px;
+  overflow-y: auto;
+}
+
+.rulesTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.rulesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rulesList li {
+  margin-bottom: 10px;
+  padding-left: 12px;
+  border-left: 3px solid #007bff;
+  color: #444;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

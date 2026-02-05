@@ -1,0 +1,449 @@
+.detailPageContainer {
+  height: 100vh;
+  margin-left: 12%;
+
+}
+
+
+.imagesArea{
+    display: flex;
+    width: 70vw;
+    height: 70vh;
+    gap: 15px;
+    margin-top: 5%;
+}
+
+
+.map {
+  flex: 1; 
+  height: 100%; 
+}
+
+.image-wrapper {
+  position: relative; 
+  flex: 1; 
+  height: 100%; 
+   overflow:
+    hidden;  
+}
+
+
+.pictures{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 5px;
+  }
+
+
+
+  
+  .image-index {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    z-index: 10;
+    pointer-events: none; /* so clicks go through to the image */
+  }
+  
+  
+    .arrowLeft, .arrowRight { 
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.5rem;
+      color: white;
+      z-index: 10;
+      cursor: pointer;
+      transition: transform 0.6s ease;
+    }
+
+
+
+.arrowLeft{ 
+  left: 15px;
+} 
+
+.arrowRight {
+   right: 15px; 
+}
+
+
+.pictures.fade { animation: fadeIn 2s ease-in-out; /* adjust duration as you like */ }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+.arrowLeft:hover, .arrowRight:hover {
+  transform: translateY(-50%) scale(1.08);
+  }
+
+.details{
+    display: flex;
+    flex-direction: column;
+    font-family:'Times New Roman', Times, serif;
+    font-weight: 400;
+    margin-top: 5%;
+    justify-content: space-evenly;
+}
+
+.locationInfo{
+    font-size: 1.3rem;
+    display: flex;
+    gap: 2vw;
+    color: rgba(0, 0, 0, 0.76);
+}
+
+.locationIcon{
+    font-size: 1.2rem;
+        color: rgba(0, 0, 0, 0.76);
+
+}
+
+.walkInfo{
+    font-size: 1.3rem;
+    display: flex;
+    gap: 2vw;
+    font-family: 'Times New Roman', Times, serif;
+        color: rgba(0, 0, 0, 0.76);
+
+}
+
+.walkIcon{
+    font-size: 1.3rem;
+}
+
+
+
+.moneyIcon{
+    font-size: 1.2rem;
+}
+
+.starIcon{
+    width: 6%;
+}
+
+.ratingInfo{
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    font-size: 1.3rem;
+}
+
+
+.line {
+  width: 100%;
+  height: 1px;
+  margin-top: 0;
+  margin-bottom: 0;
+  
+   
+}
+
+.describe{
+    max-width: 50%;
+    font-size: 1.3rem;
+    color: gray;
+}
+
+
+.middleArea{
+    display: flex;
+    justify-content: space-between;
+    width: 65vw;
+}
+
+.cancelBox{
+
+   background-color: rgb(197, 236, 236);
+   border-radius: 5px;
+   padding: 10px;
+} 
+
+.rowCancel{
+    display: flex;
+    gap: 3%;
+    font-size: 1.1rem;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+} 
+
+.middleRight{
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+    width: 33%;
+}
+
+.paymantIcons{
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap:2%;
+    border: 1px solid rgba(0, 0, 0, 0.26);
+    border-radius: 5px;
+}
+
+.visa{
+    color:rgb(45, 45, 120);
+}
+
+.paypal{
+    color: rgb(58, 58, 247);
+    font-size: 1.5rem;
+}
+
+.google{
+        font-size: 1.5rem;
+
+}
+
+.amex{
+    color: rgb(55, 55, 209);
+}
+
+.masterCard{
+    color:#FF3C00;
+}
+
+.master{
+    max-width: 3vw;
+}
+
+.googlePay{
+    max-width: 2vw;
+}
+
+.more{
+    font-size: 1rem;
+}
+.bookNow{
+    background-color: rgb(59, 59, 236);
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 600;
+    width: 15%;
+    height: 20%;
+    color: whitesmoke;
+    padding: 1.2%;
+    border-radius: 9999px;
+    border:1px black solid;
+    margin-left: 4%;
+    margin-top: 3%;
+    cursor: pointer;
+     text-decoration: none;
+}
+
+.classtest{
+    background-color: red;
+}
+
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #ffb432;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.availBtn{
+  font-weight: 700;
+  background-color: #007BFF; /* Bold blue */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 8px; /* Rounded edges */
+  font-size: 1.3rem;
+
+}
+
+.availBtn:hover { 
+     background-color: #0056b3;
+     transform: scale(1.03);
+    }
+
+
+button {
+  position: relative;
+  z-index: 9999 !important;
+}
+
+.topLineSchedual{
+    display: flex;
+    gap: 1%;
+    align-items: center;
+}
+
+.locationIcon2{
+  height: 40%;
+  width: 2%;
+}
+
+.topLineSchedual h2{
+    font-family: 'Times New Roman', Times, serif;
+    color: #333;
+    margin-left: 15px;
+}
+
+
+
+.games {
+  padding: 1rem;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+}
+
+.games p{
+  font-size: 1.2rem;
+  font-weight: 800;
+  /* color: rgb(105, 170, 250); */
+}
+
+.games h3{
+  margin-top: 2%;
+}
+.gameRow {
+  display: flex;
+  /* grid-template-columns: 120px 40px 200px 100px max-content; */
+
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.gameRow2{
+  display: flex;
+  gap: 2vw;
+}
+
+.games h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1.4rem;
+  color: gray;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+
+ .games div {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+} 
+
+
+
+
+.game-date {
+  font-weight: 600;
+  color: #333;
+}
+
+.game-vs {
+  color: #888;
+}
+
+.game-team {
+  font-weight: 500;
+  color: #0055aa;
+}
+
+.game-status {
+  margin-left: auto;
+  font-weight: 600;
+  display: inline-flex;
+   align-items: center;
+    justify-content: center;
+     min-width: 70px; 
+     height: 34px;
+  padding: 0;
+   border-radius: 6px; 
+   font-size: 14px; 
+   cursor: pointer;
+  
+}
+
+.game-status.booked {
+  background-color: #C0392B;
+
+  color: white;
+  padding: 4px 6px;
+  border-radius: 3px;
+cursor: text; 
+}
+
+.game-status.available {
+  background-color: green;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: 0.2s ease;
+}
+
+.game-status.available:hover{
+   cursor: pointer;
+  transform: scale(1.03); 
+
+}
+
+
+.abtDriveway{
+  margin-top: 5%;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+
+
+.rulesSection {
+  margin-top: 5%;
+}
+
+.rulesTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+/* The card box */
+.rulesBox {
+  background: #f7f9fc; /* soft, modern background */
+  border: 1px solid #e3e7ee;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 650px; /* keeps it from stretching too wide */
+}
+
+/* Two-column layout */
+.rulesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+
+/* Each rule */
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #333;
+}
+
+/* Checkmark icon */
+.rule-icon {
+  color: #1e6ffb;
+  font-weight: bold;
+  font-size: 16px;
+}

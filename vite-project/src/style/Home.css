@@ -1,0 +1,438 @@
+
+.firstSection{
+  height: 93vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  background-image:
+   linear-gradient(
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.10)
+    ),
+   url('/assets/moving-car.jpg');
+  background-size: cover;     
+  background-repeat: no-repeat; 
+  background-position: center;
+}
+
+
+.topLine{
+  display: flex;
+  justify-content: center;
+}
+
+
+.homeHeader{
+    display: flex;
+    /* justify-content: space-between; */
+}    
+   
+.homeLogo{
+  height: 150px; width: auto;
+}
+
+.Navbar{
+      display: flex;
+      gap: 7%;
+      padding: 0.5%;
+      /* justify-content:space-between; */
+      align-items:center;
+      height: 10vh;
+      width: 75vw;
+      background-color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+             Roboto, Helvetica, Arial, sans-serif;
+
+
+  }
+  
+  .sectionA{
+    display: flex;
+    gap: 1vw;
+  }
+
+    .sectionB{
+      margin-left: 9%;
+    display: flex;
+    gap: 1vw;
+  }
+  
+.btnNav {
+  height: 50%;
+  color: #444;
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;          /* needed for ::after */
+  transition: background-color 0.25s ease;
+}
+
+.btnNav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;                   /* underline sits at bottom */
+  width: 0%;
+  height: 2px;
+  background-color: #444;      /* underline color */
+  transition: width 0.25s ease;
+}
+
+.btnNav:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btnNav:hover::after {
+  width: 100%;
+}
+
+
+/* .topRightCorner{
+  display:block;
+  margin-right: 45px; 
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;   
+  
+}   */
+
+
+
+.text{
+  text-align: center;
+  margin-top: 8%;
+  color: white;
+  font-family:Didot, serif;
+  font-size: 2.5rem;
+}
+
+.text h1{
+  color: #ffffff; font-weight: 800;
+}
+
+.searching{
+  display: flex;
+  justify-content: center;
+}
+
+
+.search-container {
+  position: relative;
+  border-radius: 9999px;
+  width: 100%;
+  max-width: 700px;              
+}
+
+.search-input {
+  color: white;
+  width: 100%;
+  height: 8vh;
+  padding: 0.75rem 2.5rem 0.75rem 1rem; 
+  font-size: 1rem;
+  border: 3px solid #ccc;
+  border-radius: 9999px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;               
+}
+
+input::placeholder {
+  color: white;
+  font-style:initial;
+  font-size: 1.5rem;
+}
+
+.search-button {
+  position: absolute;
+  right: 0.75rem;               /* stick to right edge */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* 📱 Responsive tweaks */
+@media (max-width: 768px) {
+  .search-container {
+    max-width: 90%;             /* shrink on tablets */
+  }
+
+  .search-input {
+    font-size: 0.95rem;
+    padding: 0.6rem 2.2rem 0.6rem 0.8rem;
+  }
+
+  .search-button {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-container {
+    max-width: 95%;             /* almost full width on phones */
+  }
+
+  .search-input {
+    font-size: 0.9rem;
+    padding: 0.5rem 2rem 0.5rem 0.7rem;
+  }
+
+  .search-button {
+    font-size: 0.9rem;
+  }
+}
+
+.search-container * {
+  display: initial !important;
+}
+
+
+
+/* .avatar{
+  width: 3vw;
+}   */
+
+.linkChoice{
+  color: whitesmoke;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.2rem;
+}  
+
+
+
+.userName{
+  color: rgb(27, 26, 26);
+  font-weight: 700;
+  align-self: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+}  
+
+
+
+
+
+
+
+
+
+
+
+
+.middle{
+  height: 80vh;
+  background-color:rgb(200, 222, 249);
+}
+
+.stars{
+  color: rgb(255, 217, 4);
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.reviews{
+  color: whitesmoke;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.line3{
+  color: whitesmoke;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 2rem;
+    font-weight: 600;
+
+}
+
+.line2{
+  color:whitesmoke;
+  margin-top: 0;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.image{
+  width: 100px;         
+    height: 100px;
+    border-radius: 50%;   
+    object-fit: cover;    
+    border: 2px solid #ccc;
+    align-content: center;
+}
+
+.user{
+  color: whitesmoke;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.container{
+  text-align: center;
+}
+
+.middle{
+  margin-top: 2vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.QaA{
+  align-items: center;
+  margin-top: 2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vh;
+}
+
+.frequently{
+  font-size: 3rem;
+  text-align: center;
+  font-family:'geometric sans-serif';
+}
+
+
+
+.convincing{
+  display: flex;
+  gap: 4vh;
+  flex-direction: column;
+  align-items: center;
+}
+
+.convincing-title{
+  text-align: center;
+  font-size: 4rem;
+}
+
+.topRow{
+  display: flex;
+  width: 75%;
+  height: 70vh;
+  gap: 3%;
+}
+
+.bottomRow{
+  display: flex;
+  width: 75%;
+  height: 70vh;
+    gap: 3%;
+
+
+}
+
+.quarter1{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background-color: rgb(242, 240, 240);
+  border-radius: 3%;
+  overflow: hidden;
+}
+
+.quarter2{
+  width: 50%;
+  background-color: rgb(242, 240, 240);
+  border-radius: 3%;
+
+
+}
+
+.convinceBtn{
+  color: rgb(101, 101, 249);
+  background-color: rgb(242, 240, 240);
+  width: 40%;
+  padding: 0%;
+}
+
+.biggerFont{
+  font-size: 2.5rem;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  
+}
+
+.smallerFont{
+  font-size: 1.5rem;
+  margin-top: 10px;
+  color: rgb(68, 64, 64);
+  font-family:sans-serif;
+
+}
+
+.quarter1 img{
+  max-height: 80%;   
+    max-width: 100%;  
+    object-fit: cover; 
+    border-radius: 20px;
+      margin-left: 7%;
+      margin-top: 10%;
+
+}
+
+.btn-convincing{
+  color: rgb(123, 123, 226);
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.imgQ2{
+    height: 50%; 
+    max-width: 90%;
+    object-fit: cover;
+    margin-top: 13%;
+    border-radius: 2%;
+}
+
+.textBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-left: 6%;
+}
+
+
+.convincing img {
+  width: 100%;        /* fills its container */
+  height: 250px;      /* fixed height for all images */
+  object-fit: cover;  /* crops nicely without distortion */
+  border-radius: 8px; /* optional: rounded corners */
+}
+
+
+.quarter1, .quarter2 {
+  position: relative;   /* parent is positioning context */
+}
+
+.quarter1 img, .quarter2 img {
+  position: absolute;   /* take image out of normal flow */
+  bottom: 0;            /* lock to bottom */
+  right: 0;             /* lock to right */
+  width: 100%;          /* same width as before */
+  height: 250px;        /* fixed height for consistency */
+  object-fit: cover;    /* crop nicely without distortion */
+  border-radius: 8px;   /* optional styling */
+}
+
+.QAbox{
+    
+background: #fcefde;
+
+  padding: 1vh;
+  margin-top: 2%;
+}

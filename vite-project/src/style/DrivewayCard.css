@@ -1,0 +1,107 @@
+.AddContainer{
+    display: flex;
+    width: 55vw;
+    height: 25vh;
+    justify-content: center;
+    border-radius: 3px;
+    background-color: #f2f2f2;   
+    padding: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap:3%;
+}
+
+
+.AddContainer img{
+    max-height: 98%;   
+    max-width: 25%;   
+    object-fit: contain;
+     flex: 0 0 25%; 
+}
+
+
+
+
+.carData{
+    width: 30%;
+    /* display: flex;
+    flex-direction: column; */
+
+
+}
+
+
+.bottom{
+    display: flex;
+    gap: 5%;
+}
+
+.tag{
+    background-color: rgb(219, 216, 216);
+    width: fit-content;
+    font-weight: 500;
+    padding: 2px;
+}
+
+.address{
+    font-weight: 200;
+    background-size:contain;
+}
+
+.price{
+    width: 50%;
+    align-self: flex-end;
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 0;
+} 
+
+.distance{
+    font-style: italic;
+}
+
+.moreDetails{
+    color: whitesmoke;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: blue;
+    width: 50%;
+    height: 25%;
+    align-self: flex-end;
+    cursor: pointer;
+    border-radius: 9999px;
+    border: 1px solid rgb(158, 156, 156);
+    margin-bottom: 2%;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+}
+
+.moreDetails:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* slightly deeper */
+  transform: translateY(-2px);                /* tiny lift */
+}
+
+
+
+.smallerText{
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+
+
+.rightSide{
+    height: 100%;
+    width: 50%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5%;
+    margin-right: 1%;
+}
+
+.walkk{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
