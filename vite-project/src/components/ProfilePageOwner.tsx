@@ -78,7 +78,7 @@ export function ProfilePageOwner() {
     if (!userId) return;
      async function checkBooking() { 
       try { 
-        const res = await axios.get(`http://localhost:4000/api/bookings/checkIfUserHasBookings/${userId}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/checkIfUserHasBookings/${userId}`);
          setUserHasBookings(res.data);
         } catch (err) { 
           console.error("Error checking booking:", err); 
@@ -106,7 +106,7 @@ function askToConfirm(
 async function fetchGames(userId: string) {
   try {
     const res = await axios.get(
-      `http://localhost:4000/api/driveways/getGames/${userId}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getGames/${userId}`
     );
 
     const gamesData = res.data?.games;
@@ -126,7 +126,7 @@ async function fetchGames(userId: string) {
 
 async function handleUpdateFirstName(name: string) {
   try {
-    await axios.put(`http://localhost:4000/api/users/${userId}/firstName/${name}`);
+    await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`);
     setFirstName(name); // <-- THIS updates the header
     setMessage("Changes saved");
   } catch (error) {
@@ -138,7 +138,7 @@ async function handleUpdateFirstName(name: string) {
 
  async function handleUpdateLastName(name: string) {
   try {
-    await axios.put(`http://localhost:4000/api/users/${userId}/lastName/${name}`);
+    await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/lastName/${name}`);
     setLastName(name); // <-- THIS updates the header
     setMessage("Changes saved");
   } catch (error) {
@@ -156,7 +156,7 @@ async function handleUpdateFirstName(name: string) {
 async function handleBlock(drivewayId: string, gameDate: string) {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/driveways/${drivewayId}/block/${gameDate}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/block/${gameDate}`
     );
      
 
@@ -173,7 +173,7 @@ async function handleBlock(drivewayId: string, gameDate: string) {
 async function handleUnblock(drivewayId: string, gameDate: string) {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/driveways/${drivewayId}/unblock/${gameDate}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/unblock/${gameDate}`
     );
 
     console.log("Unblocked:", response.data);

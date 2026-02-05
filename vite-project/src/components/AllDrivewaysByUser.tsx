@@ -18,7 +18,7 @@ export function AllDrivewaysByUser({ user }: { user: string }) {
     async function fetchDriveways() {
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/driveways/getAllDrivewaysByUserId/${user}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getAllDrivewaysByUserId/${user}`
         );
         setDriveways(res.data.driveways);
         console.log(res.data.driveways)

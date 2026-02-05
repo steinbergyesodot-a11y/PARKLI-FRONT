@@ -194,7 +194,7 @@ function handleRuleToggle(rule:any) {
 
         try{
           setIsLoading(true);
-            const response = await axios.post('http://localhost:4000/api/driveways',data,{
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/driveways`,data,{
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "multipart/form-data"

@@ -68,7 +68,7 @@ async function handlePay() {
   setLoading(true);
 
   try {
-    const response = await axios.post("http://localhost:4000/api/bookings/createPaymentIntent", {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/createPaymentIntent`, {
       renterId: userId,
       ownerId: owner_id,
       drivewayId: driveway_id,
@@ -101,7 +101,7 @@ async function handlePay() {
     if (paymentIntent?.status === "succeeded") {
 
       // ⭐ 1. Create booking in MongoDB
-      await axios.post("http://localhost:4000/api/bookings", {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
         renterId: userId,
         ownerId: owner_id,
         drivewayId: driveway_id,
@@ -114,7 +114,7 @@ async function handlePay() {
 
       // ⭐ 2. Update driveway availability
       await axios.put(
-        `http://localhost:4000/api/driveways/${driveway_id}/${gameDate}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${driveway_id}/${gameDate}`
       );
 
       // ⭐ 3. Show success UI

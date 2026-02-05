@@ -84,10 +84,10 @@ export function BookingDash({ renterId }: BookingDashProps) {
     async function handleCancelBooking(drivewayId: string, gameDate: string, bookingId: string) {
         try {
             await axios.put(
-                `http://localhost:4000/api/driveways/updateDrivewayCancleBooking/${drivewayId}/${gameDate}`
+                `${import.meta.env.VITE_BACKEND_URL}/api/driveways/updateDrivewayCancleBooking/${drivewayId}/${gameDate}`
             );
 
-            await axios.delete(`http://localhost:4000/api/bookings/${bookingId}`);
+            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/${bookingId}`);
 
             setCancelMessage("Booking deleted successfully");
 

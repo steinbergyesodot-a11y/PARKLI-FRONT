@@ -62,7 +62,7 @@ export function ProfilePageRenter() {
   // UPDATE FIRST NAME
   async function handleUpdateFirstName(name: string) {
     try {
-      await axios.put(`http://localhost:4000/api/users/${userId}/firstName/${name}`);
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`);
       setFirstName(name);
       setMessage("Changes saved");
     } catch (error) {
@@ -73,7 +73,7 @@ export function ProfilePageRenter() {
   // UPDATE LAST NAME
   async function handleUpdateLastName(name: string) {
     try {
-      await axios.put(`http://localhost:4000/api/users/${userId}/lastName/${name}`);
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/lastName/${name}`);
       setLastName(name);
       setMessage("Changes saved");
     } catch (error) {
