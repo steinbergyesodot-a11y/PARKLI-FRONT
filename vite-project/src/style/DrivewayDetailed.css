@@ -15,9 +15,10 @@
 
 
 .map {
-  flex: 1; 
-  height: 100%; 
+  flex: 1;
+  height: 300px; /* or 400px */
 }
+
 
 .image-wrapper {
   position: relative; 
