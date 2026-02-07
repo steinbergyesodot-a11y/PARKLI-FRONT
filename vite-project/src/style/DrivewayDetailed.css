@@ -15,8 +15,7 @@
 
 
 .map {
-  flex: 1;
-  height: 300px; /* or 400px */
+  height: 300px;
 }
 
 
