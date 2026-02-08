@@ -15,47 +15,6 @@
   background-position: center;
 }
 
-.Navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  white-space: nowrap;
-  padding: 0 2rem;
-  height: 80px;
-
-  /* The key fix */
-  width: 75vw;          /* not full screen */
-  max-width: 1400px;    /* enough room to prevent wrapping */
-
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.sectionA,
-.sectionB {
-  display: flex;
-  gap: 1.2rem;          /* smaller gap = more room */
-}
-
-.homeLogo {
-  height: 45px;         /* smaller logo = more room */
-  width: auto;
-}
-
-.topLine {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.profile-wrapper {
-  position: absolute;
-  top: 0;
-  right: 20px;
-}
 
   
 .btnNav {
