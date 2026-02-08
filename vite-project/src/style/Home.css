@@ -432,7 +432,7 @@ background: #fcefde;
 
 /* LOGO */
 .homeLogo {
-  height: 78px;   /* try 78–90px */
+  height: 90px;   /* try 78–90px */
   width: auto;
   flex-shrink: 0;
 }
