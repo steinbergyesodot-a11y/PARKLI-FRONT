@@ -36,34 +36,31 @@
   right: 20px;
 }
 
-.homeLogo{
-  height: 150px; width: auto;
-}
-
 .Navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 75vw;
-  max-width: 1200px;
-  height: 80px;
+  white-space: nowrap;
   padding: 0 2rem;
-  background: white;
+  height: 80px;
+  width: 90vw;
+  max-width: 1200px;
+  background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-  
-  .sectionA{
-    display: flex;
-    gap: 1vw;
-  }
+.sectionA,
+.sectionB {
+  display: flex;
+  gap: 2rem;
+}
 
-    .sectionB{
-      margin-left: 9%;
-    display: flex;
-    gap: 1vw;
-  }
+.homeLogo {
+  height: 60px;
+  width: auto;
+}
+
   
 .btnNav {
   height: 50%;
