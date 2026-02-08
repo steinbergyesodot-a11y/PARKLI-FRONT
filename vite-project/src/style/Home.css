@@ -17,16 +17,6 @@
 
 
   
-.btnNav {
-  height: 50%;
-  color: #444;
-  font-size: 1.3rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  position: relative;          /* needed for ::after */
-  transition: background-color 0.25s ease;
-}
 
 .btnNav::after {
   content: "";
@@ -382,6 +372,20 @@ background: #fcefde;
 }
 
 
+.btnNav {
+  height: 50%;
+  color: #444;
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  transition: background-color 0.25s ease;
+
+  /* FIX: never allow text to wrap */
+  white-space: nowrap;
+}
+
 /* NAVBAR CENTERED */
 .navbar-wrapper {
   display: flex;
@@ -392,7 +396,7 @@ background: #fcefde;
 
 /* PROFILE DROPDOWN FLOATING TOP-RIGHT */
 .profile-wrapper {
-  position: absolute;
+  position: fixed;   /* was absolute */
   top: 20px;
   right: 20px;
   z-index: 20;
@@ -402,11 +406,15 @@ background: #fcefde;
 .Navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
+  /* FIX: do NOT spread items with space-between */
+  justify-content: center;
+  gap: 2rem;
+
   white-space: nowrap;
 
-  width: 75vw;          /* NOT full screen */
-  max-width: 1300px;    /* Enough room so items stay on ONE line */
+  width: 75vw;
+  max-width: 1300px;
   height: 80px;
   padding: 0 2rem;
 
@@ -419,12 +427,17 @@ background: #fcefde;
 .sectionA,
 .sectionB {
   display: flex;
-  gap: 1.2rem;          /* Tight spacing so everything fits */
+  gap: 1.2rem;
+
+  /* FIX: prevent shrinking which causes wrapping */
+  flex-shrink: 0;
 }
 
 /* LOGO */
 .homeLogo {
-  height: 45px;         /* Small enough to prevent wrapping */
+  height: 45px;
   width: auto;
-}
 
+  /* small safety */
+  flex-shrink: 0;
+}
