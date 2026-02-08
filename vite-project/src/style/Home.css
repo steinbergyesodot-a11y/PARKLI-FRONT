@@ -412,7 +412,8 @@ background: #fcefde;
 
   width: 75vw;
   max-width: 1300px;
-  height: 80px;
+  min-height: 80px;
+
   padding: 0 2rem;
 
   background-color: white;
