@@ -31,35 +31,32 @@ export function Home() {
       <Section>
       <section className='firstSection'>
         <div className='topLine'>
+  <div className='homeHeader'>
+    <nav className="Navbar">
+      <img src="/logo.png" alt="logo" className='homeLogo' />
 
-          <div className='homeHeader'>
+      <section className='sectionA'>
+        <Link to="/Menu" className='btnNav'>Menu</Link>
+        <Link to="/Dashboard" className='btnNav'>Find parking</Link>
+        <Link to="/AddDriveway" className='btnNav'>Host Now</Link>
+        <Link to="/About" className='btnNav'>About</Link>
+        <Link to="/Help" className='btnNav'>Help</Link>
+      </section>
 
-            <nav className="Navbar">
+      <section className='sectionB'>
+        <Link to="/SignUp" className='btnNav'>Sign up</Link>
+        <Link to="/Login" className='btnNav'>Login</Link>
+      </section>
+    </nav>
+  </div>
 
-                <img
-                  src="/logo.png"
-                  alt="logo"
-                  className='homeLogo'
-                />
+  {user && (
+    <div className="profile-wrapper">
+      <ProfileDropdown />
+    </div>
+  )}
+</div>
 
-                <section className='sectionA'>
-                  <Link to="/Menu" className='btnNav'>Menu</Link>
-                  <Link to="/Dashboard" className='btnNav'>Find parking</Link>
-                  <Link to="/AddDriveway" className='btnNav'>Host Now</Link>
-                  <Link to="/About" className='btnNav'>About</Link>
-                  <Link to="/Help" className='btnNav'>Help</Link>
-
-                </section>
-
-                <section className='sectionB'>
-                  <Link to="/SignUp" className='btnNav'>Sign up</Link>
-                  <Link to="/Login" className='btnNav'>Login</Link>
-                </section>
-            </nav>
-          </div>
-
-          {user ? <ProfileDropdown/>    : null}
-    </div> 
 
 
     <div className='text'>
