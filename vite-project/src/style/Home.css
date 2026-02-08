@@ -382,7 +382,7 @@ background: #fcefde;
   position: relative;
   transition: background-color 0.25s ease;
 
-  /* FIX: never allow text to wrap */
+  /* never wrap text */
   white-space: nowrap;
 }
 
@@ -396,7 +396,7 @@ background: #fcefde;
 
 /* PROFILE DROPDOWN FLOATING TOP-RIGHT */
 .profile-wrapper {
-  position: fixed;   /* was absolute */
+  position: fixed;
   top: 20px;
   right: 20px;
   z-index: 20;
@@ -407,11 +407,8 @@ background: #fcefde;
   display: flex;
   align-items: center;
 
-  /* FIX: do NOT spread items with space-between */
-  justify-content: center;
-  gap: 2rem;
-
-  white-space: nowrap;
+  /* left group + right group */
+  justify-content: space-between;
 
   width: 75vw;
   max-width: 1300px;
@@ -429,15 +426,13 @@ background: #fcefde;
   display: flex;
   gap: 1.2rem;
 
-  /* FIX: prevent shrinking which causes wrapping */
+  /* prevent shrinking which causes wrapping */
   flex-shrink: 0;
 }
 
 /* LOGO */
 .homeLogo {
-  height: 45px;
+  height: 60px;   /* bigger logo */
   width: auto;
-
-  /* small safety */
   flex-shrink: 0;
 }
