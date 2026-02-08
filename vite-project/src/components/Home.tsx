@@ -29,58 +29,56 @@ export function Home() {
     <div className='app-container'>
       
       <Section>
-      <section className='firstSection'>
-        <div className='topLine'>
-  <div className='homeHeader'>
-    <nav className="Navbar">
-      <img src="/logo.png" alt="logo" className='homeLogo' />
+      <section className="firstSection">
 
-      <section className='sectionA'>
-        <Link to="/Menu" className='btnNav'>Menu</Link>
-        <Link to="/Dashboard" className='btnNav'>Find parking</Link>
-        <Link to="/AddDriveway" className='btnNav'>Host Now</Link>
-        <Link to="/About" className='btnNav'>About</Link>
-        <Link to="/Help" className='btnNav'>Help</Link>
-      </section>
-
-      <section className='sectionB'>
-        <Link to="/SignUp" className='btnNav'>Sign up</Link>
-        <Link to="/Login" className='btnNav'>Login</Link>
-      </section>
-    </nav>
-  </div>
-
+  {/* Profile dropdown floats independently in top-right */}
   {user && (
     <div className="profile-wrapper">
       <ProfileDropdown />
     </div>
   )}
-</div>
 
+  {/* Centered navbar */}
+  <div className="navbar-wrapper">
+    <nav className="Navbar">
+      <img src="/logo.png" alt="logo" className="homeLogo" />
 
-
-    <div className='text'>
-      <h1>Empty driveway. Full wallet.</h1>
-      <p>It’s not just pavement, it’s potential.</p>
-    </div>
-
-
-
-      <section className='searching'>
-        <div className="search-container">
-          <input
-            type="text"
-            value={Query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Enter address..."
-            className="search-input"
-          />
-          <span className="search-icon"></span>
-        </div>
+      <section className="sectionA">
+        <Link to="/Menu" className="btnNav">Menu</Link>
+        <Link to="/Dashboard" className="btnNav">Find parking</Link>
+        <Link to="/AddDriveway" className="btnNav">Host Now</Link>
+        <Link to="/About" className="btnNav">About</Link>
+        <Link to="/Help" className="btnNav">Help</Link>
       </section>
 
+      <section className="sectionB">
+        <Link to="/SignUp" className="btnNav">Sign up</Link>
+        <Link to="/Login" className="btnNav">Login</Link>
+      </section>
+    </nav>
+  </div>
 
+  {/* Hero text */}
+  <div className="text">
+    <h1>Empty driveway. Full wallet.</h1>
+    <p>It’s not just pavement, it’s potential.</p>
+  </div>
+
+  {/* Search bar */}
+  <section className="searching">
+    <div className="search-container">
+      <input
+        type="text"
+        value={Query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Enter address..."
+        className="search-input"
+      />
+      <span className="search-icon"></span>
+    </div>
   </section>
+
+</section>
 
 
 

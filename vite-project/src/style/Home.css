@@ -421,3 +421,51 @@ background: #fcefde;
   padding: 1vh;
   margin-top: 2%;
 }
+
+
+/* NAVBAR CENTERED */
+.navbar-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* PROFILE DROPDOWN FLOATING TOP-RIGHT */
+.profile-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+}
+
+/* NAVBAR BOX */
+.Navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+
+  width: 75vw;          /* NOT full screen */
+  max-width: 1300px;    /* Enough room so items stay on ONE line */
+  height: 80px;
+  padding: 0 2rem;
+
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* NAVBAR SECTIONS */
+.sectionA,
+.sectionB {
+  display: flex;
+  gap: 1.2rem;          /* Tight spacing so everything fits */
+}
+
+/* LOGO */
+.homeLogo {
+  height: 45px;         /* Small enough to prevent wrapping */
+  width: auto;
+}
+
