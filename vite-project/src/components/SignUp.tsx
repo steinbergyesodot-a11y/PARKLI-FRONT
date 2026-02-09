@@ -30,6 +30,7 @@ export function SignUp() {
       try {
         const res = await axios.post(
           `${import.meta.env.VITE_BACKEND_URL}/api/users/googleLogin`,
+          
           { accessToken }
         );
 
@@ -72,7 +73,7 @@ export function SignUp() {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/users/addUser",
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/addUser`,
         {
           firstName,
           lastName,
