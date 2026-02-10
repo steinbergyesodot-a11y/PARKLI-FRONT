@@ -1,7 +1,7 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../style/Paymant.css";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../userContext";
 import { jwtDecode } from "jwt-decode";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -35,6 +35,7 @@ export function Payment() {
   const [loading, setLoading] = useState(false);
   const [confirmation, setConfirmation] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [drivewayRules, setDrivewayRules] = useState([])
 
 
   const token = localStorage.getItem("authToken");
@@ -126,6 +127,15 @@ async function handlePay() {
   }
 }
 
+async function getDrivewayRules(){
+  const response = await axios.get(`http://localhost:4000/api/driveways/rules/${driveway_id}`)
+  setDrivewayRules(response.data.rules)
+  
+}
+
+useEffect(() => {
+  getDrivewayRules();
+}, []);
 
 
   function sendHome() {
@@ -136,6 +146,7 @@ async function handlePay() {
   <div className="payment-page">
     {!showSuccess ? (
       <>
+    
         <h1 className="checkout-title">Checkout</h1>
 
         <div className="checkout-layout">
@@ -157,6 +168,13 @@ async function handlePay() {
 
             <p className="secure-text">🔒 Secure payment</p>
 
+ <p className="agreementText">
+  By completing this payment, you agree to the driveway rules, our{" "}
+  <Link to="/CancellationPolicy" className="termsLink">Cancellation Policy</Link>, 
+  and our{" "}
+  <Link to="/TermsOfUse" className="termsLink">Terms of Use</Link>.
+</p>
+
             <button
               className="pay-btn"
               onClick={handlePay}
@@ -168,41 +186,56 @@ async function handlePay() {
                   Processing...
                 </div>
               ) : (
-                <>Pay ${price}</>
+                <>
+  
+
+                Pay ${price}
+                </>
               )}
             </button>
           </div>
 
           {/* RIGHT – ORDER SUMMARY */}
           <div className="order-summary">
-            <h2>Order Summary</h2>
+  <h2>Order Summary</h2>
 
-            <div className="summary-item">
-              <p className="summary-label">Address</p>
-              <p>{address}</p>
-            </div>
+  <div className="summary-item">
+    <p className="summary-label">Address</p>
+    <p>{address}</p>
+  </div>
 
-            <div className="summary-item">
-              <p className="summary-label">Game Date</p>
-              <p>{gameDate}</p>
-            </div>
+  <div className="summary-item">
+    <p className="summary-label">Game Date</p>
+    <p>{gameDate}</p>
+  </div>
 
-            <div className="summary-item">
-              <p className="summary-label">Visiting Team</p>
-              <p>{visiting_team}</p>
-            </div>
+  <div className="summary-item">
+    <p className="summary-label">Visiting Team</p>
+    <p>{visiting_team}</p>
+  </div>
 
-            <hr />
+  {/* ⭐ Insert rules here */}
+  {drivewayRules.length > 0 && (
+    <div className="summary-item">
+      <p className="summary-label">Driveway Rules</p>
+      <ul className="rules-list">
+        {drivewayRules.map((rule, index) => (
+          <li key={index}>{rule}</li>
+        ))}
+      </ul>
+    </div>
+  )}
 
-            <div className="total-row">
-              <p>Total</p>
-              <p className="total-price">${price}</p>
-            </div>
+  <hr />
 
-            <small className="ids-note">
-              Driveway ID: {driveway_id} · Owner ID: {owner_id}
-            </small>
-          </div>
+  <div className="total-row">
+    <p>Total</p>
+    <p className="total-price">${price}</p>
+  </div>
+
+ 
+</div>
+
         </div>
       </>
     ) : (

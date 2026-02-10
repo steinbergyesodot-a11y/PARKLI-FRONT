@@ -429,11 +429,12 @@ background: #fcefde;
 
   /* prevent shrinking which causes wrapping */
   flex-shrink: 0;
+  
 }
 
 /* LOGO */
 .homeLogo {
-  height: 90px;   /* try 78–90px */
+  height: 100px;   /* try 78–90px */
   width: auto;
   flex-shrink: 0;
 }

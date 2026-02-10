@@ -579,10 +579,12 @@ if (startListing === false) {
   By publishing your listing, you confirm that all information is accurate and
   that you agree to follow our hosting rules and community guidelines.
   <br />
-  <a href="/terms" className="termsLink">View Terms of Use</a>
+  {/* <a href="/terms" className="termsLink">View Terms of Use</a> */}
+          <Link to="/TermsOfUse" className="termsLink">View Terms Of Use</Link>
+  
 </p>
 
-<button onClick={handleSubmit} className="listBtn">List Driveway</button>
+<button onClick={handleSubmit} className="listBtn">Set up payouts</button>
 
        </section>
        </div>
@@ -655,7 +657,7 @@ if (startListing === false) {
         <div className="policy-box">
         <h3>Host Rules Agreement</h3>
          <p><strong>1. Accuracy of Information</strong><br />
-         I agree to provide accurate details about my driveway, including location, size,
+         I agree to provide accurate details about my driveway, including location, 
           access instructions, and any restrictions. I will update my listing if anything changes.
           </p>
           
@@ -665,7 +667,7 @@ if (startListing === false) {
         </p>
 
         <p><strong>3. Arrival Time</strong><br />
-          Renters may arrive up to <strong>30 minutes before the game or event</strong>, unless I specify
+          Renters may arrive up to <strong>60 minutes before the game or event</strong>, unless I specify
           a different rule in my listing. I agree to honor the arrival window shown to the renter.
         </p>
 

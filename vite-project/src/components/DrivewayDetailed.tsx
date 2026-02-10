@@ -130,22 +130,23 @@ function handleCurImageBack() {
 useEffect(() => {
   if (!driveway?.address) return;
 
-  const geocodeAddress = async () => {
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(driveway.address)}&key=AIzaSyBCuQJ5ztmnPHGjtp8yXJ3_tzufzchq3jg`
+  // Ensure Google Maps JS API is loaded
+  if (!(window as any).google || !(window as any).google.maps) return;
 
-    );
-    const data = await response.json();
-    if (data.results[0]) {
-      const location = data.results[0].geometry.location;
-      setCoords({ lat: location.lat, lng: location.lng });
+  const geocoder = new (window as any).google.maps.Geocoder();
+
+  geocoder.geocode({ address: driveway.address }, (results: any, status: string) => {
+    if (status === "OK" && results[0]) {
+      const location = results[0].geometry.location;
+      setCoords({
+        lat: location.lat(),
+        lng: location.lng()
+      });
+    } else {
+      console.error("Geocode failed:", status);
     }
-  };
-
-  geocodeAddress();
+  });
 }, [driveway?.address]);
-
-
 
   useEffect(() => {
     getDrivewayDetailed();

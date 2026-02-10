@@ -12,10 +12,13 @@ import { ProfilePageRenter } from "./ProfilePageRenter";
 import { ProfilePageOwner } from "./ProfilePageOwner";
 import { MainProfilePage } from "./MainProfilePage";
 import { TermsOfService } from "./TermsOfService";
-import { PrivacyPolicy } from "./PrivacyPolicy";
 import { AddDriveway2 } from "./AddDriveway2";
+import { Help } from "./Help";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import TermsOfUse from "./TermsOfUse";
+import PrivacyPolicy from "./PrivacyPolicy";
+import CancellationPolicy from "./CancellationPolicy";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -33,10 +36,18 @@ export function AnimatedRoutes() {
       <Route path="/About" element={<About />} />
       <Route path="/profile" element={<MainProfilePage />} />
       <Route path="/terms-of-service" element={<TermsOfService />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/Profile/renter" element={<ProfilePageRenter />} />
       <Route path="/Profile/DrivewayOwner" element={<ProfilePageOwner />} />
       <Route path="DrivewayDetailed/:id" element={<DrivewayDetailed />} />
+      <Route path="/Help" element={<Help />} />
+      <Route path="/TermsOfUse" element={<TermsOfUse />} />
+      <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+      <Route path="/CancellationPolicy" element={<CancellationPolicy />} />
+
+
+      
+
+
       <Route
   path="DrivewayDetailed/:id/Payment"
   element={

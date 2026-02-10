@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+
 import '../style/About.css'
 import { jwtDecode } from 'jwt-decode';
 
@@ -21,7 +22,7 @@ export function About() {
   return (
     <div>
       <div className="topDashboard">
-               <img src="assets/logo.png" alt="logo" className="logo" onClick={sendHome} />
+               <img src="public/logo.png" alt="logo" className="logo" onClick={sendHome} />
             
             
             </div>
@@ -61,7 +62,7 @@ export function About() {
           human. Whether you’re a die‑hard sports fan, a concert lover, or a
           local resident looking to share your space, Parkli is here to make the
           experience seamless. Together, we’re transforming the way people think
-          about parking — one driveway at a time.
+          about parking, one driveway at a time.
         </p>
       </section>
     </div>

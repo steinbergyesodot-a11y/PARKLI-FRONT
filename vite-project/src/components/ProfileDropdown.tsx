@@ -55,7 +55,7 @@ export function ProfileDropdown() {
         <div className="dropdown-menu">
           <button onClick={() => navigate("/profile")}>Profile</button>
           <button>Settings</button>
-          <button>Help</button>
+          <button onClick={() => navigate("/help")}>Help</button>
           <button className="logout" onClick={logOut}>Log out</button>
         </div>
       )}

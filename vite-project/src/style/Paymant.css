@@ -254,3 +254,15 @@
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
+
+.rules-list {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.summary-label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}

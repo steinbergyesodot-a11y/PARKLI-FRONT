@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import "../style/SignUp.css";
@@ -174,14 +174,15 @@ export function SignUp() {
       </button>
 <p className="agreeing">
   By signing up, you agree to our{" "}
-  <a href="/terms-of-service" target="_blank" rel="noopener noreferrer">
-    Terms of Service
-  </a>{" "}
+  <Link to="/TermsOfUse" className="termsLink">
+    Terms of Use
+  </Link>{" "}
   and{" "}
-  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+  <Link to="/PrivacyPolicy" className="termsLink">
     Privacy Policy
-  </a>.
+  </Link>.
 </p>
+
         {/* <div className="back-home">
           <button onClick={sendHome}>Back to Home</button>
         </div> */}
