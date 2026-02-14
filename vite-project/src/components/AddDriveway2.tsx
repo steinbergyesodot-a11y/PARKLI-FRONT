@@ -203,14 +203,13 @@ function handleRuleToggle(rule:any) {
               }
             })
             
-            if(response.status === 201){
-              const onboardingUrl = response.data.onboardingUrl;
-               if (onboardingUrl) { 
-                window.location.href = onboardingUrl;
-                 return;
-             }
-              setMessage("Thanks for adding your driveway! It’s now available for bookings:)")
-            }
+            if (response.status === 201) {
+              console.log("ONBOARDING URL:", response.data.onboardingUrl);
+
+  setOnboardingUrl(response.data.onboardingUrl);
+  setMessage("Your driveway was added successfully!");
+}
+
         
             console.log(response.data)
 
@@ -585,8 +584,26 @@ if (startListing === false) {
           <Link to="/TermsOfUse" className="termsLink">View Terms Of Use</Link>
   
 </p>
+{message && (
+  <div className="success-box">
+    <p>{message}</p>
 
-<button onClick={handleSubmit} className="listBtn">Set up payouts</button>
+    {onboardingUrl && (
+      <button
+        className="stripeBtn"
+        onClick={() => window.location.href = onboardingUrl}
+      >
+        Continue to Stripe
+      </button>
+    )}
+  </div>
+)}
+{!onboardingUrl && (
+  <button onClick={handleSubmit} className="listBtn">
+    Set up payouts
+  </button>
+)}
+
 
        </section>
        </div>
