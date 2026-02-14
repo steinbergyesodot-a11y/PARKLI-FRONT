@@ -108,6 +108,8 @@ export function AddDriveway2(){
   const [checked,setChecked] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
   const[startListing,setStartListing] = useState(false)
+  const [onboardingUrl, setOnboardingUrl] = useState<string | null>(null);
+
 
    const location = useLocation();
    const userContext = useContext(UserContext)

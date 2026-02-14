@@ -121,8 +121,12 @@ async function handlePay() {
       // ⭐ 3. Show success UI
       setShowSuccess(true);
     }
+   
 
-  } finally {
+  } catch(error){
+    console.log(error)
+  }
+  finally {
     setLoading(false);
   }
 }
