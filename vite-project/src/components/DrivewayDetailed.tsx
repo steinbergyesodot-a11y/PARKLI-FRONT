@@ -27,10 +27,6 @@ import { GrMoney } from "react-icons/gr";
 import { CiLocationOn } from "react-icons/ci";
 import { MdOutlineCheck } from "react-icons/md";
 
-
-
-
-
 interface Driveway {
   address: string;
   ownerId: string;
@@ -45,18 +41,16 @@ interface Driveway {
 type Game = {
   visiting_team: string;
   game_time: string;
+  parkingBegins: string;
   date: string;
   booked: boolean;
   blocked:boolean
 };
 
-
 type Coords = {
   lat: number;
   lng: number;
 };
-
-
 
 export function DrivewayDetailed() {
   const [driveway, setDriveway] = useState<Driveway | null>(null);
@@ -66,11 +60,7 @@ export function DrivewayDetailed() {
   const [images,setImages] = useState([])
   const [curImage,setCurImage] = useState(0)
   
-  
   const token = localStorage.getItem("authToken")  
-  
-
-
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -82,9 +72,8 @@ export function DrivewayDetailed() {
             address: driveway?.address,
             price: driveway?.price,
             visiting_team: game.visiting_team,
+            parkingBegins: game.parkingBegins,
             gameDate: game.date,
-            parkingTime : "7:00"
-            
           }
         });
   }
@@ -104,7 +93,6 @@ function handleCurImageBack() {
     prev === 0 ? images.length - 1 : prev - 1
   );
 }
-
 
   function handleSchedual(){
     
@@ -158,7 +146,6 @@ useEffect(() => {
 
   return (
     <>
-     
       <div className="top">
         <img
           src="/logo.png"
@@ -186,19 +173,16 @@ useEffect(() => {
            <p>No games available</p>
           ) : (
             games.map((game, index) => (
-            
-                
-              
-              <div key={index}>
+            <div key={index}>
               <>
-                
-
               <section className='gameRow'>
-                <div className='gameRow2'>
+              <div className='gameRow2'>
               <span className="game-date">{game.date}</span>
               <span className="game-vs">vs</span>
               <span className="game-team">{game.visiting_team}</span>
               <span className="game-date">@ {game.game_time}</span>
+              <span className="game-date">Parking begans: {game.parkingBegins}</span>
+
                 </div>
               <span className={`game-status ${game.booked || game.blocked ? 'booked' : 'available'}`} 
               onClick={game.booked || game.blocked ? undefined : () => paymentPage(game)}>

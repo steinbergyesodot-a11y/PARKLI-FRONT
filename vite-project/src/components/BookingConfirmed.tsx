@@ -3,14 +3,14 @@ import '../style/BookingConfirmed.css'
 
 interface BookingSuccessProps {
   gameDate: string;
-  parkingTime: string;
+  parkingBegins: string;
   address: string;
   visitingTeam: string;
 }
 
 const BookingSuccess: React.FC<BookingSuccessProps> = ({
   gameDate,
-  parkingTime,
+  parkingBegins,
   address,
   visitingTeam,
 }) => {
@@ -36,7 +36,7 @@ const BookingSuccess: React.FC<BookingSuccessProps> = ({
         Your parking spot is reserved for the{" "}
         <span className="highlight">{visitingTeam}</span> game on{" "}
         <span className="highlight">{gameDate}</span> at{" "}
-        <span className="highlight">{parkingTime}</span>.
+        <span className="highlight">{parkingBegins}</span>.
       </p>
 
       <div className="details-card">
@@ -54,7 +54,7 @@ const BookingSuccess: React.FC<BookingSuccessProps> = ({
 
         <div className="details-row">
           <span className="details-label">Parking Time:</span>
-          <span className="details-value">{parkingTime}</span>
+          <span className="details-value">{parkingBegins}</span>
         </div>
       </div>
 

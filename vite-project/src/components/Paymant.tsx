@@ -21,7 +21,7 @@ type PaymentState = {
   price: number;
   visiting_team: string;
   gameDate: string;
-  parkingTime: string;
+  parkingBegins: string;
 };
 
 export function Payment() {
@@ -58,7 +58,7 @@ export function Payment() {
     owner_id,
     address,
     price,
-    parkingTime,
+    parkingBegins,
     visiting_team,
     gameDate,
   } = state;
@@ -77,7 +77,7 @@ async function handlePay() {
       visiting_team,
       gameDate,
       price,
-      parkingTime
+      parkingBegins
     });
 
     const clientSecret = response.data.clientSecret;
@@ -93,7 +93,7 @@ async function handlePay() {
         payment_method: { card: cardElement }
       }
     );
-
+ 
     if (error) {
       console.log(error);
       return;
@@ -102,24 +102,28 @@ async function handlePay() {
     if (paymentIntent?.status === "succeeded") {
 
       // ⭐ 1. Create booking in MongoDB
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
-        renterId: userId,
-        ownerId: owner_id,
-        drivewayId: driveway_id,
-        address,
-        visiting_team,
-        gameDate,
-        price,
-        parkingTime
-      });
+      try{
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
+          renterId: userId,
+          ownerId: owner_id,
+          drivewayId: driveway_id,
+          address,
+          visiting_team,
+          gameDate,
+          price,
+          parkingBegins
+        });
+        await axios.put(
+          `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${driveway_id}/${gameDate}`
+        );
+        setShowSuccess(true);
 
-      // ⭐ 2. Update driveway availability
-      await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${driveway_id}/${gameDate}`
-      );
 
-      // ⭐ 3. Show success UI
-      setShowSuccess(true);
+
+      }catch(error){
+        console.log(error)
+      }
+
     }
    
 
@@ -152,7 +156,6 @@ useEffect(() => {
       <>
     
         <h1 className="checkout-title">Checkout</h1>
-
         <div className="checkout-layout">
           {/* LEFT – PAYMENT FORM */}
           <div className="payment-form">
@@ -214,6 +217,11 @@ useEffect(() => {
   </div>
 
   <div className="summary-item">
+    <p className="summary-label">Parking Begins</p>
+    <p>{parkingBegins}</p>
+  </div>
+
+  <div className="summary-item">
     <p className="summary-label">Visiting Team</p>
     <p>{visiting_team}</p>
   </div>
@@ -245,7 +253,7 @@ useEffect(() => {
     ) : (
       <BookingSuccess
         gameDate={gameDate}
-        parkingTime={parkingTime}
+        parkingBegins={parkingBegins}
         address={address}
         visitingTeam={visiting_team}
       />
