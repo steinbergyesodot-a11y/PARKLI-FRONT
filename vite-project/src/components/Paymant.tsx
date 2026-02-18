@@ -101,27 +101,40 @@ async function handlePay() {
 
     if (paymentIntent?.status === "succeeded") {
 
+
+const formattedDate = new Date(gameDate).toISOString().split("T")[0]; 
+const formattedTime = parkingBegins.slice(0, 5);
+
+
       // ⭐ 1. Create booking in MongoDB
       try{
-        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
-          renterId: userId,
-          ownerId: owner_id,
-          drivewayId: driveway_id,
-          address,
-          visiting_team,
-          gameDate,
-          price,
-          parkingBegins
-        });
-        await axios.put(
-          `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${driveway_id}/${gameDate}`
-        );
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
+  renterId: userId,
+  ownerId: owner_id,
+  drivewayId: driveway_id,
+  address,
+  visiting_team,
+  gameDate: formattedDate,
+  price,
+  parkingBegins: formattedTime,
+  paymentIntentId: paymentIntent.id
+});
+
+     await axios.put(
+  `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${driveway_id}/${formattedDate}`
+);
+
         setShowSuccess(true);
 
 
 
-      }catch(error){
-        console.log(error)
+      }catch(err: any){
+          const backendError = 
+            err?.response?.data?.error ||
+            err?.response?.data?.message ||
+            err?.response?.data?.Message ||
+             "Unknown error";
+          console.log("Backend error:", backendError);
       }
 
     }

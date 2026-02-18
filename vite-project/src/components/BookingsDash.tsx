@@ -83,22 +83,32 @@ export function BookingDash({ renterId }: BookingDashProps) {
 
     async function handleCancelBooking(drivewayId: string, gameDate: string, bookingId: string) {
         try {
-            await axios.put(
-                `${import.meta.env.VITE_BACKEND_URL}/api/driveways/updateDrivewayCancleBooking/${drivewayId}/${gameDate}`
-            );
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/cancelBooking`,
+                {
+                    drivewayId: drivewayId,
+                    gameDate: gameDate,
+                    bookingId: bookingId
+                }
+            )
+            console.log("cancelMessage BEFORE:", cancelMessage);
+setCancelMessage("Booking deleted successfully");
+console.log("cancelMessage AFTER:", "Booking deleted successfully");
 
-            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/${bookingId}`);
-
-            setCancelMessage("Booking deleted successfully");
 
             setTimeout(() => {
                 setShowCancelConfirm(false);
                 setIsModalOpen(false);
                 setCancelMessage("");
                 fetchBookings();
-            }, 1200);
-        } catch (err) {
-            console.error("Failed to cancel booking:", err);
+            }, 2200);
+        } catch (err:any) {
+             const backendError = 
+            err?.response?.data?.error ||
+            err?.response?.data?.message ||
+            err?.response?.data?.Message ||
+             "Unknown error";
+          console.log("Backend error:", backendError);
+          setCancelMessage(backendError);
         }
     }
 
@@ -121,111 +131,115 @@ export function BookingDash({ renterId }: BookingDashProps) {
         )
     }
 
-    return (
-        <>
-            {upcomingBookings?.map((booking) => (
-                <div key={booking._id}>
-                    <div className="contain">
-                        <section className="leftSide">
-                            <span className="addressLine">
-                                <FaLocationDot size={25} /> {booking.address}
-                            </span>
+  return (
+  <>
+    {upcomingBookings?.map((booking: Booking) => (
+      <div key={booking._id}>
+        <div className="contain">
+          <section className="leftSide">
+            <span className="addressLine">
+              <FaLocationDot size={25} /> {booking.address}
+            </span>
 
-                            <span className="dateLine">
-                                <FaCalendarAlt size={25} />
-                                {formatPrettyDate(booking.gameDate)}
-                                <GoDotFill size={12} />
-                                {booking.parkingTime} PM
-                            </span>
-                        </section>
+            <span className="dateLine">
+              <FaCalendarAlt size={25} />
+              {formatPrettyDate(booking.gameDate)}
+              <GoDotFill size={12} />
+              {booking.parkingTime} PM
+            </span>
+          </section>
 
-                        <section className="rightSide">
-                            <button
-                                className="detailsBtn"
-                                onClick={() => handleViewDetails(booking)}
-                            >
-                                View Details
-                            </button>
-                        </section>
-                    </div>
-                </div>
-            ))}
+          <section className="rightSide">
+            <button
+              className="detailsBtn"
+              onClick={() => handleViewDetails(booking)}
+            >
+              View Details
+            </button>
+          </section>
+        </div>
+      </div>
+    ))}
 
-            {/* DETAILS MODAL */}
-            {isModalOpen && selectedBooking &&
-                createPortal(
-                    <div
-                        className={`modalOverlay ${isClosing ? "fadeOut" : ""}`}
-                        onClick={closeModal}
-                    >
-                        <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-                            <h2>Booking Details</h2>
+    {/* DETAILS MODAL */}
+    {isModalOpen && selectedBooking &&
+      createPortal(
+        <div
+          className={`modalOverlay ${isClosing ? "fadeOut" : ""}`}
+          onClick={() => {}}   // ❗ prevent accidental close
+        >
+          <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+            <h2>Booking Details</h2>
 
-                            <p><strong>Address:</strong> {selectedBooking.address}</p>
-                            <p><strong>Date:</strong> {formatPrettyDate(selectedBooking.gameDate)}</p>
-                            <p><strong>Parking Time:</strong> {selectedBooking.parkingTime} PM</p>
+            <p><strong>Address:</strong> {selectedBooking.address}</p>
+            <p><strong>Date:</strong> {formatPrettyDate(selectedBooking.gameDate)}</p>
+            <p><strong>Parking Time:</strong> {selectedBooking.parkingTime} PM</p>
 
-                            {selectedBooking.price && (
-                                <p><strong>Price:</strong> ${selectedBooking.price}</p>
-                            )}
+            {selectedBooking.price && (
+              <p><strong>Price:</strong> ${selectedBooking.price}</p>
+            )}
 
-                            <p><strong>Booked At: </strong>{formatDateTime(selectedBooking.bookedAt)}</p>
+            <p><strong>Booked At:</strong> {formatDateTime(selectedBooking.bookedAt)}</p>
 
-                            <div className="buttonsBox">
-                                <button
-                                    className="cancelBtn"
-                                    onClick={() => setShowCancelConfirm(true)}
-                                >
-                                    Cancel Booking
-                                </button>
+            <div className="buttonsBox">
+              <button
+                className="cancelBtn"
+                onClick={() => setShowCancelConfirm(true)}
+              >
+                Cancel Booking
+              </button>
 
-                                <button onClick={closeModal} className="closeBtn">Close</button>
-                            </div>
-                        </div>
-                    </div>,
-                    document.body
+              <button onClick={closeModal} className="closeBtn">Close</button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )
+    }
+
+    {/* CANCEL CONFIRM MODAL */}
+    {showCancelConfirm && selectedBooking &&
+      createPortal(
+        <div
+          className={`modalOverlay ${isClosing ? "fadeOut" : ""}`}
+          onClick={() => {}}   // ❗ prevent accidental close
+        >
+          <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+            <h3>Are you sure?</h3>
+            <p>This will cancel your booking.</p>
+
+            {/* SUCCESS MESSAGE */}
+            {cancelMessage && (
+              <p className="successMessage">{cancelMessage}</p>
+            )}
+
+            <button
+              className="confirmBtn"
+              disabled={!!cancelMessage}
+              onClick={() =>
+                handleCancelBooking(
+                  selectedBooking.drivewayId,
+                  selectedBooking.gameDate,
+                  selectedBooking._id
                 )
-            }
+              }
+            >
+              {cancelMessage ? "Processing..." : "Yes, Cancel"}
+            </button>
 
-            {/* CANCEL CONFIRM MODAL */}
-            {showCancelConfirm &&
-                createPortal(
-                    <div
-                        className={`modalOverlay ${isClosing ? "fadeOut" : ""}`}
-                        onClick={closeModal}
-                    >
-                        <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-                            <h3>Are you sure?</h3>
-                            <p>This will cancel your booking.</p>
+            <button
+              className="closeBtn"
+              disabled={!!cancelMessage}   // ❗ prevent closing during success
+              onClick={closeModal}
+            >
+              No, Go Back
+            </button>
+          </div>
+        </div>,
+        document.body
+      )
+    }
+  </>
+);
 
-                            {cancelMessage && (
-                                <p className="successMessage">{cancelMessage}</p>
-                            )}
-
-                            <button
-                                className="confirmBtn"
-                                onClick={() =>
-                                    handleCancelBooking(
-                                        selectedBooking!.drivewayId,
-                                        selectedBooking!.gameDate,
-                                        selectedBooking!._id
-                                    )
-                                }
-                            >
-                                Yes, Cancel
-                            </button>
-
-                            <button
-                                className="closeBtn"
-                                onClick={closeModal}
-                            >
-                                No, Go Back
-                            </button>
-                        </div>
-                    </div>,
-                    document.body
-                )
-            }
-        </>
-    );
 }

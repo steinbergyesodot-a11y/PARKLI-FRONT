@@ -116,13 +116,6 @@
 }
 
 
-.successMessage {
-  margin-top: 10px;
-  color: #2e7d32; /* green */
-  font-weight: bold;
-}
-
-
 /* Fade-in background overlay */
 .modalOverlay {
   animation: fadeIn 0.25s ease forwards;
@@ -134,14 +127,6 @@
 }
 
 /* Success message fade */
-.successMessage {
-  opacity: 0;
-  animation: fadeIn 0.4s ease forwards;
-  color: #2e7d32;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
 /* Keyframes */
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -192,17 +177,23 @@
   }
 }
 
-.successMessage {
-  opacity: 0;
-  animation: fadeIn 0.4s ease forwards;
-  color: #2e7d32;
-  font-weight: bold;
-  margin-top: 10px;
-}
 
 
 .upcomingMsg{
   margin-left: 2%;
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.71);
+}
+
+.successMessage {
+  color: #2e7d32;
+  font-weight: bold;
+  margin-top: 10px;
+  opacity: 1;               /* <-- IMPORTANT */
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
