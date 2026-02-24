@@ -1116,3 +1116,20 @@ hr {
   line-height: 22px;
   text-align: center;
 }
+
+.listBtn:disabled {
+  opacity: 0.6;        /* makes it lighter */
+  cursor: not-allowed; /* shows the "blocked" cursor */
+  filter: brightness(0.9); /* optional: softens the color */
+}
+
+.nextBtn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.nextBtn:disabled {
+  opacity: 0.5;          /* makes it lighter */
+  cursor: not-allowed;   /* shows disabled cursor */
+  filter: brightness(0.9); /* optional: softens the color */
+}

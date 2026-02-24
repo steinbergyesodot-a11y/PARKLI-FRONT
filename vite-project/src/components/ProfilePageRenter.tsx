@@ -18,8 +18,7 @@ interface MyTokenPayload {
 }
 
 export function ProfilePageRenter() {
-  const token = localStorage.getItem("authToken");
-  if (!token) return;
+  const token = localStorage.getItem("authToken") || "";
 
   // USER STATE
   const [userId, setUserId] = useState("");
@@ -59,27 +58,107 @@ export function ProfilePageRenter() {
     navigate('/Home');
   }
 
+
+
   // UPDATE FIRST NAME
-  async function handleUpdateFirstName(name: string) {
-    try {
-      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`);
-      setFirstName(name);
-      setMessage("Changes saved");
-    } catch (error) {
-      console.error("Error updating first name:", error);
-    }
+async function handleUpdateFirstName(name: string) {
+  if (!token) {
+  console.error("No token found");
+  return;
+}
+console.log("TOKEN IN REACT:", token);
+console.log("USER ID:", userId);
+
+  try {
+    await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`,
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,  
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    setFirstName(name);
+    setMessage("Changes saved");
+  } catch (error:any) {
+       const data = error.response?.data;
+     const message = 
+     typeof data === "string"
+      ? data : 
+      data?.message || 
+      data?.error || 
+      error.message || 
+      "Login failed"; 
+      console.log(message)
+    console.error("Error updating first name:", error);
   }
+}
+
 
   // UPDATE LAST NAME
-  async function handleUpdateLastName(name: string) {
-    try {
-      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/lastName/${name}`);
-      setLastName(name);
-      setMessage("Changes saved");
-    } catch (error) {
-      console.error("Error updating last name:", error);
-    }
+ async function handleUpdateLastName(name: string) {
+  if (!token) {
+  console.error("No token found");
+  return;
+}
+
+  try {
+    await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/lastName/${name}`,
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    
+    setLastName(name);
+    setMessage("Changes saved");
+  } catch (error) {
+    console.error("Error updating last name:", error);
   }
+}
+
+async function handleUpdateEmail(email: string) {
+  if (!token || !userId) {
+    console.error("No token or userId found");
+    return;
+  }
+
+  try {
+    await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/email/${email}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    setEmail(email);
+    setMessage("Changes saved");
+  } catch (error: any) {
+    const data = error.response?.data;
+    const message =
+      typeof data === "string"
+        ? data
+        : data?.message ||
+          data?.error ||
+          error.message ||
+          "Update failed";
+
+    console.error("Error updating email:", message);
+  }
+}
+
+
 
   return (
     <>

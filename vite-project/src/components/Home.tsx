@@ -31,12 +31,13 @@ export function Home() {
       <Section>
       <section className="firstSection">
 
-  {/* Profile dropdown floats independently in top-right */}
   {user && (
     <div className="profile-wrapper">
       <ProfileDropdown />
     </div>
   )}
+ 
+
 
   {/* Centered navbar */}
   <div className="navbar-wrapper">

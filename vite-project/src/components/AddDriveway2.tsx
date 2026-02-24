@@ -586,7 +586,14 @@ if (startListing === false) {
   
 </p>
 
-<button onClick={handleSubmit} className="listBtn">Set up payouts</button>
+<button 
+  onClick={handleSubmit} 
+  className="listBtn"
+  disabled={isLoading}
+>
+  {isLoading ? "Processing..." : "Set up payouts"}
+</button>
+
 
        </section>
        </div>
@@ -608,11 +615,11 @@ if (startListing === false) {
     {step > 1 && step < 8 && (
       <>
         <div className="bothButtons">
-        <button className="nextBtn" onClick={() => setStep(step - 1)}>
+        <button disabled={isLoading}  className="nextBtn" onClick={() => setStep(step - 1)}>
           Back
         </button>
 
-        <button className="nextBtn" onClick={() => setStep(step + 1)}>
+        <button disabled={isLoading} className="nextBtn" onClick={() => setStep(step + 1)}>
           Next
         </button>
         </div>

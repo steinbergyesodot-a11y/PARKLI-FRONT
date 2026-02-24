@@ -28,11 +28,9 @@ type Game = {
 
 export function ProfilePageOwner() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
-  
-  if (!token) {
-    return null;
-  }
+    const token = localStorage.getItem("authToken") || "";
+
+
   const [active, setActive] = useState("Host Bookings");
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
@@ -106,7 +104,16 @@ function askToConfirm(
 async function fetchGames(userId: string) {
   try {
     const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getGames/${userId}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getGames/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+
+        }
+      }
+
+      
     );
 
     const gamesData = res.data?.games;
@@ -125,26 +132,98 @@ async function fetchGames(userId: string) {
 }
 
 async function handleUpdateFirstName(name: string) {
-  try {
-    await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`);
-    setFirstName(name); // <-- THIS updates the header
+  if (!token) {
+  console.error("No token found");
+  return;
+}
+try {
+    await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`,
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,   // <-- your JWT
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    setFirstName(name);
     setMessage("Changes saved");
-  } catch (error) {
+  } catch (error:any) {
+       const data = error.response?.data;
+     const message = 
+     typeof data === "string"
+      ? data : 
+      data?.message || 
+      data?.error || 
+      error.message || 
+      "Login failed"; 
+      console.log(message)
     console.error("Error updating first name:", error);
   }
 }
 
 
-
+  // UPDATE LAST NAME
  async function handleUpdateLastName(name: string) {
+  if (!token) {
+  console.error("No token found");
+  return;
+}
+
   try {
-    await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/lastName/${name}`);
-    setLastName(name); // <-- THIS updates the header
+    await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/lastName/${name}`,
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    
+    setLastName(name);
     setMessage("Changes saved");
   } catch (error) {
     console.error("Error updating last name:", error);
   }
 }
+
+
+async function handleUpdateEmail(email: string) {
+  if (!token || !userId) {
+    console.error("No token or userId found");
+    return;
+  }
+   try {
+    await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/email/${email}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    setEmail(email);
+    setMessage("Changes saved");
+  } catch (error: any) {
+    const data = error.response?.data;
+    const message =
+      typeof data === "string"
+        ? data
+        : data?.message ||
+          data?.error ||
+          error.message ||
+          "Update failed";
+
+    console.error("Error updating email:", message);
+  }
+}
+
 
 
   function sendHome() {
@@ -156,7 +235,14 @@ async function handleUpdateFirstName(name: string) {
 async function handleBlock(drivewayId: string, gameDate: string) {
   try {
     const response = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/block/${gameDate}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/block/${gameDate}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
     );
      
 
@@ -173,7 +259,14 @@ async function handleBlock(drivewayId: string, gameDate: string) {
 async function handleUnblock(drivewayId: string, gameDate: string) {
   try {
     const response = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/unblock/${gameDate}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/unblock/${gameDate}`,
+      {},
+      {
+        headers: {
+            Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
     );
 
     console.log("Unblocked:", response.data);
@@ -415,37 +508,47 @@ return (
       )
     )}
 
-    {/* EMAIL — always shown */}
-    {editingField === "email" ? (
-      <div className="row">
-        <input
-          value={tempValue}
-          onChange={(e) => setTempValue(e.target.value)}
-        />
-        <div className="editButtons">
-          <button className="saveBtn" onClick={() => setEditingField("")}>
-            Save
-          </button>
-          <button className="cancelBtn" onClick={() => setEditingField("")}>
-            Cancel
-          </button>
-        </div>
-      </div>
-    ) : (
-      <div className="row">
-        <p>
-          <span className="fn">Email address: </span>
-          {email}
-        </p>
-        <MdEdit
-          className="editIcon"
-          onClick={() => {
-            setEditingField("email");
-            setTempValue(email);
-          }}
-        />
-      </div>
-    )}
+  {/* EMAIL — always shown */}
+{editingField === "email" ? (
+  <div className="row">
+    <input
+      value={tempValue}
+      onChange={(e) => setTempValue(e.target.value)}
+    />
+    <div className="editButtons">
+      <button
+        className="saveBtn"
+        onClick={() => {
+          setOnConfirm(() => () => {
+            setEditingField("");
+            handleUpdateEmail(tempValue);   // <-- CALL THE FUNCTION
+          });
+          setShowProfileConfirm(true);       // <-- same confirmation modal pattern
+        }}
+      >
+        Save
+      </button>
+      <button className="cancelBtn" onClick={() => setEditingField("")}>
+        Cancel
+      </button>
+    </div>
+  </div>
+) : (
+  <div className="row">
+    <p>
+      <span className="fn">Email address: </span>
+      {email}
+    </p>
+    <MdEdit
+      className="editIcon"
+      onClick={() => {
+        setEditingField("email");
+        setTempValue(email);
+      }}
+    />
+  </div>
+)}
+
   </div>
 )}
 

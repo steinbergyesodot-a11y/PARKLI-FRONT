@@ -21,6 +21,7 @@ interface Spot {
   PostedAt: string;
 }
 
+  const token = localStorage.getItem("authToken") || "";
 
 
 export function Dashboard() {
@@ -30,13 +31,22 @@ export function Dashboard() {
   const navigate = useNavigate();
 
   async function fetchData() {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/driveways/`)
-
-      setCards(res.data.driveways);
-    } catch (err) {
-      console.error("Failed to fetch driveways:", err);
+  try {
+  const res = await axios.get(
+    `${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
     }
+  );
+
+  setCards(res.data.driveways);
+} catch (err) {
+  console.error("Failed to fetch driveways:", err);
+}
+
   }
 
   useEffect(() => {

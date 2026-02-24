@@ -9,7 +9,10 @@ export function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const[password2,setPassword2] = useState("")
   const[message,setMessage] = useState("")
+  const [loading, setLoading] = useState(false);
+
 
   const roles = ["renter"]
   const navigate = useNavigate();
@@ -60,14 +63,22 @@ export function SignUp() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
 
     if (!firstName || !lastName || !email || !password) {
       window.alert("All fields are required.");
+      setLoading(false);
       return;
+    }
+    if(password != password2){
+      window.alert("Passwords don't match")
+      setLoading(false);
+      return
     }
 
     if (password.length < 8) {
       window.alert("Password must be at least 8 characters long.");
+      setLoading(false);
       return;
     }
 
@@ -84,14 +95,26 @@ export function SignUp() {
           
         }
       );
-      setMessage(response.data.Message)
-
+      setMessage(response.data.message)
+      
+      
       setTimeout(() => {
-  sendHome();
-}, 3000);
+        sendHome();
+      }, 3000);
     } catch (error: any) {
-      console.error(error);
-      window.alert("Something went wrong. Please try again.");
+        const data = error.response?.data;
+     const message = 
+     typeof data === "string"
+      ? data : 
+      data?.message || 
+      data?.error || 
+      error.message || 
+      "Login failed"; 
+      console.log(message)
+      // window.alert("Something went wrong. Please try again.");
+      setMessage(message)
+    }finally{
+      setLoading(false)
     }
   }
 
@@ -144,6 +167,16 @@ export function SignUp() {
             />
         </div>
 
+           <div className="form-group">
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+            required
+            />
+        </div>
+
 
         
 
@@ -192,7 +225,23 @@ export function SignUp() {
     <>
       
       <div className="overlay"></div>
-      
+      {message && (
+  <>
+    <div className="overlay" />
+
+    <div className="createdMessage">
+      <div className="successIcon">✓</div>
+      <p>{message}</p>
+    </div>
+  </>
+)}
+
+{loading && (
+  <div className="loadingOverlay">
+    <div className="spinner"></div>
+  </div>
+)}
+
      
       <div className="createdMessage">
         {message}

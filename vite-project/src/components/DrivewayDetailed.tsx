@@ -105,7 +105,13 @@ function handleCurImageBack() {
 
   async function getDrivewayDetailed() {
   const response = await axios.get(
-    `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${id}`
+    `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    }
   );
   const driveway = response.data.driveway;
   const images = response.data.driveway.images
@@ -186,7 +192,7 @@ useEffect(() => {
                 </div>
               <span className={`game-status ${game.booked || game.blocked ? 'booked' : 'available'}`} 
               onClick={game.booked || game.blocked ? undefined : () => paymentPage(game)}>
-            {game.booked ? 'Booked' : 
+            {game.booked ? 'Booked' :  
             game.blocked ? 
             'Booked':
              'Available'

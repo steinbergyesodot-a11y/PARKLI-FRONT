@@ -37,10 +37,7 @@ export function Payment() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [drivewayRules, setDrivewayRules] = useState([])
 
-
-  const token = localStorage.getItem("authToken");
-  if (!token) return null;
-
+  const token = localStorage.getItem("authToken") || "";
   const decoded = jwtDecode<MyTokenPayload>(token);
   const userId = decoded._id;
 
@@ -67,7 +64,6 @@ export function Payment() {
 
 async function handlePay() {
   setLoading(true);
-
   try {
     const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/createPaymentIntent`, {
       renterId: userId,
@@ -140,8 +136,13 @@ const formattedTime = parkingBegins.slice(0, 5);
     }
    
 
-  } catch(error){
-    console.log(error)
+  } catch(err:any){
+     const backendError = 
+            err?.response?.data?.error ||
+            err?.response?.data?.message ||
+            err?.response?.data?.Message ||
+             "Unknown error";
+          console.log("Backend error:", backendError);
   }
   finally {
     setLoading(false);

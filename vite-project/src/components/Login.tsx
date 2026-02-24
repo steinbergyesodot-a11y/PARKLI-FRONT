@@ -24,11 +24,7 @@ export function Login({ from }: LoginProps) {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState("");
 
-
-  const userContext = useContext(UserContext);
-
- 
-
+const userContext = useContext(UserContext);
 
   function handleEmail(event: any) {
     setEmail(event.target.value);
@@ -38,8 +34,8 @@ export function Login({ from }: LoginProps) {
     setPassword(event.target.value);
   }
 
+
 async function handleGoogleLogin() {
-  console.log("CLIENT ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
   const google = window.google;
 
   const client = google.accounts.oauth2.initTokenClient({
@@ -96,10 +92,11 @@ async function handleGoogleLogin() {
   function sendHome() {
     navigate('/Home');
   }
+
+
 async function handleSubmit(event: any) {
   event.preventDefault();
   setErrorMsg("");
-
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
@@ -110,13 +107,14 @@ async function handleSubmit(event: any) {
     );
 
     const token = response.data.token;
+    console.log(token)
     localStorage.setItem("authToken", token);
 
     const decoded = jwtDecode<MyJwtPayload>(token);
     const now = Date.now() / 1000;
 
     if (!decoded.exp) {
-      throw new Error("Invalid token: missing exp");
+      setErrorMsg("Please try logging in again!")
     }
 
     if (decoded.exp > now) {
@@ -131,21 +129,23 @@ async function handleSubmit(event: any) {
 
       sendHome();
 
-    } else {
+    } else { // TOKEN EXPIRED
       localStorage.removeItem("authToken");
       userContext?.setUser(null);
+      setErrorMsg("Please Log in again")
     }
 
   } catch (error: any) {
-    const message =
-      error.response?.data?.message ||
-      error.response?.data ||
-      error.message ||
-      "Login failed";
-
-    setErrorMsg(message);
-  }
-}
+    const data = error.response?.data;
+     const message = 
+     typeof data === "string"
+      ? data : 
+      data?.message || 
+      data?.error || 
+      error.message || 
+      "Login failed"; 
+      setErrorMsg(message); 
+}}
 
 
   return (
