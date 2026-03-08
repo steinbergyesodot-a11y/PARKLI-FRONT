@@ -16,15 +16,10 @@ interface MyTokenPayload {
 
 
 export function MainProfilePage(){
-    
-    
     const userContext = useContext(UserContext);
     let user = userContext?.user;
     const [userRoles, setUserRoles] = useState<string[]>([]);
     const navigate = useNavigate();
-
-
-
 
     useEffect(() => {
       const token = localStorage.getItem("authToken");
@@ -37,10 +32,7 @@ export function MainProfilePage(){
       try {
         const decoded = jwtDecode<MyTokenPayload>(token);
         setUserRoles(decoded.roles)
-
-        
       } catch (err) {
-        navigate("/login");
       }
     }, []);
  

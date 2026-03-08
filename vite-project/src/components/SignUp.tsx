@@ -14,7 +14,7 @@ export function SignUp() {
   const [loading, setLoading] = useState(false);
 
 
-  const roles = ["renter"]
+  // const roles = ["renter"]
   const navigate = useNavigate();
 
   function sendHome() {
@@ -23,6 +23,7 @@ export function SignUp() {
 
   async function handleGoogleSignup() {
   const google = (window as any).google;
+  setLoading(true)
 
   const client = google.accounts.oauth2.initTokenClient({
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
@@ -90,7 +91,7 @@ export function SignUp() {
           lastName,
           email,
           password,
-          roles
+          // roles
 
           
         }
@@ -109,8 +110,7 @@ export function SignUp() {
       data?.message || 
       data?.error || 
       error.message || 
-      "Login failed"; 
-      console.log(message)
+      "Signup failed"; 
       // window.alert("Something went wrong. Please try again.");
       setMessage(message)
     }finally{
@@ -180,9 +180,17 @@ export function SignUp() {
 
         
 
-        <button className="signup-btn" type="submit">
-          Sign Up
-        </button>
+        <button className="signup-btn" type="submit" disabled={loading}>
+  {loading ? (
+    <div className="spinner-wrapper">
+      <div className="spinner"></div>
+      Signing up...
+    </div>
+  ) : (
+    "Sign Up"
+  )}
+</button>
+
 
 <div className="divider">
   <span>or</span>
@@ -191,6 +199,7 @@ export function SignUp() {
         className="gsi-material-button" 
         type="button" 
         onClick={handleGoogleSignup}
+        disabled={loading}
         >
         <div className="gsi-material-button-state"></div>
         <div className="gsi-material-button-content-wrapper">

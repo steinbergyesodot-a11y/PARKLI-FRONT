@@ -19,33 +19,42 @@ interface MyTokenPayload {
 
 export function ProfilePageRenter() {
   const token = localStorage.getItem("authToken") || "";
-
-  // USER STATE
   const [userId, setUserId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-
-  // UI STATE
   const [active, setActive] = useState("My Bookings");
   const [editingField, setEditingField] = useState("");
   const [tempValue, setTempValue] = useState("");
   const [message, setMessage] = useState("");
-
-  // CONFIRMATION MODAL
   const [showConfirm, setShowConfirm] = useState(false);
+  const[isLoading,setIsLoading] = useState(false)
   const [onConfirm, setOnConfirm] = useState<null | (() => void)>(null);
 
   const navigate = useNavigate();
 
   // LOAD USER DATA FROM TOKEN
-  useEffect(() => {
-    const decoded = jwtDecode<MyTokenPayload>(token);
-    setUserId(decoded._id);
-    setFirstName(decoded.firstName);
-    setLastName(decoded.lastName);
-    setEmail(decoded.email);
-  }, [token]);
+useEffect(() => {
+  const decoded = jwtDecode<MyTokenPayload>(token);
+  setUserId(decoded._id);
+}, [token]);
+
+useEffect(() => {
+  if (!userId) return;
+
+  async function loadUser() {
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    setFirstName(res.data.user.firstName);
+    setLastName(res.data.user.lastName);
+    setEmail(res.data.user.email);
+  }
+
+  loadUser();
+}, [userId]);
 
   // AUTO-HIDE SUCCESS MESSAGE
   useEffect(() => {
@@ -59,16 +68,11 @@ export function ProfilePageRenter() {
   }
 
 
-
   // UPDATE FIRST NAME
 async function handleUpdateFirstName(name: string) {
   if (!token) {
-  console.error("No token found");
   return;
 }
-console.log("TOKEN IN REACT:", token);
-console.log("USER ID:", userId);
-
   try {
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`,
@@ -81,8 +85,19 @@ console.log("USER ID:", userId);
       }
     );
 
-    setFirstName(name);
+    const updated = await axios.get(
+  `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  }
+);
+
+setFirstName(updated.data.user.firstName);
+setLastName(updated.data.user.lastName)    
+setEmail(updated.data.user.email)    
     setMessage("Changes saved");
+
+    
   } catch (error:any) {
        const data = error.response?.data;
      const message = 
@@ -92,8 +107,6 @@ console.log("USER ID:", userId);
       data?.error || 
       error.message || 
       "Login failed"; 
-      console.log(message)
-    console.error("Error updating first name:", error);
   }
 }
 
@@ -101,7 +114,6 @@ console.log("USER ID:", userId);
   // UPDATE LAST NAME
  async function handleUpdateLastName(name: string) {
   if (!token) {
-  console.error("No token found");
   return;
 }
 
@@ -117,7 +129,17 @@ console.log("USER ID:", userId);
       }
     );
     
-    setLastName(name);
+        const updated = await axios.get(
+  `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  }
+);
+
+setFirstName(updated.data.user.firstName);
+setLastName(updated.data.user.lastName)    
+setEmail(updated.data.user.email)    
+
     setMessage("Changes saved");
   } catch (error) {
     console.error("Error updating last name:", error);
@@ -126,7 +148,6 @@ console.log("USER ID:", userId);
 
 async function handleUpdateEmail(email: string) {
   if (!token || !userId) {
-    console.error("No token or userId found");
     return;
   }
 
@@ -142,7 +163,17 @@ async function handleUpdateEmail(email: string) {
       }
     );
 
-    setEmail(email);
+          const updated = await axios.get(
+  `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  }
+);
+
+setFirstName(updated.data.user.firstName);
+setLastName(updated.data.user.lastName)    
+setEmail(updated.data.user.email)    
+
     setMessage("Changes saved");
   } catch (error: any) {
     const data = error.response?.data;
@@ -162,7 +193,6 @@ async function handleUpdateEmail(email: string) {
 
   return (
     <>
-      {/* TOP BAR */}
       <div className="topAddDriveway">
         <img
           src="/logo.png"
@@ -209,12 +239,6 @@ async function handleUpdateEmail(email: string) {
           My Profile
         </button>
 
-        <button
-          className={`navsBtn ${active === "Settings" ? "active" : ""}`}
-          onClick={() => setActive("Settings")}
-        >
-          Settings
-        </button>
       </section>
 
       {/* BOOKINGS */}
@@ -244,7 +268,9 @@ async function handleUpdateEmail(email: string) {
                       handleUpdateFirstName(tempValue);
                     });
                     setShowConfirm(true);
+                    
                   }}
+                  disabled={showConfirm}
                 >
                   Save
                 </button>
@@ -252,6 +278,8 @@ async function handleUpdateEmail(email: string) {
                 <button
                   onClick={() => setEditingField("")}
                   className='cancelBtn'
+                  disabled={showConfirm}
+
                 >
                   Cancel
                 </button>
@@ -287,10 +315,13 @@ async function handleUpdateEmail(email: string) {
                     });
                     setShowConfirm(true);
                   }}
+                  disabled={showConfirm}
+
                 >
                   Save
                 </button>
-                <button onClick={() => setEditingField("")} className='cancelBtn'>
+                <button onClick={() => setEditingField("")} className='cancelBtn'  disabled={showConfirm}
+>
                   Cancel
                 </button>
               </div>
@@ -316,10 +347,10 @@ async function handleUpdateEmail(email: string) {
                 onChange={(e) => setTempValue(e.target.value)}
               />
               <div className='editButtons'>
-                <button className='saveBtn' onClick={() => setEditingField("")}>
+                <button className='saveBtn' onClick={() => setEditingField("")} disabled={showConfirm}>
                   Save
                 </button>
-                <button className='cancelBtn' onClick={() => setEditingField("")}>
+                <button className='cancelBtn' onClick={() => setEditingField("")} disabled={showConfirm}>
                   Cancel
                 </button>
               </div>
@@ -357,15 +388,15 @@ async function handleUpdateEmail(email: string) {
             <p>Are you sure you want to save?</p>
 
             <div className="confirmButtons">
-              <button
-                className="yesBtn"
-                onClick={() => {
-                  if (onConfirm) onConfirm();
-                  setShowConfirm(false);
-                }}
-              >
-                Yes
-              </button>
+         <button className="yesBtn" disabled={isLoading} onClick={async () => {
+    setIsLoading(true);
+    if (onConfirm) await onConfirm();
+    setIsLoading(false);
+    setShowConfirm(false);
+  }}
+>
+  {isLoading ? <div className="spinner" /> : "Yes"}
+</button>
 
               <button
                 className="noBtn"

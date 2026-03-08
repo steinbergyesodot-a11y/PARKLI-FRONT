@@ -23,6 +23,7 @@ export function Login({ from }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState("");
+  const [isLoading,setIsLoading] = useState(false)
 
 const userContext = useContext(UserContext);
 
@@ -97,6 +98,7 @@ async function handleGoogleLogin() {
 async function handleSubmit(event: any) {
   event.preventDefault();
   setErrorMsg("");
+  setIsLoading(true)
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
@@ -145,7 +147,12 @@ async function handleSubmit(event: any) {
       error.message || 
       "Login failed"; 
       setErrorMsg(message); 
-}}
+}finally{
+  setIsLoading(false)
+}
+}
+
+
 
 
   return (
@@ -176,11 +183,24 @@ async function handleSubmit(event: any) {
 
       {errorMsg && <p className="error-msg">{errorMsg}</p>}
 
-      <button className="login-btn" type="submit">Log In</button>
+     <button 
+  className="login-btn"
+  type="submit"
+  disabled={isLoading}
+>
+  {isLoading ? (
+    <div className="spinner-wrapper">
+      <div className="spinner"></div>
+      Logging in...
+    </div>
+  ) : (
+    "Log In"
+  )}
+</button>
+
 
 <div className="divider-line"></div>
 
-      {/* Google button INSIDE the card */}
       <button 
         className="gsi-material-button" 
         type="button" 

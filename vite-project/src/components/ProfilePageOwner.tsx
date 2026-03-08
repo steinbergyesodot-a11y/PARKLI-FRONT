@@ -72,19 +72,33 @@ export function ProfilePageOwner() {
 
   }, [token]);
 
-  useEffect(() => { 
-    if (!userId) return;
-     async function checkBooking() { 
-      try { 
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/checkIfUserHasBookings/${userId}`);
-         setUserHasBookings(res.data);
-        } catch (err) { 
-          console.error("Error checking booking:", err); 
-          setUserHasBookings(false); 
-        } finally { 
-          setLoading(false);
-         } } checkBooking(); 
-  }, [userId]);
+useEffect(() => { 
+  if (!userId) return;
+
+  async function checkBooking() { 
+    try { 
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/bookings/checkIfUserHasBookings/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      setUserHasBookings(res.data);
+    } catch (err) { 
+      console.error("Error checking booking:", err); 
+      setUserHasBookings(false); 
+    } finally { 
+      setLoading(false);
+    }
+  }
+
+  checkBooking(); 
+}, [userId]);
+
 
 function askToConfirm(
   drivewayId: string,
@@ -159,7 +173,6 @@ try {
       data?.error || 
       error.message || 
       "Login failed"; 
-      console.log(message)
     console.error("Error updating first name:", error);
   }
 }
@@ -269,7 +282,6 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
       }
     );
 
-    console.log("Unblocked:", response.data);
 
     // 🔥 Refresh UI
     if (user) fetchGames(user._id);

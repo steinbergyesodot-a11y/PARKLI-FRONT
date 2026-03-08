@@ -89,7 +89,6 @@ interface drivewayFormData {
   description: string;
 }
 
-
 export function AddDriveway2(){
 
   const [step, setStep] = useState(1);
@@ -107,7 +106,7 @@ export function AddDriveway2(){
   const [policyNotAgreed, setPolicyNotAgreed] = useState(true)
   const [checked,setChecked] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
-  const[startListing,setStartListing] = useState(false)
+  const [startListing,setStartListing] = useState(false)
   const [onboardingUrl, setOnboardingUrl] = useState<string | null>(null);
 
 
@@ -187,10 +186,17 @@ function handleRuleToggle(rule:any) {
          maxWidthOrHeight: 1920, 
         useWebWorker: true 
       };
-      for (const file of formData.images) { 
-        const compressedFile = await imageCompression(file, options); 
-        data.append("images", compressedFile); 
-      }
+      for (const file of formData.images) {
+  const compressedBlob = await imageCompression(file, options);
+
+  // Convert Blob → File and keep the original name + type
+  const compressedFile = new File([compressedBlob], file.name, {
+    type: file.type
+  });
+
+  data.append("images", compressedFile);
+}
+
       
     
 
@@ -212,8 +218,6 @@ function handleRuleToggle(rule:any) {
               setMessage("Thanks for adding your driveway! It’s now available for bookings:)")
             }
         
-            console.log(response.data)
-
         }catch(error : any){
             if(error.response){
               console.error("Backend error:", error.response.status, error.response.data);
@@ -384,14 +388,20 @@ if (startListing === false) {
                 
 
                   
-       {step === 5 && (
+{step === 5 && (
   <div className="imagesBoxLarger">
     <section className="imagesBox step">
 
       <h2>Add your pictures!</h2>
+
       <div className="image-note">
         <strong>Tip:</strong> Please upload clear, high‑quality photos of your driveway.<br />
         Good lighting and accurate angles help renters feel confident and increase your chances of getting booked.
+      </div>
+
+      {/* NEW MESSAGE */}
+      <div className="image-limit-note">
+        You can upload up to <strong>5 images</strong>.
       </div>
 
       <div className="imageUploadBox">
@@ -405,7 +415,32 @@ if (startListing === false) {
             multiple
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const newFiles = e.target.files ? Array.from(e.target.files) : [];
-              handleChange("images", [...formData.images, ...newFiles]);
+              const current = formData.images;
+
+              // 1. Limit total number of images
+              if (current.length + newFiles.length > 5) {
+                alert("You can upload a maximum of 5 images.");
+                return;
+              }
+
+              // 2. Validate file types
+              const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+              const typeValid = newFiles.filter(file => allowedTypes.includes(file.type));
+
+              if (typeValid.length !== newFiles.length) {
+                alert("Only JPG, PNG, or WEBP images are allowed.");
+              }
+
+              // 3. Validate file size (max 5MB)
+              const maxSize = 5 * 1024 * 1024;
+              const sizeValid = typeValid.filter(file => file.size <= maxSize);
+
+              if (sizeValid.length !== typeValid.length) {
+                alert("Each image must be under 5MB.");
+              }
+
+              // 4. Add only valid files
+              handleChange("images", [...current, ...sizeValid]);
             }}
           />
 
@@ -436,6 +471,8 @@ if (startListing === false) {
     </section>
   </div>
 )}
+
+
 
 
         {step === 6 && (
@@ -581,7 +618,6 @@ if (startListing === false) {
   By publishing your listing, you confirm that all information is accurate and
   that you agree to follow our hosting rules and community guidelines.
   <br />
-  {/* <a href="/terms" className="termsLink">View Terms of Use</a> */}
           <Link to="/TermsOfUse" className="termsLink">View Terms Of Use</Link>
   
 </p>
@@ -628,7 +664,7 @@ if (startListing === false) {
 
     {step === 8 && (
       <>
-        <button className="nextBtn" onClick={() => setStep(step - 1)}>
+        <button className="nextBtn"  disabled={isLoading} onClick={() => setStep(step - 1)}>
           Back
         </button>
       </>

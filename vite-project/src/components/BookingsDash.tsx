@@ -34,13 +34,11 @@ export function BookingDash({ renterId }: BookingDashProps) {
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
-  const [cancelMessage, setCancelMessage] = useState("");
+  const [cancelError, setCancelError] = useState("");
+  const [globalSuccess, setGlobalSuccess] = useState("");
   const [isClosing, setIsClosing] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
-
-  const [globalSuccess, setGlobalSuccess] = useState("");
 
   const token = localStorage.getItem("authToken");
   if (!token) return null;
@@ -51,17 +49,24 @@ export function BookingDash({ renterId }: BookingDashProps) {
   async function fetchBookings() {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/bookings/${userId}`
+        `http://localhost:4000/api/bookings/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       setUpcomingBookings(response.data.bookings || []);
     } catch (err) {
-      console.error("Failed to fetch bookings:", err);
+      console.error("Failed to fetch bookings");
     }
   }
 
   useEffect(() => {
     fetchBookings();
   }, []);
+
 
   function formatPrettyDate(dateString: string) {
     const date = new Date(dateString);
@@ -88,65 +93,63 @@ export function BookingDash({ renterId }: BookingDashProps) {
     setIsModalOpen(true);
   }
 
-  async function handleCancelBooking(
-    drivewayId: string,
-    gameDate: string,
-    bookingId: string
-  ) {
-    try {
-      setIsCancelling(true);
+ async function handleCancelBooking(
+  drivewayId: string,
+  gameDate: string,
+  bookingId: string
+) {
+  setIsCancelling(true);
+  setCancelError("");
 
-      setIsClosing(false);
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/bookings/cancelBooking`,
-        {
-          drivewayId,
-          gameDate,
-          bookingId,
-        }
-      );
-
-
-      setCancelMessage("Booking deleted successfully");
-
-      setTimeout(() => {
-        setShowCancelConfirm(false);
-        setIsModalOpen(false);
-        setCancelMessage("");
-        setIsCancelling(false);
-        fetchBookings();
-      }, 2500);
-    } catch (err: any) {
-      const backendError =
-        err?.response?.data?.error ||
-        err?.response?.data?.message ||
-        err?.response?.data?.Message ||
-        "Unknown error";
-
-      setCancelMessage(backendError);
-      setIsCancelling(false);
-    }
-  }
-
-  function closeModal() {
-    if (cancelMessage || isCancelling) return;
+  try {
+    await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/bookings/cancelBooking`,
+      { drivewayId, gameDate, bookingId }
+    );
 
     setIsClosing(true);
     setTimeout(() => {
+      setIsCancelling(false);
       setIsClosing(false);
       setShowCancelConfirm(false);
       setIsModalOpen(false);
+      setGlobalSuccess("Booking cancelled successfully");
+      fetchBookings();
+      setTimeout(() => setGlobalSuccess(""), 3000);
     }, 250);
-  }
 
-  if (!upcomingBookings.length) {
-    return <p className="upcomingMsg">No upcoming bookings :(</p>;
+  } catch (err: any) {
+    const backendError =
+      err?.response?.data?.error ||
+      err?.response?.data?.message ||
+      err?.response?.data?.Message ||
+      "Unknown error";
+    setCancelError(backendError);
+    setIsCancelling(false);
   }
+}
+
+function closeModal() {
+  if (isCancelling) return;
+
+  setIsClosing(true);
+  setTimeout(() => {
+    setIsClosing(false);
+    setShowCancelConfirm(false);
+    setIsModalOpen(false);
+  }, 250);
+}
 
   return (
     <>
-      {globalSuccess && (
-        <div className="successBanner">{globalSuccess}</div>
+      {globalSuccess &&
+        createPortal(
+          <div className="globalSuccess">{globalSuccess}</div>,
+          document.body
+        )}
+
+      {!upcomingBookings.length && (
+        <p className="upcomingMsg">No upcoming bookings :(</p>
       )}
 
       {upcomingBookings.map((booking: Booking) => (
@@ -177,7 +180,6 @@ export function BookingDash({ renterId }: BookingDashProps) {
         </div>
       ))}
 
-      {/* DETAILS MODAL */}
       {isModalOpen &&
         selectedBooking &&
         createPortal(
@@ -199,8 +201,7 @@ export function BookingDash({ renterId }: BookingDashProps) {
                 {formatPrettyDate(selectedBooking.gameDate)}
               </p>
               <p>
-                <strong>Parking Time:</strong>{" "}
-                {selectedBooking.parkingTime} PM
+                <strong>Parking Time:</strong> {selectedBooking.parkingTime} PM
               </p>
 
               {selectedBooking.price && (
@@ -218,10 +219,10 @@ export function BookingDash({ renterId }: BookingDashProps) {
                 <button
                   className="cancelBtn"
                   onClick={() => {
-  setIsClosing(false);
-  setShowCancelConfirm(true);
-}}
-
+                    setCancelError("");
+                    setIsClosing(false);
+                    setShowCancelConfirm(true);
+                  }}
                 >
                   Cancel Booking
                 </button>
@@ -235,7 +236,6 @@ export function BookingDash({ renterId }: BookingDashProps) {
           document.body
         )}
 
-      {/* CANCEL CONFIRM MODAL */}
       {showCancelConfirm &&
         selectedBooking &&
         createPortal(
@@ -250,13 +250,13 @@ export function BookingDash({ renterId }: BookingDashProps) {
               <h3>Are you sure?</h3>
               <p>This will cancel your booking.</p>
 
-              {cancelMessage && (
-                <p className="successMessage">{cancelMessage}</p>
+              {cancelError && (
+                <p className="errorMessage">{cancelError}</p>
               )}
 
               <button
                 className="confirmBtn"
-                disabled={isCancelling || !!cancelMessage}
+                disabled={isCancelling}
                 onClick={() =>
                   handleCancelBooking(
                     selectedBooking.drivewayId,
@@ -270,7 +270,7 @@ export function BookingDash({ renterId }: BookingDashProps) {
 
               <button
                 className="closeBtn"
-                disabled={isCancelling || !!cancelMessage}
+                disabled={isCancelling}
                 onClick={closeModal}
               >
                 No, Go Back

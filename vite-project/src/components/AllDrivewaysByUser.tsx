@@ -21,9 +21,16 @@ export function AllDrivewaysByUser({ user }: { user: string }) {
           `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getAllDrivewaysByUserId/${user}`
         );
         setDriveways(res.data.driveways);
-        console.log(res.data.driveways)
-      } catch (err) {
-        console.error(err);
+      } catch (error: any) {
+        const data = error.response?.data;
+     const message = 
+     typeof data === "string"
+      ? data : 
+      data?.message || 
+      data?.error || 
+      error.message || 
+      "Login failed"; 
+        console.error(error);
       }
     }
 

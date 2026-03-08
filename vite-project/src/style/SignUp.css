@@ -73,18 +73,23 @@
   border-radius: 10px;
   font-size: 16px;
   font-weight: 600;
-  background:rgb(105, 170, 250);
+  background: rgb(105, 170, 250);
   color: white;
   cursor: pointer;
   transition: 0.25s;
 }
 
-.signup-btn:hover {
+/* Hover only when NOT disabled */
+.signup-btn:not(:disabled):hover {
   transform: translateY(-2px);
 }
 
-.signup-btn:active {
-  transform: translateY(0);
+/* Disabled state */
+.signup-btn:disabled {
+  background: rgb(170, 200, 240); /* lighter, foggy color */
+  opacity: 0.6;                   /* softer look */
+  cursor: not-allowed;
+  transform: none !important;     /* prevents movement */
 }
 
 /* Back button */
@@ -166,7 +171,6 @@
   transform: scale(1.03);
 }
 
-
 .google-btn {
   width: 100%;
   padding: 12px;
@@ -184,14 +188,26 @@
   transition: 0.2s;
 }
 
+/* Hover only when NOT disabled */
+.google-btn:not(:disabled):hover {
+  background: #f7f8f9;
+}
+
+/* Disabled state */
+.google-btn:disabled {
+  background: #eeeeee;      /* softer gray */
+  color: #9aa0a6;           /* muted text */
+  border-color: #e0e0e0;    /* lighter border */
+  cursor: not-allowed;
+  opacity: 0.7;             /* foggy look */
+  transform: none !important;
+}
+
 .google-btn img {
   width: 20px;
   height: 20px;
 }
 
-.google-btn:hover {
-  background: #f7f8f9;
-}
 
 .divider {
   display: flex;
@@ -299,4 +315,26 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
 }

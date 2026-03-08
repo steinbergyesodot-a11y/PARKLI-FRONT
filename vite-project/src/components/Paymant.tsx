@@ -62,19 +62,32 @@ export function Payment() {
 
 
 
+
 async function handlePay() {
   setLoading(true);
+
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/createPaymentIntent`, {
-      renterId: userId,
-      ownerId: owner_id,
-      drivewayId: driveway_id,
-      address,
-      visiting_team,
-      gameDate,
-      price,
-      parkingBegins
-    });
+    const token = localStorage.getItem("authToken");
+
+    // ⭐ 1. Create PaymentIntent
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/bookings/createPaymentIntent`,
+      {
+        renterId: userId,
+        ownerId: owner_id,
+        drivewayId: driveway_id,
+        address,
+        visiting_team,
+        gameDate,
+        price,
+        parkingBegins
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
 
     const clientSecret = response.data.clientSecret;
 
@@ -83,71 +96,79 @@ async function handlePay() {
     const cardElement = elements.getElement(CardElement);
     if (!cardElement) return;
 
+    // ⭐ 2. Confirm card payment
     const { error, paymentIntent } = await stripe.confirmCardPayment(
       clientSecret,
       {
         payment_method: { card: cardElement }
       }
     );
- 
+
     if (error) {
-      console.log(error);
       return;
     }
 
     if (paymentIntent?.status === "succeeded") {
+      const formattedDate = new Date(gameDate).toISOString().split("T")[0];
+      const formattedTime = parkingBegins.slice(0, 5);
 
+      try {
+        // ⭐ 3. Create booking in MongoDB
+        await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/bookings`,
+          {
+            renterId: userId,
+            ownerId: owner_id,
+            drivewayId: driveway_id,
+            address,
+            visiting_team,
+            gameDate: formattedDate,
+            price,
+            parkingBegins: formattedTime,
+            paymentIntentId: paymentIntent.id
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
 
-const formattedDate = new Date(gameDate).toISOString().split("T")[0]; 
-const formattedTime = parkingBegins.slice(0, 5);
-
-
-      // ⭐ 1. Create booking in MongoDB
-      try{
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, {
-  renterId: userId,
-  ownerId: owner_id,
-  drivewayId: driveway_id,
-  address,
-  visiting_team,
-  gameDate: formattedDate,
-  price,
-  parkingBegins: formattedTime,
-  paymentIntentId: paymentIntent.id
-});
-
-     await axios.put(
-  `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${driveway_id}/${formattedDate}`
-);
+        // ⭐ 4. Mark driveway unavailable
+        await axios.put(
+          `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${driveway_id}/${formattedDate}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
 
         setShowSuccess(true);
 
+      } catch (err: any) {
+        const backendError =
+          err?.response?.data?.error ||
+          err?.response?.data?.message ||
+          err?.response?.data?.Message ||
+          "Unknown error";
 
-
-      }catch(err: any){
-          const backendError = 
-            err?.response?.data?.error ||
-            err?.response?.data?.message ||
-            err?.response?.data?.Message ||
-             "Unknown error";
-          console.log("Backend error:", backendError);
       }
-
     }
-   
 
-  } catch(err:any){
-     const backendError = 
-            err?.response?.data?.error ||
-            err?.response?.data?.message ||
-            err?.response?.data?.Message ||
-             "Unknown error";
-          console.log("Backend error:", backendError);
-  }
-  finally {
+  } catch (err: any) {
+    const backendError =
+      err?.response?.data?.error ||
+      err?.response?.data?.message ||
+      err?.response?.data?.Message ||
+      "Unknown error";
+
+  } finally {
     setLoading(false);
   }
 }
+
 
 async function getDrivewayRules(){
   const response = await axios.get(`http://localhost:4000/api/driveways/rules/${driveway_id}`)
