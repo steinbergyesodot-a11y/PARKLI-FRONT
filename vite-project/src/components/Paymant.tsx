@@ -171,7 +171,7 @@ async function handlePay() {
 
 
 async function getDrivewayRules(){
-  const response = await axios.get(`http://localhost:4000/api/driveways/rules/${driveway_id}`)
+  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/driveways/rules/${driveway_id}`)
   setDrivewayRules(response.data.rules)
   
 }

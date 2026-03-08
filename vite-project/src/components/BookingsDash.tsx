@@ -49,7 +49,7 @@ export function BookingDash({ renterId }: BookingDashProps) {
   async function fetchBookings() {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/bookings/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/bookings/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
