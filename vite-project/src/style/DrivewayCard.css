@@ -104,26 +104,3 @@
     align-items: center;
     gap: 15px;
 }
-
-.carData{
-    width: 30%;
-    min-width: 0;
-}
-
-.carData h3,
-.carData p{
-    overflow-wrap: break-word;
-}
-
-.AddContainer{
-    display: flex;
-    width: 55vw;
-    height: 25vh;
-    justify-content: center;
-    align-items: flex-start;  /* key line */
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 3px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    gap:3%;
-}
