@@ -1,55 +1,70 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import '../style/DrivewayCard.css'
-import { DrivewayDetailed } from './DrivewayDetailed';
-import { FaPersonWalkingArrowRight } from "react-icons/fa6";
+import { FaPersonWalkingArrowRight } from "react-icons/fa6"
 
-
-
-type DrivewayCard = {
-    drivewayCardId: string,
-    address: string,
-    name:string,
-    distance: number,
-    price: number,
-    images: string[]
+type DrivewayCardProps = {
+  drivewayCardId: string
+  address: string
+  name: string
+  distance: number
+  price: number
+  images: string[]
 }
 
+export function DrivewayCard({
+  drivewayCardId,
+  name,
+  address,
+  distance,
+  price,
+  images
+}: DrivewayCardProps) {
 
+  const navigate = useNavigate()
 
-export function DrivewayCard({drivewayCardId,name,address,distance,price,images}:DrivewayCard){
+  function drivewayDetailed() {
+    navigate(`/DrivewayDetailed/${drivewayCardId}`)
+  }
 
-    const navigate = useNavigate();
+  return (
+    <div className="drivewayCard">
 
-    function drivewayDetailed(){
-        navigate(`/DrivewayDetailed/${drivewayCardId}`)
-    }
+      <img
+        src={images[0]}
+        alt="driveway"
+        className="drivewayImage"
+      />
 
+      <div className="carData">
 
-    return(
-        <div>
-            <div className='AddContainer'>
-                <img src={images[0]}alt="driveway" />
+        <div className="textBlock">
+          <h3 className="name">{name}</h3>
+          <p className="address">{address}</p>
 
-                <div className='carData'>
-                    <h3>{name}</h3>
-                    <h3 className='address'>{address}</h3>
-                        <div className='walkk'>
-                        <p>{distance} min</p>
-                        <FaPersonWalkingArrowRight className='walkIcon' />
-                        <p className='tag'>Wrigley Field</p>
-                        </div>
-                </div>
-
-                <section className='rightSide'>
-                    <p className='price'>
-                    <span className='smallerText'>$</span>
-                    {price} Per Game
-                    </p>
-                    <button className='moreDetails' onClick={drivewayDetailed}>More Details</button>
-                </section>
-                
-               
-            </div>
+          <div className="walkInfo">
+            <span>{distance} min</span>
+            <FaPersonWalkingArrowRight className="walkIcon" />
+            <span className="tag">Wrigley Field</span>
+          </div>
         </div>
-    )
+
+      </div>
+
+      <div className="rightSide">
+        <p className="price">
+          <span className="dollar">$</span>{price}
+          <span className="perGame"> / game</span>
+        </p>
+
+        <button
+          className="moreDetails"
+          onClick={drivewayDetailed}
+        >
+          More Details
+        </button>
+      </div>
+
+    </div>
+  )
 }
+
