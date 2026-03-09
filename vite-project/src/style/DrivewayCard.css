@@ -105,3 +105,12 @@
     gap: 15px;
 }
 
+.carData{
+    width: 30%;
+    min-width: 0;
+}
+
+.carData h3,
+.carData p{
+    overflow-wrap: break-word;
+}
