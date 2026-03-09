@@ -1,4 +1,4 @@
-.AddContainer{
+/* .AddContainer{
     display: flex;
     width: 55vw;
     height: 25vh;
@@ -70,8 +70,8 @@
 }
 
 .moreDetails:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* slightly deeper */
-  transform: translateY(-2px);                /* tiny lift */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+  transform: translateY(-2px);                
 }
 
 
@@ -98,4 +98,94 @@
     display: flex;
     align-items: center;
     gap: 15px;
+} */
+
+
+.AddContainer{
+    display: flex;
+    width: 55vw;
+    min-height: 25vh;
+    border-radius: 6px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 16px;
+    align-items: flex-start;
 }
+
+/* Image */
+
+.AddContainer img{
+    width: 25%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Middle text section */
+
+.carData{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.address{
+    font-weight: 300;
+}
+
+.walkk{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tag{
+    background-color: rgb(219, 216, 216);
+    width: fit-content;
+    font-weight: 500;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+/* Right column */
+
+.rightSide{
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+/* Price */
+
+.price{
+    font-weight: 800;
+    margin: 0;
+}
+
+.smallerText{
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Button */
+
+.moreDetails{
+    color: whitesmoke;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: blue;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 9999px;
+    border: none;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.moreDetails:hover{
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
