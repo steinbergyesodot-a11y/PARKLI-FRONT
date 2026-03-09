@@ -21,6 +21,7 @@
 
 .carData{
     width: 30%;
+    align-self: flex-start;
     padding-bottom: 15px;
 }
 .bottom{
