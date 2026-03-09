@@ -86,9 +86,10 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: flex-end;
+  margin-top: auto;
   gap: 12px;
 }
-
 
 /* PRICE */
 
