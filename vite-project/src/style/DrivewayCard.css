@@ -21,8 +21,7 @@
 
 .carData{
     width: 30%;
-    max-height: 80%;
-    margin-bottom: 10%;   /* creates space before container bottom */
+    padding-bottom: 15px;
 }
 .bottom{
     display: flex;
