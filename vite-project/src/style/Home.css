@@ -1,22 +1,28 @@
 
-.firstSection{
+.firstSection {
+  position: relative;
   height: 93vh;
   width: 100vw;
-  margin: 0;
-  padding: 0;
-  background-image:
-   linear-gradient(
-      rgba(0, 0, 0, 0.15),
-      rgba(0, 0, 0, 0.10)
-    ),
-   url('/assets/moving-car.jpg');
-  background-size: cover;     
-  background-repeat: no-repeat; 
-  background-position: center;
+  overflow: hidden;
 }
 
-
+.firstSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.45),   /* stronger dark overlay */
+      rgba(0, 0, 0, 0.35)
+    ),
+    url('/assets/wrigley.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(0.5px); 
+  z-index: -1;
   
+}
+
 
 .btnNav::after {
   content: "";
@@ -28,6 +34,7 @@
   background-color: #444;      /* underline color */
   transition: width 0.25s ease;
 }
+
 
 .btnNav:hover {
   background-color: rgba(0, 0, 0, 0.05);
@@ -49,6 +56,7 @@
 
 .text h1{
   color: #ffffff; font-weight: 800;
+  /* color: rgb(79, 43, 138); */
 }
 
 .searching{
@@ -391,7 +399,6 @@ background: #fcefde;
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 20px;
 }
 
 /* PROFILE DROPDOWN FLOATING TOP-RIGHT */
