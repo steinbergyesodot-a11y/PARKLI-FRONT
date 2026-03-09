@@ -105,8 +105,3 @@
     gap: 15px;
 }
 
-.carData {
-    flex: 1;          /* take available space */
-    min-width: 0;     /* CRITICAL: allows text to shrink instead of overflow */
-    overflow-wrap: break-word;
-}
