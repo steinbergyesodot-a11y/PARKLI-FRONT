@@ -33,11 +33,11 @@ export function DrivewayCard({drivewayCardId,name,address,distance,price,images}
                 <div className='carData'>
                     <h3>{name}</h3>
                     <h3 className='address'>{address}</h3>
-                        <section className='walkk'>
+                        <div className='walkk'>
                         <p>{distance} min</p>
                         <FaPersonWalkingArrowRight className='walkIcon' />
                         <p className='tag'>Wrigley Field</p>
-                        </section>
+                        </div>
                 </div>
 
                 <section className='rightSide'>
