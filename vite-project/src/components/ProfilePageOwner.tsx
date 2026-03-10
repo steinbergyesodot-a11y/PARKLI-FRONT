@@ -262,8 +262,16 @@ async function handleBlock(drivewayId: string, gameDate: string) {
     // 🔥 Refresh UI
     if (user) fetchGames(user._id);
 
-  } catch (error) {
-    console.error("Error blocking date:", error);
+  } catch (error:any) {
+    const data = error.response?.data;
+     const message = 
+     typeof data === "string"
+      ? data : 
+      data?.message || 
+      data?.error || 
+      error.message || 
+      "Signup failed"; 
+      console.log(message)
   }
 }
 
