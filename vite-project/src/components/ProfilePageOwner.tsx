@@ -51,6 +51,7 @@ export function ProfilePageOwner() {
   const [editingField, setEditingField] = useState("");
   const [tempValue, setTempValue] = useState("");
   const [message, setMessage] = useState("");
+  const [messageDate, setMessageDate] = useState<string | null>(null);
   const [onConfirm, setOnConfirm] = useState<null | (() => void)>(null);
   const [showProfileConfirm, setShowProfileConfirm] = useState(false);
   const [userHasBookings,setUserHasBookings] = useState(false);
@@ -261,12 +262,16 @@ async function handleBlock(drivewayId: string, gameDate: string) {
     const successMsg = "Date blocked successfully!";
     console.log("Setting message:", successMsg);
     setMessage(successMsg);
+    setMessageDate(gameDate);
     
     // 🔥 Refresh UI
     if (user) fetchGames(user._id);
     
     // Auto-clear message after 4 seconds
-    setTimeout(() => setMessage(""), 4000);
+    setTimeout(() => {
+      setMessage("");
+      setMessageDate(null);
+    }, 4000);
 
 } catch (error:any) {
   
@@ -279,9 +284,13 @@ async function handleBlock(drivewayId: string, gameDate: string) {
   "block failed"; 
   console.error("Block error:", errorMessage);
   setMessage(errorMessage);
+  setMessageDate(gameDate);
   
   // Auto-clear error message after 4 seconds
-  setTimeout(() => setMessage(""), 4000);
+  setTimeout(() => {
+    setMessage("");
+    setMessageDate(null);
+  }, 4000);
   }
   finally{
     setLoadingGameDate(null);
@@ -306,12 +315,16 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
     const successMsg = "Date unblocked successfully!";
     console.log("Setting message:", successMsg);
     setMessage(successMsg);
+    setMessageDate(gameDate);
     
     // 🔥 Refresh UI
     if (user) fetchGames(user._id);
     
     // Auto-clear message after 4 seconds
-    setTimeout(() => setMessage(""), 4000);
+    setTimeout(() => {
+      setMessage("");
+      setMessageDate(null);
+    }, 4000);
   } catch (error:any) {
      const data = error.response?.data;
     const errorMessage = 
@@ -322,9 +335,13 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         "unblock failed"; 
     console.error("Unblock error:", errorMessage);
     setMessage(errorMessage);
+    setMessageDate(gameDate);
     
     // Auto-clear error message after 4 seconds
-    setTimeout(() => setMessage(""), 4000);
+    setTimeout(() => {
+      setMessage("");
+      setMessageDate(null);
+    }, 4000);
   }finally{
     setLoadingGameDate(null);
   }
@@ -390,6 +407,8 @@ return (
                 <span className="game-date">@ {game.game_time}</span>
               </div>
 
+              {message && messageDate === game.date && <div className="successMessage">{message}</div>}
+
               <button
                 disabled={game.booked || loadingGameDate === game.date}
                 className={`game-status ${
@@ -418,7 +437,6 @@ return (
             </section>
           ))
         )}
-            {message && <div>{message}</div>}
 
 
         {/* OWNER BLOCK/UNBLOCK MODAL */}
@@ -463,6 +481,7 @@ return (
           </div>
         )}
       </section>
+      
     )}
 
 {active === "My Driveways" && (
