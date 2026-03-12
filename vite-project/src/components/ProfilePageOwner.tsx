@@ -257,18 +257,22 @@ async function handleBlock(drivewayId: string, gameDate: string) {
         }
       }
     );
+        console.log("Setting message: Date blocked successfully!");  // ← Add this
+
     setMessage("Date blocked successfully!")
      // 🔥 Refresh UI
     if (user) fetchGames(user._id);
 
 } catch (error:any) {
-    const data = error.response?.data;
-    const errorMessage = 
-      typeof data === "string"
-        ? data 
-        : 
-        data?.message || data?.error || error.message || 
-        "block failed"; 
+  
+  const data = error.response?.data;
+  const errorMessage = 
+  typeof data === "string"
+  ? data 
+  : 
+  data?.message || data?.error || error.message || 
+  "block failed"; 
+  console.log("Setting error message:", errorMessage);  // ← Add this
     setMessage(errorMessage)
     console.error("error blocking date", errorMessage)
   }
@@ -396,6 +400,8 @@ return (
             </section>
           ))
         )}
+            {message && <div className="successMessage">{message}</div>}
+
 
         {/* OWNER BLOCK/UNBLOCK MODAL */}
         {showConfirm && pendingAction && (
