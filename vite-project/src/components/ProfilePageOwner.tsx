@@ -53,7 +53,8 @@ export function ProfilePageOwner() {
   const [message, setMessage] = useState("");
   const [onConfirm, setOnConfirm] = useState<null | (() => void)>(null);
   const [showProfileConfirm, setShowProfileConfirm] = useState(false);
-  const [userHasBookings,setUserHasBookings] = useState(false)
+  const [userHasBookings,setUserHasBookings] = useState(false);
+  const [loadingGameDate, setLoadingGameDate] = useState<string | null>(null);
 
  
     
@@ -246,7 +247,7 @@ async function handleUpdateEmail(email: string) {
 
 async function handleBlock(drivewayId: string, gameDate: string) {
   try {
-    setLoading(true)
+    setLoadingGameDate(gameDate);
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/block/${gameDate}`,
       {},
@@ -272,12 +273,12 @@ async function handleBlock(drivewayId: string, gameDate: string) {
   : 
   data?.message || data?.error || error.message || 
   "block failed"; 
-  console.log("Setting error message:", errorMessage);  // ← Add this
+  console.log("Setting error message:", errorMessage);  
     setMessage(errorMessage)
     console.error("error blocking date", errorMessage)
   }
   finally{
-    setLoading(false)
+    setLoadingGameDate(null);
   }
 }
 
@@ -285,7 +286,7 @@ async function handleBlock(drivewayId: string, gameDate: string) {
 
 async function handleUnblock(drivewayId: string, gameDate: string) {
   try {
-    setLoading(true)
+    setLoadingGameDate(gameDate);
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/unblock/${gameDate}`,
       {},
@@ -310,7 +311,7 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
     setMessage(errorMessage)
     console.error("error blocking date", errorMessage)
   }finally{
-    setLoading(false)
+    setLoadingGameDate(null);
   }
 }
 
@@ -375,7 +376,7 @@ return (
               </div>
 
               <button
-                disabled={game.booked}
+                disabled={game.booked || loadingGameDate === game.date}
                 className={`game-status ${
                   game.booked ? "booked" :
                   game.blocked ? "blocked" :
@@ -391,7 +392,9 @@ return (
                   );
                 }}
               >
-                {game.booked
+                {loadingGameDate === game.date
+                  ? "Loading..."
+                  : game.booked
                   ? "Booked"
                   : game.blocked
                     ? "Blocked"
