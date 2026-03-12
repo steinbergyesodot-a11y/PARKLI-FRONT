@@ -65,6 +65,10 @@ export function DrivewayDetailed() {
   const navigate = useNavigate();
 
   function paymentPage(game:any) {
+        if(!token){
+          alert("Please Log in to continue!")
+          return
+        }
         navigate(`/DrivewayDetailed/${id}/Payment`,{
           state: {
             driveway_id: id,
@@ -95,12 +99,7 @@ function handleCurImageBack() {
 }
 
   function handleSchedual(){
-    
-    if(!token){
-      alert("Please Login or Sign up to continue!")
-      return
-    }
-      setShowSchedual(!showSchedual)
+    setShowSchedual(!showSchedual)
   }
 
   async function getDrivewayDetailed() {
