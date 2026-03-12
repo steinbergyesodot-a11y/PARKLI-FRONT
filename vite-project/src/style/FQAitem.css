@@ -4,10 +4,11 @@
     height: 10vh;
     justify-content:space-between;
     align-items: center;
-    background-color: whitesmoke;
+    background-color: rgb(242, 240, 240);
     padding: 2px;
     border-radius: 5px;
     border: 1px solid rgb(172, 162, 162);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .q{
@@ -25,11 +26,12 @@
     flex-direction: column;
     width: 50vw;
     justify-content:space-between;
-    background-color:white;
+    background-color: rgb(242, 240, 240);
     border: 1px solid rgb(172, 162, 162);
 
     padding: 2px;
     border-radius: 5px;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 
@@ -47,5 +49,15 @@
     font-weight: 900;
     cursor: pointer;
     margin-right: 1vw;
+    transition: transform 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 

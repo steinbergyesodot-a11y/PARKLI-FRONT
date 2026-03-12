@@ -69,14 +69,61 @@
   position: relative;
   border-radius: 9999px;
   width: 100%;
-  max-width: 700px;              
+  max-width: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-container .addressWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.search-container .addressInput {
+  color: white;
+  width: 100%;
+  height: 8vh;
+  padding: 0.75rem 3.5rem 0.75rem 1rem;
+  font-size: 1rem;
+  border: 3px solid #ccc;
+  border-radius: 9999px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.search-container .addressInput::placeholder {
+  color: white;
+  font-size: 1.5rem;
+  opacity: 1;
+}
+
+.search-container .addressInput::-webkit-input-placeholder {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.search-container .addressInput::-moz-placeholder {
+  color: white;
+  font-size: 1.5rem;
+  opacity: 1;
+}
+
+.search-container .addressInput:-ms-input-placeholder {
+  color: white;
+  font-size: 1.5rem;
 }
 
 .search-input {
   color: white;
   width: 100%;
   height: 8vh;
-  padding: 0.75rem 2.5rem 0.75rem 1rem; 
+  padding: 0.75rem 3.5rem 0.75rem 1rem; 
   font-size: 1rem;
   border: 3px solid #ccc;
   border-radius: 9999px;
@@ -88,9 +135,35 @@
 
 input::placeholder {
   color: white;
-  font-style:initial;
+  font-style: initial;
   font-size: 1.5rem;
   opacity: 1;
+}
+
+input::-webkit-input-placeholder {
+  color: white;
+  font-size: 1.5rem;
+}
+
+input::-moz-placeholder {
+  color: white;
+  font-size: 1.5rem;
+  opacity: 1;
+}
+
+input:-ms-input-placeholder {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.search-icon {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 1.5rem;
+  pointer-events: none;
 }
 
 .search-button {
@@ -176,7 +249,7 @@ input::placeholder {
 
 .middle{
   height: 80vh;
-  background-color:rgb(200, 222, 249);
+  background-color: #6557e0;
 }
 
 .stars{
@@ -266,14 +339,14 @@ input::placeholder {
 .topRow{
   display: flex;
   width: 75%;
-  height: 70vh;
+  height: 40vh;
   gap: 3%;
 }
 
 .bottomRow{
   display: flex;
   width: 75%;
-  height: 70vh;
+  height: 40vh;
     gap: 3%;
 
 
@@ -286,95 +359,115 @@ input::placeholder {
   background-color: rgb(242, 240, 240);
   border-radius: 3%;
   overflow: hidden;
+  padding: 1.2rem;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.quarter1:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  background-color: rgb(235, 230, 230);
 }
 
 .quarter2{
   width: 50%;
   background-color: rgb(242, 240, 240);
   border-radius: 3%;
-
-
+  padding: 1.2rem;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.convinceBtn{
-  color: rgb(101, 101, 249);
-  background-color: rgb(242, 240, 240);
-  width: 40%;
-  padding: 0%;
+.quarter2:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  background-color: rgb(235, 230, 230);
+}
+
+.iconBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #6557e0 0%, #7b7ce8 100%);
+  border-radius: 50%;
+  margin-bottom: 0.8rem;
+}
+
+.featureIcon {
+  font-size: 1.8rem;
+  color: white;
 }
 
 .biggerFont{
-  font-size: 2.5rem;
-  margin-top: 30px;
-  margin-bottom: 20px;
+  font-size: 1.8rem;
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #333;
   
 }
 
 .smallerFont{
-  font-size: 1.5rem;
-  margin-top: 10px;
+  font-size: 1.2rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.6rem;
   color: rgb(68, 64, 64);
-  font-family:sans-serif;
-
+  font-family: sans-serif;
+  line-height: 1.4;
 }
 
-.quarter1 img{
-  max-height: 80%;   
-    max-width: 100%;  
-    object-fit: cover; 
-    border-radius: 20px;
-      margin-left: 7%;
-      margin-top: 10%;
-
-}
-
-.btn-convincing{
-  color: rgb(123, 123, 226);
-  text-decoration: none;
-  font-size: 1.5rem;
-}
-
-.imgQ2{
-    height: 50%; 
-    max-width: 90%;
-    object-fit: cover;
-    margin-top: 13%;
-    border-radius: 2%;
+.statFont {
+  font-size: 1rem;
+  color: #6557e0;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  margin-top: 0.3rem;
 }
 
 .textBox{
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  margin-left: 6%;
+  justify-content: flex-start;
+  margin-left: 0;
 }
 
+.btn-convincing {
+  color: white;
+  background-color: #6557e0;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.btn-convincing:hover {
+  background-color: #5545c4;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(101, 87, 224, 0.3);
+}
 
 .convincing img {
-  width: 100%;        /* fills its container */
-  height: 250px;      /* fixed height for all images */
-  object-fit: cover;  /* crops nicely without distortion */
-  border-radius: 8px; /* optional: rounded corners */
-}
-
-
-.quarter1, .quarter2 {
-  position: relative;   /* parent is positioning context */
+  display: none;
 }
 
 .quarter1 img, .quarter2 img {
-  position: absolute;   /* take image out of normal flow */
-  bottom: 0;            /* lock to bottom */
-  right: 0;             /* lock to right */
-  width: 100%;          /* same width as before */
-  height: 250px;        /* fixed height for consistency */
-  object-fit: cover;    /* crop nicely without distortion */
-  border-radius: 8px;   /* optional styling */
+  display: none;
 }
 
 .QAbox{
     
-background: #fcefde;
+background: rgb(242, 240, 240);
 
   padding: 1vh;
   margin-top: 2%;

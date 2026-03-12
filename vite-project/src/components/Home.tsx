@@ -9,6 +9,9 @@ import { Nav, NavDropdown } from 'react-bootstrap';
 import React, { Suspense, lazy } from "react";
 import { ProfileDropdown } from './ProfileDropdown';
 import Section from './Section';
+import { FiSearch } from 'react-icons/fi';
+import { PlaceAutocompleteTS } from './PlaceComplete';
+import { FaHeartPulse, FaSackDollar, FaMapPin, FaShieldHalved } from 'react-icons/fa6';
 
 
 export function Home() {
@@ -17,7 +20,6 @@ export function Home() {
   let user = userContext?.user;
 
   const navigate = useNavigate();
-
 
  function logOut(){
    localStorage.removeItem("authToken")
@@ -68,14 +70,13 @@ export function Home() {
   {/* Search bar */}
   <section className="searching">
     <div className="search-container">
-      <input
-        type="text"
-        value={Query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter address..."
-        className="search-input"
+      <PlaceAutocompleteTS 
+        onSelect={(address) => {
+          setQuery(address);
+          navigate("/Dashboard", { state: { searchAddress: address } });
+        }} 
       />
-      <span className="search-icon"></span>
+      <FiSearch className="search-icon" />
     </div>
   </section>
 
@@ -111,41 +112,53 @@ export function Home() {
 
       <section className='topRow'>
         <div className='quarter1'>
-          <div className='textBox'>
-            <p className='biggerFont'>Stress free</p>
-            <p className='smallerFont'>"Relax, your spot is waiting".</p>
-            <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
+          <div className='iconBox'>
+            <FaHeartPulse className='featureIcon' />
           </div>
-          <img src="https://www.rrp.com.au/wp-content/uploads/2023/11/Blog-Post-Banner-Template.png" alt="" />
+          <div className='textBox'>
+            <p className='biggerFont'>Stress Free</p>
+            <p className='smallerFont'>Book instantly, no complications</p>
+            <p className='statFont'>5000+ Happy Drivers</p>
+            <Link to="/Dashboard" className='btn-convincing'>Start searching</Link>
+          </div>
         </div>
 
         <div className='quarter2'>
-          <div className='textBox'>
-            <p className='biggerFont'>Budget-friendly</p>
-            <p className='smallerFont'>Affordable without compromise.</p>
-            <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
+          <div className='iconBox'>
+            <FaSackDollar className='featureIcon' />
           </div>
-          <img src="https://www.grantthornton.in/globalassets/1.-member-firms/india/media/budget-2024/union-budget-2024/1400-658-ub-2024.jpg" className='imgQ2' alt="" />
+          <div className='textBox'>
+            <p className='biggerFont'>Budget Friendly</p>
+            <p className='smallerFont'>Save up to 40% vs traditional parking</p>
+            <p className='statFont'>Avg. $8-15 per spot</p>
+            <Link to="/Dashboard" className='btn-convincing'>Start searching</Link>
+          </div>
         </div>
       </section>
 
       <section className='bottomRow'>
         <div className='quarter1'>
-          <div className='textBox'>
-            <p className='biggerFont'>Best Location</p>
-            <p className='smallerFont'>In the heart of it all.</p>
-            <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
+          <div className='iconBox'>
+            <FaMapPin className='featureIcon' />
           </div>
-          <img src="https://i.redd.it/fenway-or-wrigley-and-why-consider-the-atmosphere-too-but-v0-d53zamjcf95e1.jpg?width=1800&format=pjpg&auto=webp&s=2d799a0ac8ee25846ef2f3930f311194efb879a9" alt="" />
+          <div className='textBox'>
+            <p className='biggerFont'>Best Locations</p>
+            <p className='smallerFont'>Close to stadiums and major events</p>
+            <p className='statFont'>500+ Verified Driveways</p>
+            <Link to="/Dashboard" className='btn-convincing'>Start searching</Link>
+          </div>
         </div>
 
         <div className='quarter2'>
-          <div className='textBox'>
-            <p className='biggerFont'>Security</p>
-            <p className='smallerFont'>Protected every step of the way.</p>
-            <Link to="/Dashboard" className='btn-convincing'>Start searching..</Link>
+          <div className='iconBox'>
+            <FaShieldHalved className='featureIcon' />
           </div>
-          <img src="https://d372kicx7ya6yg.cloudfront.net/upload/content/articles/main/gtn_mitm_top-10-threats_hero.jpg" className='imgQ2' alt="" />
+          <div className='textBox'>
+            <p className='biggerFont'>Secure & Safe</p>
+            <p className='smallerFont'>Verified owners, secure payments</p>
+            <p className='statFont'>100% Rated Transactions</p>
+            <Link to="/Dashboard" className='btn-convincing'>Start searching</Link>
+          </div>
         </div>
       </section>
 
@@ -174,8 +187,6 @@ export function Home() {
     </section>
   </div>
 </Section>
-
-      
 
     </div>
   );
