@@ -14,7 +14,7 @@ interface MyTokenPayload {
   lastName:string;
   roles: string[];
   email: string;
-  drivewayIds:string;
+  drivewayIds:string[];
   authProvider:string
 }
 
