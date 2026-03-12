@@ -258,11 +258,15 @@ async function handleBlock(drivewayId: string, gameDate: string) {
         }
       }
     );
-        console.log("Setting message: Date blocked successfully!");  // ← Add this
-
-    setMessage("Date blocked successfully!")
-     // 🔥 Refresh UI
+    const successMsg = "Date blocked successfully!";
+    console.log("Setting message:", successMsg);
+    setMessage(successMsg);
+    
+    // 🔥 Refresh UI
     if (user) fetchGames(user._id);
+    
+    // Auto-clear message after 4 seconds
+    setTimeout(() => setMessage(""), 4000);
 
 } catch (error:any) {
   
@@ -273,9 +277,11 @@ async function handleBlock(drivewayId: string, gameDate: string) {
   : 
   data?.message || data?.error || error.message || 
   "block failed"; 
-  console.log("Setting error message:", errorMessage);  
-    setMessage(errorMessage)
-    console.error("error blocking date", errorMessage)
+  console.error("Block error:", errorMessage);
+  setMessage(errorMessage);
+  
+  // Auto-clear error message after 4 seconds
+  setTimeout(() => setMessage(""), 4000);
   }
   finally{
     setLoadingGameDate(null);
@@ -297,9 +303,15 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         }
       }
     );
+    const successMsg = "Date unblocked successfully!";
+    console.log("Setting message:", successMsg);
+    setMessage(successMsg);
+    
     // 🔥 Refresh UI
     if (user) fetchGames(user._id);
-    setMessage("Date unblocked successfully!")
+    
+    // Auto-clear message after 4 seconds
+    setTimeout(() => setMessage(""), 4000);
   } catch (error:any) {
      const data = error.response?.data;
     const errorMessage = 
@@ -307,9 +319,12 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         ? data 
         : 
         data?.message || data?.error || error.message || 
-        "block failed"; 
-    setMessage(errorMessage)
-    console.error("error blocking date", errorMessage)
+        "unblock failed"; 
+    console.error("Unblock error:", errorMessage);
+    setMessage(errorMessage);
+    
+    // Auto-clear error message after 4 seconds
+    setTimeout(() => setMessage(""), 4000);
   }finally{
     setLoadingGameDate(null);
   }
@@ -403,7 +418,7 @@ return (
             </section>
           ))
         )}
-            {message && <div className="successMessage">{message}</div>}
+            {message && <div>{message}</div>}
 
 
         {/* OWNER BLOCK/UNBLOCK MODAL */}
