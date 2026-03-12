@@ -30,7 +30,6 @@ export function ProfilePageOwner() {
   const navigate = useNavigate();
     const token = localStorage.getItem("authToken") || "";
 
-
   const [active, setActive] = useState("Host Bookings");
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
@@ -247,7 +246,8 @@ async function handleUpdateEmail(email: string) {
 
 async function handleBlock(drivewayId: string, gameDate: string) {
   try {
-    const response = await axios.put(
+    setLoading(true)
+    await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/block/${gameDate}`,
       {},
       {
@@ -257,21 +257,23 @@ async function handleBlock(drivewayId: string, gameDate: string) {
         }
       }
     );
-     
-
-    // 🔥 Refresh UI
+    setMessage("Date blocked successfully!")
+     // 🔥 Refresh UI
     if (user) fetchGames(user._id);
 
-  } catch (error:any) {
+} catch (error:any) {
     const data = error.response?.data;
-     const message = 
-     typeof data === "string"
-      ? data : 
-      data?.message || 
-      data?.error || 
-      error.message || 
-      "Signup failed"; 
-      console.log(message)
+    const errorMessage = 
+      typeof data === "string"
+        ? data 
+        : 
+        data?.message || data?.error || error.message || 
+        "block failed"; 
+    setMessage(errorMessage)
+    console.error("error blocking date", errorMessage)
+  }
+  finally{
+    setLoading(false)
   }
 }
 
@@ -279,7 +281,8 @@ async function handleBlock(drivewayId: string, gameDate: string) {
 
 async function handleUnblock(drivewayId: string, gameDate: string) {
   try {
-    const response = await axios.put(
+    setLoading(true)
+    await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${drivewayId}/unblock/${gameDate}`,
       {},
       {
@@ -289,19 +292,23 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         }
       }
     );
-
-
     // 🔥 Refresh UI
     if (user) fetchGames(user._id);
-
-  } catch (error) {
-    console.error("Error unblocking date:", error);
+    setMessage("Date unblocked successfully!")
+  } catch (error:any) {
+     const data = error.response?.data;
+    const errorMessage = 
+      typeof data === "string"
+        ? data 
+        : 
+        data?.message || data?.error || error.message || 
+        "block failed"; 
+    setMessage(errorMessage)
+    console.error("error blocking date", errorMessage)
+  }finally{
+    setLoading(false)
   }
 }
-
-
-
-
 
   if (loading) return <p>Loading...</p>;
 
