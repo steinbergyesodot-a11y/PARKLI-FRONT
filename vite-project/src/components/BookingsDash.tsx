@@ -114,7 +114,7 @@ export function BookingDash({ renterId }: BookingDashProps) {
   setCancelError("");
 
   try {
-    await axios.post(
+    const resp = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/bookings/cancelBooking`,
       { drivewayId, gameDate, bookingId },
       token
@@ -126,28 +126,26 @@ export function BookingDash({ renterId }: BookingDashProps) {
         : undefined
     );
 
-    // update UI immediately so user sees result even if fade is delayed
+    // remove from UI immediately
     setUpcomingBookings((prev) => prev.filter((b) => b._id !== bookingId));
-    setIsCancelling(false);
-    setGlobalSuccess("Booking cancelled successfully");
 
-    // start fade-out to close modals smoothly
+    // close any open modals and clear selection with a small fade
+    setShowCancelConfirm(false);
     setIsClosing(true);
 
-    // after fade completes, finalize modal state and cleanup
     setTimeout(() => {
-      setIsClosing(false);
-      setShowCancelConfirm(false);
       setIsModalOpen(false);
       setSelectedBooking(null);
+      setIsClosing(false);
+    }, 200);
 
-      // keep in sync with backend in case of race conditions
-      fetchBookings();
+    setGlobalSuccess("Booking cancelled successfully");
 
-      // hide toast after a short time
-      setTimeout(() => setGlobalSuccess(""), 3000);
-    }, 250);
+    // refresh in background to stay in sync
+    fetchBookings().catch(() => {});
 
+    // hide toast after a short time
+    setTimeout(() => setGlobalSuccess(""), 3000);
   } catch (err: any) {
     const backendError =
       err?.response?.data?.error ||
@@ -155,6 +153,7 @@ export function BookingDash({ renterId }: BookingDashProps) {
       err?.response?.data?.Message ||
       "Unknown error";
     setCancelError(backendError);
+  } finally {
     setIsCancelling(false);
   }
 }
