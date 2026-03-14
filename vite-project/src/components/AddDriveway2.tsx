@@ -103,6 +103,7 @@ export function AddDriveway2(){
     description: ""
   });
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "info">("info");
   const [policyNotAgreed, setPolicyNotAgreed] = useState(true)
   const [checked,setChecked] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
@@ -161,7 +162,7 @@ function handleRuleToggle(rule:any) {
   async function handleSubmit(){
   
         if(!formData.address || !formData.images || !formData.price  || !formData.walk){
-          alert("Missing field")
+          setMessage("Please fill address, add at least one image, select a price and walking time.");
           return
         }
     
@@ -201,36 +202,47 @@ function handleRuleToggle(rule:any) {
     
 
         try{
+          setMessage("");
+          setMessageType("info");
           setIsLoading(true);
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,data,{
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "multipart/form-data"
-              }
-            })
-            
-            if(response.status === 201){
-              const onboardingUrl = response.data.onboardingUrl;
-               if (onboardingUrl) { 
-                window.location.href = onboardingUrl;
-                 return;
-             }
-              setMessage("Thanks for adding your driveway! It’s now available for bookings:)")
+          const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,data,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data"
             }
-        
-        }catch(error : any){
-            if(error.response){
-              console.error("Backend error:", error.response.status, error.response.data);
+          })
+
+          if(response.status === 201){
+            const onboardingUrl = response.data.onboardingUrl;
+            if (onboardingUrl) {
+              window.location.href = onboardingUrl;
+              return;
             }
-            else if(error.request){
-              console.error("No response received:", error.request);
-            }
-            else{
-              console.error("Axios setup error:", error.message);
-            }
-          }finally{
-            setIsLoading(false)
+
+            setMessage("Thanks — your driveway is now available for bookings.");
+            setMessageType("success");
           }
+
+        }catch(error : any){
+          // extract a friendly message for the user when possible
+          let userMsg = "Upload failed — please try again.";
+
+          if (error?.response?.data) {
+            const data = error.response.data;
+            userMsg =
+              typeof data === "string"
+                ? data
+                : data?.message || data?.error || JSON.stringify(data);
+          } else if (error?.message) {
+            userMsg = error.message;
+          }
+
+          console.error("AddDriveway2: submit error", error);
+          setMessage(userMsg);
+          setMessageType("error");
+        } finally {
+          setIsLoading(false);
+        }
     }
   
   }
@@ -249,15 +261,14 @@ if (startListing === false) {
 
     </div>
     <div className="listing-intro">
-      <h2 className="listing-title">Start Earning With Your Driveway</h2>
+      <h2 className="listing-title">Earn from your driveway</h2>
 
       <p className="listing-subtitle">
-        Earn money by renting out your driveway on game days.  
-        It only takes a few minutes to get started.
+        List your driveway in minutes and get paid on game days. Quick setup, secure payouts.
       </p>
 
-      <button className="listing-start-btn" onClick={handleListing}>
-        Start Listing
+      <button className="listing-start-btn primaryBtn" onClick={handleListing}>
+        Get started
       </button>
     </div>
     </>
@@ -286,6 +297,26 @@ if (startListing === false) {
               />
               <ProfileDropdown/>
            </div>
+
+          {/* Inline toast/message */}
+          {message && (
+            <div
+              style={{
+                position: "fixed",
+                right: 20,
+                top: 20,
+                zIndex: 9999,
+                padding: "12px 18px",
+                borderRadius: 10,
+                color: messageType === "error" ? "#fff" : "#063",
+                background: messageType === "error" ? "#b00020" : "#e6ffed",
+                boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+                maxWidth: 360
+              }}
+            >
+              {message}
+            </div>
+          )}
 
           {message ? (
             <p className="addedCarMsg">{message}</p>
@@ -622,13 +653,13 @@ if (startListing === false) {
   
 </p>
 
-<button 
-  onClick={handleSubmit} 
-  className="listBtn"
-  disabled={isLoading}
->
-  {isLoading ? "Processing..." : "Set up payouts"}
-</button>
+            <button
+              onClick={handleSubmit}
+              className="listBtn primaryBtn"
+              disabled={isLoading}
+            >
+              {isLoading ? "Processing…" : "Set up payouts & Publish"}
+            </button>
 
 
        </section>

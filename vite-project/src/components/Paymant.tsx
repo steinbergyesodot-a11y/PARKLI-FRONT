@@ -60,16 +60,13 @@ export function Payment() {
     gameDate,
   } = state;
 
-
-
-
 async function handlePay() {
   setLoading(true);
 
   try {
     const token = localStorage.getItem("authToken");
 
-    // ⭐ 1. Create PaymentIntent
+    // 1. Create PaymentIntent
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/bookings/createPaymentIntent`,
       {
