@@ -40,21 +40,33 @@ export function BookingDash({ renterId }: BookingDashProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
 
-  const token = localStorage.getItem("authToken");
-  if (!token) return null;
+  const token = localStorage.getItem("authToken") || "";
 
-  const decoded = jwtDecode<MyTokenPayload>(token);
-  const userId = decoded._id;
+  // prefer explicit prop from parent; fall back to token decode when prop not provided
+  let userId = "";
+  try {
+    if (renterId) userId = renterId;
+    else if (token) {
+      const decoded = jwtDecode<MyTokenPayload>(token as any);
+      userId = decoded._id;
+    }
+  } catch (e) {
+    userId = renterId || "";
+  }
+
+  if (!userId) return null;
 
   async function fetchBookings() {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/bookings/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        token
+          ? {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          : undefined
       );
 
       setUpcomingBookings(response.data.bookings || []);
@@ -105,11 +117,13 @@ export function BookingDash({ renterId }: BookingDashProps) {
     await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/bookings/cancelBooking`,
       { drivewayId, gameDate, bookingId },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      token
+        ? {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        : undefined
     );
 
     // start fade-out
