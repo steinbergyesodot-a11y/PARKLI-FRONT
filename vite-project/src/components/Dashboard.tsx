@@ -9,7 +9,6 @@ import axios from "axios";
 import { ProfileDropdown } from "./ProfileDropdown";
 
 
-
 interface Spot {
   _id: string;
   address: string;
@@ -21,30 +20,31 @@ interface Spot {
   PostedAt: string;
 }
 
-  const token = localStorage.getItem("authToken") || "";
+const token = localStorage.getItem("authToken") || "";
 
 
 export function Dashboard() {
   const [cards, setCards] = useState<Spot[]>([]);
+  const [message,setMessage] = useState("")
   const userContext = useContext(UserContext);
   const user = userContext?.user;
   const navigate = useNavigate();
 
   async function fetchData() {
   try {
-  const res = await axios.get(
-    `${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
       }
-    }
-  );
-
-  setCards(res.data.driveways);
-} catch (err) {
-  console.error("Failed to fetch driveways:", err);
+    );
+    setCards(res.data.driveways);
+} catch (err:any) {
+    const backendError = err.response.data.error;
+    setMessage(backendError)
 }
 
   }
@@ -70,6 +70,8 @@ export function Dashboard() {
           {user && <ProfileDropdown />}
         </Nav>
       </div>
+
+{message && <p>{message}</p>}
 
       {/* FLEX ROW WRAPPER ADDED HERE */}
       <section className="dashboard-wrapper">
