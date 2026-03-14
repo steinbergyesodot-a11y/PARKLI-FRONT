@@ -98,6 +98,19 @@ async function handleGoogleLogin() {
 async function handleSubmit(event: any) {
   event.preventDefault();
   setErrorMsg("");
+
+  // Client-side validation
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRe.test(email)) {
+    setErrorMsg("Please enter a valid email address.");
+    return;
+  }
+
+  if (!password) {
+    setErrorMsg("Please enter your password.");
+    return;
+  }
+
   setIsLoading(true)
   try {
     const response = await axios.post(
@@ -112,41 +125,42 @@ async function handleSubmit(event: any) {
     console.log(token)
     localStorage.setItem("authToken", token);
 
-    const decoded = jwtDecode<MyJwtPayload>(token);
-    const now = Date.now() / 1000;
+    // decode token safely
+    try {
+      const decoded = jwtDecode<MyJwtPayload>(token);
+      const now = Date.now() / 1000;
 
-    if (!decoded.exp) {
-      setErrorMsg("Please try logging in again!")
-    }
+      if (!decoded.exp) {
+        throw new Error("Invalid token: missing exp");
+      }
 
-    if (decoded.exp > now) {
-      userContext?.setUser({
-        _id: decoded._id,
-        firstName: decoded.firstName,
-        lastName: decoded.lastName,
-        email: decoded.email,
-        roles: decoded.roles,
-        drivewayIds: decoded.drivewayIds
-      });
+      if (decoded.exp > now) {
+        userContext?.setUser({
+          _id: decoded._id,
+          firstName: decoded.firstName,
+          lastName: decoded.lastName,
+          email: decoded.email,
+          roles: decoded.roles,
+          drivewayIds: decoded.drivewayIds
+        });
 
-      sendHome();
-
-    } else { // TOKEN EXPIRED
+        sendHome();
+      } else {
+        localStorage.removeItem("authToken");
+        userContext?.setUser(null);
+        setErrorMsg("Session expired — please log in again.");
+      }
+    } catch (decodeErr) {
+      console.error('Token decode error:', decodeErr);
+      setErrorMsg("Login failed — please try again.");
       localStorage.removeItem("authToken");
       userContext?.setUser(null);
-      setErrorMsg("Please Log in again")
     }
 
   } catch (error: any) {
-    const data = error.response?.data;
-     const message = 
-     typeof data === "string"
-      ? data : 
-      data?.message || 
-      data?.error || 
-      error.message || 
-      "Login failed"; 
-      setErrorMsg(message); 
+    // Log full error for debugging but show a friendly message to the user
+    console.error('Login error:', error);
+    setErrorMsg("Login failed — please check your credentials and try again.");
 }finally{
   setIsLoading(false)
 }
@@ -167,6 +181,8 @@ async function handleSubmit(event: any) {
           value={email} 
           onChange={handleEmail} 
           placeholder="Enter your email"
+          disabled={isLoading}
+          aria-invalid={!!errorMsg}
         />
       </div>
 
@@ -178,10 +194,12 @@ async function handleSubmit(event: any) {
           onChange={handlePassword} 
           placeholder="Enter your password"
           className={errorMsg ? "shake" : ""}
+          disabled={isLoading}
+          aria-invalid={!!errorMsg}
         />
       </div>
 
-      {errorMsg && <p className="error-msg">{errorMsg}</p>}
+      {errorMsg && <p className="error-msg" aria-live="polite">{errorMsg}</p>}
 
      <button 
   className="login-btn"

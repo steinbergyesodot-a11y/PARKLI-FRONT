@@ -59,6 +59,8 @@ export function DrivewayDetailed() {
   const [games, setGames] = useState<Game[]>([]);
   const [images,setImages] = useState([])
   const [curImage,setCurImage] = useState(0)
+  const [message,setMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
   
   const token = localStorage.getItem("authToken")  
   const { id } = useParams();
@@ -66,8 +68,9 @@ export function DrivewayDetailed() {
 
   function paymentPage(game:any) {
         if(!token){
-          alert("Please Log in to continue!")
-          return
+          setMessage("Please log in to continue.");
+          setTimeout(() => setMessage(""), 3000);
+          return;
         }
         navigate(`/DrivewayDetailed/${id}/Payment`,{
           state: {
@@ -103,20 +106,28 @@ function handleCurImageBack() {
   }
 
   async function getDrivewayDetailed() {
-  const response = await axios.get(
-    `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
+  setIsLoading(true);
+  try{
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
       }
-    }
-  );
-  const driveway = response.data.driveway;
-  const images = response.data.driveway.images
-  setImages(images)
-  setGames(response.data.driveway.games || []);
-  setDriveway(driveway);
+    );
+    const driveway = response.data.driveway;
+    const images = response.data.driveway.images
+    setImages(images)
+    setGames(response.data.driveway.games || []);
+    setDriveway(driveway);
+    setMessage("");
+  }catch(error:any){
+    setMessage("Unable to load driveway details. Please try again.");
+  } finally {
+    setIsLoading(false);
+  }
   
 }
 
@@ -137,6 +148,11 @@ useEffect(() => {
       });
     } else {
       console.error("Geocode failed:", status);
+      // show a friendly message to the user and keep showing textual address
+      setMessage("Map unavailable — showing address only.");
+      setCoords(null);
+      // auto-clear after a short time
+      setTimeout(() => setMessage(""), 4000);
     }
   });
 }, [driveway?.address]);
@@ -151,6 +167,11 @@ useEffect(() => {
 
   return (
     <>
+      {isLoading && (
+        <div style={{position:'fixed',left:0,top:0,right:0,bottom:0,background:'rgba(255,255,255,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:9999}}>
+          <div style={{padding:14,background:'#fff',borderRadius:10,boxShadow:'0 6px 20px rgba(0,0,0,0.12)'}}>Loading driveway…</div>
+        </div>
+      )}
       <div className="top">
         <img
           src="/logo.png"
@@ -159,7 +180,21 @@ useEffect(() => {
           onClick={sendHome}
           />
       </div>
-
+{message && (
+        <div style={{
+          position: 'fixed',
+          top: 20,
+          right: 20,
+          zIndex: 10000,
+          background: 'rgba(0,0,0,0.8)',
+          color: '#fff',
+          padding: '10px 14px',
+          borderRadius: 8,
+          boxShadow: '0 6px 20px rgba(0,0,0,0.12)',
+          maxWidth: 360,
+          pointerEvents: 'auto'
+        }}>{message}</div>
+      )}
       {showSchedual ? 
       <>
       <div className='showSchedual'>
