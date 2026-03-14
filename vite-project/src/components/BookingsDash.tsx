@@ -126,18 +126,20 @@ export function BookingDash({ renterId }: BookingDashProps) {
         : undefined
     );
 
-    // start fade-out
+    // update UI immediately so user sees result even if fade is delayed
+    setUpcomingBookings((prev) => prev.filter((b) => b._id !== bookingId));
+    setIsCancelling(false);
+    setGlobalSuccess("Booking cancelled successfully");
+
+    // start fade-out to close modals smoothly
     setIsClosing(true);
 
-    // remove booking from UI and close modals after fade completes
+    // after fade completes, finalize modal state and cleanup
     setTimeout(() => {
-      setUpcomingBookings((prev) => prev.filter((b) => b._id !== bookingId));
-      setIsCancelling(false);
       setIsClosing(false);
       setShowCancelConfirm(false);
       setIsModalOpen(false);
       setSelectedBooking(null);
-      setGlobalSuccess("Booking cancelled successfully");
 
       // keep in sync with backend in case of race conditions
       fetchBookings();
