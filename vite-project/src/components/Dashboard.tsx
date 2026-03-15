@@ -26,27 +26,30 @@ const token = localStorage.getItem("authToken") || "";
 export function Dashboard() {
   const [cards, setCards] = useState<Spot[]>([]);
   const [message,setMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
   const userContext = useContext(UserContext);
   const user = userContext?.user;
   const navigate = useNavigate();
 
   async function fetchData() {
-  try {
-    const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
         }
-      }
-    );
-    setCards(res.data.driveways);
-} catch (err:any) {
-    const backendError = err.response.data.error;
-    setMessage(backendError)
-}
-
+      );
+      setCards(res.data.driveways);
+    } catch (err:any) {
+      const backendError = err?.response?.data?.error || err?.message || String(err);
+      setMessage(backendError)
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -77,17 +80,21 @@ export function Dashboard() {
       <section className="dashboard-wrapper">
         {/* LEFT SIDE — SCROLLABLE LIST */}
         <section className="dashboard">
-          {cards.map((driveway) => (
-            <DrivewayCard
-              key={driveway._id}
-              name={driveway.name}
-              drivewayCardId={driveway._id}
-              address={driveway.address}
-              distance={driveway.walk}
-              images={driveway.images}
-              price={driveway.price}
-            />
-          ))}
+          {isLoading ? (
+            <div className="loading-state">Loading driveways…</div>
+          ) : (
+            cards.map((driveway) => (
+              <DrivewayCard
+                key={driveway._id}
+                name={driveway.name}
+                drivewayCardId={driveway._id}
+                address={driveway.address}
+                distance={driveway.walk}
+                images={driveway.images}
+                price={driveway.price}
+              />
+            ))
+          )}
         </section>
 
         {/* RIGHT SIDE — TEXT */}
