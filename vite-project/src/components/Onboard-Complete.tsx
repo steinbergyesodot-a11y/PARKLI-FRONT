@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import HostSuccess from "./HostSuccess";
-import { jwtDecode } from "jwt-decode";
 
 type Status = "checking" | "success" | "incomplete" | "error";
 
@@ -9,6 +8,7 @@ export default function OnboardingComplete() {
   const [status, setStatus] = useState<Status>("checking");
   const [continueUrl, setContinueUrl] = useState<string | null>(null);
   const [drivewayAddress, setDrivewayAddress] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     async function checkStatus() {
@@ -16,24 +16,43 @@ export default function OnboardingComplete() {
         const token = localStorage.getItem("authToken");
 
         if (!token) {
-          console.error("No auth token found");
+          const msg = "No auth token found in localStorage.";
+          console.error(msg);
+          setErrorMessage(msg);
           setStatus("error");
           return;
         }
 
-        // ⭐ Decode token to get userId
+        // ⭐ Decode token to get userId (lightweight, no external lib)
         let userId: string | null = null;
         try {
-          const decoded: any = jwtDecode(token);
+          const parseJwt = (t: string) => {
+            const parts = t.split('.');
+            if (parts.length < 2) throw new Error('Invalid JWT');
+            const base64Url = parts[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(
+              atob(base64)
+                .split('')
+                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                .join('')
+            );
+            return JSON.parse(jsonPayload);
+          };
+
+          const decoded: any = parseJwt(token);
           userId = decoded._id; // matches your backend payload
         } catch (err) {
           console.error("Failed to decode token:", err);
+          setErrorMessage(String(err));
           setStatus("error");
           return;
         }
 
         if (!userId) {
-          console.error("Decoded token has no _id");
+          const msg = "Decoded token has no _id field.";
+          console.error(msg);
+          setErrorMessage(msg);
           setStatus("error");
           return;
         }
@@ -65,8 +84,10 @@ export default function OnboardingComplete() {
           setStatus("incomplete");
           setContinueUrl(res.data.onboardingUrl || null);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("Error checking onboarding:", err);
+        const body = err?.response?.data ? JSON.stringify(err.response.data) : err.message || String(err);
+        setErrorMessage(body);
         setStatus("error");
       }
     }
@@ -91,5 +112,12 @@ export default function OnboardingComplete() {
     );
   }
 
-  return <p>Something went wrong. Please try again.</p>;
+  return (
+    <div>
+      <h2>Something went wrong. Please try again.</h2>
+      {errorMessage && (
+        <pre style={{ whiteSpace: 'pre-wrap', color: '#900' }}>{errorMessage}</pre>
+      )}
+    </div>
+  );
 }

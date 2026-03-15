@@ -99,7 +99,6 @@ async function handleSubmit(event: any) {
   event.preventDefault();
   setErrorMsg("");
 
-  // Client-side validation
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!email || !emailRe.test(email)) {
     setErrorMsg("Please enter a valid email address.");

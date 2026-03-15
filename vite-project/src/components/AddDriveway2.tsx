@@ -166,9 +166,9 @@ function handleRuleToggle(rule:any) {
           return
         }
     
-    const token = localStorage.getItem("authToken")     
+      const token = localStorage.getItem("authToken")     
                                                       
-    if (token){
+      if (token){
     
       const decoded = jwtDecode<MyPayload>(token);
       const userId = decoded._id;
@@ -188,20 +188,14 @@ function handleRuleToggle(rule:any) {
         useWebWorker: true 
       };
       for (const file of formData.images) {
-  const compressedBlob = await imageCompression(file, options);
+        const compressedBlob = await imageCompression(file, options);
+        const compressedFile = new File([compressedBlob], file.name, {
+        type: file.type
+      });
+      data.append("images", compressedFile);
+    }
 
-  // Convert Blob → File and keep the original name + type
-  const compressedFile = new File([compressedBlob], file.name, {
-    type: file.type
-  });
-
-  data.append("images", compressedFile);
-}
-
-      
-    
-
-        try{
+      try{
           setMessage("");
           setMessageType("info");
           setIsLoading(true);
@@ -218,14 +212,10 @@ function handleRuleToggle(rule:any) {
               window.location.href = onboardingUrl;
               return;
             }
-
-            setMessage("Thanks — your driveway is now available for bookings.");
-            setMessageType("success");
           }
 
         }catch(error : any){
-          // extract a friendly message for the user when possible
-          let userMsg = "Upload failed — please try again.";
+          let userMsg = "";
 
           if (error?.response?.data) {
             const data = error.response.data;
@@ -237,7 +227,6 @@ function handleRuleToggle(rule:any) {
             userMsg = error.message;
           }
 
-          console.error("AddDriveway2: submit error", error);
           setMessage(userMsg);
           setMessageType("error");
         } finally {
@@ -298,7 +287,6 @@ if (startListing === false) {
               <ProfileDropdown/>
            </div>
 
-          {/* Inline toast/message */}
           {message && (
             <div
               style={{
@@ -318,18 +306,9 @@ if (startListing === false) {
             </div>
           )}
 
-          {message ? (
-            <p className="addedCarMsg">{message}</p>
-          ) : (
-
+       
             
             <div className="box5">
-            
-            {message && (
-             <>
-             <p className="addedCarMsg">{message}</p>
-             </>
-           )}
   {step === 1 && (
     <>
     <section className="nameOuter">
@@ -670,7 +649,7 @@ if (startListing === false) {
         )}
 </div>      
 
-)}
+
   <div className="buttonWrapper">
 
     {step === 1 && (
