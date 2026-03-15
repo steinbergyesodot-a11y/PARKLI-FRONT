@@ -81,7 +81,10 @@ export function Dashboard() {
         {/* LEFT SIDE — SCROLLABLE LIST */}
         <section className="dashboard">
           {isLoading ? (
-            <div className="loading-state">Loading driveways…</div>
+            <div className="loading-state">
+              <div className="spinner" aria-hidden="true"></div>
+              <div>Loading driveways…</div>
+            </div>
           ) : (
             cards.map((driveway) => (
               <DrivewayCard
