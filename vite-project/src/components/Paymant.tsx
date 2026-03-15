@@ -36,6 +36,7 @@ export function Payment() {
   const [confirmation, setConfirmation] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [drivewayRules, setDrivewayRules] = useState([])
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const token = localStorage.getItem("authToken") || "";
   const decoded = jwtDecode<MyTokenPayload>(token);
@@ -102,6 +103,10 @@ async function handlePay() {
     );
 
     if (error) {
+      // Surface Stripe error to user
+      const msg = error.message || "Payment failed. Please check your card details and try again.";
+      setErrorMsg(msg);
+      setLoading(false);
       return;
     }
 
@@ -150,7 +155,11 @@ async function handlePay() {
           err?.response?.data?.message ||
           err?.response?.data?.Message ||
           "Unknown error";
-
+        // show backend error to user
+        setErrorMsg(typeof backendError === 'string' ? backendError : JSON.stringify(backendError));
+        console.error('Booking/create error:', err);
+        setLoading(false);
+        return;
       }
     }
 
@@ -160,7 +169,10 @@ async function handlePay() {
       err?.response?.data?.message ||
       err?.response?.data?.Message ||
       "Unknown error";
-
+    setErrorMsg(typeof backendError === 'string' ? backendError : JSON.stringify(backendError));
+    console.error('Payment flow error:', err);
+    setLoading(false);
+    return;
   } finally {
     setLoading(false);
   }
@@ -214,6 +226,10 @@ useEffect(() => {
   <Link to="/TermsOfUse" className="termsLink">Terms of Use</Link>.
 </p>
 
+            {errorMsg && (
+              <div className="payment-error" role="alert">{errorMsg}</div>
+            )}
+
             <button
               className="pay-btn"
               onClick={handlePay}
@@ -226,8 +242,6 @@ useEffect(() => {
                 </div>
               ) : (
                 <>
-  
-
                 Pay ${price}
                 </>
               )}

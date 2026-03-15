@@ -157,6 +157,16 @@
   cursor: not-allowed;
 }
 
+.payment-error {
+  margin-bottom: 12px;
+  color: #b00020;
+  background: #fff3f3;
+  border: 1px solid #f2b9b9;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
 .spinner-container {
   display: flex;
   align-items: center;
