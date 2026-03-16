@@ -32,6 +32,8 @@ export function ProfilePageOwner() {
 
   const [active, setActive] = useState("Host Bookings");
   const [games, setGames] = useState<Game[]>([]);
+  const [loadingGames,setLoadingGames] = useState(false)
+  const [gamesError, setGamesError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingAction, setPendingAction] = useState<{
@@ -43,8 +45,8 @@ export function ProfilePageOwner() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const[authProvider,setAuthProvider] = useState("")
-  const[renterActive,setRenterActive] = useState("My Bookings")
+  const [authProvider,setAuthProvider] = useState("")
+  const [renterActive,setRenterActive] = useState("My Bookings")
 
   const [user, setUser] = useState<MyTokenPayload | null>(null);
  
@@ -90,7 +92,6 @@ useEffect(() => {
 
       setUserHasBookings(res.data);
     } catch (err) { 
-      console.error("Error checking booking:", err); 
       setUserHasBookings(false); 
     } finally { 
       setLoading(false);
@@ -118,6 +119,8 @@ function askToConfirm(
 
 async function fetchGames(userId: string) {
   try {
+    setLoadingGames(true)
+    setGamesError(null);
     const res = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getGames/${userId}`,
       {
@@ -127,22 +130,23 @@ async function fetchGames(userId: string) {
 
         }
       }
-
-      
     );
 
     const gamesData = res.data?.games;
-
     if (!Array.isArray(gamesData)) {
       console.warn("Backend did not return an array. Got:", gamesData);
       setGames([]);
+      setGamesError("No games data available.");
       return;
     }
 
     setGames(gamesData);
-  } catch (err) {
-    console.error("Failed to fetch games", err);
+  } catch (err: any) {
+    const errorMessage = err.response?.data?.message || "Failed to load games. Please try again.";
+    setGamesError(errorMessage);
     setGames([]);
+  } finally {
+    setLoadingGames(false);
   }
 }
 
@@ -395,10 +399,26 @@ return (
           If you don’t want your driveway booked for a specific game, you can block it.
         </p>
 
-        {games.length === 0 ? (
+        {loadingGames && (
+          <div className="loading-overlay">
+            <div className="loading-spinner"></div>
+            <p>Loading games...</p>
+          </div>
+        )}
+
+        {gamesError && !loadingGames && (
+          <div className="error-message">
+            <p>⚠️ {gamesError}</p>
+            <button onClick={() => fetchGames(userId)} className="retry-btn">
+              Try Again
+            </button>
+          </div>
+        )}
+
+        {!loadingGames && !gamesError && games.length === 0 ? (
           <p>No upcoming bookings</p>
         ) : (
-          games.map((game, index) => (
+          !loadingGames && !gamesError && games.map((game, index) => (
             <section className="gameRow2" key={index}>
               <div className="gameData">
                 <span className="game-date">{game.date}</span>
