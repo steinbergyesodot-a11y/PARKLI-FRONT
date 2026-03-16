@@ -27,6 +27,9 @@ export function ProfilePageRenter() {
   const [editingField, setEditingField] = useState("");
   const [tempValue, setTempValue] = useState("");
   const [message, setMessage] = useState("");
+  const [firstNameError, setFirstNameError] = useState<string | null>(null);
+  const [lastNameError, setLastNameError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const[isLoading,setIsLoading] = useState(false)
   const [onConfirm, setOnConfirm] = useState<null | (() => void)>(null);
@@ -70,10 +73,19 @@ useEffect(() => {
 
   // UPDATE FIRST NAME
 async function handleUpdateFirstName(name: string) {
+  // Validation
   if (!token) {
-  return;
-}
+    setFirstNameError("Please login again");
+    return;
+  }
+  
+  if (!name.trim()) {
+    setFirstNameError("First name cannot be empty");
+    return;
+  }
+
   try {
+    setFirstNameError(null); // Clear previous errors
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`,
       {}, 
@@ -86,38 +98,53 @@ async function handleUpdateFirstName(name: string) {
     );
 
     const updated = await axios.get(
-  `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
-  {
-    headers: { Authorization: `Bearer ${token}` }
-  }
-);
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
 
-setFirstName(updated.data.user.firstName);
-setLastName(updated.data.user.lastName)    
-setEmail(updated.data.user.email)    
+    setFirstName(updated.data.user.firstName);
+    setLastName(updated.data.user.lastName);
+    setEmail(updated.data.user.email);
+    setFirstNameError(null);
     setMessage("Changes saved");
-
     
-  } catch (error:any) {
-       const data = error.response?.data;
-     const message = 
-     typeof data === "string"
-      ? data : 
-      data?.message || 
-      data?.error || 
-      error.message || 
-      "Login failed"; 
+    // Auto-clear success message after 3 seconds
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
+  } catch (error: any) {
+    const data = error.response?.data;
+    const errorMessage =
+      typeof data === "string"
+        ? data
+        : data?.message ||
+          data?.error ||
+          error.message ||
+          "Failed to update first name. Try again.";
+    
+    setFirstNameError(errorMessage);
+    console.error("Error updating first name:", error);
   }
 }
 
 
   // UPDATE LAST NAME
  async function handleUpdateLastName(name: string) {
+  // Validation
   if (!token) {
-  return;
-}
+    setLastNameError("Please login again");
+    return;
+  }
+  
+  if (!name.trim()) {
+    setLastNameError("Last name cannot be empty");
+    return;
+  }
 
   try {
+    setLastNameError(null); // Clear previous errors
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/lastName/${name}`,
       {}, 
@@ -129,29 +156,59 @@ setEmail(updated.data.user.email)
       }
     );
     
-        const updated = await axios.get(
-  `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
-  {
-    headers: { Authorization: `Bearer ${token}` }
-  }
-);
+    const updated = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
 
-setFirstName(updated.data.user.firstName);
-setLastName(updated.data.user.lastName)    
-setEmail(updated.data.user.email)    
-
+    setFirstName(updated.data.user.firstName);
+    setLastName(updated.data.user.lastName);
+    setEmail(updated.data.user.email);
+    setLastNameError(null);
     setMessage("Changes saved");
-  } catch (error) {
+    
+    // Auto-clear success message after 3 seconds
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
+  } catch (error: any) {
+    const data = error.response?.data;
+    const errorMessage = 
+      typeof data === "string"
+        ? data
+        : data?.message ||
+          data?.error ||
+          error.message ||
+          "Failed to update last name. Try again.";
+    
+    setLastNameError(errorMessage);
     console.error("Error updating last name:", error);
   }
 }
 
 async function handleUpdateEmail(email: string) {
+  // Validation
   if (!token || !userId) {
+    setEmailError("Please login again");
+    return;
+  }
+
+  if (!email.trim()) {
+    setEmailError("Email cannot be empty");
+    return;
+  }
+  
+  // Basic email format check
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setEmailError("Please enter a valid email address");
     return;
   }
 
   try {
+    setEmailError(null); // Clear previous errors
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/email/${email}`,
       {},
@@ -163,29 +220,35 @@ async function handleUpdateEmail(email: string) {
       }
     );
 
-          const updated = await axios.get(
-  `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
-  {
-    headers: { Authorization: `Bearer ${token}` }
-  }
-);
+    const updated = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
 
-setFirstName(updated.data.user.firstName);
-setLastName(updated.data.user.lastName)    
-setEmail(updated.data.user.email)    
-
+    setFirstName(updated.data.user.firstName);
+    setLastName(updated.data.user.lastName);
+    setEmail(updated.data.user.email);
+    setEmailError(null);
     setMessage("Changes saved");
+    
+    // Auto-clear success message after 3 seconds
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
   } catch (error: any) {
     const data = error.response?.data;
-    const message =
+    const errorMessage =
       typeof data === "string"
         ? data
         : data?.message ||
           data?.error ||
           error.message ||
-          "Update failed";
+          "Failed to update email. Try again.";
 
-    console.error("Error updating email:", message);
+    setEmailError(errorMessage);
+    console.error("Error updating email:", error);
   }
 }
 
@@ -250,8 +313,9 @@ setEmail(updated.data.user.email)
       {active === "My Profile" && (
         <div className='editSections'>
 
-          {message && <div className="successMessage">{message}</div>}
-
+          {message && <div className="successMessage">{message}</div>}          {firstNameError && <div className="errorMessage">{firstNameError}</div>}
+          {lastNameError && <div className="errorMessage">{lastNameError}</div>}
+          {emailError && <div className="errorMessage">{emailError}</div>}
           {/* FIRST NAME */}
           {editingField === "firstName" ? (
             <div className="row">
@@ -347,7 +411,17 @@ setEmail(updated.data.user.email)
                 onChange={(e) => setTempValue(e.target.value)}
               />
               <div className='editButtons'>
-                <button className='saveBtn' onClick={() => setEditingField("")} disabled={showConfirm}>
+                <button 
+                  className='saveBtn' 
+                  onClick={() => {
+                    setOnConfirm(() => () => {
+                      setEditingField("");
+                      handleUpdateEmail(tempValue);
+                    });
+                    setShowConfirm(true);
+                  }} 
+                  disabled={showConfirm}
+                >
                   Save
                 </button>
                 <button className='cancelBtn' onClick={() => setEditingField("")} disabled={showConfirm}>

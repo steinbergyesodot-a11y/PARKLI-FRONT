@@ -35,6 +35,8 @@ export function ProfilePageOwner() {
   const [loadingGames,setLoadingGames] = useState(false)
   const [gamesError, setGamesError] = useState<string | null>(null);
   const [nameError, setNameError] = useState<string | null>(null)
+  const [lastNameError, setLastNameError] = useState<string | null>(null)
+  const [emailError, setEmailError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingAction, setPendingAction] = useState<{
@@ -152,7 +154,6 @@ async function fetchGames(userId: string) {
 }
 
 async function handleUpdateFirstName(name: string) {
-  // Validation
   if (!token) {
     setNameError("Please login again");
     return;
@@ -164,7 +165,7 @@ async function handleUpdateFirstName(name: string) {
   }
 
   try {
-    setNameError(null); // Clear previous errors
+    setNameError(null); 
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`,
       {}, 
@@ -177,7 +178,6 @@ async function handleUpdateFirstName(name: string) {
     );
 
     setFirstName(name);
-    setNameError(null);
     setMessage("Changes saved");
     
     // Auto-clear success message after 3 seconds
@@ -202,12 +202,19 @@ async function handleUpdateFirstName(name: string) {
 
   // UPDATE LAST NAME
  async function handleUpdateLastName(name: string) {
+  // Validation
   if (!token) {
-  console.error("No token found");
-  return;
-}
+    setLastNameError("Please login again");
+    return;
+  }
+  
+  if (!name.trim()) {
+    setLastNameError("Last name cannot be empty");
+    return;
+  }
 
   try {
+    setLastNameError(null); // Clear previous errors
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/lastName/${name}`,
       {}, 
@@ -220,19 +227,50 @@ async function handleUpdateFirstName(name: string) {
     );
     
     setLastName(name);
+    setLastNameError(null);
     setMessage("Changes saved");
-  } catch (error) {
+    
+    // Auto-clear success message after 3 seconds
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
+  } catch (error: any) {
+    const data = error.response?.data;
+    const errorMessage = 
+      typeof data === "string"
+        ? data 
+        : data?.message || 
+          data?.error || 
+          error.message || 
+          "Failed to update last name. Try again.";
+    
+    setLastNameError(errorMessage);
     console.error("Error updating last name:", error);
   }
 }
 
 
 async function handleUpdateEmail(email: string) {
+  // Validation
   if (!token || !userId) {
-    console.error("No token or userId found");
+    setEmailError("Please login again");
     return;
   }
-   try {
+  
+  if (!email.trim()) {
+    setEmailError("Email cannot be empty");
+    return;
+  }
+  
+  // Basic email format check
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setEmailError("Please enter a valid email address");
+    return;
+  }
+
+  try {
+    setEmailError(null); // Clear previous errors
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/email/${email}`,
       {},
@@ -243,19 +281,27 @@ async function handleUpdateEmail(email: string) {
         }
       }
     );
+    
     setEmail(email);
+    setEmailError(null);
     setMessage("Changes saved");
+    
+    // Auto-clear success message after 3 seconds
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
   } catch (error: any) {
     const data = error.response?.data;
-    const message =
+    const errorMessage =
       typeof data === "string"
         ? data
         : data?.message ||
           data?.error ||
           error.message ||
-          "Update failed";
+          "Failed to update email. Try again.";
 
-    console.error("Error updating email:", message);
+    setEmailError(errorMessage);
+    console.error("Error updating email:", error);
   }
 }
 
@@ -575,48 +621,52 @@ return (
 
     {/* LAST NAME — only for local users */}
     {authProvider === "local" && (
-      editingField === "lastName" ? (
-        <div className="row">
-          <input
-            value={tempValue}
-            onChange={(e) => setTempValue(e.target.value)}
-          />
-          <div className="editButtons">
-            <button
-              className="saveBtn"
-              onClick={() => {
-                setOnConfirm(() => () => {
-                  setEditingField("");
-                  handleUpdateLastName(tempValue);
-                });
-                setShowProfileConfirm(true);
-              }}
-            >
-              Save
-            </button>
-            <button onClick={() => setEditingField("")} className="cancelBtn">
-              Cancel
-            </button>
+      <>
+        {lastNameError && <div className="errorMessage">{lastNameError}</div>}
+        {editingField === "lastName" ? (
+          <div className="row">
+            <input
+              value={tempValue}
+              onChange={(e) => setTempValue(e.target.value)}
+            />
+            <div className="editButtons">
+              <button
+                className="saveBtn"
+                onClick={() => {
+                  setOnConfirm(() => () => {
+                    setEditingField("");
+                    handleUpdateLastName(tempValue);
+                  });
+                  setShowProfileConfirm(true);
+                }}
+              >
+                Save
+              </button>
+              <button onClick={() => setEditingField("")} className="cancelBtn">
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="row">
-          <p>
-            <span className="fn">Last Name: </span>
-            {lastName}
-          </p>
-          <MdEdit
-            className="editIcon"
-            onClick={() => {
-              setEditingField("lastName");
-              setTempValue(lastName);
-            }}
-          />
-        </div>
-      )
+        ) : (
+          <div className="row">
+            <p>
+              <span className="fn">Last Name: </span>
+              {lastName}
+            </p>
+            <MdEdit
+              className="editIcon"
+              onClick={() => {
+                setEditingField("lastName");
+                setTempValue(lastName);
+              }}
+            />
+          </div>
+        )}
+      </>
     )}
 
   {/* EMAIL — always shown */}
+{emailError && <div className="errorMessage">{emailError}</div>}
 {editingField === "email" ? (
   <div className="row">
     <input
