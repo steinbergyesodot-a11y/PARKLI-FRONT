@@ -11,6 +11,7 @@ export function SignUp() {
   const [password, setPassword] = useState("");
   const[password2,setPassword2] = useState("")
   const[message,setMessage] = useState("")
+  const[errorMessage,setErrorMessage] = useState("")
   const [loading, setLoading] = useState(false);
 
 
@@ -24,17 +25,17 @@ export function SignUp() {
   async function handleGoogleSignup() {
   const google = (window as any).google;
   setLoading(true)
+  setErrorMessage("");
+  setMessage("");
 
   const client = google.accounts.oauth2.initTokenClient({
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     scope: "email profile",
     callback: async (response: any) => {
-      const accessToken = response.access_token;
-
       try {
+        const accessToken = response.access_token;
         const res = await axios.post(
           `${import.meta.env.VITE_BACKEND_URL}/api/users/googleLogin`,
-          
           { accessToken }
         );
 
@@ -46,14 +47,24 @@ export function SignUp() {
         const now = Date.now() / 1000;
 
         if (decoded.exp > now) {
-
-          sendHome();
+          setMessage("Signup successful! Redirecting...");
+          setTimeout(() => {
+            sendHome();
+          }, 2000);
         } else {
           localStorage.removeItem("authToken");
+          setErrorMessage("Login token expired. Please try again.");
         }
-      } catch (err) {
-        console.error(err);
-        window.alert("Google signup failed");
+      } catch (err: any) {
+        const data = err.response?.data;
+        const errorMsg = 
+          typeof data === "string"
+            ? data
+            : data?.message || data?.error || "Google signup failed. Please try again.";
+        setErrorMessage(errorMsg);
+        console.error("Google signup error:", err);
+      } finally {
+        setLoading(false);
       }
     }
   });
@@ -65,20 +76,32 @@ export function SignUp() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
+    setErrorMessage("");
+    setMessage("");
 
-    if (!firstName || !lastName || !email || !password) {
-      window.alert("All fields are required.");
+    // Validation
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password) {
+      setErrorMessage("All fields are required.");
       setLoading(false);
       return;
     }
-    if(password != password2){
-      window.alert("Passwords don't match")
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage("Please enter a valid email address.");
       setLoading(false);
-      return
+      return;
+    }
+
+    if (password !== password2) {
+      setErrorMessage("Passwords don't match.");
+      setLoading(false);
+      return;
     }
 
     if (password.length < 8) {
-      window.alert("Password must be at least 8 characters long.");
+      setErrorMessage("Password must be at least 8 characters long.");
       setLoading(false);
       return;
     }
@@ -91,30 +114,32 @@ export function SignUp() {
           lastName,
           email,
           password,
-          // roles
-
-          
         }
       );
-      setMessage(response.data.message)
+      setMessage(response.data.message || "Account created successfully!");
       
+      // Clear form
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      setPassword2("");
       
       setTimeout(() => {
         sendHome();
-      }, 3000);
+      }, 2000);
     } catch (error: any) {
-        const data = error.response?.data;
-     const message = 
-     typeof data === "string"
-      ? data : 
-      data?.message || 
-      data?.error || 
-      error.message || 
-      "Signup failed"; 
-      // window.alert("Something went wrong. Please try again.");
-      setMessage(message)
-    }finally{
-      setLoading(false)
+      const data = error.response?.data;
+      const errorMsg = 
+        typeof data === "string"
+          ? data
+          : data?.message || 
+            data?.error || 
+            error.message || 
+            "Signup failed. Please try again.";
+      setErrorMessage(errorMsg);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -230,33 +255,25 @@ export function SignUp() {
         </div> */}
       </form>
      
+      {errorMessage && (
+        <>
+          <div className="overlay"></div>
+          <div className="errorMessageBox">
+            <div className="errorIcon">✕</div>
+            <p>{errorMessage}</p>
+          </div>
+        </>
+      )}
+
       {message && (
-    <>
-      
-      <div className="overlay"></div>
-      {message && (
-  <>
-    <div className="overlay" />
-
-    <div className="createdMessage">
-      <div className="successIcon">✓</div>
-      <p>{message}</p>
-    </div>
-  </>
-)}
-
-{loading && (
-  <div className="loadingOverlay">
-    <div className="spinner"></div>
-  </div>
-)}
-
-     
-      <div className="createdMessage">
-        {message}
-      </div>
-    </>
-    )}
+        <>
+          <div className="overlay"></div>
+          <div className="createdMessage">
+            <div className="successIcon">✓</div>
+            <p>{message}</p>
+          </div>
+        </>
+      )}
     </div>
   );
 }

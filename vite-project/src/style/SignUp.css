@@ -338,3 +338,45 @@
   gap: 8px;
   justify-content: center;
 }
+
+/* Success/Error Message Styling */
+.successIcon,
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.successIcon {
+  color: #28a745;
+}
+
+.errorIcon {
+  color: #dc3545;
+}
+
+.createdMessage p,
+.errorMessageBox p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Error Message Box */
+.errorMessageBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: #fff5f5;
+  border: 2px solid #dc3545;
+  padding: 2rem 2.5rem;
+  border-radius: 14px;
+  box-shadow: 0 12px 35px rgba(220, 53, 69, 0.2);
+  z-index: 9999;
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+  color: #721c24;
+  animation: popIn 0.25s ease-out forwards;
+}
