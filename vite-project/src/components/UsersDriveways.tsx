@@ -2,6 +2,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import "../style/UsersDriveways.css";
+import { useNavigate } from "react-router-dom";
 
 interface UserDrivewaysProps {
   userId: string;
@@ -30,7 +31,12 @@ export function UserDriveways({userId}:UserDrivewaysProps){
     const [loading, setLoading] = useState(true);
     const [errorMsg, setErrorMessage] = useState("");
 
+    const navigate = useNavigate()
+
     const token = localStorage.getItem("authToken") || "";
+
+    function drivewayDetailed() {
+   }
 
     useEffect(() => {
     async function fetchDriveways() {
@@ -66,6 +72,7 @@ export function UserDriveways({userId}:UserDrivewaysProps){
   }, [userId, token]);
 
 
+
     return(
         <>
           <section className="user-driveways-container">
@@ -90,7 +97,13 @@ export function UserDriveways({userId}:UserDrivewaysProps){
                       <h3 className="driveway-name">{driveway.name}</h3>
                       <p className="driveway-address">📍 {driveway.address}</p>
                     </div>
-                    <button className="more-details-btn">More Details</button>
+                    <button 
+                    className="more-details-btn"
+                    onClick={() => navigate(`/EditDriveway/${driveway._id}`)
+                    } 
+                    >
+                     More Details
+                    </button>
                   </div>
                 ))}
               </div>

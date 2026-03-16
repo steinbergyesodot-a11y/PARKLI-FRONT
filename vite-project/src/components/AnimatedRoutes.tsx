@@ -21,6 +21,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import CancellationPolicy from "./CancellationPolicy";
 import OnboardingComplete from "./Onboard-Complete";
 import OnboardingRetry from "./Onboard-Retry";
+import { EditDriveway } from "./EditDriveway";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -47,6 +48,9 @@ export function AnimatedRoutes() {
       <Route path="/CancellationPolicy" element={<CancellationPolicy />} />
       <Route path="/Onboard-Complete" element={<OnboardingComplete />} />
       <Route path="/Onboard-Retry" element={<OnboardingRetry />} />
+      <Route path="/EditDriveway/:drivewayId" element={<EditDriveway />} />
+
+
 
 
 

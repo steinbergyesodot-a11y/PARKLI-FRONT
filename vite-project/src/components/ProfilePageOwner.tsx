@@ -6,7 +6,6 @@ import { jwtDecode } from "jwt-decode";
 import '../style/ProfilePageOwner.css'
 import { BookingDash } from "./BookingsDash";
 import { MdEdit } from "react-icons/md";
-import { AllDrivewaysByUser } from "./AllDrivewaysByUser";
 import { UserDriveways } from "./UsersDriveways";
 
 interface MyTokenPayload {
