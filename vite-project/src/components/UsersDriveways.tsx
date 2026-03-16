@@ -69,7 +69,6 @@ export function UserDriveways({userId}:UserDrivewaysProps){
     return(
         <>
           <section className="user-driveways-container">
-            <h2>My Driveways</h2>
             
             {loading && (
               <div className="loading-message">Loading driveways...</div>
