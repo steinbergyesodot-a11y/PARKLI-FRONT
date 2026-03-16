@@ -34,6 +34,7 @@ export function ProfilePageOwner() {
   const [games, setGames] = useState<Game[]>([]);
   const [loadingGames,setLoadingGames] = useState(false)
   const [gamesError, setGamesError] = useState<string | null>(null);
+  const [nameError, setNameError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingAction, setPendingAction] = useState<{
@@ -151,33 +152,49 @@ async function fetchGames(userId: string) {
 }
 
 async function handleUpdateFirstName(name: string) {
+  // Validation
   if (!token) {
-  console.error("No token found");
-  return;
-}
-try {
+    setNameError("Please login again");
+    return;
+  }
+  
+  if (!name.trim()) {
+    setNameError("First name cannot be empty");
+    return;
+  }
+
+  try {
+    setNameError(null); // Clear previous errors
     await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/firstName/${name}`,
       {}, 
       {
         headers: {
-          Authorization: `Bearer ${token}`,   // <-- your JWT
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         }
       }
     );
 
     setFirstName(name);
+    setNameError(null);
     setMessage("Changes saved");
-  } catch (error:any) {
-       const data = error.response?.data;
-     const message = 
-     typeof data === "string"
-      ? data : 
-      data?.message || 
-      data?.error || 
-      error.message || 
-      "Login failed"; 
+    
+    // Auto-clear success message after 3 seconds
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
+  } catch (error: any) {
+    const data = error.response?.data;
+    const errorMessage = 
+      typeof data === "string"
+        ? data 
+        : data?.message || 
+          data?.error || 
+          error.message || 
+          "Failed to update first name. Try again.";
+    
+    setNameError(errorMessage);
     console.error("Error updating first name:", error);
   }
 }
@@ -511,6 +528,7 @@ return (
 {active === "My Profile" && (
   <div className="editSections">
     {message && <div className="successMessage">{message}</div>}
+    {nameError && <div className="errorMessage">{nameError}</div>}
 
     {/* FIRST NAME — only for local users */}
     {authProvider === "local" && (
