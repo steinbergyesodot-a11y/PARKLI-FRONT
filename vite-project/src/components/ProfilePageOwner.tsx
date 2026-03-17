@@ -521,6 +521,11 @@ return (
                 ))}
           </div>
 
+          {selectedDrivewayId && (
+            <div className="info-banner">
+              <p>💡 Click on <strong>Available</strong> or <strong>Blocked</strong> to block/unblock bookings for that date.</p>
+            </div>
+          )}
 
         {loadingGames && (
           <div className="loading-overlay">

@@ -326,3 +326,17 @@ width: 25vw;
   border: 2px solid #0055aa;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
 }
+
+.info-banner {
+  background-color: #e3f2fd;
+  border-left: 4px solid #0055aa;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  color: #0055aa;
+}
+
+.info-banner p {
+  margin: 0;
+  font-size: 0.95rem;
+}
