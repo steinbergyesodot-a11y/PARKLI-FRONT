@@ -505,6 +505,9 @@ return (
     {active === "Host Bookings" && (
       <section className="games">
         <h2>Upcoming Bookings By Driveway</h2>
+        <p className="block-info-text">
+          If you don’t want your driveway booked for a specific game, you can block it.
+        </p>
           <div className="driveways-grid">
                 {driveways.map((driveway) => (
                   <div key={driveway._id} className="driveway-card-small">
@@ -518,11 +521,8 @@ return (
                     </button>
                   </div>
                 ))}
-              </div>
+          </div>
 
-        <p className="block-info-text">
-          If you don’t want your driveway booked for a specific game, you can block it.
-        </p>
 
         {loadingGames && (
           <div className="loading-overlay">
