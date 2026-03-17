@@ -138,7 +138,7 @@ button.game-status.booked {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 10000;
 }
 
 .confirm-box {
@@ -317,4 +317,12 @@ width: 25vw;
   cursor: pointer;
   font-size: 0.95rem;
   transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Selected Driveway Card */
+.driveway-card-small.selected {
+  transform: scale(1.04);
+  box-shadow: 0 4px 12px rgba(0, 85, 170, 0.25);
+  border: 2px solid #0055aa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
 }

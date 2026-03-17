@@ -75,7 +75,7 @@ export function ProfilePageOwner() {
   const [showProfileConfirm, setShowProfileConfirm] = useState(false);
   const [userHasBookings,setUserHasBookings] = useState(false);
   const [loadingGameDate, setLoadingGameDate] = useState<string | null>(null);
-
+const [selectedDrivewayId, setSelectedDrivewayId] = useState<string | null>(null);
  
     
 
@@ -117,6 +117,7 @@ useEffect(() => {
 
   checkBooking(); 
 }, [userId]);
+
 
     useEffect(() => {
     async function fetchDriveways() {
@@ -379,7 +380,7 @@ async function handleBlock(drivewayId: string, gameDate: string) {
     setMessageDate(gameDate);
     
     // 🔥 Refresh UI
-    if (user) fetchGames(user._id);
+    if (selectedDrivewayId) fetchGames(selectedDrivewayId);
     
     // Auto-clear message after 4 seconds
     setTimeout(() => {
@@ -432,7 +433,7 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
     setMessageDate(gameDate);
     
     // 🔥 Refresh UI
-    if (user) fetchGames(user._id);
+    if (selectedDrivewayId) fetchGames(selectedDrivewayId);
     
     // Auto-clear message after 4 seconds
     setTimeout(() => {
@@ -504,16 +505,13 @@ return (
     {/* OWNER CONTENT */}
     {active === "Host Bookings" && (
       <section className="games">
-        <h2>Upcoming Bookings By Driveway</h2>
-        <p className="block-info-text">
-          If you don’t want your driveway booked for a specific game, you can block it.
-        </p>
           <div className="driveways-grid">
                 {driveways.map((driveway) => (
-                  <div key={driveway._id} className="driveway-card-small">
+                  <div key={driveway._id} className={`driveway-card-small ${selectedDrivewayId === driveway._id ? 'selected' : ''}`}>
                     <button 
                     className="driveway-name-btn"
                     onClick={() => {
+                      setSelectedDrivewayId(driveway._id)
                       fetchGames(driveway._id)
                     }}
                     >
@@ -531,19 +529,17 @@ return (
           </div>
         )}
 
-        {gamesError && !loadingGames && (
+        {/* {gamesError && !loadingGames && (
           <div className="error-message">
             <p>⚠️ {gamesError}</p>
             <button onClick={() => fetchGames(userId)} className="retry-btn">
               Try Again
             </button>
           </div>
-        )}
+        )} */}
 
-        {!loadingGames && !gamesError && games.length === 0 ? (
-          <p>No upcoming bookings</p>
-        ) : (
-          !loadingGames && !gamesError && games.map((game, index) => (
+        {
+           !loadingGames && !gamesError && games.map((game, index) => (
             <section className="gameRow2" key={index}>
               <div className="gameData">
                 <span className="game-date">{game.date}</span>
@@ -564,7 +560,7 @@ return (
                 onClick={() => {
                   if (game.booked) return;
                   askToConfirm(
-                    user!.drivewayIds[0],
+                    selectedDrivewayId!,
                     game.date,
                     game.booked,
                     game.blocked
@@ -581,7 +577,7 @@ return (
               </button>
             </section>
           ))
-        )}
+        }
 
 
         {/* OWNER BLOCK/UNBLOCK MODAL */}
@@ -774,7 +770,7 @@ return (
 
 
     {/* RENTER SECTION — ONLY IF USER IS ALSO A RENTER */}
-    {user?.roles.includes("renter") &&  userHasBookings &&(
+    {/* {user?.roles.includes("renter") &&  userHasBookings &&(
       <>
         <section className="navs">
           {["My Bookings", "Payment method"].map(tab => (
@@ -792,7 +788,7 @@ return (
           <BookingDash renterId={userId} />
         )}
       </>
-    )}
+    )} */}
 
     {/* PROFILE CONFIRMATION MODAL */}
     {showProfileConfirm && (
