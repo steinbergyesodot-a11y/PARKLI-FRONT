@@ -29,6 +29,18 @@ export function Home() {
 
   return (
     <div className='app-container'>
+      {/* Logged-out banner */}
+      {!user && (
+        <div className="login-banner">
+          <div className="banner-content">
+            <div className="banner-text">
+              <h2>Earn money from your driveway</h2>
+              <p>List your driveway and start earning with Parkli</p>
+            </div>
+            <Link to="/SignUp" className="banner-btn">Get Started</Link>
+          </div>
+        </div>
+      )}
       
       <Section>
       <section className="firstSection">
@@ -49,14 +61,27 @@ export function Home() {
       <section className="sectionA">
         <Link to="/Menu" className="btnNav">Menu</Link>
         <Link to="/Dashboard" className="btnNav">Find parking</Link>
-        <Link to="/AddDriveway" className="btnNav">Host Now</Link>
+        {user && <Link to="/AddDriveway" className="btnNav">Host Now</Link>}
         <Link to="/About" className="btnNav">About</Link>
         <Link to="/Help" className="btnNav">Help</Link>
       </section>
 
       <section className="sectionB">
-        <Link to="/SignUp" className="btnNav">Sign up</Link>
-        <Link to="/Login" className="btnNav">Login</Link>
+        {!user ? (
+          <>
+            <Link to="/SignUp" className="btnNav">Sign up</Link>
+            <Link to="/Login" className="btnNav">Login</Link>
+          </>
+        ) : (
+          <>
+            {user.roles?.includes('renter') && (
+              <Link to="/Profile/renter" className="btnNav btnNav-accent">My Bookings</Link>
+            )}
+            {user.roles?.includes('host') && (
+              <Link to="/Profile/DrivewayOwner" className="btnNav btnNav-accent">My Listings</Link>
+            )}
+          </>
+        )}
       </section>
     </nav>
   </div>
@@ -67,18 +92,26 @@ export function Home() {
     <p>It’s not just pavement, it’s potential.</p>
   </div>
 
-  {/* Search bar */}
-  <section className="searching">
-    <div className="search-container">
-      <PlaceAutocompleteTS 
-        onSelect={(address) => {
-          setQuery(address);
-          navigate("/Dashboard", { state: { searchAddress: address } });
-        }} 
-      />
-      <FiSearch className="search-icon" />
-    </div>
-  </section>
+  {/* Search bar or CTA Button */}
+  {user ? (
+    <section className="searching">
+      <div className="search-container">
+        <PlaceAutocompleteTS 
+          onSelect={(address) => {
+            setQuery(address);
+            navigate("/Dashboard", { state: { searchAddress: address } });
+          }} 
+        />
+        <FiSearch className="search-icon" />
+      </div>
+    </section>
+  ) : (
+    <section className="searching">
+      <Link to="/SignUp" className="cta-button">
+        Find Parking Now
+      </Link>
+    </section>
+  )}
 
 </section>
 
@@ -119,7 +152,9 @@ export function Home() {
             <p className='biggerFont'>Stress Free</p>
             <p className='smallerFont'>Book instantly, no complications</p>
             <p className='statFont'>5000+ Happy Drivers</p>
-            <Link to="/Dashboard" className='btn-convincing'>Start searching</Link>
+            <Link to={user ? "/Dashboard" : "/SignUp"} className='btn-convincing'>
+              {user ? "Start searching" : "Sign up to search"}
+            </Link>
           </div>
         </div>
 
@@ -131,7 +166,9 @@ export function Home() {
             <p className='biggerFont'>Budget Friendly</p>
             <p className='smallerFont'>Save up to 40% vs traditional parking</p>
             <p className='statFont'>Avg. $8-15 per spot</p>
-            <Link to="/Dashboard" className='btn-convincing'>Start searching</Link>
+            <Link to={user ? "/Dashboard" : "/SignUp"} className='btn-convincing'>
+              {user ? "Start searching" : "Sign up to search"}
+            </Link>
           </div>
         </div>
       </section>
@@ -145,7 +182,9 @@ export function Home() {
             <p className='biggerFont'>Best Locations</p>
             <p className='smallerFont'>Close to stadiums and major events</p>
             <p className='statFont'>500+ Verified Driveways</p>
-            <Link to="/Dashboard" className='btn-convincing'>Start searching</Link>
+            <Link to={user ? "/Dashboard" : "/SignUp"} className='btn-convincing'>
+              {user ? "Start searching" : "Sign up to search"}
+            </Link>
           </div>
         </div>
 
@@ -157,7 +196,9 @@ export function Home() {
             <p className='biggerFont'>Secure & Safe</p>
             <p className='smallerFont'>Verified owners, secure payments</p>
             <p className='statFont'>100% Rated Transactions</p>
-            <Link to="/Dashboard" className='btn-convincing'>Start searching</Link>
+            <Link to={user ? "/Dashboard" : "/SignUp"} className='btn-convincing'>
+              {user ? "Start searching" : "Sign up to search"}
+            </Link>
           </div>
         </div>
       </section>
