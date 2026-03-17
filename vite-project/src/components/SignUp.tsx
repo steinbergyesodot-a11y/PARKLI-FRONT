@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { UserContext } from "../userContext";
 import "../style/SignUp.css";
+
+interface MyJwtPayload {
+  firstName: string;
+  lastName: string;
+  _id: string;
+  exp: number;
+  roles?: string[];
+  email?: string;
+  drivewayIds?: string[];
+}
 
 export function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -14,6 +25,7 @@ export function SignUp() {
   const[errorMessage,setErrorMessage] = useState("")
   const [loading, setLoading] = useState(false);
 
+  const userContext = useContext(UserContext);
 
   // const roles = ["renter"]
   const navigate = useNavigate();
@@ -35,7 +47,7 @@ export function SignUp() {
       try {
         const accessToken = response.access_token;
         const res = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/users/googleLogin`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/google-login`,
           { accessToken }
         );
 
@@ -43,16 +55,27 @@ export function SignUp() {
         localStorage.setItem("authToken", token);
 
         // Decode token
-        const decoded: any = jwtDecode(token);
+        const decoded = jwtDecode<MyJwtPayload>(token);
         const now = Date.now() / 1000;
 
-        if (decoded.exp > now) {
+        if (decoded.exp && decoded.exp > now) {
+          // Update user context
+          userContext?.setUser({
+            _id: decoded._id,
+            firstName: decoded.firstName,
+            lastName: decoded.lastName,
+            email: decoded.email,
+            roles: decoded.roles,
+            drivewayIds: decoded.drivewayIds
+          });
+
           setMessage("Signup successful! Redirecting...");
           setTimeout(() => {
             sendHome();
           }, 2000);
         } else {
           localStorage.removeItem("authToken");
+          userContext?.setUser(null);
           setErrorMessage("Login token expired. Please try again.");
         }
       } catch (err: any) {
@@ -116,6 +139,28 @@ export function SignUp() {
           password,
         }
       );
+
+      const token = response.data.token;
+      if (token) {
+        localStorage.setItem("authToken", token);
+
+        // Decode token
+        const decoded = jwtDecode<MyJwtPayload>(token);
+        const now = Date.now() / 1000;
+
+        if (decoded.exp && decoded.exp > now) {
+          // Update user context
+          userContext?.setUser({
+            _id: decoded._id,
+            firstName: decoded.firstName,
+            lastName: decoded.lastName,
+            email: decoded.email,
+            roles: decoded.roles,
+            drivewayIds: decoded.drivewayIds
+          });
+        }
+      }
+
       setMessage(response.data.message || "Account created successfully!");
       
       // Clear form
