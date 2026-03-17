@@ -116,10 +116,11 @@ button.game-status.booked {
 
 .block-info-text {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.2rem;
   color: #333;
   line-height: 1.4;
 }
+
 
 .block-info-keyword {
   font-weight: 600;
@@ -304,4 +305,16 @@ width: 25vw;
 
 .retry-btn:hover {
   background-color: #c0392b;
+}
+
+.driveway-name-btn {
+  background-color: white;
+  color: gray;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 }

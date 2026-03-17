@@ -26,9 +26,23 @@ type Game = {
   blocked: boolean
 };
 
+interface Driveway {
+  _id: string;
+  name: string;
+  address: string;
+  images: string[];
+  walk: string;
+  price: string;
+  description: string;
+  rules: string[]
+}
+
+
 export function ProfilePageOwner() {
   const navigate = useNavigate();
     const token = localStorage.getItem("authToken") || "";
+        const [driveways,setDriveways] = useState<Driveway[]>([])
+        const [errorMsg, setErrorMessage] = useState("");
 
   const [active, setActive] = useState("Host Bookings");
   const [games, setGames] = useState<Game[]>([]);
@@ -104,6 +118,39 @@ useEffect(() => {
   checkBooking(); 
 }, [userId]);
 
+    useEffect(() => {
+    async function fetchDriveways() {
+      try {
+        setLoading(true);
+        setErrorMessage("");
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getAllDrivewaysByUserId/${userId}`,
+          {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+          }
+        );
+        setDriveways(response.data.driveways);
+      } catch (error: any) {
+        const data = error.response?.data;
+        const errMessage = 
+          typeof data === "string"
+            ? data 
+            : data?.message || 
+              data?.error || 
+              error.message || 
+              "Error loading driveways";
+        setErrorMessage(errMessage);
+        setDriveways([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDriveways();
+  }, [userId, token]);
+
 
 function askToConfirm(
   drivewayId: string,
@@ -120,12 +167,12 @@ function askToConfirm(
 }
 
 
-async function fetchGames(userId: string) {
+async function fetchGames(drivewayId: string) {
   try {
     setLoadingGames(true)
     setGamesError(null);
     const res = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getGames/${userId}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getGames/${drivewayId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -457,7 +504,22 @@ return (
     {/* OWNER CONTENT */}
     {active === "Host Bookings" && (
       <section className="games">
-        <h2>Upcoming Bookings</h2>
+        <h2>Upcoming Bookings By Driveway</h2>
+          <div className="driveways-grid">
+                {driveways.map((driveway) => (
+                  <div key={driveway._id} className="driveway-card-small">
+                    <button 
+                    className="driveway-name-btn"
+                    onClick={() => {
+                      fetchGames(driveway._id)
+                    }}
+                    >
+                     {driveway.name}
+                    </button>
+                  </div>
+                ))}
+              </div>
+
         <p className="block-info-text">
           If you don’t want your driveway booked for a specific game, you can block it.
         </p>

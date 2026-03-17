@@ -35,9 +35,6 @@ export function UserDriveways({userId}:UserDrivewaysProps){
 
     const token = localStorage.getItem("authToken") || "";
 
-    function drivewayDetailed() {
-   }
-
     useEffect(() => {
     async function fetchDriveways() {
       try {
@@ -102,7 +99,7 @@ export function UserDriveways({userId}:UserDrivewaysProps){
                     onClick={() => navigate(`/EditDriveway/${driveway._id}`)
                     } 
                     >
-                     More Details
+                     Edit
                     </button>
                   </div>
                 ))}
