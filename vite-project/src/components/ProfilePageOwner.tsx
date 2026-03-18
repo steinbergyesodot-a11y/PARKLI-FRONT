@@ -776,7 +776,7 @@ return (
 
 
     {/* RENTER SECTION — ONLY IF USER IS ALSO A RENTER */}
-    {/* {user?.roles.includes("renter") &&  userHasBookings &&(
+     {user?.roles.includes("renter") &&  userHasBookings &&(
       <>
         <section className="navs">
           {["My Bookings", "Payment method"].map(tab => (
@@ -794,7 +794,7 @@ return (
           <BookingDash renterId={userId} />
         )}
       </>
-    )} */}
+    )} 
 
     {/* PROFILE CONFIRMATION MODAL */}
     {showProfileConfirm && (
