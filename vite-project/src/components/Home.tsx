@@ -3,7 +3,7 @@ import '../style/Home.css';
 import { QA } from './FQAitem';
 import { Login } from './Login';
 import { AddDriveway } from './AddDriveway';
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from '../userContext';
 import { Nav, NavDropdown } from 'react-bootstrap';
 import React, { Suspense, lazy } from "react";
@@ -16,10 +16,44 @@ import { FaHeartPulse, FaSackDollar, FaMapPin, FaShieldHalved } from 'react-icon
 
 export function Home() {
   const [Query, setQuery] = useState("");
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
   const userContext = useContext(UserContext);
   let user = userContext?.user;
 
   const navigate = useNavigate();
+
+  const testimonials = [
+    { text: "This site is so clean and intuitive, I found exactly what I needed without even thinking. It feels like it was designed just for me!", author: "Donald J. Trump", image: "https://tse1.mm.bing.net/th/id/OIP.zAibgViO82lC2GvdEFnX3QHaHa?w=168&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1" },
+    { text: "Easy booking, great prices, and I saved money on parking. Highly recommend Parkli to everyone!", author: "Sarah Martinez", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" },
+    { text: "The best driveway rental platform out there. Hosts are responsive and locations are perfect for events.", author: "Michael Chen", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael" },
+  ];
+
+  useEffect(() => {
+    // Testimonial carousel rotation
+    const testimonialTimer = setInterval(() => {
+      setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    }, 6000);
+
+    // Scroll reveal for FAQ items
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          (entry.target as HTMLElement).style.animation = 'fadeInUp 0.6s ease forwards';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const faqItems = document.querySelectorAll('.QaA > *');
+    faqItems.forEach((item, index) => {
+      (item as HTMLElement).style.animationDelay = `${index * 0.1}s`;
+      observer.observe(item);
+    });
+
+    return () => {
+      clearInterval(testimonialTimer);
+      observer.disconnect();
+    };
+  }, []);
 
  function logOut(){
    localStorage.removeItem("authToken")
@@ -121,20 +155,35 @@ export function Home() {
     <p className='stars'>★★★★☆</p>
     <p className='reviews'>230,000+ Reviews | 4.2 stars</p>
 
-    <p className='line3'>
-      "This site is so clean and intuitive, I found exactly what I needed without even thinking.
+    <p className='line3' style={{ animation: 'fadeInUp 0.6s ease' }}>
+      "{testimonials[testimonialIndex].text}"
     </p>
-    <p className='line2'>It feels like it was designed just for me!"</p>
+    <p className='line2' style={{ animation: 'fadeInUp 0.6s ease 0.1s both' }}>-{testimonials[testimonialIndex].author}-</p>
 
-    <div className='container'>
+    <div className='container' style={{ animation: 'fadeIn 0.6s ease 0.2s both' }}>
       <img
-        src="https://tse1.mm.bing.net/th/id/OIP.zAibgViO82lC2GvdEFnX3QHaHa?w=168&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1"
-        alt="trump"
+        src={testimonials[testimonialIndex].image}
+        alt={testimonials[testimonialIndex].author}
         className='image'
       />
     </div>
 
-    <p className='user'>-Donald J. Trump-</p>
+    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '1rem' }}>
+      {testimonials.map((_, i) => (
+        <div
+          key={i}
+          onClick={() => setTestimonialIndex(i)}
+          style={{
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            backgroundColor: i === testimonialIndex ? '#6557e0' : '#ccc',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+          }}
+        />
+      ))}
+    </div>
   </section>
 </Section>
 
