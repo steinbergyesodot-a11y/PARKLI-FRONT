@@ -28,6 +28,7 @@ interface Booking {
   price: number;
   visiting_team: string;
   bookedAt: string;
+  cancelBy: string;
 }
 
 export function BookingDash({ renterId }: BookingDashProps) {
@@ -105,55 +106,66 @@ export function BookingDash({ renterId }: BookingDashProps) {
     setIsModalOpen(true);
   }
 
+  function canCancelBooking(cancelByDate: string): boolean {
+    const now = new Date();
+    const deadline = new Date(cancelByDate);
+    return now < deadline;
+  }
+
  async function handleCancelBooking(
   drivewayId: string,
   gameDate: string,
   bookingId: string
 ) {
+  console.log("handleCancelBooking called with:", { drivewayId, gameDate, bookingId });
   setIsCancelling(true);
   setCancelError("");
 
   try {
-    const resp = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/bookings/cancelBooking`,
-      { drivewayId, gameDate, bookingId },
-      token
-        ? {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        : undefined
-    );
+    const url = `${import.meta.env.VITE_BACKEND_URL}/api/bookings/cancelBooking`;
+    const payload = { drivewayId, gameDate, bookingId };
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    
+
+    const resp = await axios.post(url, payload, { headers, timeout: 5000 });
+
 
     // remove from UI immediately
     setUpcomingBookings((prev) => prev.filter((b) => b._id !== bookingId));
 
-    // close any open modals and clear selection with a small fade
+    // close confirm modal first
     setShowCancelConfirm(false);
-    setIsClosing(true);
 
+    // then close details modal with fade effect
+    setIsClosing(true);
     setTimeout(() => {
       setIsModalOpen(false);
       setSelectedBooking(null);
       setIsClosing(false);
     }, 200);
 
+    // show success message
     setGlobalSuccess("Booking cancelled successfully");
 
-    // refresh in background to stay in sync
-    fetchBookings().catch(() => {});
-
-    // hide toast after a short time
+    // hide success message after 3 seconds
     setTimeout(() => setGlobalSuccess(""), 3000);
+
+    // finally stop the cancelling state
+    setIsCancelling(false);
   } catch (err: any) {
+    console.error("Cancel error details:", {
+      message: err?.message,
+      code: err?.code,
+      status: err?.response?.status,
+      data: err?.response?.data,
+    });
     const backendError =
       err?.response?.data?.error ||
       err?.response?.data?.message ||
       err?.response?.data?.Message ||
-      "Unknown error";
+      err?.message ||
+      "Failed to cancel booking";
     setCancelError(backendError);
-  } finally {
     setIsCancelling(false);
   }
 }
@@ -182,30 +194,28 @@ function closeModal() {
       )}
 
       {upcomingBookings.map((booking: Booking) => (
-        <div key={booking._id}>
-          <div className="contain">
-            <section className="leftSide">
-              <span className="addressLine">
-                <FaLocationDot size={25} /> {booking.address}
-              </span>
+        <div key={booking._id} className="contain">
+          <section className="leftSide">
+            <span className="addressLine">
+              <FaLocationDot size={22} /> {booking.address}
+            </span>
 
-              <span className="dateLine">
-                <FaCalendarAlt size={25} />
-                {formatPrettyDate(booking.gameDate)}
-                <GoDotFill size={12} />
-                {booking.parkingTime} PM
-              </span>
-            </section>
+            <span className="dateLine">
+              <FaCalendarAlt size={18} />
+              {formatPrettyDate(booking.gameDate)}
+              <GoDotFill size={10} />
+              {booking.parkingTime} PM
+            </span>
+          </section>
 
-            <section className="rightSide">
-              <button
-                className="detailsBtn"
-                onClick={() => handleViewDetails(booking)}
-              >
-                View Details
-              </button>
-            </section>
-          </div>
+          <section className="rightSide">
+            <button
+              className="detailsBtn"
+              onClick={() => handleViewDetails(booking)}
+            >
+              View Details
+            </button>
+          </section>
         </div>
       ))}
 
@@ -244,9 +254,22 @@ function closeModal() {
                 {formatDateTime(selectedBooking.bookedAt)}
               </p>
 
+              <p style={{ 
+                backgroundColor: "#fff3cd", 
+                padding: "10px 12px", 
+                borderRadius: "6px", 
+                borderLeft: "4px solid #ff9800",
+                marginTop: "1rem",
+                color: "#333"
+              }}>
+                <strong>⏰ Cancel Deadline:</strong>{" "}
+                {formatDateTime(selectedBooking.cancelBy)}
+              </p>
+
               <div className="buttonsBox">
                 <button
                   className="cancelBtn"
+                  disabled={!canCancelBooking(selectedBooking.cancelBy)}
                   onClick={() => {
                     setCancelError("");
                     setIsClosing(false);
@@ -255,6 +278,17 @@ function closeModal() {
                 >
                   Cancel Booking
                 </button>
+
+                {!canCancelBooking(selectedBooking.cancelBy) && (
+                  <p style={{
+                    color: "#e53935",
+                    fontSize: "0.85rem",
+                    textAlign: "center",
+                    margin: "0.5rem 0 0 0"
+                  }}>
+                    Cancellation window has passed
+                  </p>
+                )}
 
                 <button onClick={closeModal} className="closeBtn">
                   Close
@@ -279,6 +313,19 @@ function closeModal() {
               <h3>Are you sure?</h3>
               <p>This will cancel your booking.</p>
 
+              {selectedBooking.cancelBy && (
+                <p style={{
+                  backgroundColor: "#e8f5e9",
+                  padding: "10px 12px",
+                  borderRadius: "6px",
+                  borderLeft: "4px solid #4caf50",
+                  marginBottom: "1rem",
+                  color: "#333"
+                }}>
+                  <strong>✓ Cancel Deadline:</strong> {formatDateTime(selectedBooking.cancelBy)}
+                </p>
+              )}
+
               {cancelError && (
                 <p className="errorMessage">{cancelError}</p>
               )}
@@ -286,13 +333,14 @@ function closeModal() {
               <button
                 className="confirmBtn"
                 disabled={isCancelling}
-                onClick={() =>
+                onClick={() => {
+                  console.log("Confirm button clicked");
                   handleCancelBooking(
                     selectedBooking.drivewayId,
                     selectedBooking.gameDate,
                     selectedBooking._id
-                  )
-                }
+                  );
+                }}
               >
                 {isCancelling ? "Cancelling..." : "Yes, Cancel"}
               </button>
