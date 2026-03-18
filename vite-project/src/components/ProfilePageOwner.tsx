@@ -505,6 +505,7 @@ return (
     {/* OWNER CONTENT */}
     {active === "Host Bookings" && (
       <section className="games">
+          <h2 className="section-subtitle">View bookings by driveway</h2>
           <div className="driveways-grid">
                 {driveways.map((driveway) => (
                   <div key={driveway._id} className={`driveway-card-small ${selectedDrivewayId === driveway._id ? 'selected' : ''}`}>
