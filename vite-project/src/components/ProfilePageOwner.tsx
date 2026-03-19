@@ -491,7 +491,7 @@ return (
 
     {/* OWNER NAV */}
     <section className="navs">
-      {["Host Bookings", "My Driveways", "My Earnings", "My Profile"].map(tab => (
+      {["Host Bookings", "My Driveways", "My Profile"].map(tab => (
         <button
           key={tab}
           className={`navsBtn ${active === tab ? "active" : ""}`}
