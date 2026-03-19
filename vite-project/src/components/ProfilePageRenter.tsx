@@ -17,26 +17,6 @@ interface MyTokenPayload {
   email: string;
 }
 
-interface PaymentMethod {
-  bookingId: string;
-  bookingDate: string;
-  eventDate: string;
-  team: string;
-  address: string;
-  amount: number;
-  parkingTime: string;
-}
-
-interface RenterBooking {
-  _id: string;
-  price: number;
-  bookedAt: string;
-  gameDate: string;
-  visiting_team: string;
-  address: string;
-  parkingTime: string;
-  paymentIntentId: string;
-}
 
 export function ProfilePageRenter() {
   const token = localStorage.getItem("authToken") || "";
@@ -54,9 +34,6 @@ export function ProfilePageRenter() {
   const [showConfirm, setShowConfirm] = useState(false);
   const[isLoading,setIsLoading] = useState(false)
   const [onConfirm, setOnConfirm] = useState<null | (() => void)>(null);
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [allBookings, setAllBookings] = useState<RenterBooking[]>([]);
-  const [loadingPayments, setLoadingPayments] = useState(false);
 
   const navigate = useNavigate();
 
@@ -84,44 +61,8 @@ useEffect(() => {
 }, [userId]);
 
 // FETCH PAYMENT METHODS FROM BOOKINGS
-async function fetchPaymentMethods() {
-  if (!userId || !token) return;
-  
-  try {
-    setLoadingPayments(true);
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/bookings/${userId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
 
-    const bookings = response.data.bookings || [];
-    setAllBookings(bookings);
 
-    // Convert bookings to payment history format
-    const payments = bookings.map((booking: RenterBooking) => ({
-      bookingId: booking._id,
-      bookingDate: booking.bookedAt,
-      eventDate: booking.gameDate,
-      team: booking.visiting_team,
-      address: booking.address,
-      amount: booking.price,
-      parkingTime: booking.parkingTime,
-    }));
-
-    setPaymentMethods(payments);
-  } catch (error) {
-    console.error('Failed to fetch payment methods:', error);
-  } finally {
-    setLoadingPayments(false);
-  }
-}
-
-// Fetch payment methods when active tab changes
-useEffect(() => {
-  if (active === "Payment Methods" && userId && token) {
-    fetchPaymentMethods();
-  }
-}, [active, userId, token]);
 
   // AUTO-HIDE SUCCESS MESSAGE
   useEffect(() => {
@@ -510,33 +451,7 @@ async function handleUpdateEmail(email: string) {
       )}
 
       {active === "Payment Methods" && (
-        <div className="paymentMethodsContainer">
-          <h2>Payment History</h2>
-          {loadingPayments ? (
-            <p>Loading payment history...</p>
-          ) : allBookings.length === 0 ? (
-            <div className="noPaymentMessage">
-              <p>You don't have any bookings yet.</p>
-              <p>Your payment history will appear here once you complete a booking.</p>
-            </div>
-          ) : (
-            <div className="paymentMethodsList">
-              {paymentMethods.map((method) => (
-                <div key={method.bookingId} className="paymentMethodCard">
-                  <div className="cardIcon">💳</div>
-                  <div className="cardDetails">
-                    <h3>{method.team}</h3>
-                    <p className="cardAddress">{method.address}</p>
-                    <p className="cardUsed">Event Date: {new Date(method.eventDate).toLocaleDateString()}</p>
-                    <p className="cardTime">Parking Time: {method.parkingTime}</p>
-                    <p className="cardAmount">Amount Paid: ${method.amount.toFixed(2)}</p>
-                    <p className="cardDate" style={{fontSize: '0.85rem', color: '#999', marginTop: '0.5rem'}}>Booked on {new Date(method.bookingDate).toLocaleDateString()}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+    <p>payment</p>
       )}
 
       {active === "Settings" && (
