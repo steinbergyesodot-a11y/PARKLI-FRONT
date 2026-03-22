@@ -33,6 +33,7 @@ interface Driveway {
   images: string[];
   walk: string;
   price: string;
+  publicDisplay: string;
   description: string;
   games?: Game[];
   rules: string[]
@@ -284,7 +285,7 @@ useEffect(() => {
 
            <p className='locationInfo'>
             <FaMapMarkerAlt className="locationIcon" />
-            {driveway?.address}
+            {driveway?.publicDisplay}
            </p>
 
          <p className='walkInfo'>
