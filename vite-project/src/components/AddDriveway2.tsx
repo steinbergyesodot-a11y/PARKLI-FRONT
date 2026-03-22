@@ -82,7 +82,6 @@ interface drivewayFormData {
   address: string;
   city: string;
   state: string;
-  zipcode: string;
   latitude:number;
   longitude:number;
   publicDisplay:string;
@@ -102,7 +101,6 @@ export function AddDriveway2(){
     address: "",
     city:"",
     state: "",
-    zipcode: "",
     latitude: 0,
     longitude: 0,
     publicDisplay: "",
@@ -191,7 +189,6 @@ function handleRuleToggle(rule:any) {
       data.append("address", formData.address);
       data.append("city", formData.city);             
       data.append("state", formData.state);            
-      data.append("zipcode", formData.zipcode);        
       data.append("latitude", formData.latitude.toString());  
       data.append("longitude", formData.longitude.toString()); 
       data.append("publicDisplay", formData.publicDisplay); 
