@@ -121,7 +121,7 @@ async function handleSubmit(event: any) {
     );
 
     const token = response.data.token;
-    console.log(token)
+    // console.log(token)
     localStorage.setItem("authToken", token);
 
     // decode token safely

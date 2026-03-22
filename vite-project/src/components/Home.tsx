@@ -131,9 +131,9 @@ export function Home() {
     <section className="searching">
       <div className="search-container">
         <PlaceAutocompleteTS 
-          onSelect={(address) => {
-            setQuery(address);
-            navigate("/Dashboard", { state: { searchAddress: address } });
+          onSelect={(addressData) => {
+            setQuery(addressData.publicDisplay);
+            navigate("/Dashboard", { state: { searchAddress: addressData.publicDisplay } });
           }} 
         />
         <FiSearch className="search-icon" />

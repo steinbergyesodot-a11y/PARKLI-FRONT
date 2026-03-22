@@ -12,6 +12,7 @@ import { ProfileDropdown } from "./ProfileDropdown";
 interface Spot {
   _id: string;
   address: string;
+  publicDisplay: string;
   walk: number;
   name: string;
   stadium: string;
@@ -91,7 +92,7 @@ export function Dashboard() {
                 key={driveway._id}
                 name={driveway.name}
                 drivewayCardId={driveway._id}
-                address={driveway.address}
+                address={driveway.publicDisplay}
                 distance={driveway.walk}
                 images={driveway.images}
                 price={driveway.price}
