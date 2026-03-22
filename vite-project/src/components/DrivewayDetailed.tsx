@@ -77,7 +77,7 @@ export function DrivewayDetailed() {
           state: {
             driveway_id: id,
             owner_id: driveway?.ownerId,
-            address: driveway?.address,
+            address: driveway?.publicDisplay,
             price: driveway?.price,
             visiting_team: game.visiting_team,
             parkingBegins: game.parkingBegins,
