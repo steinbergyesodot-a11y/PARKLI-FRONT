@@ -173,7 +173,7 @@ function handleRuleToggle(rule:any) {
   async function handleSubmit(){
       console.log("Submitting formData:", formData);
   
-        if(!formData.address || !formData.images || !formData.price  || !formData.walk){
+        if(!formData.address || !formData.images || !formData.price  || !formData.walk || formData.description.length < 5){
           setMessage("Please fill address, add at least one image, select a price and walking time.");
           return
         }
@@ -231,6 +231,15 @@ function handleRuleToggle(rule:any) {
 
           if(response.status === 201){
             const onboardingUrl = response.data.onboardingUrl;
+            const drivewayId = response.data.drivewayId || response.data._id;
+            const drivewayAddress = response.data.address;
+            
+            // Store newly created driveway info for Onboard-Complete
+            if (drivewayId || drivewayAddress) {
+              localStorage.setItem("newDrivewayId", drivewayId || "");
+              localStorage.setItem("newDrivewayAddress", drivewayAddress || "");
+            }
+            
             if (onboardingUrl) {
               window.location.href = onboardingUrl;
               return;
