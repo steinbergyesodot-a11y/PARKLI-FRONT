@@ -12,7 +12,6 @@ import { Login } from "./Login";
 import { useLocation } from "react-router-dom";
 import { PlaceAutocompleteTS } from "./PlaceComplete";
 
-
 const ruleCategories = {
   parking: [
     "Pull all the way forward",
@@ -81,7 +80,13 @@ type MyPayload = JwtPayload & { _id?: string; name?: string; };
 interface drivewayFormData {
   ownerId: string;
   address: string;
-  name:string;
+  city: string;
+  state: string;
+  zipcode: string;
+  latitude:number;
+  longitude:number;
+  publicDisplay:string;
+  name: string;
   walk: string;
   price: string;
   images: File[];
@@ -95,6 +100,12 @@ export function AddDriveway2(){
   const [formData, setFormData] = useState<drivewayFormData>({
     ownerId: "",
     address: "",
+    city:"",
+    state: "",
+    zipcode: "",
+    latitude: 0,
+    longitude: 0,
+    publicDisplay: "",
     name: "",
     walk: "",
     price: "",
@@ -133,7 +144,7 @@ function handleListing(){
 
 const handleChange = (
   field: keyof drivewayFormData,
-  value: string | string[]| File | File[] | null
+  value: string | string[] | File | File[] | null
 ) => {
   setFormData(prev => ({ ...prev, [field]: value }));
 };
@@ -160,8 +171,9 @@ function handleRuleToggle(rule:any) {
   }
   
   async function handleSubmit(){
+      console.log("Submitting formData:", formData);
   
-        if(!formData.address || !formData.images || !formData.price  || !formData.walk){
+        if(!formData.address || !formData.images || !formData.price  || !formData.walk || formData.description.length < 5){
           setMessage("Please fill address, add at least one image, select a price and walking time.");
           return
         }
@@ -177,6 +189,12 @@ function handleRuleToggle(rule:any) {
       const data = new FormData()
       data.append("ownerId", userId || "");
       data.append("address", formData.address);
+      data.append("city", formData.city);             
+      data.append("state", formData.state);
+      data.append("zipcode", formData.zipcode);            
+      data.append("latitude", formData.latitude.toString());  
+      data.append("longitude", formData.longitude.toString()); 
+      data.append("publicDisplay", formData.publicDisplay); 
       data.append("name",formData.name)
       data.append("walk", formData.walk);
       data.append("price", formData.price);
@@ -195,6 +213,11 @@ function handleRuleToggle(rule:any) {
       data.append("images", compressedFile);
     }
 
+      console.log("FormData being sent to backend:");
+      for (let [key, value] of data.entries()) {
+        console.log(`${key}:`, value);
+      }
+
       try{
           setMessage("");
           setMessageType("info");
@@ -208,6 +231,15 @@ function handleRuleToggle(rule:any) {
 
           if(response.status === 201){
             const onboardingUrl = response.data.onboardingUrl;
+            const drivewayId = response.data.drivewayId || response.data._id;
+            const drivewayAddress = response.data.address;
+            
+            // Store newly created driveway info for Onboard-Complete
+            if (drivewayId || drivewayAddress) {
+              localStorage.setItem("newDrivewayId", drivewayId || "");
+              localStorage.setItem("newDrivewayAddress", drivewayAddress || "");
+            }
+            
             if (onboardingUrl) {
               window.location.href = onboardingUrl;
               return;
@@ -332,10 +364,18 @@ if (startListing === false) {
   <div className="locationBox step">
     <h2>Where's your driveway located?</h2>
 
-  <PlaceAutocompleteTS
-  
-  onSelect={address => {
-    setFormData(prev => ({ ...prev, address }));
+ <PlaceAutocompleteTS
+  onSelect={(addressData) => {
+    setFormData(prev => ({ 
+      ...prev, 
+      address: addressData.full_address,
+      city: addressData.city,
+      state: addressData.state,
+      zipcode: addressData.zipcode,
+      latitude: addressData.latitude,
+      longitude: addressData.longitude,
+      publicDisplay: addressData.publicDisplay
+    }));
   }}
 />
  <p className="safety">

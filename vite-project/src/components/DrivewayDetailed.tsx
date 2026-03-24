@@ -33,6 +33,7 @@ interface Driveway {
   images: string[];
   walk: string;
   price: string;
+  publicDisplay: string;
   description: string;
   games?: Game[];
   rules: string[]
@@ -76,7 +77,7 @@ export function DrivewayDetailed() {
           state: {
             driveway_id: id,
             owner_id: driveway?.ownerId,
-            address: driveway?.address,
+            address: driveway?.publicDisplay,
             price: driveway?.price,
             visiting_team: game.visiting_team,
             parkingBegins: game.parkingBegins,
@@ -284,7 +285,7 @@ useEffect(() => {
 
            <p className='locationInfo'>
             <FaMapMarkerAlt className="locationIcon" />
-            {driveway?.address}
+            {driveway?.publicDisplay}
            </p>
 
          <p className='walkInfo'>

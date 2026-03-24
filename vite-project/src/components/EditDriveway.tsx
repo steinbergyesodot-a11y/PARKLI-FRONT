@@ -77,6 +77,12 @@ interface ExistingImage {
 interface FormData {
   name: string;
   address: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  latitude: number;
+  longitude: number;
+  publicDisplay: string;
   walk: string;
   price: string;
   existingImages: ExistingImage[];
@@ -100,6 +106,12 @@ export function EditDriveway(){
   const [formData, setFormData] = useState<FormData>({
     name: "",
     address: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    latitude: 0,
+    longitude: 0,
+    publicDisplay: "",
     walk: "",
     price: "",
     existingImages: [],
@@ -126,6 +138,12 @@ export function EditDriveway(){
         setFormData({
           name: driveway.name || "",
           address: driveway.address || "",
+          city: driveway.city || "",
+          state: driveway.state || "",
+          zipcode: driveway.zipcode || "",
+          latitude: driveway.latitude || 0,
+          longitude: driveway.longitude || 0,
+          publicDisplay: driveway.publicDisplay || "",
           walk: driveway.walk || "",
           price: driveway.price || "",
           existingImages: driveway.images || [],
@@ -205,6 +223,12 @@ export function EditDriveway(){
       const data = new FormData();
       data.append("name", formData.name);
       data.append("address", formData.address);
+      data.append("city", formData.city);
+      data.append("state", formData.state);
+      data.append("zipcode", formData.zipcode);
+      data.append("latitude", formData.latitude.toString());
+      data.append("longitude", formData.longitude.toString());
+      data.append("publicDisplay", formData.publicDisplay);
       data.append("walk", formData.walk);
       data.append("price", formData.price);
       data.append("description", formData.description);
@@ -351,8 +375,17 @@ export function EditDriveway(){
             <div className="locationBox step">
               <h2>Location</h2>
               <PlaceAutocompleteTS
-                onSelect={address => {
-                  setFormData(prev => ({ ...prev, address }));
+                onSelect={addressData => {
+                  setFormData(prev => ({ 
+                    ...prev,
+                    address: addressData.full_address,
+                    city: addressData.city,
+                    state: addressData.state,
+                    zipcode: addressData.zipcode,
+                    latitude: addressData.latitude,
+                    longitude: addressData.longitude,
+                    publicDisplay: addressData.publicDisplay
+                  }));
                 }}
               />
               <p className="safety">
