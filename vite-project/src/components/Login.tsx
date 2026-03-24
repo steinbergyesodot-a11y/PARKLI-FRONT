@@ -120,7 +120,8 @@ async function handleSubmit(event: any) {
       }
     );
 
-    const token = response.data.token;
+   const apiResponse = response.data
+    const token = apiResponse.data.token;
     console.log(token)
     localStorage.setItem("authToken", token);
 
