@@ -140,28 +140,13 @@ export function SignUp() {
         }
       );
 
-      const token = response.data.token;
-      if (token) {
-        localStorage.setItem("authToken", token);
-
-        // Decode token
-        const decoded = jwtDecode<MyJwtPayload>(token);
-        const now = Date.now() / 1000;
-
-        if (decoded.exp && decoded.exp > now) {
-          // Update user context
-          userContext?.setUser({
-            _id: decoded._id,
-            firstName: decoded.firstName,
-            lastName: decoded.lastName,
-            email: decoded.email,
-            roles: decoded.roles,
-            drivewayIds: decoded.drivewayIds
-          });
-        }
+      const apiResponse = response.data
+      if(!apiResponse.success){
+        setErrorMessage(apiResponse.error || "Signup failed.")
+        return
       }
+      setMessage("Account created successfully!");
 
-      setMessage(response.data.message || "Account created successfully!");
       
       // Clear form
       setFirstName("");
@@ -174,12 +159,12 @@ export function SignUp() {
         sendHome();
       }, 2000);
     } catch (error: any) {
-      const data = error.response?.data;
+      const data = error.response?.data; // the full error response object
       const errorMsg = 
         typeof data === "string"
           ? data
-          : data?.message || 
-            data?.error || 
+          : data?.error || 
+            data?.message || 
             error.message || 
             "Signup failed. Please try again.";
       setErrorMessage(errorMsg);

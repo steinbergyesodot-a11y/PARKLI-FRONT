@@ -63,26 +63,35 @@ export default function OnboardingComplete() {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        if (res.data.verified) {
+        if (res.data.data.verified) {
           setStatus("success");
 
-          // ⭐ Fetch all driveways for this user
-          const drivewayRes = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getAllDrivewaysByUserId/${userId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-
-          const driveways = drivewayRes.data.driveways;
-
-          if (driveways && driveways.length > 0) {
-            setDrivewayAddress(driveways[0].address);
+          // Check if there's a newly created driveway in localStorage
+          const newDrivewayAddress = localStorage.getItem("newDrivewayAddress");
+          
+          if (newDrivewayAddress) {
+            setDrivewayAddress(newDrivewayAddress);
+            localStorage.removeItem("newDrivewayAddress");
+            localStorage.removeItem("newDrivewayId");
           } else {
-            console.warn("User has no driveways");
+            // Fallback: Fetch all driveways
+            const drivewayRes = await axios.get(
+              `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getAllDrivewaysByUserId/${userId}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            const driveways = drivewayRes.data.data.driveways || drivewayRes.data.driveways;
+
+            if (driveways && driveways.length > 0) {
+              setDrivewayAddress(driveways[0].address);
+            } else {
+              console.warn("User has no driveways");
+            }
           }
 
         } else {
           setStatus("incomplete");
-          setContinueUrl(res.data.onboardingUrl || null);
+          setContinueUrl(null);
         }
       } catch (err: any) {
         console.error("Error checking onboarding:", err);

@@ -43,43 +43,67 @@ async function handleGoogleLogin() {
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     scope: "email profile",
     callback: async (response: any) => {
-      const accessToken = response.access_token;
+      try {
+        const accessToken = response.access_token;
 
-      // Send token to backend
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/google-login`, // note the route name
-        { accessToken }
-      );
+        // Send token to backend
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/google-login`,
+          { accessToken }
+        );
 
-      const token = res.data.token;
+        // Extract from res.data.data (responseWrapper structure)
+        const token = res.data.data.token;
+        const payload = res.data.data.payload;
 
-      // 1. Save JWT
-      localStorage.setItem("authToken", token);
+        // 1. Save JWT
+        localStorage.setItem("authToken", token);
 
-      // 2. Decode JWT
-      const decoded = jwtDecode<MyJwtPayload>(token);
+        // 2. Use payload directly instead of decoding
+        const now = Date.now() / 1000;
+        if (!payload.exp && token) {
+          // Decode JWT if payload doesn't have exp
+          const decoded = jwtDecode<MyJwtPayload>(token);
+          if (!decoded.exp) {
+            throw new Error("Invalid token: missing exp");
+          }
 
-      const now = Date.now() / 1000;
-      if (!decoded.exp) {
-        throw new Error("Invalid token: missing exp");
-      }
+          if (decoded.exp > now) {
+            // 3. Update user context
+            userContext?.setUser({
+              _id: decoded._id,
+              firstName: decoded.firstName,
+              lastName: decoded.lastName,
+              email: decoded.email,
+              roles: decoded.roles,
+              drivewayIds: decoded.drivewayIds
+            });
 
-      if (decoded.exp > now) {
-        // 3. Update user context using firstName / lastName
-        userContext?.setUser({
-          _id: decoded._id,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          email: decoded.email,
-          roles: decoded.roles,
-          drivewayIds: decoded.drivewayIds
-        });
+            // 4. Redirect
+            const redirectTo = from || "/Home";
+            navigate(redirectTo, { replace: true });
+          } else {
+            localStorage.removeItem("authToken");
+            userContext?.setUser(null);
+            setErrorMsg("Session expired");
+          }
+        } else if (payload) {
+          // Use payload directly from response
+          userContext?.setUser({
+            _id: payload._id,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            email: payload.email,
+            roles: payload.roles,
+            drivewayIds: payload.drivewayIds
+          });
 
-        // 4. Redirect
-        const redirectTo = from || "/Home";
-        navigate(redirectTo, { replace: true });
-
-      } else {
+          const redirectTo = from || "/Home";
+          navigate(redirectTo, { replace: true });
+        }
+      } catch (error: any) {
+        console.error('Google login error:', error);
+        setErrorMsg(error.message || "Google login failed");
         localStorage.removeItem("authToken");
         userContext?.setUser(null);
       }
@@ -119,8 +143,9 @@ async function handleSubmit(event: any) {
         password
       }
     );
-
-    const token = response.data.token;
+    
+    const apiResponse = response.data
+    const token = apiResponse.data.token;
     console.log(token)
     localStorage.setItem("authToken", token);
 
@@ -147,19 +172,18 @@ async function handleSubmit(event: any) {
       } else {
         localStorage.removeItem("authToken");
         userContext?.setUser(null);
-        setErrorMsg("Session expired — please log in again.");
+        setErrorMsg("Session expired, please log in again.");
       }
     } catch (decodeErr) {
       console.error('Token decode error:', decodeErr);
-      setErrorMsg("Login failed — please try again.");
+      setErrorMsg("Login failed, please try again.");
       localStorage.removeItem("authToken");
       userContext?.setUser(null);
     }
 
   } catch (error: any) {
     // Log full error for debugging but show a friendly message to the user
-    console.error('Login error:', error);
-    setErrorMsg("Login failed — please check your credentials and try again.");
+    setErrorMsg("Login failed, please check your credentials and try again.");
 }finally{
   setIsLoading(false)
 }

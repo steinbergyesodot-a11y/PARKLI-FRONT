@@ -52,9 +52,9 @@ useEffect(() => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    setFirstName(res.data.user.firstName);
-    setLastName(res.data.user.lastName);
-    setEmail(res.data.user.email);
+    setFirstName(res.data.data.firstName);
+    setLastName(res.data.data.lastName);
+    setEmail(res.data.data.email);
   }
 
   loadUser();
@@ -109,9 +109,9 @@ async function handleUpdateFirstName(name: string) {
       }
     );
 
-    setFirstName(updated.data.user.firstName);
-    setLastName(updated.data.user.lastName);
-    setEmail(updated.data.user.email);
+    setFirstName(updated.data.data.firstName);
+    setLastName(updated.data.data.lastName);
+    setEmail(updated.data.data.email);
     setFirstNameError(null);
     setMessage("Changes saved");
     
@@ -168,9 +168,9 @@ async function handleUpdateFirstName(name: string) {
       }
     );
 
-    setFirstName(updated.data.user.firstName);
-    setLastName(updated.data.user.lastName);
-    setEmail(updated.data.user.email);
+    setFirstName(updated.data.data.firstName);
+    setLastName(updated.data.data.lastName);
+    setEmail(updated.data.data.email);
     setLastNameError(null);
     setMessage("Changes saved");
     
@@ -232,9 +232,9 @@ async function handleUpdateEmail(email: string) {
       }
     );
 
-    setFirstName(updated.data.user.firstName);
-    setLastName(updated.data.user.lastName);
-    setEmail(updated.data.user.email);
+    setFirstName(updated.data.data.firstName);
+    setLastName(updated.data.data.lastName);
+    setEmail(updated.data.data.email);
     setEmailError(null);
     setMessage("Changes saved");
     
