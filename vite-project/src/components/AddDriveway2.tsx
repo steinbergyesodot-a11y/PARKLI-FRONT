@@ -173,8 +173,8 @@ function handleRuleToggle(rule:any) {
   async function handleSubmit(){
       console.log("Submitting formData:", formData);
   
-        if(!formData.address || !formData.images || !formData.price  || !formData.walk || formData.description.length < 5){
-          setMessage("Please fill address, add at least one image, select a price and walking time.");
+        if(!formData.address || !formData.images || !formData.price  || !formData.walk || formData.description.length < 1){
+          setMessage("Please fill address, description, add at least one image, select a price and walking time.");
           return
         }
     

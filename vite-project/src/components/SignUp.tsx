@@ -27,7 +27,6 @@ export function SignUp() {
 
   const userContext = useContext(UserContext);
 
-  // const roles = ["renter"]
   const navigate = useNavigate();
 
   function sendHome() {
