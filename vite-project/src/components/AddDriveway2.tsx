@@ -171,7 +171,6 @@ function handleRuleToggle(rule:any) {
   }
   
   async function handleSubmit(){
-      console.log("Submitting formData:", formData);
   
         if(!formData.address || !formData.images || !formData.price  || !formData.walk || formData.description.length < 5){
           setMessage("Please fill address, add at least one image, select a price and walking time.");
@@ -212,12 +211,6 @@ function handleRuleToggle(rule:any) {
       });
       data.append("images", compressedFile);
     }
-
-      console.log("FormData being sent to backend:");
-      for (let [key, value] of data.entries()) {
-        console.log(`${key}:`, value);
-      }
-
       try{
           setMessage("");
           setMessageType("info");
@@ -228,11 +221,11 @@ function handleRuleToggle(rule:any) {
               "Content-Type": "multipart/form-data"
             }
           })
-
-          if(response.status === 201){
-            const onboardingUrl = response.data.onboardingUrl;
-            const drivewayId = response.data.drivewayId || response.data._id;
-            const drivewayAddress = response.data.address;
+          const apiResponse = response.data
+          if(apiResponse.success){
+            const onboardingUrl = apiResponse.data.onboardingUrl;
+            const drivewayId = apiResponse.data.drivewayId || apiResponse.data._id;
+            const drivewayAddress = apiResponse.data.address;
             
             // Store newly created driveway info for Onboard-Complete
             if (drivewayId || drivewayAddress) {

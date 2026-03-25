@@ -11,99 +11,104 @@ export default function OnboardingComplete() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    async function checkStatus() {
-      try {
-        const token = localStorage.getItem("authToken");
+  async function checkStatus() {
+    try {
+      const token = localStorage.getItem("authToken");
 
-        if (!token) {
-          const msg = "No auth token found in localStorage.";
-          console.error(msg);
-          setErrorMessage(msg);
-          setStatus("error");
-          return;
-        }
-
-        // ⭐ Decode token to get userId (lightweight, no external lib)
-        let userId: string | null = null;
-        try {
-          const parseJwt = (t: string) => {
-            const parts = t.split('.');
-            if (parts.length < 2) throw new Error('Invalid JWT');
-            const base64Url = parts[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(
-              atob(base64)
-                .split('')
-                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                .join('')
-            );
-            return JSON.parse(jsonPayload);
-          };
-
-          const decoded: any = parseJwt(token);
-          userId = decoded._id; // matches your backend payload
-        } catch (err) {
-          console.error("Failed to decode token:", err);
-          setErrorMessage(String(err));
-          setStatus("error");
-          return;
-        }
-
-        if (!userId) {
-          const msg = "Decoded token has no _id field.";
-          console.error(msg);
-          setErrorMessage(msg);
-          setStatus("error");
-          return;
-        }
-
-        // ⭐ Check Stripe onboarding status
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/users/stripe/check-status`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        if (res.data.verified) {
-          setStatus("success");
-
-          // Check if there's a newly created driveway in localStorage
-          const newDrivewayAddress = localStorage.getItem("newDrivewayAddress");
-          
-          if (newDrivewayAddress) {
-            setDrivewayAddress(newDrivewayAddress);
-            // Clear it after using
-            localStorage.removeItem("newDrivewayAddress");
-            localStorage.removeItem("newDrivewayId");
-          } else {
-            // Fallback: Fetch all driveways and show the most recent one
-            const drivewayRes = await axios.get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getAllDrivewaysByUserId/${userId}`,
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
-
-            const driveways = drivewayRes.data.driveways;
-
-            if (driveways && driveways.length > 0) {
-              setDrivewayAddress(driveways[0].address);
-            } else {
-              console.warn("User has no driveways");
-            }
-          }
-
-        } else {
-          setStatus("incomplete");
-          setContinueUrl(res.data.onboardingUrl || null);
-        }
-      } catch (err: any) {
-        console.error("Error checking onboarding:", err);
-        const body = err?.response?.data ? JSON.stringify(err.response.data) : err.message || String(err);
-        setErrorMessage(body);
+      if (!token) {
+        const msg = "No auth token found in localStorage.";
+        console.error(msg);
+        setErrorMessage(msg);
         setStatus("error");
+        return;
       }
-    }
 
-    checkStatus();
-  }, []);
+      // ⭐ Decode token to get userId (lightweight, no external lib)
+      let userId: string | null = null;
+      try {
+        const parseJwt = (t: string) => {
+          const parts = t.split('.');
+          if (parts.length < 2) throw new Error('Invalid JWT');
+          const base64Url = parts[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split('')
+              .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+              .join('')
+          );
+          return JSON.parse(jsonPayload);
+        };
+
+        const decoded: any = parseJwt(token);
+        userId = decoded._id;
+      } catch (err) {
+        console.error("Failed to decode token:", err);
+        setErrorMessage(String(err));
+        setStatus("error");
+        return;
+      }
+
+      if (!userId) {
+        const msg = "Decoded token has no _id field.";
+        console.error(msg);
+        setErrorMessage(msg);
+        setStatus("error");
+        return;
+      }
+
+      // ⭐ Check Stripe onboarding status
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/stripe/check-status`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // ✅ FIXED: Access res.data.data (standardized format)
+      const { verified, isStripeVerified } = res.data.data;
+
+      if (verified) {
+        setStatus("success");
+
+        // Check if there's a newly created driveway in localStorage
+        const newDrivewayAddress = localStorage.getItem("newDrivewayAddress");
+        
+        if (newDrivewayAddress) {
+          setDrivewayAddress(newDrivewayAddress);
+          localStorage.removeItem("newDrivewayAddress");
+          localStorage.removeItem("newDrivewayId");
+        } else {
+          // Fallback: Fetch all driveways and show the most recent one
+          const drivewayRes = await axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/api/driveways/getAllDrivewaysByUserId/${userId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+
+          // ✅ FIXED: Access res.data.data for standardized response
+          const driveways = drivewayRes.data.data.driveways;
+
+          if (driveways && driveways.length > 0) {
+            setDrivewayAddress(driveways[0].address);
+          } else {
+            console.warn("User has no driveways");
+          }
+        }
+
+      } else {
+        setStatus("incomplete");
+        // Note: Your backend doesn't return onboardingUrl in checkStripeStatus
+        // You may need to fetch it separately or redirect to Stripe onboarding URL
+        setContinueUrl(null);
+      }
+    } catch (err: any) {
+      console.error("Error checking onboarding:", err);
+      const body = err?.response?.data ? JSON.stringify(err.response.data) : err.message || String(err);
+      setErrorMessage(body);
+      setStatus("error");
+    }
+  }
+
+  checkStatus();
+}, []);
 
   if (status === "checking") return <p>Checking your Stripe status…</p>;
 
