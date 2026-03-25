@@ -43,43 +43,69 @@ async function handleGoogleLogin() {
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     scope: "email profile",
     callback: async (response: any) => {
-      const accessToken = response.access_token;
+      try {
+        const accessToken = response.access_token;
 
-      // Send token to backend
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/google-login`, // note the route name
-        { accessToken }
-      );
+        // Send token to backend
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/google-login`,
+          { accessToken }
+        );
 
-      const token = res.data.token;
+        // Extract from res.data.data (responseWrapper structure)
+        const token = res.data.data.token;
+        const payload = res.data.data.payload;
 
-      // 1. Save JWT
-      localStorage.setItem("authToken", token);
+        if (!token) {
+          throw new Error("No token received from backend");
+        }
 
-      // 2. Decode JWT
-      const decoded = jwtDecode<MyJwtPayload>(token);
+        // 1. Save JWT
+        localStorage.setItem("authToken", token);
 
-      const now = Date.now() / 1000;
-      if (!decoded.exp) {
-        throw new Error("Invalid token: missing exp");
-      }
+        // 2. Use payload directly if available
+        if (payload) {
+          userContext?.setUser({
+            _id: payload._id,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            email: payload.email,
+            roles: payload.roles,
+            drivewayIds: payload.drivewayIds
+          });
 
-      if (decoded.exp > now) {
-        // 3. Update user context using firstName / lastName
-        userContext?.setUser({
-          _id: decoded._id,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          email: decoded.email,
-          roles: decoded.roles,
-          drivewayIds: decoded.drivewayIds
-        });
+          const redirectTo = from || "/Home";
+          navigate(redirectTo, { replace: true });
+        } else {
+          // Fallback: Decode JWT if payload not available
+          const decoded = jwtDecode<MyJwtPayload>(token);
+          const now = Date.now() / 1000;
 
-        // 4. Redirect
-        const redirectTo = from || "/Home";
-        navigate(redirectTo, { replace: true });
+          if (!decoded.exp) {
+            throw new Error("Invalid token: missing exp");
+          }
 
-      } else {
+          if (decoded.exp > now) {
+            userContext?.setUser({
+              _id: decoded._id,
+              firstName: decoded.firstName,
+              lastName: decoded.lastName,
+              email: decoded.email,
+              roles: decoded.roles,
+              drivewayIds: decoded.drivewayIds
+            });
+
+            const redirectTo = from || "/Home";
+            navigate(redirectTo, { replace: true });
+          } else {
+            localStorage.removeItem("authToken");
+            userContext?.setUser(null);
+            setErrorMsg("Session expired");
+          }
+        }
+      } catch (error: any) {
+        console.error('Google login error:', error);
+        setErrorMsg(error.message || "Google login failed");
         localStorage.removeItem("authToken");
         userContext?.setUser(null);
       }
