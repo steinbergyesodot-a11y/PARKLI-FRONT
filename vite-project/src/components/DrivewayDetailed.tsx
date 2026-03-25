@@ -118,12 +118,18 @@ function handleCurImageBack() {
         }
       }
     );
-    const driveway = response.data.driveway;
-    const images = response.data.driveway.images
-    setImages(images)
-    setGames(response.data.driveway.games || []);
-    setDriveway(driveway);
-    setMessage("");
+    const apiResponse = response.data
+    console.log(apiResponse)
+    if(apiResponse.success){
+      const driveway = apiResponse.data
+      // const driveway = response.data.driveway;
+      const images = driveway.images
+      setImages(images)
+      setGames(driveway.games || []);
+      setDriveway(driveway);
+      setMessage("");
+
+    }
   }catch(error:any){
     setMessage("Unable to load driveway details. Please try again.");
   } finally {

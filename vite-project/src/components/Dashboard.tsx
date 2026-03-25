@@ -44,7 +44,11 @@ export function Dashboard() {
           }
         }
       );
-      setCards(res.data.driveways);
+      const apiResponse = res.data
+      if(apiResponse.success){
+        setCards(apiResponse.data);
+
+      }
     } catch (err:any) {
       const backendError = err?.response?.data?.error || err?.message || String(err);
       setMessage(backendError)
@@ -52,11 +56,11 @@ export function Dashboard() {
       setIsLoading(false);
     }
   }
-
-  useEffect(() => {
+   useEffect(() => {
     fetchData();
   }, []);
 
+  
   function sendHome() {
     navigate("/Home");
   }

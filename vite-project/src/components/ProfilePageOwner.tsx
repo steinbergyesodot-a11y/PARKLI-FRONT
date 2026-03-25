@@ -132,7 +132,8 @@ useEffect(() => {
             }
           }
         );
-        setDriveways(response.data.driveways);
+        const apiResponse = response.data
+        setDriveways(apiResponse.data);
       } catch (error: any) {
         const data = error.response?.data;
         const errMessage = 
@@ -182,8 +183,8 @@ async function fetchGames(drivewayId: string) {
         }
       }
     );
-
-    const gamesData = res.data?.games;
+    const apiResponse = res.data
+    const gamesData = apiResponse.data
     if (!Array.isArray(gamesData)) {
       console.warn("Backend did not return an array. Got:", gamesData);
       setGames([]);

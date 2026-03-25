@@ -48,7 +48,8 @@ export function UserDriveways({userId}:UserDrivewaysProps){
             }
           }
         );
-        setDriveways(response.data.driveways);
+        const apiResponse = response.data
+        setDriveways(apiResponse.data);
       } catch (error: any) {
         const data = error.response?.data;
         const errMessage = 

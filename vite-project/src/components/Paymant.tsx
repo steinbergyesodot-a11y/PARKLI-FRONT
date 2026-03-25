@@ -137,7 +137,7 @@ async function handlePay() {
         );
 
         // ⭐ 4. Mark driveway unavailable
-        await axios.put(
+        const response = await axios.put(
           `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${driveway_id}/${formattedDate}`,
           {},
           {
@@ -146,6 +146,7 @@ async function handlePay() {
             }
           }
         );
+        const apiResponse = response.data
 
         setShowSuccess(true);
 
@@ -180,8 +181,14 @@ async function handlePay() {
 
 
 async function getDrivewayRules(){
-  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/driveways/rules/${driveway_id}`)
-  setDrivewayRules(response.data.rules)
+  
+  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/driveways/rules/${driveway_id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  const apiResponse = response.data
+  setDrivewayRules(apiResponse.data)
   
 }
 
