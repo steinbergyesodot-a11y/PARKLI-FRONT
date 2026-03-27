@@ -5,6 +5,8 @@ import { DrivewayCard } from './components/DrivewayCard';
 import { Dashboard } from './components/Dashboard';
 import { DrivewayDetailed } from './components/DrivewayDetailed';
 import { ProfileDropdown } from './components/ProfileDropdown';
+import { Analytics } from '@vercel/analytics/react';
+
 
 
 function App() {
@@ -12,7 +14,7 @@ function App() {
   return (
     <>
    <Home/>
-       
+       <Analytics />
     </>
   )
 }
