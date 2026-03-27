@@ -22,6 +22,8 @@ import CancellationPolicy from "./CancellationPolicy";
 import OnboardingComplete from "./Onboard-Complete";
 import OnboardingRetry from "./Onboard-Retry";
 import { EditDriveway } from "./EditDriveway";
+import { Analytics } from '@vercel/analytics/react';
+
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -29,6 +31,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export function AnimatedRoutes() {
   return (
+    <>
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/Home" element={<Home />} />
@@ -68,5 +71,9 @@ export function AnimatedRoutes() {
 />
 
     </Routes>
+          <Analytics />
+
+    </>
+    
   );
 }
