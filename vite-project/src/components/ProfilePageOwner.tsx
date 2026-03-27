@@ -96,24 +96,27 @@ useEffect(() => {
   if (!userId) return;
 
   async function checkBooking() { 
-    try { 
-
-      const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/bookings/checkIfUserHasBookings/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+  try { 
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/bookings/checkIfUserHasBookings/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      );
-
-      setUserHasBookings(res.data);
-    } catch (err) { 
-      setUserHasBookings(false); 
-    } finally { 
-      setLoading(false);
+      }
+    );
+    
+    if (res.data.success) {
+      setUserHasBookings(res.data.data);
+    } else {
+      setUserHasBookings(false);
     }
+  } catch (err) { 
+    setUserHasBookings(false); 
+  } finally { 
+    setLoading(false);
   }
+}
 
   checkBooking(); 
 }, [userId]);

@@ -71,7 +71,6 @@ export function BookingDash({ renterId }: BookingDashProps) {
       );
 
       const apiResponse = response.data
-      console.log(apiResponse)
       setUpcomingBookings(apiResponse.data || []);
     } catch (err) {
       console.error("Failed to fetch bookings");

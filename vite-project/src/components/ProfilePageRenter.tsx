@@ -52,9 +52,10 @@ useEffect(() => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    setFirstName(res.data.user.firstName);
-    setLastName(res.data.user.lastName);
-    setEmail(res.data.user.email);
+    const apiResponse = res.data
+    setFirstName(apiResponse.data.firstName);
+    setLastName(apiResponse.data.lastName);
+    setEmail(apiResponse.data.email);
   }
 
   loadUser();
@@ -108,10 +109,10 @@ async function handleUpdateFirstName(name: string) {
         headers: { Authorization: `Bearer ${token}` }
       }
     );
-
-    setFirstName(updated.data.user.firstName);
-    setLastName(updated.data.user.lastName);
-    setEmail(updated.data.user.email);
+    const apiResponse = updated.data
+    setFirstName(apiResponse.data.firstName);
+    setLastName(apiResponse.data.lastName);
+    setEmail(apiResponse.data.email);
     setFirstNameError(null);
     setMessage("Changes saved");
     
@@ -167,10 +168,10 @@ async function handleUpdateFirstName(name: string) {
         headers: { Authorization: `Bearer ${token}` }
       }
     );
-
-    setFirstName(updated.data.user.firstName);
-    setLastName(updated.data.user.lastName);
-    setEmail(updated.data.user.email);
+    const apiResponse = updated.data
+    setFirstName(apiResponse.data.firstName);
+    setLastName(apiResponse.data.lastName);
+    setEmail(apiResponse.data.email);
     setLastNameError(null);
     setMessage("Changes saved");
     
