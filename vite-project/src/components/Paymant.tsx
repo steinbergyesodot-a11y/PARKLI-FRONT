@@ -87,7 +87,16 @@ async function handlePay() {
       }
     );
     const apiResponse = response.data
-    const clientSecret = apiResponse.clientSecret;
+    console.log('Backend response:', apiResponse);
+    
+    // Handle both wrapped and unwrapped response structures
+    const clientSecret = apiResponse.data?.clientSecret || apiResponse.clientSecret;
+
+    if (!clientSecret) {
+      setErrorMsg("Failed to initialize payment. Missing client secret from server.");
+      setLoading(false);
+      return;
+    }
 
     if (!stripe || !elements) return;
 
