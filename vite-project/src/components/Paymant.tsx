@@ -155,8 +155,6 @@ async function handlePay() {
             }
           }
         );
-        const apiResponse = response.data
-
         setShowSuccess(true);
 
       } catch (err: any) {
