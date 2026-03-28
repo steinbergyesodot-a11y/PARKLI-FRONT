@@ -118,7 +118,6 @@ export function BookingDash({ renterId }: BookingDashProps) {
   gameDate: string,
   bookingId: string
 ) {
-  console.log("handleCancelBooking called with:", { drivewayId, gameDate, bookingId });
   setIsCancelling(true);
   setCancelError("");
 

@@ -86,8 +86,8 @@ async function handlePay() {
         }
       }
     );
-
-    const clientSecret = response.data.clientSecret;
+    const apiResponse = response.data
+    const clientSecret = apiResponse.clientSecret;
 
     if (!stripe || !elements) return;
 
