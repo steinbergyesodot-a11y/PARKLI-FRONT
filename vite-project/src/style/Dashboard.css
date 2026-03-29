@@ -176,7 +176,7 @@ overflow-y: auto;
 }
 
 /* Loading state */
-.loading-state {
+.dashboard-loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -190,13 +190,13 @@ overflow-y: auto;
   font-size: 18px;
 }
 
-.spinner {
+.dashboard-spinner {
   display: inline-block;
   width: 60px;
   height: 60px;
 }
 
-.spinner::after {
+.dashboard-spinner::after {
   content: "";
   display: block;
   width: 100%;

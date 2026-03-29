@@ -86,8 +86,8 @@ export function Dashboard() {
         {/* LEFT SIDE — SCROLLABLE LIST */}
         <section className="dashboard">
           {isLoading ? (
-            <div className="loading-state">
-              <div className="spinner" aria-hidden="true"></div>
+            <div className="dashboard-loading-state">
+              <div className="dashboard-spinner" aria-hidden="true"></div>
               <div>Loading driveways…</div>
             </div>
           ) : (
