@@ -18,6 +18,7 @@ type PaymentState = {
   driveway_id: string;
   owner_id: string;
   address: string;
+  fullAddress: string;
   price: number;
   visiting_team: string;
   gameDate: string;
@@ -55,6 +56,7 @@ export function Payment() {
     driveway_id,
     owner_id,
     address,
+    fullAddress,
     price,
     parkingBegins,
     visiting_team,
@@ -74,7 +76,7 @@ async function handlePay() {
         renterId: userId,
         ownerId: owner_id,
         drivewayId: driveway_id,
-        address,
+        address: fullAddress,
         visiting_team,
         gameDate,
         price,
@@ -130,7 +132,7 @@ async function handlePay() {
             renterId: userId,
             ownerId: owner_id,
             drivewayId: driveway_id,
-            address,
+            address: fullAddress,
             visiting_team,
             gameDate: formattedDate,
             price,
@@ -311,7 +313,7 @@ useEffect(() => {
       <BookingSuccess
         gameDate={gameDate}
         parkingBegins={parkingBegins}
-        address={address}
+        address={fullAddress}
         visitingTeam={visiting_team}
       />
     )}
