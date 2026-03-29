@@ -80,6 +80,25 @@
   transform: translateY(0);
 }
 
+/* Forgot Password Button */
+.forgot-password-btn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  transition: 0.2s;
+  font-weight: 500;
+}
+
+.forgot-password-btn:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
 
 /* Error message under password */
 .error-msg {

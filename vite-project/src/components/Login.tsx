@@ -218,6 +218,13 @@ async function handleSubmit(event: any) {
           disabled={isLoading}
           aria-invalid={!!errorMsg}
         />
+        <button 
+          type="button" 
+          className="forgot-password-btn"
+          onClick={() => navigate("/forgot-password")}
+        >
+          Forgot Password?
+        </button>
       </div>
 
       {errorMsg && <p className="error-msg" aria-live="polite">{errorMsg}</p>}
