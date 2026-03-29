@@ -37,6 +37,13 @@ export function ProfilePageRenter() {
 
   const navigate = useNavigate();
 
+  // Token validation
+  useEffect(() => {
+    if (!token) {
+      navigate("/Login");
+    }
+  }, [token, navigate]);
+
   // LOAD USER DATA FROM TOKEN
 useEffect(() => {
   const decoded = jwtDecode<MyTokenPayload>(token);

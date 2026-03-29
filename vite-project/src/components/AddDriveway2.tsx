@@ -3,7 +3,7 @@ import '../style/AddDriveway.css'
 import { useContext } from "react";
 import { UserContext } from '../userContext'
 import axios from 'axios'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
 import imageCompression from "browser-image-compression";
 import { ProfileDropdown } from "./ProfileDropdown";
@@ -125,7 +125,8 @@ export function AddDriveway2(){
    const location = useLocation();
    const userContext = useContext(UserContext)
    const user = userContext?.user
-   const token = localStorage.getItem("authToken")     // In login, the server returns a token. the payload has name and _id.
+   if (!user) return <Navigate to="/Login" />;   
+   const token = localStorage.getItem("authToken") 
 
    const navigate = useNavigate();
    

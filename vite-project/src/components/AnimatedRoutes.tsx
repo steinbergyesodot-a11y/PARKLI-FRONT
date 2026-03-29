@@ -6,7 +6,7 @@ import { Login } from "./Login";
 import { Dashboard } from "./Dashboard";
 import { About } from "./About";
 import { DrivewayDetailed } from "./DrivewayDetailed";
-import { Payment } from "./Paymant";
+import { Payment } from "./Payment";
 import { ProfilePageRenter } from "./ProfilePageRenter";
 import { ProfilePageOwner } from "./ProfilePageOwner";
 import { MainProfilePage } from "./MainProfilePage";
@@ -46,7 +46,7 @@ export function AnimatedRoutes() {
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/Profile/renter" element={<ProfilePageRenter />} />
       <Route path="/Profile/DrivewayOwner" element={<ProfilePageOwner />} />
-      <Route path="DrivewayDetailed/:id" element={<DrivewayDetailed />} />
+      <Route path="/DrivewayDetailed/:id" element={<DrivewayDetailed />} />
       <Route path="/Help" element={<Help />} />
       <Route path="/TermsOfUse" element={<TermsOfUse />} />
       <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
@@ -54,7 +54,7 @@ export function AnimatedRoutes() {
       <Route path="/Onboard-Complete" element={<OnboardingComplete />} />
       <Route path="/Onboard-Retry" element={<OnboardingRetry />} />
       <Route path="/EditDriveway/:drivewayId" element={<EditDriveway />} />
-      <Route path="DrivewayDetailed/:id/Payment"
+      <Route path="/DrivewayDetailed/:id/Payment"
           element={
           <Elements stripe={stripePromise}>
           <Payment />

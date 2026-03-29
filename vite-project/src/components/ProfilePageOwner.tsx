@@ -41,6 +41,14 @@ interface Driveway {
 export function ProfilePageOwner() {
   const navigate = useNavigate();
     const token = localStorage.getItem("authToken") || "";
+
+    // Token validation
+    useEffect(() => {
+      if (!token) {
+        navigate("/Login");
+      }
+    }, [token, navigate]);
+
         const [driveways,setDriveways] = useState<Driveway[]>([])
         const [errorMsg, setErrorMessage] = useState("");
 

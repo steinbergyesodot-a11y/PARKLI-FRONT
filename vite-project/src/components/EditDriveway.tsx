@@ -96,6 +96,13 @@ export function EditDriveway(){
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken") || "";
 
+  // Token validation
+  useEffect(() => {
+    if (!token) {
+      navigate("/Login");
+    }
+  }, [token, navigate]);
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(true);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
