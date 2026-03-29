@@ -119,7 +119,6 @@ function handleCurImageBack() {
       }
     );
     const apiResponse = response.data
-    console.log(apiResponse)
     if(apiResponse.success){
       const driveway = apiResponse.data
       // const driveway = response.data.driveway;
@@ -154,7 +153,6 @@ useEffect(() => {
         lng: location.lng()
       });
     } else {
-      console.error("Geocode failed:", status);
       // show a friendly message to the user and keep showing textual address
       setMessage("Map unavailable — showing address only.");
       setCoords(null);

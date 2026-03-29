@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../style/Home.css';
 import { QA } from './FQAitem';
 import { Login } from './Login';
-import { AddDriveway } from './AddDriveway';
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from '../userContext';
 import { Nav, NavDropdown } from 'react-bootstrap';

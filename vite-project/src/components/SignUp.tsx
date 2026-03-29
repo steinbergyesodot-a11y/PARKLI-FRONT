@@ -85,7 +85,6 @@ export function SignUp() {
             ? data
             : data?.message || data?.error || "Google signup failed. Please try again.";
         setErrorMessage(errorMsg);
-        console.error("Google signup error:", err);
       } finally {
         setLoading(false);
       }

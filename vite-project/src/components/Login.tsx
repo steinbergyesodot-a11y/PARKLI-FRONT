@@ -104,7 +104,6 @@ async function handleGoogleLogin() {
           }
         }
       } catch (error: any) {
-        console.error('Google login error:', error);
         setErrorMsg(error.message || "Google login failed");
         localStorage.removeItem("authToken");
         userContext?.setUser(null);
@@ -148,7 +147,6 @@ async function handleSubmit(event: any) {
 
    const apiResponse = response.data
     const token = apiResponse.data.token;
-    console.log(token)
     localStorage.setItem("authToken", token);
 
     // decode token safely
@@ -177,15 +175,12 @@ async function handleSubmit(event: any) {
         setErrorMsg("Session expired — please log in again.");
       }
     } catch (decodeErr) {
-      console.error('Token decode error:', decodeErr);
       setErrorMsg("Login failed — please try again.");
       localStorage.removeItem("authToken");
       userContext?.setUser(null);
     }
 
   } catch (error: any) {
-    // Log full error for debugging but show a friendly message to the user
-    console.error('Login error:', error);
     setErrorMsg("Login failed — please check your credentials and try again.");
 }finally{
   setIsLoading(false)

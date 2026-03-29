@@ -39,9 +39,7 @@ export function PlaceAutocompleteTS({ onSelect }: Props) {
     
     // Extract address components
     const addressComponents = place.address_components || [];
-    
-    console.log("Full Place Object:", place);
-    console.log("Address Components:", addressComponents);
+
     
     const getComponent = (type: string): string => {
       const component = addressComponents.find(c => c.types.includes(type));
@@ -66,7 +64,6 @@ export function PlaceAutocompleteTS({ onSelect }: Props) {
     const latitude = place.geometry?.location?.lat() || 0;
     const longitude = place.geometry?.location?.lng() || 0;
     
-    console.log("Extracted - City:", city, "State:", state, "Zipcode:", zipcode);
     
     // If zipcode is still empty, use reverse geocoding to get it
     if (!zipcode && window.google?.maps?.Geocoder) {
@@ -77,7 +74,6 @@ export function PlaceAutocompleteTS({ onSelect }: Props) {
             (c: any) => c.types.includes("postal_code")
           )?.long_name || "";
           
-          console.log("Zipcode from Reverse Geocoding:", geocodedZipcode);
           
           // Update zipcode from geocoded result
           const addressData: AddressData = {

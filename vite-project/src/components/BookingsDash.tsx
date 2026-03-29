@@ -73,7 +73,7 @@ export function BookingDash({ renterId }: BookingDashProps) {
       const apiResponse = response.data
       setUpcomingBookings(apiResponse.data || []);
     } catch (err) {
-      console.error("Failed to fetch bookings");
+      // Handle error silently - show empty bookings
     }
   }
 
@@ -153,12 +153,6 @@ export function BookingDash({ renterId }: BookingDashProps) {
     // finally stop the cancelling state
     setIsCancelling(false);
   } catch (err: any) {
-    console.error("Cancel error details:", {
-      message: err?.message,
-      code: err?.code,
-      status: err?.response?.status,
-      data: err?.response?.data,
-    });
     const backendError =
       err?.response?.data?.error ||
       err?.response?.data?.message ||
@@ -334,7 +328,6 @@ function closeModal() {
                 className="confirmBtn"
                 disabled={isCancelling}
                 onClick={() => {
-                  console.log("Confirm button clicked");
                   handleCancelBooking(
                     selectedBooking.drivewayId,
                     selectedBooking.gameDate,

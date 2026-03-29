@@ -189,7 +189,6 @@ async function fetchGames(drivewayId: string) {
     const apiResponse = res.data
     const gamesData = apiResponse.data
     if (!Array.isArray(gamesData)) {
-      console.warn("Backend did not return an array. Got:", gamesData);
       setGames([]);
       setGamesError("No games data available.");
       return;
@@ -247,7 +246,6 @@ async function handleUpdateFirstName(name: string) {
           "Failed to update first name. Try again.";
     
     setNameError(errorMessage);
-    console.error("Error updating first name:", error);
   }
 }
 
@@ -297,7 +295,6 @@ async function handleUpdateFirstName(name: string) {
           "Failed to update last name. Try again.";
     
     setLastNameError(errorMessage);
-    console.error("Error updating last name:", error);
   }
 }
 
@@ -353,7 +350,6 @@ async function handleUpdateEmail(email: string) {
           "Failed to update email. Try again.";
 
     setEmailError(errorMessage);
-    console.error("Error updating email:", error);
   }
 }
 
@@ -379,7 +375,6 @@ async function handleBlock(drivewayId: string, gameDate: string) {
       }
     );
     const successMsg = "Date blocked successfully!";
-    console.log("Setting message:", successMsg);
     setMessage(successMsg);
     setMessageDate(gameDate);
     
@@ -401,7 +396,6 @@ async function handleBlock(drivewayId: string, gameDate: string) {
   : 
   data?.message || data?.error || error.message || 
   "block failed"; 
-  console.error("Block error:", errorMessage);
   setMessage(errorMessage);
   setMessageDate(gameDate);
   
@@ -432,7 +426,6 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
       }
     );
     const successMsg = "Date unblocked successfully!";
-    console.log("Setting message:", successMsg);
     setMessage(successMsg);
     setMessageDate(gameDate);
     
@@ -452,7 +445,6 @@ async function handleUnblock(drivewayId: string, gameDate: string) {
         : 
         data?.message || data?.error || error.message || 
         "unblock failed"; 
-    console.error("Unblock error:", errorMessage);
     setMessage(errorMessage);
     setMessageDate(gameDate);
     

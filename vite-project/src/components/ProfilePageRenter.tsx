@@ -131,7 +131,6 @@ async function handleUpdateFirstName(name: string) {
           "Failed to update first name. Try again.";
     
     setFirstNameError(errorMessage);
-    console.error("Error updating first name:", error);
   }
 }
 
@@ -190,7 +189,6 @@ async function handleUpdateFirstName(name: string) {
           "Failed to update last name. Try again.";
     
     setLastNameError(errorMessage);
-    console.error("Error updating last name:", error);
   }
 }
 
@@ -254,7 +252,6 @@ async function handleUpdateEmail(email: string) {
           "Failed to update email. Try again.";
 
     setEmailError(errorMessage);
-    console.error("Error updating email:", error);
   }
 }
 

@@ -17,7 +17,6 @@ export default function OnboardingComplete() {
 
       if (!token) {
         const msg = "No auth token found in localStorage.";
-        console.error(msg);
         setErrorMessage(msg);
         setStatus("error");
         return;
@@ -43,7 +42,6 @@ export default function OnboardingComplete() {
         const decoded: any = parseJwt(token);
         userId = decoded._id;
       } catch (err) {
-        console.error("Failed to decode token:", err);
         setErrorMessage(String(err));
         setStatus("error");
         return;
@@ -51,7 +49,6 @@ export default function OnboardingComplete() {
 
       if (!userId) {
         const msg = "Decoded token has no _id field.";
-        console.error(msg);
         setErrorMessage(msg);
         setStatus("error");
         return;
@@ -89,7 +86,7 @@ export default function OnboardingComplete() {
           if (driveways && driveways.length > 0) {
             setDrivewayAddress(driveways[0].address);
           } else {
-            console.warn("User has no driveways");
+            // No driveways found
           }
         }
 
@@ -100,7 +97,6 @@ export default function OnboardingComplete() {
         setContinueUrl(null);
       }
     } catch (err: any) {
-      console.error("Error checking onboarding:", err);
       const body = err?.response?.data ? JSON.stringify(err.response.data) : err.message || String(err);
       setErrorMessage(body);
       setStatus("error");

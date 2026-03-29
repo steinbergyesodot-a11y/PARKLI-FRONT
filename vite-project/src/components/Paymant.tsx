@@ -87,7 +87,6 @@ async function handlePay() {
       }
     );
     const apiResponse = response.data
-    console.log('Backend response:', apiResponse);
     
     // Handle both wrapped and unwrapped response structures
     const clientSecret = apiResponse.data?.clientSecret || apiResponse.clientSecret;
@@ -165,7 +164,6 @@ async function handlePay() {
           "Unknown error";
         // show backend error to user
         setErrorMsg(typeof backendError === 'string' ? backendError : JSON.stringify(backendError));
-        console.error('Booking/create error:', err);
         setLoading(false);
         return;
       }
@@ -178,7 +176,6 @@ async function handlePay() {
       err?.response?.data?.Message ||
       "Unknown error";
     setErrorMsg(typeof backendError === 'string' ? backendError : JSON.stringify(backendError));
-    console.error('Payment flow error:', err);
     setLoading(false);
     return;
   } finally {

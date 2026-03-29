@@ -5,7 +5,6 @@ import { SignUp } from "./SignUp";
 import { Login } from "./Login";
 import { Dashboard } from "./Dashboard";
 import { About } from "./About";
-import AddDriveway from "./AddDriveway";
 import { DrivewayDetailed } from "./DrivewayDetailed";
 import { Payment } from "./Paymant";
 import { ProfilePageRenter } from "./ProfilePageRenter";
@@ -22,6 +21,8 @@ import CancellationPolicy from "./CancellationPolicy";
 import OnboardingComplete from "./Onboard-Complete";
 import OnboardingRetry from "./Onboard-Retry";
 import { EditDriveway } from "./EditDriveway";
+import { NotFound } from "./NotFound";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { Analytics } from '@vercel/analytics/react';
 
 
@@ -32,6 +33,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 export function AnimatedRoutes() {
   return (
     <>
+    <ErrorBoundary>
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/Home" element={<Home />} />
@@ -52,26 +54,17 @@ export function AnimatedRoutes() {
       <Route path="/Onboard-Complete" element={<OnboardingComplete />} />
       <Route path="/Onboard-Retry" element={<OnboardingRetry />} />
       <Route path="/EditDriveway/:drivewayId" element={<EditDriveway />} />
-
-
-
-
-
-
-      
-
-
-      <Route
-  path="DrivewayDetailed/:id/Payment"
-  element={
-    <Elements stripe={stripePromise}>
-      <Payment />
-    </Elements>
-  }
-/>
-
+      <Route path="DrivewayDetailed/:id/Payment"
+          element={
+          <Elements stripe={stripePromise}>
+          <Payment />
+          </Elements>
+        }
+      />
+      <Route path="*" element={<NotFound />} />
     </Routes>
-          <Analytics />
+    </ErrorBoundary>
+    <Analytics />
 
     </>
     
