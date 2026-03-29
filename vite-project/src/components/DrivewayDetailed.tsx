@@ -8,7 +8,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { RiWalkFill } from "react-icons/ri";
 import { MdAttachMoney } from "react-icons/md";
 import { FaRegCheckSquare } from "react-icons/fa";
-import { CiCircleInfo } from "react-icons/ci";
+import { FiHelpCircle } from "react-icons/fi";
 import { FaGooglePay } from "react-icons/fa";
 import { FaCcApplePay } from "react-icons/fa";
 import { RiVisaFill } from "react-icons/ri";
@@ -290,6 +290,10 @@ useEffect(() => {
            <p className='locationInfo'>
             <FaMapMarkerAlt className="locationIcon" />
             {driveway?.publicDisplay}
+            <div className="tooltip-container">
+              <FiHelpCircle className="infoIcon" />
+              <span className="tooltip-text">Full address will be provided via email after booking</span>
+            </div>
            </p>
 
          <p className='walkInfo'>
@@ -321,13 +325,15 @@ useEffect(() => {
                   <p className='rowCancel'>
                       <FaRegCheckSquare/>
                       Free Cancelation
-                      <CiCircleInfo />
+                      <div className="tooltip-container">
+                        <FiHelpCircle className="infoIcon" />
+                        <span className="tooltip-text">Full refund if deleted before 24 hours from parking time</span>
+                      </div>
                   </p> 
 
                 <p className='rowCancel'>
                    <FaRegCheckSquare/>
                   Guaranteed parking
-                  <CiCircleInfo />
                 </p> 
            </div>
 

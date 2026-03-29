@@ -152,12 +152,67 @@
     display: flex;
     gap: 2vw;
     color: rgba(0, 0, 0, 0.76);
+    align-items: center;
+    position: relative;
 }
 
 .locationIcon{
     font-size: 1.2rem;
         color: rgba(0, 0, 0, 0.76);
 
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.infoIcon {
+  font-size: 1.2rem;
+  color: #007bff;
+  cursor: help;
+  transition: color 0.3s ease;
+}
+
+.infoIcon:hover {
+  color: #0056b3;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 220px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 12px;
+  position: absolute;
+  z-index: 100;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  font-weight: 400;
+  white-space: normal;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
 
 .walkInfo{
