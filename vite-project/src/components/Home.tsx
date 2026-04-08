@@ -276,7 +276,7 @@ export function Home() {
     </section>
   </div>
 </Section>
-
+     
     </div>
   );
 }

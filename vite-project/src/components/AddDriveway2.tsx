@@ -235,7 +235,8 @@ function handleRuleToggle(rule:any) {
             }
             
             if (onboardingUrl) {
-              window.location.href = onboardingUrl;
+              setOnboardingUrl(onboardingUrl)
+              // window.location.href = onboardingUrl;
               return;
             }
           }
@@ -570,8 +571,10 @@ if (startListing === false) {
               </div>
               </section>
         )}
+
         {step === 8 && (
           <>
+          {!onboardingUrl ? 
           <div className="reviewOuterBox">
           <section className="reviewBox">
 
@@ -640,44 +643,53 @@ if (startListing === false) {
 
           <div className="reviewImages">
             <div>
-  <h3>PHOTOS</h3>
+          <h3>PHOTOS</h3>
 
-  <div className="imageGrid">
-    {formData.images.map((file, index) => (
-      <img
-        key={index}
-        src={URL.createObjectURL(file)}
-        alt={`Driveway ${index}`}
-        className="previewImage"
-        />
-    ))}
-  </div>
-  </div>
+          <div className="imageGrid">
+            {formData.images.map((file, index) => (
+              <img
+                key={index}
+                src={URL.createObjectURL(file)}
+                alt={`Driveway ${index}`}
+                className="previewImage"
+                />
+            ))}
+          </div>
+      </div>
                 <button className="editButton" onClick={() => setStep(5)}>Edit</button>
 
-</div>
+      </div>
             <hr />
 
-<p className="agreementText">
-  By publishing your listing, you confirm that all information is accurate and
-  that you agree to follow our hosting rules and community guidelines.
-  <br />
-          <Link to="/TermsOfUse" className="termsLink">View Terms Of Use</Link>
-  
-</p>
+        <p className="agreementText">
+          By publishing your listing, you confirm that all information is accurate and
+          that you agree to follow our hosting rules and community guidelines.
+          <br />
+                  <Link to="/TermsOfUse" className="termsLink">View Terms Of Use</Link>
+        </p>
 
-            <button
-              onClick={handleSubmit}
-              className="listBtn primaryBtn"
-              disabled={isLoading}
-            >
-              {isLoading ? "Processing…" : "Set up payouts & Publish"}
-            </button>
-
-
-       </section>
+              <button
+                onClick={handleSubmit}
+                className="listBtn primaryBtn"
+                disabled={isLoading}
+              >
+                {isLoading ? "Processing…" : "Set up payouts & Publish"}
+              </button>
+         </section>
+       </div> 
+       
+       : 
+       <div className="onboarding-success-container">
+         <div className="success-icon">
+           <span className="success-check">✓</span>
+         </div>
+         <h2 className="success-title">Your driveway is uploaded!</h2>
+         <p className="success-subtitle">All that's left is to set up payment</p>
+         <a href={onboardingUrl} target="_blank" rel="noopener noreferrer" className="onboarding-link">
+           <button className="listBtn onboarding-btn">Complete Payment Setup</button>
+         </a>
        </div>
-
+  }
           
           </>
         )}
