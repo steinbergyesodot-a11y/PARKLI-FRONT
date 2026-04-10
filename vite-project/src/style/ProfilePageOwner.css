@@ -1,7 +1,12 @@
-.games {
-  padding: 1rem;
-  border-radius: 8px;
-}
+
+  
+  .gamesss {
+    border-radius: 8px;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #ebebebd7;
+  }
+
 
 /* Title */
 .games h2 {

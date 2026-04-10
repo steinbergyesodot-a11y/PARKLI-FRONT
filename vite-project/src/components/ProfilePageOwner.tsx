@@ -560,7 +560,7 @@ return (
 
     {/* OWNER CONTENT */}
     {active === "Host Bookings" && (
-      <section className="games">
+      <section className="gamesss">
           <h2 className="section-subtitle">View bookings by driveway</h2>
           <div className="driveways-grid">
                 {driveways.map((driveway) => (
