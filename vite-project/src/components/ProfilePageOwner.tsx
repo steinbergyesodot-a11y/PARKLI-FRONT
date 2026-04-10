@@ -84,6 +84,8 @@ export function ProfilePageOwner() {
   const [userHasBookings,setUserHasBookings] = useState(false);
   const [loadingGameDate, setLoadingGameDate] = useState<string | null>(null);
 const [selectedDrivewayId, setSelectedDrivewayId] = useState<string | null>(null);
+const [isStripeVerified, setIsStripeVerified] = useState<boolean | null>(null);
+const [stripeOnboardingUrl, setStripeOnboardingUrl] = useState<string | null>(null);
  
     
 
@@ -162,6 +164,38 @@ useEffect(() => {
     }
 
     fetchDriveways();
+  }, [userId, token]);
+
+  useEffect(() => {
+    async function checkStripeVerification() {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/stripe-verification`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+        const apiResponse = response.data;
+        
+        if (apiResponse.success && apiResponse.data !== null) {
+          setIsStripeVerified(apiResponse.data.isStripeVerified);
+          setStripeOnboardingUrl(apiResponse.data.onboardingUrl || null);
+        } else {
+          setIsStripeVerified(false);
+          setStripeOnboardingUrl(null);
+        }
+      } catch (error) {
+        console.error("Error checking Stripe verification:", error);
+        setIsStripeVerified(false);
+        setStripeOnboardingUrl(null);
+      }
+    }
+
+    if (userId && token) {
+      checkStripeVerification();
+    }
   }, [userId, token]);
 
 
@@ -505,6 +539,24 @@ return (
         </button>
       ))}
     </section>
+
+    {/* STRIPE WARNING */}
+    {isStripeVerified !== null && !isStripeVerified && (
+      <div className="stripe-warning-container">
+        <div className="stripe-warning">
+          <div className="stripe-warning-icon">⚠️</div>
+          <div className="stripe-warning-content">
+            <h3 className="stripe-warning-title">Payment Setup Required</h3>
+            <p className="stripe-warning-text">Complete your Stripe verification to accept payments from renters.</p>
+            {stripeOnboardingUrl && (
+              <a href={stripeOnboardingUrl} target="_blank" rel="noopener noreferrer" className="stripe-link">
+                <button className="stripe-setup-btn">Complete Payment Setup →</button>
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
 
     {/* OWNER CONTENT */}
     {active === "Host Bookings" && (

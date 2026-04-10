@@ -348,3 +348,85 @@ width: 25vw;
   margin: 0;
   font-size: 0.95rem;
 }
+
+/* Stripe Warning */
+.stripe-warning-container {
+  margin: 1.5rem 1.5rem 1.5rem 0;
+  max-width: 400px;
+}
+
+.stripe-warning {
+  background: linear-gradient(135deg, #ffebee 0%, #fff5f5 100%);
+  border: 2px solid #d32f2f;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.15);
+}
+
+.stripe-warning-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.stripe-warning-content {
+  flex: 1;
+}
+
+.stripe-warning-title {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #c62828;
+}
+
+.stripe-warning-text {
+  margin: 0 0 0.7rem 0;
+  color: #b71c1c;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.stripe-link {
+  text-decoration: none;
+}
+
+.stripe-setup-btn {
+  background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+}
+
+.stripe-setup-btn:hover {
+  background: linear-gradient(135deg, #c62828 0%, #b71c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
+}
+
+.stripe-setup-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .stripe-warning {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .stripe-warning-icon {
+    font-size: 1.2rem;
+  }
+
+  .stripe-setup-btn {
+    width: 100%;
+  }
+}

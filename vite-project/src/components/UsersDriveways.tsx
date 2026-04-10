@@ -69,10 +69,9 @@ export function UserDriveways({userId}:UserDrivewaysProps){
     fetchDriveways();
   }, [userId, token]);
 
-
-
-    return(
-        <>
+  
+  return(
+    <>
           <section className="user-driveways-container">
             
             {loading && (
