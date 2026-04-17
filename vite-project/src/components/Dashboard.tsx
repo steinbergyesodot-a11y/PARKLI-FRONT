@@ -7,7 +7,7 @@ import { UserContext } from '../userContext'
 import { Nav, NavDropdown } from "react-bootstrap";
 import axios from "axios";
 import { ProfileDropdown } from "./ProfileDropdown";
-
+import { drivewayService } from "../services/drivewayService";
 
 interface Spot {
   _id: string;
@@ -32,34 +32,20 @@ export function Dashboard() {
   const user = userContext?.user;
   const navigate = useNavigate();
 
-  async function fetchData() {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        }
-      );
-      const apiResponse = res.data
-      if(apiResponse.success){
-        setCards(apiResponse.data);
-
-      }
-    } catch (err:any) {
-      const backendError = err?.response?.data?.error || err?.message || String(err);
-      setMessage(backendError)
-    } finally {
-      setIsLoading(false);
-    }
-  }
    useEffect(() => {
-    fetchData();
-  }, []);
+      async function load() {
+        try {
+          const driveways = await drivewayService.fetchAllDriveways;
+          setUpcomingBookings(driveways);
+        } catch (err) {
+          setUpcomingBookings([]);
+        }
+      }
+  
+      load();
+    }, [userId]);
 
+  
   
   function sendHome() {
     navigate("/Home");
