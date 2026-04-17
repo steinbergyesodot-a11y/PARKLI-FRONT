@@ -5,6 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { createPortal } from "react-dom";
+import { bookingService } from "../services/bookingService";
 import "../style/BookingDash.css";
 
 interface BookingDashProps {
@@ -57,29 +58,18 @@ export function BookingDash({ renterId }: BookingDashProps) {
 
   if (!userId) return null;
 
-  async function fetchBookings() {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/bookings/${userId}`,
-        token
-          ? {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          : undefined
-      );
-
-      const apiResponse = response.data
-      setUpcomingBookings(apiResponse.data || []);
-    } catch (err) {
-      // Handle error silently - show empty bookings
+ useEffect(() => {
+    async function load() {
+      try {
+        const bookings = await bookingService.fetchBookings(userId);
+        setUpcomingBookings(bookings);
+      } catch (err) {
+        setUpcomingBookings([]);
+      }
     }
-  }
 
-  useEffect(() => {
-    fetchBookings();
-  }, []);
+    load();
+  }, [userId]);
 
 
   function formatPrettyDate(dateString: string) {
