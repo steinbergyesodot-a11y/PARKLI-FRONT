@@ -5,9 +5,9 @@ import '../style/Dashboard.css'
 import { useContext } from "react";
 import { UserContext } from '../userContext'
 import { Nav, NavDropdown } from "react-bootstrap";
-import axios from "axios";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { drivewayService } from "../services/drivewayService";
+
 
 interface Spot {
   _id: string;
@@ -21,8 +21,6 @@ interface Spot {
   PostedAt: string;
 }
 
-const token = localStorage.getItem("authToken") || "";
-
 
 export function Dashboard() {
   const [cards, setCards] = useState<Spot[]>([]);
@@ -32,20 +30,25 @@ export function Dashboard() {
   const user = userContext?.user;
   const navigate = useNavigate();
 
-   useEffect(() => {
-      async function load() {
-        try {
-          const driveways = await drivewayService.fetchAllDriveways;
-          setUpcomingBookings(driveways);
-        } catch (err) {
-          setUpcomingBookings([]);
-        }
+  async function fetchData() {
+    setIsLoading(true);
+    try {
+      const result = await drivewayService.fetchAllDriveways();
+      if(typeof result === 'string') {
+        setMessage(result);
+        setCards([]);
+      } else {
+        setCards(result);
+        setMessage("");
       }
-  
-      load();
-    }, [userId]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+   useEffect(() => {
+    fetchData();
+  }, []);
 
-  
   
   function sendHome() {
     navigate("/Home");
