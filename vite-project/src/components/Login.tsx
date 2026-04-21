@@ -120,7 +120,7 @@ async function handleGoogleLogin() {
   }
 
 
-async function handleSubmit(event: any) {
+async function handleLogin(event: any) {
   event.preventDefault();
   setErrorMsg("");
 
@@ -192,7 +192,7 @@ async function handleSubmit(event: any) {
 
   return (
   <div className="login-container">
-    <form className="login-card" onSubmit={handleSubmit}>
+    <form className="login-card" onSubmit={handleLogin}>
       <h2 className="login-title">Welcome Back</h2>
 
       <div className="input-group">

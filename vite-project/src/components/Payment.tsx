@@ -89,7 +89,6 @@ async function handlePay() {
       }
     );
     const apiResponse = response.data
-    console.log(apiResponse)
     
     // Handle both wrapped and unwrapped response structures
     const clientSecret = apiResponse.data?.clientSecret || apiResponse.clientSecret;
