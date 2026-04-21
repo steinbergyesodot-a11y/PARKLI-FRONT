@@ -276,6 +276,41 @@ export function Home() {
     </section>
   </div>
 </Section>
+
+<div className="footerHome">
+  <div className="footer-container">
+
+    <div className="footer-col">
+      <h4>Company</h4>
+      <a href="/about">About Us</a>
+      <a href="/services">Services</a>
+      <a href="/blog">Blog</a>
+      <a href="/contact">Contact</a>
+    </div>
+
+    <div className="footer-col">
+      <h4>Support</h4>
+      <a href="/faq">FAQ</a>
+      <a href="/help">Help Center</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+    </div>
+
+    <div className="footer-col">
+      <h4>Follow Us</h4>
+      <a href="https://instagram.com">Instagram</a>
+      <a href="https://facebook.com">Facebook</a>
+      <a href="https://linkedin.com">LinkedIn</a>
+      <a href="https://x.com">X (Twitter)</a>
+    </div>
+
+  </div>
+
+  <div className="footer-bottom">
+    <p>© 2026 Parkli. All rights reserved.</p>
+  </div>
+</div>
+
      
     </div>
   );

@@ -5,8 +5,8 @@ import '../style/Dashboard.css'
 import { useContext } from "react";
 import { UserContext } from '../userContext'
 import { Nav, NavDropdown } from "react-bootstrap";
-import axios from "axios";
 import { ProfileDropdown } from "./ProfileDropdown";
+import { drivewayService } from "../services/drivewayService";
 
 
 interface Spot {
@@ -21,8 +21,6 @@ interface Spot {
   PostedAt: string;
 }
 
-const token = localStorage.getItem("authToken") || "";
-
 
 export function Dashboard() {
   const [cards, setCards] = useState<Spot[]>([]);
@@ -35,23 +33,14 @@ export function Dashboard() {
   async function fetchData() {
     setIsLoading(true);
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/driveways/`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        }
-      );
-      const apiResponse = res.data
-      if(apiResponse.success){
-        setCards(apiResponse.data);
-
+      const result = await drivewayService.fetchAllDriveways();
+      if(typeof result === 'string') {
+        setMessage(result);
+        setCards([]);
+      } else {
+        setCards(result);
+        setMessage("");
       }
-    } catch (err:any) {
-      const backendError = err?.response?.data?.error || err?.message || String(err);
-      setMessage(backendError)
     } finally {
       setIsLoading(false);
     }

@@ -797,8 +797,53 @@ input:-ms-input-placeholder {
   }
 }
 
-.footer{
-  height: 30vh;
-  width: 100vw;
-  background-color: #6557e0;
+.footerHome {
+  background: #1a1a1a;
+  color: #ddd;
+  padding: 50px 0 20px;
+  font-family: Arial, sans-serif;
+  text-align: center; /* centers text inside */
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+
+  display: flex;
+  justify-content: center; /* centers columns */
+  flex-wrap: wrap;
+  gap: 60px; /* more spacing for centered layout */
+}
+
+.footer-col {
+  min-width: 200px;
+}
+
+.footer-col h4 {
+  color: #fff;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  border-left: none; /* remove left border since centered */
+}
+
+.footer-col a {
+  display: block;
+  color: #bbb;
+  text-decoration: none;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+.footer-col a:hover {
+  color: #6557e0;
+}
+
+.footer-bottom {
+  margin-top: 40px;
+  color: #777;
+  font-size: 14px;
+  border-top: 1px solid #333;
+  padding-top: 15px;
 }

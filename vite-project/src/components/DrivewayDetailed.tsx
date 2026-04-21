@@ -2,7 +2,7 @@ import { useEffect, useRef, useState,useContext } from 'react';
 import '../style/DrivewayDetailed.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { GoogleMap, LoadScript, LoadScriptNext, Marker } from '@react-google-maps/api';
-import axios from 'axios';
+import { drivewayService } from '../services/drivewayService';
 import { FaLocationDot } from "react-icons/fa6";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { RiWalkFill } from "react-icons/ri";
@@ -63,11 +63,11 @@ export function DrivewayDetailed() {
   const [message,setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false);
   
-  const token = localStorage.getItem("authToken")  
   const { id } = useParams();
   const navigate = useNavigate();
 
   function paymentPage(game:any) {
+        const token = localStorage.getItem("authToken");
         if(!token){
           setMessage("Please log in to continue.");
           setTimeout(() => setMessage(""), 3000);
@@ -108,35 +108,28 @@ function handleCurImageBack() {
   }
 
   async function getDrivewayDetailed() {
-  setIsLoading(true);
-  try{
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/driveways/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        }
+    if (!id) return;
+    setIsLoading(true);
+    try{
+      const result = await drivewayService.fetchDrivewayById(id);
+      if(typeof result === 'string') {
+        setMessage(result);
+      } else {
+        setImages(result.images || []);
+        setGames(result.games || []);
+        setDriveway(result);
+        setMessage("");
       }
-    );
-    const apiResponse = response.data
-    if(apiResponse.success){
-      const driveway = apiResponse.data
-      // const driveway = response.data.driveway;
-      const images = driveway.images
-      setImages(images)
-      setGames(driveway.games || []);
-      setDriveway(driveway);
-      setMessage("");
-
+    }catch(error:any){
+      setMessage("Unable to load driveway details. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-  }catch(error:any){
-    setMessage("Unable to load driveway details. Please try again.");
-  } finally {
-    setIsLoading(false);
   }
-  
-}
+
+useEffect(() => {
+  getDrivewayDetailed();
+}, [id]);
 
 useEffect(() => {
   if (!driveway?.address) return;
@@ -163,9 +156,6 @@ useEffect(() => {
   });
 }, [driveway?.address]);
 
-  useEffect(() => {
-    getDrivewayDetailed();
-  }, [id]);
 
  useEffect(() => {
 }, [games]);
