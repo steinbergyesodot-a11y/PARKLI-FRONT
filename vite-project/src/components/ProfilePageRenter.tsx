@@ -15,6 +15,7 @@ interface MyTokenPayload {
   role: string;
   userType: string;
   email: string;
+  authProvider: string;
 }
 
 
@@ -24,6 +25,7 @@ export function ProfilePageRenter() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [authProvider, setAuthProvider] = useState("");
   const [active, setActive] = useState("My Bookings");
   const [editingField, setEditingField] = useState("");
   const [tempValue, setTempValue] = useState("");
@@ -47,6 +49,7 @@ export function ProfilePageRenter() {
   // LOAD USER DATA FROM TOKEN
 useEffect(() => {
   const decoded = jwtDecode<MyTokenPayload>(token);
+  setAuthProvider(decoded.authProvider);
   setUserId(decoded._id);
 }, [token]);
 
@@ -326,58 +329,61 @@ async function handleUpdateEmail(email: string) {
           {message && <div className="successMessage">{message}</div>}          {firstNameError && <div className="errorMessage">{firstNameError}</div>}
           {lastNameError && <div className="errorMessage">{lastNameError}</div>}
           {emailError && <div className="errorMessage">{emailError}</div>}
-          {/* FIRST NAME */}
-          {editingField === "firstName" ? (
-            <div className="row">
-              <input
-                value={tempValue}
-                onChange={(e) => setTempValue(e.target.value)}
-              />
-              <div className='editButtons'>
-                <button
-                  className='saveBtn'
-                  onClick={() => {
-                    setOnConfirm(() => () => {
-                      setEditingField("");
-                      handleUpdateFirstName(tempValue);
-                    });
-                    setShowConfirm(true);
-                    
-                  }}
-                  disabled={showConfirm}
-                >
-                  Save
-                </button>
+          
+          {/* FIRST NAME — only for local users */}
+          {authProvider === "local" && (
+            <>
+              {editingField === "firstName" ? (
+                <div className="row">
+                  <input
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                  />
+                  <div className='editButtons'>
+                    <button
+                      className='saveBtn'
+                      onClick={() => {
+                        setOnConfirm(() => () => {
+                          setEditingField("");
+                          handleUpdateFirstName(tempValue);
+                        });
+                        setShowConfirm(true);
+                        
+                      }}
+                      disabled={showConfirm}
+                    >
+                      Save
+                    </button>
 
-                <button
-                  onClick={() => setEditingField("")}
-                  className='cancelBtn'
-                  disabled={showConfirm}
+                    <button
+                      onClick={() => setEditingField("")}
+                      className='cancelBtn'
+                      disabled={showConfirm}
 
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className='row'>
-              <p> <span className='fn'>First Name:  </span> <span className='fnValue'>{firstName}</span></p>
-              <MdEdit
-                className='editIcon'
-                onClick={() => {
-                  setEditingField("firstName");
-                  setTempValue(firstName);
-                }}
-              />
-            </div>
-          )}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className='row'>
+                  <p> <span className='fn'>First Name:  </span> <span className='fnValue'>{firstName}</span></p>
+                  <MdEdit
+                    className='editIcon'
+                    onClick={() => {
+                      setEditingField("firstName");
+                      setTempValue(firstName);
+                    }}
+                  />
+                </div>
+              )}
 
-          {/* LAST NAME */}
-          {editingField === "lastName" ? (
-            <div className="row">
-              <input
-                value={tempValue}
-                onChange={(e) => setTempValue(e.target.value)}
+              {/* LAST NAME */}
+              {editingField === "lastName" ? (
+                <div className="row">
+                  <input
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
               />
               <div className='editButtons'>
                 <button
@@ -411,6 +417,8 @@ async function handleUpdateEmail(email: string) {
                 }}
               />
             </div>
+          )}
+            </>
           )}
 
           {/* EMAIL */}
