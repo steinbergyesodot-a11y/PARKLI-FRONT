@@ -32,6 +32,12 @@
 .fn{
   font-weight: 600;
 }
+
+.fnValue {
+  font-weight: 400;
+  margin-left: 8px;
+}
+
 .navsBtn { 
     padding: 5px;
     font-size: 1.2rem;

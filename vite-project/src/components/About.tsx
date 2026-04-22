@@ -39,13 +39,11 @@ export function About() {
       <section className="about-container">
         <h2>Our Story</h2>
         <p>
-          Parkli was born from a simple idea: parking near stadiums and crowded
-          venues shouldn’t feel like a battle. Every game day, thousands of fans
-          spend more time circling blocks than cheering for their team. At the
-          same time, countless driveways sit empty in the very neighborhoods
-          surrounding these arenas. Parkli bridges that gap by connecting
-          homeowners with unused parking spaces to fans and event‑goers who need
-          them.
+       Finding parking for a Cubs game at Wrigley Field can feel impossible. Between crowded streets, expensive lots, and the rush of fans all arriving at once, most people spend more time circling the neighborhood than enjoying the game.
+
+This platform was created to make that experience easier. Here, local residents can list their personal driveways, garages, or parking spots, giving fans a simple, stress‑free way to secure parking before they even leave home.
+
+Whether you're heading to the ballpark or you live nearby and want to earn extra income from your unused space, this community-driven marketplace connects neighbors in a way that benefits everyone.
         </p>
         <p>
           For users, Parkli means peace of mind. No more last‑minute stress,
