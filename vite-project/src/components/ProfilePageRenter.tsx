@@ -278,7 +278,7 @@ async function handleUpdateEmail(email: string) {
 
       {/* HEADER */}
       <div className="topLineProfile">
-        <img src="/assets/avatar.png" className="profileAvatar" alt="avatar" />
+        <img src="/assets/user-interface.png" className="profileAvatar" alt="avatar" />
 
         <div className="namemail">
           <p className="name">{firstName}</p>
@@ -361,7 +361,7 @@ async function handleUpdateEmail(email: string) {
             </div>
           ) : (
             <div className='row'>
-              <p> <span className='fn'>First Name:</span> {firstName}</p>
+              <p> <span className='fn'>First Name:  </span> <span className='fnValue'>{firstName}</span></p>
               <MdEdit
                 className='editIcon'
                 onClick={() => {
@@ -402,7 +402,7 @@ async function handleUpdateEmail(email: string) {
             </div>
           ) : (
             <div className='row'>
-              <p><span className='fn'>Last Name:</span> {lastName}</p>
+              <p><span className='fn'>Last Name:</span> <span className='fnValue'>{lastName}</span></p>
               <MdEdit
                 className='editIcon'
                 onClick={() => {
@@ -441,7 +441,7 @@ async function handleUpdateEmail(email: string) {
             </div>
           ) : (
             <div className='row'>
-              <p><span className='fn'>Email address:</span>{email}</p>
+              <p><span className='fn'>Email address:</span> <span className='fnValue'>{email}</span></p>
               <MdEdit
                 className='editIcon'
                 onClick={() => {
