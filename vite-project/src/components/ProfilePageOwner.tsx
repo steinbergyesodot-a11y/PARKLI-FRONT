@@ -517,7 +517,7 @@ return (
 
     {/* HEADER */}
     <div className="topLineProfile">
-      <img src="/assets/avatar.png" alt="avatar" className="profileAvatar" />
+      <img src="/assets/user-interface.png" alt="avatar" className="profileAvatar" />
       <div className="namemail">
         <p className="name">{firstName}</p>
         <p className="email">{email}</p>
@@ -726,7 +726,7 @@ return (
         <div className="row">
           <p>
             <span className="fn">First Name: </span>
-            {firstName}
+            <span className="fnValue">{firstName}</span>
           </p>
           <MdEdit
             className="editIcon"
@@ -771,7 +771,7 @@ return (
           <div className="row">
             <p>
               <span className="fn">Last Name: </span>
-              {lastName}
+              <span className="fnValue">{lastName}</span>
             </p>
             <MdEdit
               className="editIcon"
@@ -815,7 +815,7 @@ return (
   <div className="row">
     <p>
       <span className="fn">Email address: </span>
-      {email}
+      <span className="fnValue">{email}</span>
     </p>
     <MdEdit
       className="editIcon"
