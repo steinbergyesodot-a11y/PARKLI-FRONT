@@ -1,0 +1,77 @@
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import '../style/ResetPassword.css'
+import { authService } from "../services/authService";
+
+export function ResetPassword() {
+  const { token } = useParams();
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!token) {
+      setError("Invalid reset link");
+      return;
+    }
+
+    if (password !== confirm) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      const data = await authService.resetPassword(
+        { password },
+        token
+      );
+
+      if (!data.success) {
+        setError(data.message || "Something went wrong");
+      } else {
+        setMessage("Password updated successfully. You can now log in.");
+      }
+    } catch {
+      setError("Network error");
+    }
+  };
+
+  return (
+    <div className="reset-container">
+      <div className="reset-card">
+        <h2 className="reset-title">Reset Password</h2>
+        <p className="reset-subtitle">Enter your new password below</p>
+
+        <form onSubmit={handleSubmit} className="reset-form">
+          <input
+            type="password"
+            placeholder="New password"
+            value={password}
+            required
+            onChange={(e) => setPassword(e.target.value)}
+            className="reset-input"
+          />
+
+          <input
+            type="password"
+            placeholder="Confirm password"
+            value={confirm}
+            required
+            onChange={(e) => setConfirm(e.target.value)}
+            className="reset-input"
+          />
+
+          <button type="submit" className="reset-button">
+            Reset Password
+          </button>
+        </form>
+
+        {message && <p className="reset-success">{message}</p>}
+        {error && <p className="reset-error">{error}</p>}
+      </div>
+    </div>
+  );
+}

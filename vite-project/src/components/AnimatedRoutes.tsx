@@ -24,6 +24,8 @@ import { EditDriveway } from "./EditDriveway";
 import { NotFound } from "./NotFound";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Analytics } from '@vercel/analytics/react';
+import { ForgotPassword } from "./ForgotPassword";
+import { ResetPassword } from "./ResetPassword";
 
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -40,6 +42,9 @@ export function AnimatedRoutes() {
       <Route path="/AddDriveway" element={<AddDriveway2 />} />
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/Login" element={<Login />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/Reset-password/:token" element={<ResetPassword />} />
+
       <Route path="/Dashboard" element={<Dashboard />} />
       <Route path="/About" element={<About />} />
       <Route path="/profile" element={<MainProfilePage />} />
