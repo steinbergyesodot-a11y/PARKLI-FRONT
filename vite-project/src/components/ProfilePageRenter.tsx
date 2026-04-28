@@ -302,13 +302,6 @@ async function handleUpdateEmail(email: string) {
         </button>
 
         <button
-          className={`navsBtn ${active === "Payment Methods" ? "active" : ""}`}
-          onClick={() => setActive("Payment Methods")}
-        >
-          Payment Methods
-        </button>
-
-        <button
           className={`navsBtn ${active === "My Profile" ? "active" : ""}`}
           onClick={() => setActive("My Profile")}
         >

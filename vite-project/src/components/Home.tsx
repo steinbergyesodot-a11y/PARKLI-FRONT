@@ -22,7 +22,6 @@ export function Home() {
   const navigate = useNavigate();
 
   const testimonials = [
-    { text: "This site is so clean and intuitive, I found exactly what I needed without even thinking. It feels like it was designed just for me!", author: "Donald J. Trump", image: "https://tse1.mm.bing.net/th/id/OIP.zAibgViO82lC2GvdEFnX3QHaHa?w=168&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1" },
     { text: "Easy booking, great prices, and I saved money on parking. Highly recommend Parkli to everyone!", author: "Sarah Martinez", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" },
     { text: "The best driveway rental platform out there. Hosts are responsive and locations are perfect for events.", author: "Michael Chen", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael" },
   ];
@@ -92,7 +91,7 @@ export function Home() {
       <img src="/logo.png" alt="logo" className="homeLogo" />
 
       <section className="sectionA">
-        <Link to="/Menu" className="btnNav">Menu</Link>
+        <Link to="/Home" className="btnNav">Home</Link>
         <Link to="/Dashboard" className="btnNav">Find parking</Link>
         {user && <Link to="/AddDriveway" className="btnNav">Host Now</Link>}
         <Link to="/About" className="btnNav">About</Link>
@@ -151,13 +150,13 @@ export function Home() {
 
 
   <section className='middle'>
-    <p className='stars'>★★★★☆</p>
-    <p className='reviews'>230,000+ Reviews | 4.2 stars</p>
+    {/* <p className='stars'>★★★★☆</p>
+    <p className='reviews'>230,000+ Reviews | 4.2 stars</p> */}
 
     <p className='line3' style={{ animation: 'fadeInUp 0.6s ease' }}>
       "{testimonials[testimonialIndex].text}"
     </p>
-    <p className='line2' style={{ animation: 'fadeInUp 0.6s ease 0.1s both' }}>-{testimonials[testimonialIndex].author}-</p>
+    {/* <p className='line2' style={{ animation: 'fadeInUp 0.6s ease 0.1s both' }}>-{testimonials[testimonialIndex].author}-</p> */}
 
     <div className='container' style={{ animation: 'fadeIn 0.6s ease 0.2s both' }}>
       <img
@@ -199,7 +198,7 @@ export function Home() {
           <div className='textBox'>
             <p className='biggerFont'>Stress Free</p>
             <p className='smallerFont'>Book instantly, no complications</p>
-            <p className='statFont'>5000+ Happy Drivers</p>
+            <p className='statFont'>Effortless from start to finish</p>
             <Link to={user ? "/Dashboard" : "/SignUp"} className='btn-convincing'>
               {user ? "Start searching" : "Sign up to search"}
             </Link>
@@ -229,7 +228,7 @@ export function Home() {
           <div className='textBox'>
             <p className='biggerFont'>Best Locations</p>
             <p className='smallerFont'>Close to stadiums and major events</p>
-            <p className='statFont'>500+ Verified Driveways</p>
+            <p className='statFont'>Right where you want to be</p>
             <Link to={user ? "/Dashboard" : "/SignUp"} className='btn-convincing'>
               {user ? "Start searching" : "Sign up to search"}
             </Link>

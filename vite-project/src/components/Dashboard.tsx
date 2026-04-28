@@ -68,12 +68,19 @@ export function Dashboard() {
         </Nav>
       </div>
 
-{message && <p>{message}</p>}
+{message && (
+        <div className="dashboard-error-alert">
+          <span className="alert-icon">⚠️</span>
+          <span>{message}</span>
+        </div>
+      )}
 
       {/* FLEX ROW WRAPPER ADDED HERE */}
       <section className="dashboard-wrapper">
         {/* LEFT SIDE — SCROLLABLE LIST */}
-        <section className="dashboard">
+        <div className="dashboard-section">
+          <h2 className="dashboard-title">Available Driveways</h2>
+          <section className="dashboard">
           {isLoading ? (
             <div className="dashboard-loading-state">
               <div className="dashboard-spinner" aria-hidden="true"></div>
@@ -92,7 +99,8 @@ export function Dashboard() {
               />
             ))
           )}
-        </section>
+          </section>
+        </div>
 
         {/* RIGHT SIDE — TEXT */}
         <div className="rightPanel">
