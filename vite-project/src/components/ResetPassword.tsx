@@ -9,6 +9,7 @@ export function ResetPassword() {
   const [confirm, setConfirm] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +29,9 @@ export function ResetPassword() {
       return;
     }
 
+    setLoading(true);
+    setError(null);
+
     try {
       const data = await authService.resetPassword(
         { password },
@@ -41,6 +45,8 @@ export function ResetPassword() {
       }
     } catch {
       setError("Network error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,37 +56,50 @@ export function ResetPassword() {
         <h2 className="reset-title">Reset Password</h2>
         <p className="reset-subtitle">Enter your new password below</p>
 
-        <form onSubmit={handleSubmit} className="reset-form">
-          <div className="reset-input-group">
-            <input
-              type="password"
-              placeholder="New password"
-              value={password}
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              className={`reset-input ${password && password.length < 8 ? 'reset-input-invalid' : ''}`}
-            />
-            {password && password.length < 8 && (
-              <p className="reset-input-warning">Password must be at least 8 characters</p>
-            )}
+        {loading && (
+          <div className="reset-spinner-overlay">
+            <div className="reset-spinner"></div>
+            <p className="reset-spinner-text">Resetting password...</p>
           </div>
+        )}
 
-          <input
-            type="password"
-            placeholder="Confirm password"
-            value={confirm}
-            required
-            onChange={(e) => setConfirm(e.target.value)}
-            className="reset-input"
-          />
+        {!loading && (
+          <>
+            <form onSubmit={handleSubmit} className="reset-form">
+              <div className="reset-input-group">
+                <input
+                  type="password"
+                  placeholder="New password"
+                  value={password}
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`reset-input ${password && password.length < 8 ? 'reset-input-invalid' : ''}`}
+                  disabled={loading}
+                />
+                {password && password.length < 8 && (
+                  <p className="reset-input-warning">Password must be at least 8 characters</p>
+                )}
+              </div>
 
-          <button type="submit" className="reset-button">
-            Reset Password
-          </button>
-        </form>
+              <input
+                type="password"
+                placeholder="Confirm password"
+                value={confirm}
+                required
+                onChange={(e) => setConfirm(e.target.value)}
+                className="reset-input"
+                disabled={loading}
+              />
 
-        {message && <p className="reset-success">{message}</p>}
-        {error && <p className="reset-error">{error}</p>}
+              <button type="submit" className="reset-button" disabled={loading}>
+                Reset Password
+              </button>
+            </form>
+
+            {message && <p className="reset-success">{message}</p>}
+            {error && <p className="reset-error">{error}</p>}
+          </>
+        )}
       </div>
     </div>
   );
