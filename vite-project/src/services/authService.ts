@@ -1,7 +1,7 @@
 import api from "./baseUrl";
 
 export class AuthService {
-  async fotgotPassword(email:string) {
+  async forgotPassword(email:string) {
     try{
         const response = await api.post(`/api/users/forgotPassword`,{email});
         if(response){

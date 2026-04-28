@@ -18,6 +18,11 @@ export function ResetPassword() {
       return;
     }
 
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
+
     if (password !== confirm) {
       setError("Passwords do not match");
       return;
@@ -46,14 +51,19 @@ export function ResetPassword() {
         <p className="reset-subtitle">Enter your new password below</p>
 
         <form onSubmit={handleSubmit} className="reset-form">
-          <input
-            type="password"
-            placeholder="New password"
-            value={password}
-            required
-            onChange={(e) => setPassword(e.target.value)}
-            className="reset-input"
-          />
+          <div className="reset-input-group">
+            <input
+              type="password"
+              placeholder="New password"
+              value={password}
+              required
+              onChange={(e) => setPassword(e.target.value)}
+              className={`reset-input ${password && password.length < 8 ? 'reset-input-invalid' : ''}`}
+            />
+            {password && password.length < 8 && (
+              <p className="reset-input-warning">Password must be at least 8 characters</p>
+            )}
+          </div>
 
           <input
             type="password"
