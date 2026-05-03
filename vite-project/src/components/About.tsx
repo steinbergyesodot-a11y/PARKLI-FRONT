@@ -23,10 +23,7 @@ export function About() {
     <div>
       <div className="topDashboard">
                <img src="public/logo.png" alt="logo" className="logo" onClick={sendHome} />
-            
-            
-            </div>
-      {/* Hero Section */}
+      </div>
       
       <section className="hero">
         <div className="hero-overlay">

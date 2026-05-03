@@ -1,9 +1,18 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { UserContext } from "../userContext";
 import "../style/SignUp.css";
+
+declare global {
+  interface Window {
+    turnstile: any;
+  }
+}
+
+const turnstile = window.turnstile;
+
 
 interface MyJwtPayload {
   firstName: string;
@@ -16,6 +25,8 @@ interface MyJwtPayload {
 }
 
 export function SignUp() {
+  const turnstileRef = useRef<HTMLDivElement>(null);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,6 +44,19 @@ export function SignUp() {
   function sendHome() {
     navigate("/Home");
   }
+
+  useEffect(() => {
+  if (turnstileRef.current) {
+    // Render Turnstile widget manually
+    turnstile.render(turnstileRef.current, {
+      sitekey: "0x4AAAAAADIhzA8BVcOnTq3K", 
+      callback: function (token: string) {
+        console.log("Turnstile token:", token);
+      }
+    });
+  }
+}, []);
+
 
   async function handleGoogleSignup() {
   const google = (window as any).google;
@@ -95,97 +119,107 @@ export function SignUp() {
 }
 
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setLoading(true);
-    setErrorMessage("");
-    setMessage("");
+ async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  setLoading(true);
+  setErrorMessage("");
+  setMessage("");
 
-    // Validation
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password) {
-      setErrorMessage("All fields are required.");
-      setLoading(false);
-      return;
-    }
-
-    // Email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setErrorMessage("Please enter a valid email address.");
-      setLoading(false);
-      return;
-    }
-
-    if (password !== password2) {
-      setErrorMessage("Passwords don't match.");
-      setLoading(false);
-      return;
-    }
-
-    if (password.length < 8) {
-      setErrorMessage("Password must be at least 8 characters long.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/addUser`,
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-        }
-      );
-
-      const token = response.data.token;
-      if (token) {
-        localStorage.setItem("authToken", token);
-
-        // Decode token
-        const decoded = jwtDecode<MyJwtPayload>(token);
-        const now = Date.now() / 1000;
-
-        if (decoded.exp && decoded.exp > now) {
-          // Update user context
-          userContext?.setUser({
-            _id: decoded._id,
-            firstName: decoded.firstName,
-            lastName: decoded.lastName,
-            email: decoded.email,
-            roles: decoded.roles,
-            drivewayIds: decoded.drivewayIds
-          });
-        }
-      }
-
-      setMessage(response.data.message || "Account created successfully!");
-      
-      // Clear form
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPassword("");
-      setPassword2("");
-      
-      setTimeout(() => {
-        sendHome();
-      }, 2000);
-    } catch (error: any) {
-      const data = error.response?.data;
-      const errorMsg = 
-        typeof data === "string"
-          ? data
-          : data?.message || 
-            data?.error || 
-            error.message || 
-            "Signup failed. Please try again.";
-      setErrorMessage(errorMsg);
-    } finally {
-      setLoading(false);
-    }
+  // Validation
+  if (!firstName.trim() || !lastName.trim() || !email.trim() || !password) {
+    setErrorMessage("All fields are required.");
+    setLoading(false);
+    return;
   }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setErrorMessage("Please enter a valid email address.");
+    setLoading(false);
+    return;
+  }
+
+  if (password !== password2) {
+    setErrorMessage("Passwords don't match.");
+    setLoading(false);
+    return;
+  }
+
+  if (password.length < 8) {
+    setErrorMessage("Password must be at least 8 characters long.");
+    setLoading(false);
+    return;
+  }
+
+ const token = (document.querySelector(
+  'input[name="cf-turnstile-response"]'
+) as HTMLInputElement | null)?.value;
+
+if (!token) {
+  setErrorMessage("Please complete the CAPTCHA.");
+  setLoading(false);
+  return;
+}
+
+
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/addUser`,
+      {
+        firstName,
+        lastName,
+        email,
+        password,
+        token, // ⭐ send CAPTCHA token to backend
+      }
+    );
+
+    const jwtToken = response.data.token;
+    if (jwtToken) {
+      localStorage.setItem("authToken", jwtToken);
+
+      const decoded = jwtDecode<MyJwtPayload>(jwtToken);
+      const now = Date.now() / 1000;
+
+      if (decoded.exp && decoded.exp > now) {
+        userContext?.setUser({
+          _id: decoded._id,
+          firstName: decoded.firstName,
+          lastName: decoded.lastName,
+          email: decoded.email,
+          roles: decoded.roles,
+          drivewayIds: decoded.drivewayIds,
+        });
+      }
+    }
+
+    setMessage(response.data.message || "Account created successfully!");
+
+    // Clear form
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setPassword2("");
+
+    setTimeout(() => {
+      sendHome();
+    }, 2000);
+  } catch (error: any) {
+    const data = error.response?.data;
+    const errorMsg =
+      typeof data === "string"
+        ? data
+        : data?.message ||
+          data?.error ||
+          error.message ||
+          "Signup failed. Please try again.";
+    setErrorMessage(errorMsg);
+  } finally {
+    setLoading(false);
+  }
+}
+
 
   return (
     <div className="signup-container">
@@ -247,7 +281,12 @@ export function SignUp() {
         </div>
 
 
-        
+        <div
+  ref={turnstileRef}
+  className="cf-turnstile"
+  data-sitekey="0x4AAAAAADIhzA8BVcOnTq3K"
+></div>
+
 
         <button className="signup-btn" type="submit" disabled={loading}>
   {loading ? (
