@@ -259,7 +259,7 @@ export function Home() {
   <div className='QAbox'>
     <p className='frequently'>Frequently asked questions</p>
 
-    <section className='QaA'>
+    <section className='QaA' id="faq-section">
       <QA
         question={"How does Parkli work?"}
         answer={'Homeowners list their driveway, set availability and price. Drivers search, book, and park — all through our secure platform.'}
@@ -281,7 +281,8 @@ export function Home() {
 
     <div className="footer-col">
       <h4>Company</h4>
-      <a href="/about">About Us</a>
+      <Link to="/About">About Us</Link>
+
       <a href="/services">Services</a>
       <a href="/blog">Blog</a>
       <a href="/contact">Contact</a>
@@ -289,10 +290,11 @@ export function Home() {
 
     <div className="footer-col">
       <h4>Support</h4>
-      <a href="/faq">FAQ</a>
+      <a href="#faq-section">FAQ</a>
+
       <a href="/help">Help Center</a>
-      <a href="/privacy">Privacy Policy</a>
-      <a href="/terms">Terms of Service</a>
+      <a href="/PrivacyPolicy">Privacy Policy</a>
+      <a href="/TermsOfUse">Terms of Service</a>
     </div>
 
     <div className="footer-col">
