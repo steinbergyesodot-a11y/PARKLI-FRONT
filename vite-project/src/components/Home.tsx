@@ -297,13 +297,14 @@ export function Home() {
       <a href="/TermsOfUse">Terms of Service</a>
     </div>
 
-    <div className="footer-col">
-      <h4>Follow Us</h4>
-      <a href="https://instagram.com">Instagram</a>
-      <a href="https://facebook.com">Facebook</a>
-      <a href="https://linkedin.com">LinkedIn</a>
-      <a href="https://x.com">X (Twitter)</a>
-    </div>
+<div className="footer-col">
+  <h4>Follow Us</h4>
+  <span className="coming-soon">Instagram (coming soon)</span>
+  <span className="coming-soon">Facebook (coming soon)</span>
+  <span className="coming-soon">LinkedIn (coming soon)</span>
+  <span className="coming-soon">X (coming soon)</span>
+</div>
+
 
   </div>
 
