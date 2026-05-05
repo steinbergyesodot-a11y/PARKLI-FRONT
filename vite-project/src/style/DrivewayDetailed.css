@@ -520,6 +520,15 @@ cursor: text;
   color: #222;
 }
 
+.rules-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2c3e50;
+  border-bottom: 2px solid #e1e8ed;
+  padding-bottom: 8px;
+}
+
 /* The card box */
 .rulesBox {
   background: #f7f9fc; /* soft, modern background */
@@ -534,6 +543,62 @@ cursor: text;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px 24px;
+}
+
+/* Rental Rules Container */
+.rental-rules-container {
+  margin-bottom: 20px;
+}
+
+.rules-icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 12px;
+  background: #f0f8ff;
+  border: 1px solid #0288d1;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+
+.rules-icon-wrapper:hover {
+  background: #0288d1;
+  transform: translateY(-2px);
+}
+
+.rules-icon {
+  color: #0288d1;
+  font-size: 18px;
+}
+
+.rules-icon-text {
+  font-weight: 600;
+  color: #0288d1;
+  font-size: 14px;
+}
+
+.rental-rules-popup {
+  background: #f7f9fc;
+  border: 1px solid #e3e7ee;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Each rule */

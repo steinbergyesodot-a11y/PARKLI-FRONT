@@ -62,6 +62,7 @@ export function DrivewayDetailed() {
   const [curImage,setCurImage] = useState(0)
   const [message,setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false);
+  const [showRentalRules, setShowRentalRules] = useState(false);
   
   const { id } = useParams();
   const navigate = useNavigate();
@@ -95,6 +96,10 @@ function handleCurImage() {
   setCurImage(prev =>
     prev === images.length - 1 ? 0 : prev + 1
   );
+}
+
+function toggleRentalRules() {
+  setShowRentalRules(prev => !prev);
 }
 
 function handleCurImageBack() {
@@ -356,16 +361,79 @@ useEffect(() => {
 
      <section className="rulesSection">
 
-  <div className="rulesBox">
-    <div className="rulesGrid">
-      {driveway?.rules?.map((rule, index) => (
-        <div key={index} className="rule">
-          <span className="rule-icon">✓</span>
-          <span>{rule}</span>
-        </div>
-      ))}
+  {/* Generic Rental Rules - Hoverable Icon */}
+  <div className="rental-rules-container">
+    <div className="rules-icon-wrapper" onClick={toggleRentalRules}>
+      <FiHelpCircle className="rules-icon" />
+      <span className="rules-icon-text">Rental Rules</span>
     </div>
+    
+    {showRentalRules && (
+      <div className="rental-rules-popup">
+        <div className="rulesGrid">
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Arrive up to 30 minutes before start of game or event</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Park only in the assigned driveway or spot</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Respect the booking time and leave on schedule</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Follow any instructions provided by the host</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Keep noise to a minimum when arriving or leaving</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Use only the registered vehicle for your booking</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>No overnight parking unless the listing allows it</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Do not leave trash or belongings behind</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Report any issues immediately through the app</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>No illegal or unsafe activities on the property</span>
+          </div>
+          <div className="rule">
+            <span className="rule-icon">✓</span>
+            <span>Cancellations must follow the platform policy</span>
+          </div>
+        </div>
+      </div>
+    )}
   </div>
+
+  {/* Driveway-Specific Rules */}
+  {driveway?.rules && driveway.rules.length > 0 && (
+    <div className="rulesBox" style={{ marginTop: '20px' }}>
+      <h3 className="rules-title">Driveway-Specific Rules</h3>
+      <div className="rulesGrid">
+        {driveway?.rules?.map((rule, index) => (
+          <div key={index} className="rule">
+            <span className="rule-icon">✓</span>
+            <span>{rule}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
 </section>
 
 
