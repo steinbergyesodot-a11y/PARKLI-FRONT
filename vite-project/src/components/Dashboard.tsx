@@ -7,6 +7,8 @@ import { UserContext } from '../userContext'
 import { Nav, NavDropdown } from "react-bootstrap";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { drivewayService } from "../services/drivewayService";
+import { DrivewayMap } from "./DrivewayMap";
+import '../style/DrivewayMap.css';
 
 
 interface Spot {
@@ -102,22 +104,10 @@ export function Dashboard() {
           </section>
         </div>
 
-        {/* RIGHT SIDE — TEXT */}
-        <div className="rightPanel">
-          <h2 className="rulesTitle">Booking Rules</h2>
-          <ul className="rulesList"> 
-            <li>Arrive up to 30 minutes before the start of the game or event.</li>
-            <li>Park only in the assigned driveway or spot.</li>
-            <li>Respect the booking time and leave on schedule.</li>
-            <li>Follow any instructions provided by the host.</li> 
-            <li>Keep noise to a minimum when arriving or leaving.</li> 
-            <li>Use only the registered vehicle for your booking.</li> 
-            <li>No overnight parking unless the listing allows it.</li> 
-            <li>Do not leave trash or belongings behind.</li> 
-            <li>Report any issues immediately through the app.</li> 
-            <li>No illegal or unsafe activities on the property.</li> 
-            <li>Cancellations must follow the platform policy.</li> 
-          </ul>
+        {/* RIGHT SIDE — MAP */}
+        <div className="map-section">
+          <h2 className="mapTitle">Driveway Locations</h2>
+          <DrivewayMap driveways={cards} />
         </div>
       </section>
     </div>
