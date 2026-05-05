@@ -283,8 +283,8 @@ export function Home() {
       <h4>Company</h4>
       <Link to="/About">About Us</Link>
 
-      <a href="/services">Services</a>
-      <a href="/blog">Blog</a>
+      <Link to="/our-mission">Our Mission</Link>
+      <a href="/careers">Careers</a>
       <a href="/contact">Contact</a>
     </div>
 

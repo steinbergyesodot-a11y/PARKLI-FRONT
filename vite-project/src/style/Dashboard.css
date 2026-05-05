@@ -70,8 +70,8 @@ overflow-y: auto;
   flex-direction: column;
   gap: 2vh;
   width: fit-content;
-  max-width: 600px;
-
+  /* max-width: 600px; */
+  width: 50vw;
   /* Scroll behavior */
   height: 500px;
   overflow-y: auto;

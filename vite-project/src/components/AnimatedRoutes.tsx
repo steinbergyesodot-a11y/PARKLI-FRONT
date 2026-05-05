@@ -26,6 +26,9 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import { Analytics } from '@vercel/analytics/react';
 import { ForgotPassword } from "./ForgotPassword";
 import { ResetPassword } from "./ResetPassword";
+import { Contact } from "./Contact";
+import { Careers } from "./Careers";
+import { OurMission } from "./OurMission";
 
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -47,6 +50,9 @@ export function AnimatedRoutes() {
 
       <Route path="/Dashboard" element={<Dashboard />} />
       <Route path="/About" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/careers" element={<Careers />} />
+      <Route path="/our-mission" element={<OurMission />} />
       <Route path="/profile" element={<MainProfilePage />} />
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/Profile/renter" element={<ProfilePageRenter />} />
