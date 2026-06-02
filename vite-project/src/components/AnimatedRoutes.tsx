@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import App from "../App";
 import { Home } from "./Home";
-import { SignUp } from "./SignUp";
+import { SignUp } from "../features/auth/components/SignUp";
 import { Login } from "./Login";
 import { Dashboard } from "./Dashboard";
 import { About } from "./About";

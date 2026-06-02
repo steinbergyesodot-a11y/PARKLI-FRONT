@@ -1,5 +1,4 @@
-import api from "./baseUrl";
-
+import api from "../lib/axiosClient";
 export class DrivewayService {
   async fetchAllDriveways(){
     try{

@@ -1,4 +1,4 @@
-import api from "./baseUrl";
+import api from "../lib/axiosClient";
 
 export class BookingService {
   async fetchBookings(userId: string) {

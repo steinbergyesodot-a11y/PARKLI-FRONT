@@ -1,9 +1,14 @@
-import api from "./baseUrl";
+import { authApi } from "../api/authApi";
 
 export class AuthService {
+
+  async signup(data: any) {
+    const response  = await authApi.signup(data);
+    return response.data
+  }
   async forgotPassword(email:string) {
     try{
-        const response = await api.post(`/api/users/forgotPassword`,{email});
+        const response = await authApi.forgotPassword(email);
         if(response){
             return response.data
         }
@@ -14,10 +19,7 @@ export class AuthService {
 
   async resetPassword(data: any, token: string){
     try{
-      const response = await api.post(
-        `/api/users/resetPassword/${token}`,
-        data
-      )
+      const response = await authApi.resetPassword(data, token);
       return response.data
     }catch(error){
       return error

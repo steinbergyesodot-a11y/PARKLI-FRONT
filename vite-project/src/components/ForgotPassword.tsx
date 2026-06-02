@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../style/ForgotPassword.css'
 import { tr } from "framer-motion/client";
-import { authService } from "../services/authService";
+import { authService } from "../features/auth/services/authService";
 
 export function ForgotPassword() {
   const [email, setEmail] = useState("");
