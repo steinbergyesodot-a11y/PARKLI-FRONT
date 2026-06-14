@@ -2,10 +2,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import App from "../App";
 import { Home } from "./Home";
 import { SignUp } from "../features/auth/components/SignUp";
-import { Login } from "./Login";
-import { Dashboard } from "./Dashboard";
 import { About } from "./About";
-import { DrivewayDetailed } from "./DrivewayDetailed";
+import { DrivewayDetailed } from "../features/DrivewayDetailed/components/drivewayDetailed";
 import { Payment } from "./Payment";
 import { ProfilePageRenter } from "./ProfilePageRenter";
 import { ProfilePageOwner } from "./ProfilePageOwner";
@@ -29,6 +27,8 @@ import { ResetPassword } from "./ResetPassword";
 import { Contact } from "./Contact";
 import { Careers } from "./Careers";
 import { OurMission } from "./OurMission";
+import { Dashboard } from "../features/dashboard/components/dashboard";
+import { Login } from "../features/auth/components/Login";
 
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -45,6 +45,7 @@ export function AnimatedRoutes() {
       <Route path="/AddDriveway" element={<AddDriveway2 />} />
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/Login" element={<Login />} />
+
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/Reset-password/:token" element={<ResetPassword />} />
 

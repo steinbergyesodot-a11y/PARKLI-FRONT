@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import '../style/DrivewayMap.css';
 import L from 'leaflet';
 
 // Fix for default markers in react-leaflet
@@ -33,6 +34,9 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
   const [locations, setLocations] = useState<DrivewayLocation[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Ensure driveways is an array
+  const safeDriveways = Array.isArray(driveways) ? driveways : [];
+
   useEffect(() => {
     async function geocodeAddresses() {
       setLoading(true);
@@ -48,7 +52,7 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
         { lat: 41.9460, lng: -87.6520 }, // Final spot
       ];
 
-      driveways.forEach((driveway, index) => {
+      safeDriveways.forEach((driveway, index) => {
         // Assign coordinates from our predefined list, cycling if needed
         const coord = chicagoCoordinates[index % chicagoCoordinates.length];
         geocodedLocations.push({
@@ -65,12 +69,12 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
       setLoading(false);
     }
 
-    if (driveways.length > 0) {
+    if (safeDriveways.length > 0) {
       geocodeAddresses();
     } else {
       setLoading(false);
     }
-  }, [driveways]);
+  }, [safeDriveways]);
 
   // Default center to Chicago (Wrigley Field area)
   const defaultCenter = [41.9484, -87.6555] as [number, number];

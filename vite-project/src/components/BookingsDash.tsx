@@ -5,7 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { createPortal } from "react-dom";
-import { bookingService } from "../services/bookingService";
+// import { bookingService } from "../services/bookingService";
 import "../style/BookingDash.css";
 
 interface BookingDashProps {

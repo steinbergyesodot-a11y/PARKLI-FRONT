@@ -6,6 +6,16 @@ export class AuthService {
     const response  = await authApi.signup(data);
     return response.data
   }
+  async login(data: any) {
+    const response  = await authApi.login(data);
+    return response.data
+  }
+
+  async googleLogin(accessToken: string) {
+    const response = await authApi.googleLogin(accessToken);
+    return response.data
+  }
+
   async forgotPassword(email:string) {
     try{
         const response = await authApi.forgotPassword(email);

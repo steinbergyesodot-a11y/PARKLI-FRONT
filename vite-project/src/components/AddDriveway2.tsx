@@ -8,7 +8,7 @@ import { jwtDecode, type JwtPayload } from "jwt-decode";
 import imageCompression from "browser-image-compression";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { button, div, p, section } from "framer-motion/client";
-import { Login } from "./Login";
+import { Login } from "../features/auth/components/Login";
 import { useLocation } from "react-router-dom";
 import { PlaceAutocompleteTS } from "./PlaceComplete";
 
@@ -831,7 +831,7 @@ if (startListing === false) {
     In order to start listing your driveway, you need to Login or Signup
   </p>
 
-  <Login from={location.pathname} />
+  {/* <Login from={location.pathname} /> */}
 </div>
 
        </>
