@@ -7,6 +7,7 @@ interface Driveway {
   _id: string;
   address: string;
   publicDisplay: string;
+  ownerId?: string;
   walk: number;
   name: string;
   stadium: string;
@@ -17,16 +18,26 @@ interface Driveway {
   PostedAt: string;
 }
 
+type Game = {
+  visiting_team: string;
+  game_time: string;
+  parkingBegins: string;
+  date: string;
+  booked: boolean;
+  blocked:boolean
+};
+
 type Coords = {
   lat: number;
   lng: number;
 };
 
 
-export function useDrivewayDetailed() {
+export function useDrivewayDetailed(passedId?: string) {
   const [driveway, setDriveway] = useState<Driveway | null>(null);
   const [images,setImages] = useState([])
   const [curImage,setCurImage] = useState(0)
+  const [games, setGames] = useState<Game[]>([]);
 
   const [coords, setCoords] = useState<Coords | null>(null);
   const [showRentalRules, setShowRentalRules] = useState(false);
@@ -34,9 +45,9 @@ export function useDrivewayDetailed() {
   const [message,setMessage] = useState("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const params = useParams();
+  const id = passedId ?? params.id;
 
-
-  const { id } = useParams();
   const navigate = useNavigate();
 
   async function getDrivewayById({id}:any) {
@@ -46,6 +57,7 @@ export function useDrivewayDetailed() {
         const driveway = await drivewayDetailedService.getDrivewayById(id);
         setDriveway(driveway);
         setImages(driveway.images || []);
+        setGames(driveway.games || []);
         setIsLoading(false)
 
     }catch(error: any){
@@ -107,6 +119,6 @@ function handleCurImageBack() {
   );
 }
 
-  return { driveway, setDriveway,images, coords, setCoords, showRentalRules, setShowRentalRules, isLoading, setIsLoading, curImage, setCurImage, message, setMessage, errorMessage, setErrorMessage,handleCurImage,handleCurImageBack,toggleRentalRules,sendHome };
+  return { driveway, setDriveway,images,games, coords, setCoords, showRentalRules, setShowRentalRules, isLoading, setIsLoading, curImage, setCurImage, message, setMessage, errorMessage, setErrorMessage,handleCurImage,handleCurImageBack,toggleRentalRules,sendHome };
 
 }

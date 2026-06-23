@@ -1,11 +1,13 @@
 import React from "react";
-import '../style/BookingConfirmed.css'
+import "../style/BookingConfirmed.css";
+
 
 interface BookingSuccessProps {
   gameDate: string;
   parkingBegins: string;
-  address: string;
+  address?: string;
   visitingTeam: string;
+  bookingId?: string | null;
 }
 
 const BookingSuccess: React.FC<BookingSuccessProps> = ({
@@ -13,6 +15,7 @@ const BookingSuccess: React.FC<BookingSuccessProps> = ({
   parkingBegins,
   address,
   visitingTeam,
+  bookingId,
 }) => {
   return (
     <div className="booking-success-container">
@@ -59,7 +62,7 @@ const BookingSuccess: React.FC<BookingSuccessProps> = ({
       </div>
 
       <div className="button-row">
-        <a href="/my-bookings" className="primary-btn">
+        <a href={bookingId ? `/my-bookings/${bookingId}` : "/my-bookings"} className="primary-btn">
           View My Booking
         </a>
 

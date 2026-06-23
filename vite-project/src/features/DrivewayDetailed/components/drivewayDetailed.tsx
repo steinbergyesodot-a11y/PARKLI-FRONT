@@ -2,7 +2,6 @@ import { useEffect, useRef, useState,useContext } from 'react';
 import '../style/DrivewayDetailed.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { GoogleMap, LoadScript, LoadScriptNext, Marker } from '@react-google-maps/api';
-// import { drivewayService } from '../services/drivewayService';
 import { FaLocationDot } from "react-icons/fa6";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { RiWalkFill } from "react-icons/ri";
@@ -27,13 +26,16 @@ import { GrMoney } from "react-icons/gr";
 import { CiLocationOn } from "react-icons/ci";
 import { MdOutlineCheck } from "react-icons/md";
 import { useDrivewayDetailed } from '../hooks/useDrivewayDetailed';
+import { DrivewayDates } from './drivewayDates';
+import { DrivewayProvider } from '../context/drivewayContext';
 
 export function DrivewayDetailed(){
-      const { driveway, setDriveway, images, coords, setCoords, showRentalRules,
+      const { driveway, setDriveway, images, games, coords, setCoords, showRentalRules,
          setShowRentalRules, isLoading, setIsLoading, curImage, setCurImage,
           message, setMessage, errorMessage, setErrorMessage,handleCurImage, handleCurImageBack,toggleRentalRules,sendHome
         } = useDrivewayDetailed();
-          const navigate = useNavigate();
+        const navigate = useNavigate();
+        const [showDates, setShowDates] = useState(false);
 
       
         return (
@@ -169,10 +171,9 @@ export function DrivewayDetailed(){
             <p className="more">+more</p>
           </div>
 
-          <button className="availBtn">Reserve Now</button>
+          <button className="availBtn" onClick={() => navigate(`/DrivewayDetailed/${driveway?._id}/dates`)}>Reserve Now</button>
         </section>
       </section>
-
       <div className="line4"></div>
 
       {driveway?.description && (
@@ -234,9 +235,8 @@ export function DrivewayDetailed(){
       </section>
 
     </div>
+          {showDates && <DrivewayDates/>}
+
   </>
 );
-
-
-
 }

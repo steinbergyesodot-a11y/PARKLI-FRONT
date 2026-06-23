@@ -4,7 +4,8 @@ import { Home } from "./Home";
 import { SignUp } from "../features/auth/components/SignUp";
 import { About } from "./About";
 import { DrivewayDetailed } from "../features/DrivewayDetailed/components/drivewayDetailed";
-import { Payment } from "./Payment";
+// import { Payment } from "./Payment";
+import { Payment } from "../features/DrivewayDetailed/components/payment";
 import { ProfilePageRenter } from "./ProfilePageRenter";
 import { ProfilePageOwner } from "./ProfilePageOwner";
 import { MainProfilePage } from "./MainProfilePage";
@@ -29,6 +30,7 @@ import { Careers } from "./Careers";
 import { OurMission } from "./OurMission";
 import { Dashboard } from "../features/dashboard/components/dashboard";
 import { Login } from "../features/auth/components/Login";
+import { DrivewayDates } from "../features/DrivewayDetailed/components/drivewayDates";
 
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -58,7 +60,18 @@ export function AnimatedRoutes() {
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/Profile/renter" element={<ProfilePageRenter />} />
       <Route path="/Profile/DrivewayOwner" element={<ProfilePageOwner />} />
+      
+      // DRIVEWAY DETAILED
       <Route path="/DrivewayDetailed/:id" element={<DrivewayDetailed />} />
+      <Route path="/DrivewayDetailed/:drivewayId/dates" element={<DrivewayDates />} />
+      <Route path="/DrivewayDetailed/:drivewayId/Payment"
+          element={
+          <Elements stripe={stripePromise}>
+          <Payment />
+          </Elements>
+        }
+      />
+
       <Route path="/Help" element={<Help />} />
       <Route path="/TermsOfUse" element={<TermsOfUse />} />
       <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
@@ -66,13 +79,6 @@ export function AnimatedRoutes() {
       <Route path="/Onboard-Complete" element={<OnboardingComplete />} />
       <Route path="/Onboard-Retry" element={<OnboardingRetry />} />
       <Route path="/EditDriveway/:drivewayId" element={<EditDriveway />} />
-      <Route path="/DrivewayDetailed/:id/Payment"
-          element={
-          <Elements stripe={stripePromise}>
-          <Payment />
-          </Elements>
-        }
-      />
       <Route path="*" element={<NotFound />} />
     </Routes>
     </ErrorBoundary>

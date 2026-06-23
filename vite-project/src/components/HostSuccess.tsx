@@ -1,5 +1,5 @@
 import React from "react";
-import "../style/BookingConfirmed.css"; // reuse your existing success styles
+// import "../style/BookingConfirmed.css"; // reuse your existing success styles
 
 interface HostSuccessProps {
   address: string;
