@@ -121,22 +121,21 @@ export function AddDriveway2(){
   const [startListing,setStartListing] = useState(false)
   const [onboardingUrl, setOnboardingUrl] = useState<string | null>(null);
 
+  const location = useLocation();
+  const userContext = useContext(UserContext)
+  const user = userContext?.user
+  if (!user) return <Navigate to="/Login" />;   
+  const token = localStorage.getItem("authToken") 
 
-   const location = useLocation();
-   const userContext = useContext(UserContext)
-   const user = userContext?.user
-   if (!user) return <Navigate to="/Login" />;   
-   const token = localStorage.getItem("authToken") 
-
-   const navigate = useNavigate();
+  const navigate = useNavigate();
    
-   function handlePolicy(){
+  function handlePolicy(){
     setPolicyNotAgreed(false)
-   }
+  }
 
- const handleCheck = (e: any) => {
-  setChecked(e.target.checked);  
-};
+  const handleCheck = (e: any) => {
+    setChecked(e.target.checked);  
+  };
 
 function handleListing(){
     setStartListing(true)
@@ -304,107 +303,101 @@ if (startListing === false) {
                </div>
              )}
 
-           <div className="topAddDriveway">
-              <img
-                src="/logo.png"
-                alt="logo"
-                className="logo"
-                onClick={sendHome}
-              />
-              <ProfileDropdown/>
-           </div>
-
-          {message && (
-            <div
-              style={{
-                position: "fixed",
-                right: 20,
-                top: 20,
-                zIndex: 9999,
-                padding: "12px 18px",
-                borderRadius: 10,
-                color: messageType === "error" ? "#fff" : "#063",
-                background: messageType === "error" ? "#b00020" : "#e6ffed",
-                boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
-                maxWidth: 360
-              }}
-            >
-              {message}
+            <div className="topAddDriveway">
+                <img
+                  src="/logo.png"
+                  alt="logo"
+                  className="logo"
+                  onClick={sendHome}
+                />
+                <ProfileDropdown/>
             </div>
-          )}
 
-       
-            
-            <div className="box5">
-  {step === 1 && (
-    <>
-    <section className="nameOuter">
-    <div className="nameBox">
-    <p>
-      Choose a driveway name (this will appear on your property page)
-    </p>
-    <input
-     type="text" 
-     value={formData.name}
-     onChange={e => handleChange("name", e.target.value)}
-     className="nameInput"
-     placeholder="e.g., John's driveway"
-     />
-     </div>
-     </section>
-    </>
-  )}
+            {message && (
+              <div
+                style={{
+                  position: "fixed",
+                  right: 20,
+                  top: 20,
+                  zIndex: 9999,
+                  padding: "12px 18px",
+                  borderRadius: 10,
+                  color: messageType === "error" ? "#fff" : "#063",
+                  background: messageType === "error" ? "#b00020" : "#e6ffed",
+                  boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+                  maxWidth: 360
+                }}
+              >
+                {message}
+              </div>
+            )}
+
+          <div className="box5">
+              {step === 1 && (
+                <>
+                <section className="nameOuter">
+                <div className="nameBox">
+                <p>
+                  Choose a driveway name (this will appear on your property page)
+                </p>
+                <input
+                type="text" 
+                value={formData.name}
+                onChange={e => handleChange("name", e.target.value)}
+                className="nameInput"
+                placeholder="e.g., John's driveway"
+                />
+                </div>
+                </section>
+                </>
+              )}
            
-  {step === 2 && (
-  <div className="locationBox step">
-    <h2>Where's your driveway located?</h2>
+              {step === 2 && (
+              <div className="locationBox step">
+                <h2>Where's your driveway located?</h2>
 
- <PlaceAutocompleteTS
-  onSelect={(addressData) => {
-    setFormData(prev => ({ 
-      ...prev, 
-      address: addressData.full_address,
-      city: addressData.city,
-      state: addressData.state,
-      zipcode: addressData.zipcode,
-      latitude: addressData.latitude,
-      longitude: addressData.longitude,
-      publicDisplay: addressData.publicDisplay
-    }));
-  }}
-/>
- <p className="safety">
-      We only show renters your street and approximate location.
-    </p>
-  </div>
-)}
-
-
-
-       {step === 3 && (
+            <PlaceAutocompleteTS
+              onSelect={(addressData) => {
+                setFormData(prev => ({ 
+                  ...prev, 
+                  address: addressData.full_address,
+                  city: addressData.city,
+                  state: addressData.state,
+                  zipcode: addressData.zipcode,
+                  latitude: addressData.latitude,
+                  longitude: addressData.longitude,
+                  publicDisplay: addressData.publicDisplay
+                }));
+              }}
+            />
+            <p className="safety">
+                  We only show renters your street and approximate location.
+                </p>
+              </div>
+            )}
+      {step === 3 && (
         <section className="stadiumInfoBox">
-    <div className="stadiumInfo5 step">
-    <h3 className="title2">Walk from driveway to stadium:</h3>
+        <div className="stadiumInfo5 step">
+        <h3 className="title2">Walk from driveway to stadium:</h3>
 
-    <section className="walk">
-      <select
-        value={formData.walk}
-        onChange={e => handleChange("walk", e.target.value)}
-        className="walk-select"
-      >
-        <option value="">Select walking time</option>
+      <section className="walk">
+          <select
+            value={formData.walk}
+            onChange={e => handleChange("walk", e.target.value)}
+            className="walk-select"
+          >
+          <option value="">Select walking time</option>
 
-        {Array.from({ length: 30 }, (_, i) => i + 1).map(num => (
-          <option key={num} value={num}>
-            {num} minutes
-          </option>
-        ))}
-      </select>
-    </section>
-  </div>
-  </section>
-)}
-
+          {Array.from({ length: 30 }, (_, i) => i + 1).map(num => (
+            <option key={num} value={num}>
+              {num} minutes
+            </option>
+          ))}
+        </select>
+      </section>
+      </div>
+      </section>
+    )}
 
         {step === 4 && (
           <section className="priceBoxLarger">
@@ -430,10 +423,8 @@ if (startListing === false) {
           </div>
           </section>
         )}
-                
-
-                  
-{step === 5 && (
+        
+  {step === 5 && (
   <div className="imagesBoxLarger">
     <section className="imagesBox step">
 

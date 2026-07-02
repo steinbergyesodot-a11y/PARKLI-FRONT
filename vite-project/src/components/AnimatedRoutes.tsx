@@ -17,8 +17,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import TermsOfUse from "./TermsOfUse";
 import PrivacyPolicy from "./PrivacyPolicy";
 import CancellationPolicy from "./CancellationPolicy";
-import OnboardingComplete from "./Onboard-Complete";
-import OnboardingRetry from "./Onboard-Retry";
+import OnboardingComplete from "../features/onboarding/components/OnboardingComplete";
+import OnboardingRetry from "../features/onboarding/components/OnboardingRetry";
 import { EditDriveway } from "./EditDriveway";
 import { NotFound } from "./NotFound";
 import { ErrorBoundary } from "./ErrorBoundary";
@@ -31,7 +31,8 @@ import { OurMission } from "./OurMission";
 import { Dashboard } from "../features/dashboard/components/dashboard";
 import { Login } from "../features/auth/components/Login";
 import { DrivewayDates } from "../features/DrivewayDetailed/components/drivewayDates";
-
+import { AddDriveway } from "../features/addDriveway/components/AddDriveway";
+import { OnboardingService } from "../features/onboarding/services/onboardingService";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -44,7 +45,9 @@ export function AnimatedRoutes() {
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/Home" element={<Home />} />
-      <Route path="/AddDriveway" element={<AddDriveway2 />} />
+      {/* <Route path="/AddDriveway" element={<AddDriveway />} /> */}
+            <Route path="/AddDriveway" element={<AddDriveway2 />} />
+
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/Login" element={<Login />} />
 
@@ -76,7 +79,10 @@ export function AnimatedRoutes() {
       <Route path="/TermsOfUse" element={<TermsOfUse />} />
       <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
       <Route path="/CancellationPolicy" element={<CancellationPolicy />} />
-      <Route path="/Onboard-Complete" element={<OnboardingComplete />} />
+      {/* <Route path="/Onboard-Complete" element={<OnboardingComplete />} /> */}
+
+      <Route path="/Onboarding-Complete" element={<OnboardingComplete />} />
+
       <Route path="/Onboard-Retry" element={<OnboardingRetry />} />
       <Route path="/EditDriveway/:drivewayId" element={<EditDriveway />} />
       <Route path="*" element={<NotFound />} />
