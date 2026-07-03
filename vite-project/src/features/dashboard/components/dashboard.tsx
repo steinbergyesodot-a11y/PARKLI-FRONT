@@ -30,7 +30,10 @@ export function Dashboard(){
         </div>
       )}
           <section className="dashboard-wrapper">
-              {/* LEFT SIDE — SCROLLABLE LIST */}
+            <div className="map-background">
+              <DrivewayMap driveways={driveways} />
+            </div>
+            <div className="dashboard-overlay">
               <div className="dashboard-section">
                 <h2 className="dashboard-title">Available Driveways</h2>
                 <section className="dashboard">
@@ -54,13 +57,8 @@ export function Dashboard(){
                 )}
                 </section>
               </div>
-      
-              {/* RIGHT SIDE — MAP */}
-              <div className="map-section">
-                <h2 className="mapTitle">Driveway Locations</h2>
-                <DrivewayMap driveways={driveways} />
-              </div>
-            </section>
+            </div>
+          </section>
           </div>
         </>
     )

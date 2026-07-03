@@ -55,6 +55,12 @@ overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: min(620px, 100%);
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(16px);
 }
 
 .dashboard-title {
@@ -120,16 +126,33 @@ overflow-y: auto;
   flex-direction: column;
 }
 
-/* Wraps dashboard + right panel side by side */
-.dashboard-wrapper { 
+/* Wraps dashboard content over the full page map background */
+.dashboard-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 15vh - 40px);
+  height: calc(100vh - 15vh - 40px);
+  overflow: visible;
+}
+
+.map-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dashboard-overlay {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: flex-start;
-  gap: 20px;
-  width: 100%; 
-  padding-left: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 40px 40px;
   align-items: flex-start;
- }
-
+}
 
 .rightPanel {
   width: 35vw;

@@ -106,7 +106,7 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
       <MapContainer
         center={defaultCenter}
         zoom={13}
-        style={{ width: '100%', height: 'calc(100% - 40px)' }}
+        style={{ width: '100%', height: '100%' }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

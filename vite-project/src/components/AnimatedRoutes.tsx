@@ -10,7 +10,6 @@ import { ProfilePageRenter } from "./ProfilePageRenter";
 import { ProfilePageOwner } from "./ProfilePageOwner";
 import { MainProfilePage } from "./MainProfilePage";
 import { TermsOfService } from "./TermsOfService";
-import { AddDriveway2 } from "./AddDriveway2";
 import { Help } from "./Help";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -45,8 +44,7 @@ export function AnimatedRoutes() {
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/Home" element={<Home />} />
-      {/* <Route path="/AddDriveway" element={<AddDriveway />} /> */}
-            <Route path="/AddDriveway" element={<AddDriveway2 />} />
+      <Route path="/AddDriveway" element={<AddDriveway />} />
 
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/Login" element={<Login />} />
