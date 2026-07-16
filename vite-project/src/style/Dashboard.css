@@ -55,6 +55,8 @@ overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-left: 0;
+  align-items: flex-start;
 }
 
 .dashboard-title {
@@ -69,25 +71,16 @@ overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 2vh;
-  width: fit-content;
-  /* max-width: 600px; */
-  width: 50vw;
-  /* Scroll behavior */
+  width: 38vw;
+  min-width: 320px;
   height: 500px;
   overflow-y: auto;
-
-  /* Make the scroll area visually obvious */
   background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
-
-  /* Add spacing so it feels like a panel */
-  padding: 16px;
-
-  /* Shadow to separate it from the page */
+  padding: 0;
+  margin: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-  /* Smooth scrolling */
   scroll-behavior: smooth;
 }
 
@@ -126,7 +119,8 @@ overflow-y: auto;
   justify-content: flex-start;
   gap: 20px;
   width: 100%; 
-  padding-left: 40px;
+  padding-left: 0;
+  margin-left: 0;
   align-items: flex-start;
  }
 
@@ -144,8 +138,8 @@ overflow-y: auto;
 }
 
 .map-section {
-  width: 35vw;
-  max-width: 500px;
+  width: 56vw;
+  max-width: 760px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;

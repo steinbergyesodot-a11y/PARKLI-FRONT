@@ -32,7 +32,6 @@ export function Dashboard(){
           <section className="dashboard-wrapper">
               {/* LEFT SIDE — SCROLLABLE LIST */}
               <div className="dashboard-section">
-                <h2 className="dashboard-title">Available Driveways</h2>
                 <section className="dashboard">
                 {loading ? (
                   <div className="dashboard-loading-state">
@@ -57,7 +56,6 @@ export function Dashboard(){
       
               {/* RIGHT SIDE — MAP */}
               <div className="map-section">
-                <h2 className="mapTitle">Driveway Locations</h2>
                 <DrivewayMap driveways={driveways} />
               </div>
             </section>
