@@ -58,6 +58,174 @@ overflow-y: auto;
   align-items: flex-start;
 }
 
+.dashboard-controls {
+  width: 30vw;
+  min-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 2px;
+}
+
+.dashboard-filters {
+  width: 34vw;
+   min-width: 320px; 
+  background: linear-gradient(180deg, #ffffff 0%, #f5f8fb 100%);
+  border: 1px solid #dbe3ec;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-filters-header {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-filter-toggle {
+  border: 1px solid #ccd5df;
+  border-radius: 12px;
+  padding: 7px 10px; 
+  background: #ffffff;
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  flex-shrink: 0;
+}
+
+.dashboard-filter-toggle:hover {
+  background: #f9fafb;
+  border-color: #b9c4d1;
+  transform: translateY(-1px);
+}
+
+.dashboard-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dashboard-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #24313f;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dashboard-filter-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #c7d3df;
+  border-radius: 10px;
+  background: #fff;
+  color: #1b1a1a;
+  font-size: 0.95rem;
+}
+
+.dashboard-filter-field input:focus {
+  outline: none;
+  border-color: #2f6fed;
+  box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.15);
+}
+
+.dashboard-price-range {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #c7d3df;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.dashboard-price-values {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.dashboard-price-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dashboard-price-sliders input {
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.dashboard-price-sliders input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.dashboard-filter-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.dashboard-filter-apply,
+.dashboard-filter-clear {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.dashboard-filter-apply {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
+}
+
+.dashboard-filter-clear {
+  background: #e8eef5;
+  color: #24313f;
+}
+
+.dashboard-filter-apply:hover,
+.dashboard-filter-clear:hover {
+  transform: translateY(-1px);
+}
+
+.dashboard-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 220px;
+  padding: 32px 20px;
+  color: #4c5a67;
+  font-weight: 600;
+  text-align: center;
+}
+
 .dashboard-title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -229,4 +397,40 @@ overflow-y: auto;
 .alert-icon {
   font-size: 1.2rem;
   flex-shrink: 0;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-controls,
+  .dashboard-filters,
+  .dashboard {
+    width: 42vw;
+  }
+
+  .map-section {
+    width: 52vw;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-wrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .dashboard-section,
+  .map-section,
+  .dashboard-controls,
+  .dashboard-filters,
+  .dashboard {
+    width: calc(100vw - 32px);
+    max-width: none;
+  }
+
+  .dashboard-filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-controls {
+    align-items: center;
+  }
 }
