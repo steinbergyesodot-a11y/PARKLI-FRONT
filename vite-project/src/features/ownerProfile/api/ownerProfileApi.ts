@@ -18,15 +18,15 @@ export const ownerProfileApi = {
     return api.get(`/api/driveways/getGames/${drivewayId}`);
   },
 
-  updateFirstName: function(userId:string, firstName:string){
+  updateFirstName: function(userId?:string, firstName?:string){
     return api.put(`/api/users/${userId}/firstName/${firstName}`);
   },
 
-  updateLastName: function(userId:string, lastName:string){
+  updateLastName: function(userId?:string, lastName?:string){
     return api.put(`/api/users/${userId}/lastName/${lastName}`);
   },
 
-  updateEmail: function(userId:string, email:string){
+  updateEmail: function(userId?:string, email?:string){
     return api.put(`/api/users/${userId}/email/${email}`);
   },
 
