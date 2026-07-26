@@ -331,6 +331,125 @@ width: 25vw;
   transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
+.driveways-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.85rem;
+}
+
+.driveway-card-btn {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-align: left;
+  border: 1px solid #dbe3ee;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.driveway-card-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(110deg, rgba(10, 102, 194, 0.08) 0%, rgba(10, 102, 194, 0.03) 26%, rgba(255, 255, 255, 0) 56%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.driveway-card-btn:hover {
+  transform: translateY(-2px);
+  border-color: #9ebedf;
+  box-shadow: 0 10px 22px rgba(15, 33, 58, 0.11);
+}
+
+.driveway-card-btn:hover::before {
+  opacity: 1;
+}
+
+.driveway-card-btn:focus-visible {
+  outline: 2px solid #0a66c2;
+  outline-offset: 2px;
+}
+
+.driveway-card-index {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: #e8f2ff;
+  color: #0b4f99;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.driveway-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.driveway-card-title {
+  color: #0f172a;
+  font-size: 0.96rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.driveway-card-meta {
+  color: #55657a;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.driveway-card-action {
+  color: #0a66c2;
+  background: #eaf4ff;
+  border: 1px solid #c8def7;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.driveways-empty {
+  grid-column: 1 / -1;
+  border: 1px dashed #b7cde4;
+  border-radius: 10px;
+  background: #f7fbff;
+  padding: 1.1rem;
+}
+
+.driveways-empty-title {
+  margin: 0;
+  color: #17355c;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.driveways-empty-text {
+  margin: 0.3rem 0 0;
+  color: #4b5f78;
+  font-size: 0.85rem;
+}
+
 /* Selected Driveway Card */
 .driveway-card-small.selected {
   transform: scale(1.04);
@@ -420,6 +539,76 @@ width: 25vw;
   transform: translateY(0);
 }
 
+.profile-owner-page {
+  transition: filter 0.2s ease;
+}
+
+.profile-owner-page.modal-open {
+  filter: brightness(0.72);
+}
+
+.games-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.games-modal {
+  width: min(680px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+  padding: 1rem 1.2rem;
+}
+
+.games-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.7rem;
+}
+
+.games-modal-header h3 {
+  margin: 0;
+  color: #0f172a;
+}
+
+.games-modal-close {
+  border: none;
+  background: transparent;
+  color: #334155;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.games-modal-body {
+  margin-top: 0.9rem;
+  color: #1f2937;
+}
+
+.games-modal-body p {
+  margin: 0.35rem 0;
+}
+
+.games-modal-rules {
+  margin-top: 0.7rem;
+}
+
+.games-modal-rules ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+}
+
 @media (max-width: 640px) {
   .stripe-warning {
     flex-direction: column;
@@ -432,5 +621,13 @@ width: 25vw;
 
   .stripe-setup-btn {
     width: 100%;
+  }
+
+  .driveways-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .driveway-card-btn {
+    padding: 0.8rem;
   }
 }
