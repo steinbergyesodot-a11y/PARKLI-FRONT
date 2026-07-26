@@ -1,9 +1,11 @@
 
   
   .gamesss {
-    padding: 1rem;
-    border-radius: 15px;
-    background-color: #4b9bfcc1;
+    padding: 1.1rem;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
   }
 
 
@@ -18,7 +20,7 @@
 .section-subtitle {
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
-  color: #0055aa;
+  color: #1e293b;
   font-weight: 600;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
@@ -559,45 +561,92 @@ width: 25vw;
 }
 
 .games-modal {
-  width: min(680px, 95vw);
+  position: relative;
+  width: min(760px, 96vw);
   max-height: 90vh;
   overflow-y: auto;
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
-  padding: 1rem 1.2rem;
+  padding: 1.3rem 1.4rem;
 }
 
 .games-modal-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 0.7rem;
+  padding-bottom: 1rem;
 }
 
 .games-modal-header h3 {
   margin: 0;
   color: #0f172a;
+  font-size: 1.25rem;
+}
+
+.games-modal-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.games-modal-address {
+  margin: 0;
+  color: #5b6b80;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .games-modal-close {
+  width: 2rem;
+  height: 2rem;
   border: none;
-  background: transparent;
+  border-radius: 999px;
+  background: #f4f6f9;
   color: #334155;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
+  flex-shrink: 0;
+}
+
+.games-modal-close:hover {
+  background: #e8edf4;
 }
 
 .games-modal-body {
-  margin-top: 0.9rem;
+  margin-top: 1rem;
   color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .games-modal-body p {
-  margin: 0.35rem 0;
+  margin: 0;
+}
+
+.games-modal-tip {
+  margin: 0;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+
+.games-modal-games {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.games-modal-section-title {
+  margin: 0;
+  font-size: 1rem;
+  color: #0f172a;
 }
 
 .games-modal-rules {
@@ -607,6 +656,154 @@ width: 25vw;
 .games-modal-rules ul {
   margin: 0.5rem 0 0;
   padding-left: 1.2rem;
+}
+
+.games-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.games-modal .gameRow2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0.95rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.games-modal .gameRow2:last-child {
+  border-bottom: none;
+}
+
+.games-modal .gameData {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: auto;
+  min-width: 0;
+}
+
+.gameData-main,
+.gameData-team {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.game-time {
+  color: #55657a;
+  font-weight: 600;
+}
+
+.games-modal .game-status {
+  min-width: 96px;
+  border: none;
+  text-align: center;
+}
+
+.games-modal .game-status.available {
+  background: #1f8b4d;
+}
+
+.games-modal .game-status.blocked {
+  background: #64748b;
+  color: #ffffff;
+}
+
+.games-modal .game-status.booked {
+  background: #4f46e5;
+}
+
+.games-modal-error {
+  margin-top: 0.8rem;
+}
+
+.games-modal-action-error {
+  margin: 0.7rem 0 0.3rem;
+  color: #c0392b;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.games-confirm-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.46);
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.games-confirm-box {
+  width: min(420px, 100%);
+  background: #ffffff;
+  border: 1px solid #dde4ef;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.22);
+}
+
+.games-confirm-box h4 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.04rem;
+}
+
+.games-confirm-box p {
+  margin: 0.6rem 0 0;
+  color: #44536a;
+  line-height: 1.45;
+}
+
+.games-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.games-confirm-yes,
+.games-confirm-no {
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.games-confirm-yes {
+  background: #0a66c2;
+  color: #ffffff;
+}
+
+.games-confirm-yes:hover:not(:disabled) {
+  background: #0858a7;
+}
+
+.games-confirm-no {
+  background: #e9eef5;
+  color: #1e293b;
+}
+
+.games-confirm-no:hover:not(:disabled) {
+  background: #dbe4ef;
+}
+
+.games-confirm-yes:disabled,
+.games-confirm-no:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 @media (max-width: 640px) {
@@ -629,5 +826,40 @@ width: 25vw;
 
   .driveway-card-btn {
     padding: 0.8rem;
+  }
+
+  .games-modal {
+    width: 100%;
+    border-radius: 12px;
+    padding: 1rem;
+  }
+
+  .games-modal-header {
+    gap: 0.7rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .games-modal-address {
+    white-space: normal;
+  }
+
+  .games-modal .gameRow2 {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .games-modal .game-status {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .games-confirm-actions {
+    flex-direction: column;
+  }
+
+  .games-confirm-yes,
+  .games-confirm-no {
+    width: 100%;
   }
 }

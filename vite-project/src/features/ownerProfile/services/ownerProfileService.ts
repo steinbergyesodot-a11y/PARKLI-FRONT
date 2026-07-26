@@ -37,6 +37,7 @@ export class OwnerProfileService {
             return apiResponse
         }catch(error){
             console.log(error);
+            throw error;
         }
     }
 
@@ -77,6 +78,7 @@ export class OwnerProfileService {
             return apiResponse
         }catch(error){
             console.log(error);
+            throw error;
         }
     }
 
@@ -87,6 +89,7 @@ export class OwnerProfileService {
             return apiResponse
         }catch(error){
             console.log(error);
+            throw error;
         }
     }
 }

@@ -113,14 +113,13 @@ export function ProfilePageOwner() {
                                     <p className="driveways-empty-text">Create a driveway to start managing host bookings.</p>
                                 </div>
                             ) : (
-                                driveways.map((driveway, index) => (
+                                driveways.map((driveway) => (
                                     <button
                                         key={driveway._id}
                                         className="driveway-card-btn"
                                         onClick={() => openGamesWindow(driveway)}
                                         type="button"
                                     >
-                                        <span className="driveway-card-index">{String(index + 1).padStart(2, "0")}</span>
                                         <span className="driveway-card-content">
                                             <span className="driveway-card-title">{driveway.name}</span>
                                             <span className="driveway-card-meta">View bookings</span>
