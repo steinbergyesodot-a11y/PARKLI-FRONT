@@ -6,14 +6,16 @@ import { GamesWindow, type Driveway } from "./gamesModal";
 import "../../../style/ProfilePageOwner.css";
 import { UserDriveways } from "./UsersDriveways";
 import { ProfileDetails } from "./ProfileDetails";
+import { BookingDash } from "../../../components/BookingsDash";
 
 type curActive = "My Profile" | "My Driveways" | "Host Bookings"
 export function ProfilePageOwner() {
     const navigate = useNavigate();
     const [active, setActive] = useState<curActive>("Host Bookings");
+    const [renterActive, setRenterActive] = useState("My Bookings");
     const [isGamesWindowOpen, setIsGamesWindowOpen] = useState(false);
     const [selectedDriveway, setSelectedDriveway] = useState<Driveway | null>(null);
-    const {firstName,setFirstName,lastName,setLastName,email,setEmail,user,userId,authProvider,isStripeVerified,stripeOnboardingUrl,driveways} = useProfilePageOwner();   
+    const {firstName,setFirstName,lastName,setLastName,email,setEmail,user,userId,authProvider,isStripeVerified,stripeOnboardingUrl,driveways,userHasBookings} = useProfilePageOwner();   
     const tabs: curActive[] = ["Host Bookings", "My Driveways", "My Profile"];
 
 
@@ -156,6 +158,36 @@ export function ProfilePageOwner() {
                     setLastName={setLastName}
                     setEmail={setEmail}
                 />
+            )}
+
+            {user?.roles.includes("renter") && (
+                <>
+                    <section className="navs">
+                        {["My Bookings", "Payment method"].map((tab) => (
+                            <button
+                                key={tab}
+                                className={`navsBtn ${renterActive === tab ? "active" : ""}`}
+                                onClick={() => setRenterActive(tab)}
+                            >
+                                {tab}
+                            </button>
+                        ))}
+                    </section>
+
+                    {renterActive === "My Bookings" && (
+                        userHasBookings ? (
+                            <BookingDash renterId={userId} />
+                        ) : (
+                            <section className="gamesss">
+                                <h2 className="section-subtitle">My bookings</h2>
+                                <div className="driveways-empty">
+                                    <p className="driveways-empty-title">No bookings yet</p>
+                                    <p className="driveways-empty-text">Your upcoming reservations will appear here.</p>
+                                </div>
+                            </section>
+                        )
+                    )}
+                </>
             )}
 
         </>

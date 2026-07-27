@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ownerProfileService, OwnerProfileService } from "../services/ownerProfileService";
+import { ownerProfileService } from "../services/ownerProfileService";
 
 interface MyTokenPayload {
   _id: string;
@@ -36,7 +36,8 @@ export function useProfilePageOwner() {
     const [authProvider, setAuthProvider] = useState("");  
     const [isStripeVerified, setIsStripeVerified] = useState<boolean | null>(null);
     const [stripeOnboardingUrl, setStripeOnboardingUrl] = useState<string | null>(null);
-    const [driveways,setDriveways] = useState<Driveway[]>([])
+    const [driveways,setDriveways] = useState<Driveway[]>([]);
+    const [userHasBookings, setUserHasBookings] = useState(false);
   
 
 
@@ -57,7 +58,7 @@ export function useProfilePageOwner() {
       }, [token]);
 
 
-    useEffect(() => {
+  useEffect(() => {
     async function fetchDriveways() {
       try {
         const response = await ownerProfileService.fetchDrivewaysByUserId(userId);
@@ -70,7 +71,58 @@ export function useProfilePageOwner() {
     fetchDriveways();
   }, [userId, token]);
 
+  useEffect(() => {
+    async function checkUserBookings() {
+      if (!userId) {
+        return;
+      }
+
+      try {
+        const response = await ownerProfileService.checkBookings(userId);
+        const hasBookings =
+          Boolean(response?.success) && typeof response?.data === "boolean"
+            ? response.data
+            : false;
+        setUserHasBookings(hasBookings);
+      } catch (error) {
+        console.log(error);
+        setUserHasBookings(false);
+      }
+    }
+
+    checkUserBookings();
+  }, [userId]);
+
+  useEffect(() => {
+    async function checkStripeVerification() {
+      if (!userId) {
+        return;
+      }
+
+      try {
+        const response = await ownerProfileService.checkStripeVerification(userId);
+        const isVerified =
+          Boolean(response?.success) && response?.data !== null
+            ? Boolean(response.data.isStripeVerified)
+            : false;
+        const onboardingUrl =
+          Boolean(response?.success) && response?.data !== null
+            ? response.data.onboardingUrl || null
+            : null;
+
+        setIsStripeVerified(isVerified);
+        setStripeOnboardingUrl(onboardingUrl);
+      } catch (error) {
+        console.log(error);
+        setIsStripeVerified(false);
+        setStripeOnboardingUrl(null);
+      }
+    }
+
+    checkStripeVerification();
+  }, [userId]);
+
     return {firstName,setFirstName,lastName,setLastName,email,setEmail,
-        user,userId,authProvider,isStripeVerified,stripeOnboardingUrl,driveways
+        user,userId,authProvider,isStripeVerified,stripeOnboardingUrl,driveways,userHasBookings
     };
 }
