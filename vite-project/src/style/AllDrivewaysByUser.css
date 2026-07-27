@@ -1,0 +1,39 @@
+.drivewayCard{
+  margin-top: 2%;
+  display: flex;
+  width: 30vw;
+  background: white;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.drivewayCard:hover { 
+  background-color: #f3f7ff;
+  box-shadow: 0 12px 35px
+   rgba(0,0,0,0.12); 
+  }
+
+  
+.drivewayName{
+  width: 60%;
+  text-align: center;
+}
+
+.editDrivewayBtn{
+  width: 40%;
+    padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  background:rgb(105, 170, 250);
+  color: white;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.editDrivewayBtn:hover {
+  
+  transform: translateY(-2px);
+}

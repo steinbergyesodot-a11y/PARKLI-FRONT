@@ -1,0 +1,391 @@
+.addressLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+  word-break: break-word;
+}
+
+.dateLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.635);
+  flex-wrap: wrap;
+}
+
+.leftSide {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1rem;
+  flex: 1;
+  justify-content: space-around;
+}
+
+.rightSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.contain {
+  margin: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  max-width: 50%;
+}
+
+.contain:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.detailsBtn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #6984fa 0%, #4a5fd4 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.detailsBtn:hover {
+  background: linear-gradient(135deg, #5575eb 0%, #3a4fc4 100%);
+  box-shadow: 0 2px 8px rgba(106, 132, 250, 0.3);
+}
+
+.detailsBtn:active {
+  transform: scale(0.98);
+}
+
+/* ── Responsive Design ── */
+@media (max-width: 1024px) {
+  .addressLine {
+    font-size: 0.95rem;
+  }
+  
+  .dateLine {
+    font-size: 0.85rem;
+  }
+  
+  .leftSide {
+    padding: 0.8rem;
+    gap: 10px;
+  }
+  
+  .rightSide {
+    padding: 0.8rem;
+  }
+  
+  .detailsBtn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contain {
+    flex-direction: column;
+    margin: 10px 0;
+  }
+  
+  .leftSide {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem;
+    gap: 10px;
+  }
+  
+  .rightSide {
+    padding: 0.8rem;
+    justify-content: stretch;
+  }
+  
+  .detailsBtn {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 1rem;
+  }
+  
+  .addressLine {
+    font-size: 0.95rem;
+  }
+  
+  .dateLine {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contain {
+    border-radius: 6px;
+    margin: 8px 0;
+  }
+  
+  .leftSide {
+    padding: 0.75rem;
+    gap: 8px;
+  }
+  
+  .rightSide {
+    padding: 0.75rem;
+  }
+  
+  .addressLine {
+    font-size: 0.9rem;
+    gap: 6px;
+  }
+  
+  .addressLine svg {
+    min-width: 18px;
+  }
+  
+  .dateLine {
+    font-size: 0.8rem;
+    gap: 6px;
+  }
+  
+  .dateLine svg {
+    min-width: 16px;
+  }
+  
+  .detailsBtn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ── Keyframes (defined once) ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Modal ── */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+  animation: fadeIn 0.25s ease forwards;
+  overflow: hidden;
+}
+
+.modalOverlay.fadeOut {
+  animation: fadeOut 0.25s ease forwards;
+}
+
+.modalContent {
+  background: white;
+  padding: 28px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  z-index: 100001;
+  animation: slideIn 0.3s ease forwards;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalContent h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.4rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.modalContent h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.modalContent p {
+  margin: 0.8rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* ── Buttons ── */
+.buttonsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.cancelBtn,
+.closeBtn,
+.confirmBtn {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.cancelBtn {
+  background-color: #e53935 !important;
+  color: white !important;
+  border: 1px solid #c62828 !important;
+}
+
+.cancelBtn:disabled {
+  background-color: #ccc !important;
+  border: 1px solid #999 !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+}
+
+.cancelBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.confirmBtn {
+  background-color: #e53935;
+  color: white;
+  border: 1px solid #c62828;
+}
+
+.confirmBtn:hover:not(:disabled) {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+}
+
+.confirmBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.confirmBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.closeBtn {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+.closeBtn:hover:not(:disabled) {
+  background-color: #eeeeee;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.closeBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.closeBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border-left: 4px solid #c62828;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 600px) {
+  .modalContent {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .modalContent h2 {
+    font-size: 1.2rem;
+  }
+
+  .cancelBtn,
+  .closeBtn,
+  .confirmBtn {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
+
+  .buttonsBox {
+    gap: 8px;
+    margin-top: 1rem;
+  }
+}
+
+/* ── Messages ── */
+.upcomingMsg {
+  margin-left: 2%;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.71);
+}
+
+/* Success toast — fixed to top of screen, always visible */
+.globalSuccess {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4caf50;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 200000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease forwards;
+}

@@ -12,3 +12,13 @@
     transform: translateY(0); /* ends in place */
   }
 }
+
+.pac-container {
+  z-index: 999999 !important;
+  position: fixed !important;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
