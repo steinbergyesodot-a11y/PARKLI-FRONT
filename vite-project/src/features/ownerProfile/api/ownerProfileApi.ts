@@ -6,7 +6,7 @@ export const ownerProfileApi = {
     return api.get(`/api/bookings/checkIfUserHasBookings/${userId}`);
   },
 
-  fetchDriveways: function(userId:string){
+  fetchDrivewaysByUserId: function(userId:string){
     return api.get(`/api/driveways/getAllDrivewaysByUserId/${userId}`);
   },
 
@@ -37,6 +37,8 @@ export const ownerProfileApi = {
   unblockGame: function(drivewayId: string, gameDate:string){
     return api.put(`/api/driveways/${drivewayId}/unblock/${gameDate}`);
   },
+
+
 
   
 

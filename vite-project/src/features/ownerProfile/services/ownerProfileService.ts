@@ -10,9 +10,9 @@ export class OwnerProfileService {
         }
     }
 
-    async fetchDriveways(userId: string) {
+    async fetchDrivewaysByUserId(userId: string) {
         try{
-            const response  = await ownerProfileApi.fetchDriveways(userId);
+            const response  = await ownerProfileApi.fetchDrivewaysByUserId(userId);
             const apiResponse = response.data
             return apiResponse
         }catch(error:any){

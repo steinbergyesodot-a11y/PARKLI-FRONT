@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import '../style/ProfilePageOwner.css'
 import { BookingDash } from "./BookingsDash";
 import { MdEdit } from "react-icons/md";
-import { UserDriveways } from "./UsersDriveways";
+import { UserDriveways } from "../features/ownerProfile/components/UsersDriveways";
 
 interface MyTokenPayload {
   _id: string;
@@ -688,7 +688,7 @@ return (
     )}
 
 {active === "My Driveways" && (
-  <UserDriveways userId={userId}/>
+  <UserDriveways userId={userId} driveways={driveways}/>
 )}
 
 {active === "My Profile" && (

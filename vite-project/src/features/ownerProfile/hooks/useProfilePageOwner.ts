@@ -60,7 +60,7 @@ export function useProfilePageOwner() {
     useEffect(() => {
     async function fetchDriveways() {
       try {
-        const response = await ownerProfileService.fetchDriveways(userId);
+        const response = await ownerProfileService.fetchDrivewaysByUserId(userId);
         setDriveways(response.data);
       } catch (error: any) {
         console.log(error);

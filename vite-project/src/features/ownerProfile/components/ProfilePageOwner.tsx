@@ -4,6 +4,7 @@ import { useProfilePageOwner } from "../hooks/useProfilePageOwner";
 import { useEffect, useState } from "react";
 import { GamesWindow, type Driveway } from "./gamesModal";
 import "../../../style/ProfilePageOwner.css";
+import { UserDriveways } from "./UsersDriveways";
 
 type curActive = "My Profile" | "My Driveways" | "Host Bookings"
 export function ProfilePageOwner() {
@@ -138,6 +139,11 @@ export function ProfilePageOwner() {
                     <GamesWindow onClose={closeGamesWindow} driveway={selectedDriveway} />
                 </div>
             )}
+
+            {active === "My Driveways" && (
+              <UserDriveways userId={userId} driveways={driveways}/>
+            
+            )} 
 
         </>
     );
