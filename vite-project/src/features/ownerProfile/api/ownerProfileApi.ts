@@ -10,6 +10,18 @@ export const ownerProfileApi = {
     return api.get(`/api/driveways/getAllDrivewaysByUserId/${userId}`);
   },
 
+  fetchDrivewayById: function(drivewayId: string) {
+    return api.get(`/api/driveways/${drivewayId}`);
+  },
+
+  updateDriveway: function(drivewayId: string, data: FormData) {
+    return api.put(`/api/driveways/${drivewayId}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+  },
+
   checkStripeVerification: function(userId:string){
     return api.get(`/api/users/${userId}/stripe/check-verification`);
   },

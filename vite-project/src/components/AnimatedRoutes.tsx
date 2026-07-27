@@ -7,7 +7,8 @@ import { DrivewayDetailed } from "../features/DrivewayDetailed/components/drivew
 // import { Payment } from "./Payment";
 import { Payment } from "../features/DrivewayDetailed/components/payment";
 import { ProfilePageRenter } from "./ProfilePageRenter";
-import { ProfilePageOwner } from "./ProfilePageOwner";
+// import { ProfilePageOwner } from "./ProfilePageOwner";
+import { ProfilePageOwner } from "../features/ownerProfile/components/ProfilePageOwner";
 import { MainProfilePage } from "./MainProfilePage";
 import { TermsOfService } from "./TermsOfService";
 import { Help } from "./Help";
@@ -18,7 +19,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import CancellationPolicy from "./CancellationPolicy";
 import OnboardingComplete from "../features/onboarding/components/OnboardingComplete";
 import OnboardingRetry from "../features/onboarding/components/OnboardingRetry";
-import { EditDriveway } from "./EditDriveway";
+import { EditDriveway } from "../features/ownerProfile/components/EditDriveway.tsx";
 import { NotFound } from "./NotFound";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Analytics } from '@vercel/analytics/react';

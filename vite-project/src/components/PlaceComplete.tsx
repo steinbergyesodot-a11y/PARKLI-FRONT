@@ -14,10 +14,17 @@ type AddressData = {
 
 type Props = {
   onSelect: (addressData: AddressData) => void;
+  initialValue?: string;
 };
 
-export function PlaceAutocompleteTS({ onSelect }: Props) {
+export function PlaceAutocompleteTS({ onSelect, initialValue = "" }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = initialValue;
+    }
+  }, [initialValue]);
 
  useEffect(() => {
   if (!window.google?.maps?.places || !inputRef.current) return;

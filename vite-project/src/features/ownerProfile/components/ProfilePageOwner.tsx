@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { GamesWindow, type Driveway } from "./gamesModal";
 import "../../../style/ProfilePageOwner.css";
 import { UserDriveways } from "./UsersDriveways";
+import { ProfileDetails } from "./ProfileDetails";
 
 type curActive = "My Profile" | "My Driveways" | "Host Bookings"
 export function ProfilePageOwner() {
@@ -12,7 +13,7 @@ export function ProfilePageOwner() {
     const [active, setActive] = useState<curActive>("Host Bookings");
     const [isGamesWindowOpen, setIsGamesWindowOpen] = useState(false);
     const [selectedDriveway, setSelectedDriveway] = useState<Driveway | null>(null);
-    const {firstName,lastName,email,user,userId,authProvider,isStripeVerified,stripeOnboardingUrl,driveways} = useProfilePageOwner();   
+    const {firstName,setFirstName,lastName,setLastName,email,setEmail,user,userId,authProvider,isStripeVerified,stripeOnboardingUrl,driveways} = useProfilePageOwner();   
     const tabs: curActive[] = ["Host Bookings", "My Driveways", "My Profile"];
 
 
@@ -67,7 +68,7 @@ export function ProfilePageOwner() {
             <div className="topLineProfile">
                <img src="/assets/user-interface.png" alt="avatar" className="profileAvatar" />
                 <div className="namemail">
-                    <p className="name">{firstName}</p>
+                    {firstName && <p className="name">{firstName}</p>}
                     <p className="email">{email}</p>
                     <button className="editBtn" onClick={() => setActive("My Profile")}>
                     Edit Profile
@@ -142,8 +143,20 @@ export function ProfilePageOwner() {
 
             {active === "My Driveways" && (
               <UserDriveways userId={userId} driveways={driveways}/>
-            
             )} 
+
+            {active === "My Profile" && (
+                <ProfileDetails
+                    userId={userId}
+                    authProvider={authProvider}
+                    firstName={firstName}
+                    lastName={lastName}
+                    email={email}
+                    setFirstName={setFirstName}
+                    setLastName={setLastName}
+                    setEmail={setEmail}
+                />
+            )}
 
         </>
     );

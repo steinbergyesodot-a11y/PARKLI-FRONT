@@ -20,6 +20,26 @@ export class OwnerProfileService {
         }
     }
 
+    async fetchDrivewayById(drivewayId: string) {
+        try {
+            const response = await ownerProfileApi.fetchDrivewayById(drivewayId);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async updateDriveway(drivewayId: string, data: FormData) {
+        try {
+            const response = await ownerProfileApi.updateDriveway(drivewayId, data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
     async checkStripeVerification(userId:string){
         try{
             const response  = await ownerProfileApi.checkStripeVerification(userId);
@@ -48,6 +68,7 @@ export class OwnerProfileService {
             return apiResponse
         }catch(error){
             console.log(error);
+            throw error;
         }
     }
 
@@ -58,6 +79,7 @@ export class OwnerProfileService {
             return apiResponse
         }catch(error){
             console.log(error);
+            throw error;
         }
     }
 
@@ -68,6 +90,7 @@ export class OwnerProfileService {
             return apiResponse
         }catch(error){
             console.log(error);
+            throw error;
         }
     }
 
