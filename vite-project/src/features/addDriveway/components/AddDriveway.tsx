@@ -1,0 +1,592 @@
+import { Link } from "react-router-dom";
+import { PlaceAutocompleteTS } from "../../../components/PlaceComplete";
+import { ProfileDropdown } from "../../../components/ProfileDropdown";
+import { useAddDriveway } from "../hooks/useAddDriveway"
+import { ruleCategories } from "../utils/rules";
+import { section } from "framer-motion/client";
+
+export function AddDriveway(){
+    const { step,
+            setStep,
+            formData,
+            setFormData,
+            message,
+            setMessage,
+            messageType,
+            setMessageType,
+            isLoading,
+            setIsLoading,
+            userAgreed,
+            setUserAgreed,
+            showWelcoming,
+            setShowWelcoming,
+            showAgreement,
+            setShowAgreement,
+            onboardingUrl,
+            setOnboardingUrl,
+            handleChange,
+            createDriveway,
+            handleShowAgreement,
+            sendHome,
+            handleUserAgreed,
+            handleStartListing,
+            startListing,
+            handleRuleToggle
+    } = useAddDriveway()
+
+  
+    if (showWelcoming === true) {
+      return (
+        <>
+           <div className="topAddDriveway">
+          <img
+            src="/logo.png"
+            alt="logo"
+            className="logo"
+            onClick={sendHome}
+          />
+          <ProfileDropdown/>
+    
+        </div>
+        <div className="listing-intro">
+          <h2 className="listing-title">Earn from your driveway</h2>
+    
+          <p className="listing-subtitle">
+            List your driveway in minutes and get paid on game days. Quick setup, secure payouts.
+          </p>
+    
+          <button className="listing-start-btn primaryBtn" onClick={handleShowAgreement}>
+            Get started
+          </button>
+        </div>
+        </>
+      );
+    }
+
+   if(showAgreement){
+    return(
+      <>
+            <div className="topAddDriveway">
+            <img
+              src="/logo.png"
+              alt="logo"
+              className="logo"
+              onClick={sendHome}
+            />
+            <ProfileDropdown/>
+      
+          </div>
+      <div className="policy-container">
+        <div className="policy-box">
+        <h3>Host Rules Agreement</h3>
+         <p><strong>1. Accuracy of Information</strong><br />
+         I agree to provide accurate details about my driveway, including location, 
+          access instructions, and any restrictions. I will update my listing if anything changes.
+          </p>
+          
+        <p><strong>2. Availability</strong><br />
+        I am responsible for keeping my availability accurate. If my driveway becomes unavailable,
+        I will update the listing immediately.
+        </p>
+
+        <p><strong>3. Arrival Time</strong><br />
+          Renters may arrive up to <strong>60 minutes before the game or event</strong>, unless I specify
+          a different rule in my listing. I agree to honor the arrival window shown to the renter.
+        </p>
+
+        <p><strong>4. Safety & Accessibility</strong><br />
+          My driveway will be safe, accessible, and free of hazards. I will clearly communicate any
+          special instructions such as gates, codes, or narrow entrances.
+        </p>
+        
+        <p><strong>5. Compliance With Local Laws</strong><br />
+        I am responsible for ensuring that listing my driveway complies with local laws, property rules,
+        and any HOA or building regulations.
+        </p>
+        
+        <p><strong>6. Respectful Communication</strong><br />
+        I will communicate with renters only through the app and respond promptly to questions or issues.
+        </p>
+        
+        <p><strong>7. Cancellations</strong><br />
+          If I need to cancel a booking, I will do so through the app. I understand that frequent cancellations
+          may result in penalties or removal from the platform.
+        </p>
+
+        <p><strong>8. No Unauthorized Tow‑Away</strong><br />
+          I will not tow or threaten to tow a renter’s vehicle unless they violate clearly stated rules.
+          Any towing must follow local laws.
+        </p>
+
+        <p><strong>9. Condition of the Space</strong><br />
+        My driveway will be available, clean, and usable at the renter’s arrival time. I will not block
+          the space or allow others to use it during a confirmed booking.
+          </p>
+
+        <p><strong>10. Platform Policies</strong><br />
+        I agree to follow all platform rules, terms of service, and safety guidelines. I understand that
+          violations may result in suspension or removal from the platform.
+        </p>
+        </div>
+        <label className="agree-label">
+            <input type="checkbox" onChange={handleUserAgreed} />
+            I have read and agree to the Host Rules.
+            
+        </label>
+        <button
+        onClick={handleStartListing} 
+        className="agreeButton"
+        disabled={!userAgreed} 
+        >
+            Agree and continue
+            </button>
+
+        </div>
+
+      </>
+    )
+   }
+
+   if(startListing === true){
+    
+    return(
+      <>
+      <div className="page">
+        
+            {isLoading && (
+               <div className="loading-overlay">
+                 <div className="loading-spinner"></div>
+                 <p>Uploading your driveway…</p>
+               </div>
+            )}
+
+            <div className="topAddDriveway">
+                <img
+                  src="/logo.png"
+                  alt="logo"
+                  className="logo"
+                  onClick={sendHome}
+                />
+                <ProfileDropdown/>
+            </div>
+
+              {message && (
+              <div
+                style={{
+                  position: "fixed",
+                  right: 20,
+                  top: 20,
+                  zIndex: 9999,
+                  padding: "12px 18px",
+                  borderRadius: 10,
+                  color: messageType === "error" ? "#fff" : "#063",
+                  background: messageType === "error" ? "#b00020" : "#e6ffed",
+                  boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+                  maxWidth: 360
+                }}
+              >
+                {message}
+              </div>
+            )}
+
+            <div className="box5">
+                     {step === 1 && (
+                <>
+                <section className="nameOuter">
+                <div className="nameBox">
+                <p>
+                  Choose a driveway name (this will appear on your property page)
+                </p>
+                <input
+                type="text" 
+                value={formData.name}
+                onChange={e => handleChange("name", e.target.value)}
+                className="nameInput"
+                placeholder="e.g., John's driveway"
+                />
+                </div>
+                </section>
+                </>
+              )}
+
+               {step === 2 && (
+                            <div className="locationBox step">
+                              <h2>Where's your driveway located?</h2>
+              
+                          <PlaceAutocompleteTS
+                            onSelect={(addressData) => {
+                              setFormData(prev => ({ 
+                                ...prev, 
+                                address: addressData.full_address,
+                                city: addressData.city,
+                                state: addressData.state,
+                                zipcode: addressData.zipcode,
+                                latitude: addressData.latitude,
+                                longitude: addressData.longitude,
+                                publicDisplay: addressData.publicDisplay
+                              }));
+                            }}
+                          />
+                          <p className="safety">
+                                We only show renters your street and approximate location.
+                              </p>
+                            </div>
+              )}
+
+ {step === 3 && (
+        <section className="stadiumInfoBox">
+        <div className="stadiumInfo5 step">
+        <h3 className="title2">Walk from driveway to stadium:</h3>
+
+      <section className="walk">
+          <select
+            value={formData.walk}
+            onChange={e => handleChange("walk", e.target.value)}
+            className="walk-select"
+          >
+          <option value="">Select walking time</option>
+
+          {Array.from({ length: 30 }, (_, i) => i + 1).map(num => (
+            <option key={num} value={num}>
+              {num} minutes
+            </option>
+          ))}
+        </select>
+      </section>
+      </div>
+      </section>
+    )}
+
+           {step === 4 && (
+          <section className="priceBoxLarger">
+          <div className="priceBox">
+            <h2 className="priceTitle">Set YourPrice</h2>
+            <h4 className="priceTitle2">Set your price per reservation (USD).</h4>
+           <div className="pricing-note">
+            <strong>Note:</strong> You can update your pricing at any time. Whether it’s due to playoffs, special events, or changing demand, you’re always in full control of your rates.
+           </div>
+            <select
+            value={formData.price}
+            onChange={e => handleChange("price", e.target.value)}
+            className="price-dropdown"
+            >
+              <option value="">Select price</option> 
+              {Array.from({ length: 100 }, (_, i) => i + 1).map((num) => (
+                 <option key={num} value={num}>
+                   {num} 
+                   </option>
+                   ))}
+                   
+                   </select>
+          </div>
+          </section>
+        )}
+
+         {step === 5 && (
+          <div className="imagesBoxLarger">
+            <section className="imagesBox step">
+        
+              <h2>Add your pictures!</h2>
+        
+              <div className="image-note">
+                <strong>Tip:</strong> Please upload clear, high‑quality photos of your driveway.<br />
+                Good lighting and accurate angles help renters feel confident and increase your chances of getting booked.
+              </div>
+        
+              {/* NEW MESSAGE */}
+              <div className="image-limit-note">
+                You can upload up to <strong>5 images</strong>.
+              </div>
+        
+              <div className="imageUploadBox">
+                <label className="uploadArea">
+                  <span className="uploadText">Click to upload or drag images here</span>
+        
+                  <input
+                    className="imageInput"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const newFiles = e.target.files ? Array.from(e.target.files) : [];
+                      const current = formData.images;
+        
+                      // 1. Limit total number of images
+                      if (current.length + newFiles.length > 5) {
+                        alert("You can upload a maximum of 5 images.");
+                        return;
+                      }
+        
+                      // 2. Validate file types
+                      const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+                      const typeValid = newFiles.filter(file => allowedTypes.includes(file.type));
+        
+                      if (typeValid.length !== newFiles.length) {
+                        alert("Only JPG, PNG, or WEBP images are allowed.");
+                      }
+        
+                      // 3. Validate file size (max 5MB)
+                      const maxSize = 5 * 1024 * 1024;
+                      const sizeValid = typeValid.filter(file => file.size <= maxSize);
+        
+                      if (sizeValid.length !== typeValid.length) {
+                        alert("Each image must be under 5MB.");
+                      }
+        
+                      // 4. Add only valid files
+                      handleChange("images", [...current, ...sizeValid]);
+                    }}
+                  />
+        
+                  {formData.images.length > 0 && (
+                    <div className="previewGrid">
+                      {formData.images.map((file: File, index: number) => (
+                        <div key={index} className="previewItem">
+                          <img src={URL.createObjectURL(file)} alt={`preview-${index}`} />
+        
+                          <button
+                            type="button"
+                            className="removeBtn"
+                            onClick={() => {
+                              const updated: File[] = formData.images.filter((_, i) => i !== index);
+                              handleChange("images", updated);
+                            }}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+        
+                </label>
+              </div>
+        
+            </section>
+          </div>
+        )}
+
+        {step === 6 && (
+                  <>
+                   <div className="rules-section">
+                   <p className="title3">Rules for your driveway</p>
+                   <p className="title4">Select all the rules that apply to your driveway.</p>
+        
+        
+                  {Object.entries(ruleCategories).map(([category, rules]) => (
+                    <div key={category} className="rule-category">
+                    <h4 className="category-title">{category}</h4>
+        
+               {rules.map(rule => (
+                <label key={rule} className="rule-item">
+                  <input
+                    type="checkbox"
+                    checked={formData.rules.includes(rule)}
+                    onChange={() => handleRuleToggle(rule)}
+                    />
+                  {rule}
+                </label>
+                  ))}
+                </div>
+              ))}
+            </div>
+            </>
+            )}
+
+               {step === 7 && (
+                      <section className="descriptionBoxLarger">
+                      <div className="descriptionBox step">
+                        <h3>Additional Information</h3>
+                        <div className="info-note">
+              <strong>Additional Information:</strong> Feel free to include any extra details that might help renters understand your driveway better.<br />
+              Such as access instructions, nearby landmarks, or anything unique about your space.
+            </div>
+            
+            
+                        <textarea
+                        className="textarea"
+                        id="message"
+                        name="message"
+                          rows={10}
+                          cols={60}
+                          placeholder="Write your text here..."
+                          value={formData.description}
+                          onChange={e => handleChange("description", e.target.value)}
+                          />
+                          </div>
+                          </section>
+                    )}
+
+                      {step === 8 && (
+                              <>
+                              {!onboardingUrl ? 
+                              <div className="reviewOuterBox">
+                              <section className="reviewBox">
+                    
+                                 <div className="reviewLocation">
+                                    <div>
+                                    <h3>NAME</h3>
+                                    <p>{formData.name}</p>
+                                    </div>
+                                    <button className="editButton" onClick={() => setStep(1)}>Edit</button>
+                                  </div>
+                                  <hr />
+                    
+                                  <div className="reviewLocation">
+                                    <div>
+                                    <h3>LOCATION</h3>
+                                    <p>{formData.address}</p>
+                                    <p className="exact">Exact address shown only after booking</p>
+                                    </div>
+                                    <button className="editButton" onClick={() => setStep(2)}>Edit</button>
+                                  </div>
+                                  <hr />
+                    
+                                  <div className="reviewPrice">
+                                    <div>
+                                    <h3>PRICE</h3>
+                                    <p>${formData.price} per game</p>
+                                    </div>
+                                    <button className="editButton" onClick={() => setStep(4)}>Edit</button>
+                                  </div>
+                                  <hr />
+                    
+                    
+                                  <div className="reviewWalk">
+                                  <div>
+                                    <h3>WALKING DISTANCE</h3>
+                                    <p>{formData.walk} minute walk</p>
+                                  </div>
+                                  <button className="editButton" onClick={() => setStep(3)}>Edit</button>
+                                </div>
+                                  <hr />
+                    
+                                <div className="reviewDescription">
+                                  <div>
+                                    <h3>Description</h3>
+                                    <p>{formData.description}</p>
+                                  </div>
+                                  <button className="editButton" onClick={() => setStep(7)}>Edit</button>
+                                </div>
+                                              <hr />
+                    
+                    
+                                <div className="reviewRules">
+                                  <div>
+                                <h3>RULES</h3>
+                                <ul>
+                                  {formData.rules.map((rule, index) => (
+                                    <li key={index}>✔ {rule}</li>
+                                  ))}
+                                </ul>
+                                </div>
+                                  <button className="editButton" onClick={() => setStep(6)}>Edit</button>
+                    
+                              </div>
+                                                        <hr />
+                    
+                    
+                              <div className="reviewImages">
+                                <div>
+                              <h3>PHOTOS</h3>
+                    
+                              <div className="imageGrid">
+                                {formData.images.map((file, index) => (
+                                  <img
+                                    key={index}
+                                    src={URL.createObjectURL(file)}
+                                    alt={`Driveway ${index}`}
+                                    className="previewImage"
+                                    />
+                                ))}
+                              </div>
+                          </div>
+                                    <button className="editButton" onClick={() => setStep(5)}>Edit</button>
+                    
+                          </div>
+                                <hr />
+                    
+                            <p className="agreementText">
+                              By publishing your listing, you confirm that all information is accurate and
+                              that you agree to follow our hosting rules and community guidelines.
+                              <br />
+                                      <Link to="/TermsOfUse" className="termsLink">View Terms Of Use</Link>
+                            </p>
+                    
+                                  <button
+                                    onClick={createDriveway}
+                                    className="listBtn primaryBtn"
+                                    disabled={isLoading}
+                                  >
+                                    {isLoading ? "Processing…" : "Set up payouts & Publish"}
+                                  </button>
+                             </section>
+                           </div> 
+                           
+                           : 
+                           <div className="onboarding-success-container">
+                             <div className="success-icon">
+                               <span className="success-check">✓</span>
+                             </div>
+                             <h2 className="success-title">Your driveway is uploaded!</h2>
+                             <p className="success-subtitle">All that's left is to set up payment</p>
+                             <a href={onboardingUrl} className="onboarding-link">
+                               <button className="listBtn onboarding-btn">Complete Payment Setup</button>
+                             </a>
+                           </div>
+                      }
+                              
+                              </>
+                            )}
+            
+        
+
+
+
+  </div>
+
+
+
+        <div className="buttonWrapper">
+
+          {step === 1 && (
+            <button className="nextBtn" onClick={() => setStep(step + 1)}>
+              Next
+            </button>
+          )}
+
+          {step > 1 && step < 8 && (
+            <>
+              <div className="bothButtons">
+              <button disabled={isLoading}  className="nextBtn" onClick={() => setStep(step - 1)}>
+                Back
+              </button>
+
+              <button disabled={isLoading} className="nextBtn" onClick={() => setStep(step + 1)}>
+                Next
+              </button>
+              </div>
+            </>
+          )}
+
+          {step === 8 && (
+            <>
+              <button className="nextBtn"  disabled={isLoading} onClick={() => setStep(step - 1)}>
+                Back
+              </button>
+            </>
+          )}
+
+          <p className="helper">Step {step} of 8</p>
+          </div>
+
+      </div>
+      </>
+    )
+   }
+
+   
+
+
+    
+}

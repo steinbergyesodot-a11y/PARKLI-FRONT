@@ -1,37 +1,24 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router'
-import './index.css'
-import App from './App.tsx'
-import { Home } from './components/Home.tsx'
-import { SignUp } from './components/SignUp.tsx'
-import { Login } from './components/Login.tsx'
-import { Dashboard } from './components/Dashboard.tsx'
-import {About} from './components/About.tsx'
-import {AddDriveway} from './components/AddDriveway.tsx'
-import { DrivewayDetailed } from './components/DrivewayDetailed.tsx'
-import { Booking } from './components/Booking.tsx'
-import { UserProvider } from './userContext.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
+import { UserProvider } from "./userContext.tsx";
+import { AnimatedRoutes } from "./components/AnimatedRoutes.tsx";
+
+// Load Google Maps script from environment variable
+const script = document.createElement("script");
+script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
+script.async = true;
+script.defer = true;
+document.head.appendChild(script);
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <UserProvider>
-
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/Home" element={<Home />} />
-      <Route path="/AddDriveway" element={<AddDriveway />} />
-      <Route path="/SignUp" element={<SignUp />} />
-      <Route path="/Login" element={<Login/>} />
-      <Route path="/Dashboard" element={<Dashboard/>} />
-      <Route path="/About" element={<About/>} />
-      <Route path="DrivewayDetailed/:id" element={<DrivewayDetailed/>}/>
-      <Route path="/Booking" element={<Booking/>}/>
-
-
-   </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <AnimatedRoutes />
+      </BrowserRouter>
     </UserProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);
