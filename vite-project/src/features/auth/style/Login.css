@@ -80,6 +80,14 @@
   transform: translateY(0);
 }
 
+.login-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.15);
+  box-shadow: none;
+}
+
 /* Forgot Password Button */
 .forgot-password-btn {
   align-self: flex-start;
@@ -201,6 +209,15 @@
   transform: translateY(0);
 }
 
+.gsi-material-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.35);
+  background: #f1f3f5;
+  border-color: #d5d8dc;
+}
+
 .gsi-material-button-content-wrapper {
   display: flex;
   align-items: center;
@@ -250,4 +267,99 @@
   align-items: center;
   gap: 8px;
   justify-content: center;
+}
+
+/* Modal overlays/messages used by Login.tsx */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.createdMessage,
+.errorMessageBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.96);
+  width: min(420px, 92vw);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.25);
+  z-index: 9999;
+  text-align: center;
+  animation: modalPopIn 0.2s ease-out forwards;
+}
+
+.createdMessage {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #14532d;
+}
+
+.errorMessageBox {
+  position: fixed;
+  background: #fff1f2;
+  border: 1px solid #fda4af;
+  color: #881337;
+}
+
+.createdMessage p,
+.errorMessageBox p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.successIcon,
+.errorIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.successIcon {
+  margin: 0 auto 0.65rem;
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.errorIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #be123c;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.errorIcon:hover {
+  background: rgba(190, 18, 60, 0.1);
+}
+
+.errorIcon:focus-visible {
+  outline: 2px solid #be123c;
+  outline-offset: 2px;
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }

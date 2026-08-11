@@ -24,6 +24,10 @@ export function useLogin() {
   const navigate = useNavigate();
   const userContext = useContext(UserContext);
 
+  const clearErrorMessage = () => {
+    setErrorMessage(null);
+  };
+
   const decodeAndSetUser = (token: string): boolean => {
     const decoded: MyJwtPayload = jwtDecode(token);
     const now = Date.now() / 1000;
@@ -191,6 +195,7 @@ export function useLogin() {
     setPassword,
     loading,
     errorMessage,
+    clearErrorMessage,
     message,
     handleSubmit,
     handleGoogleLogin,

@@ -11,10 +11,13 @@ export function Login() {
     setPassword,
     loading,
     errorMessage,
+    clearErrorMessage,
     message,
     handleSubmit,
     handleGoogleLogin,
   } = useLogin();
+
+  const isModalVisible = !!errorMessage || !!message;
 
   return (
     <div className="login-container">
@@ -57,7 +60,7 @@ export function Login() {
         <button 
         className="login-btn"
         type="submit"
-        disabled={loading}>
+        disabled={loading || isModalVisible}>
           {loading ? (
             <div className="spinner-wrapper">
               <div className="spinner"></div>
@@ -80,7 +83,7 @@ export function Login() {
           className="gsi-material-button"
           type="button"
           onClick={handleGoogleLogin}
-          disabled={loading}
+          disabled={loading || isModalVisible}
         >
           <div className="gsi-material-button-state"></div>
           <div className="gsi-material-button-content-wrapper">
@@ -113,7 +116,14 @@ export function Login() {
         <>
           <div className="overlay"></div>
           <div className="errorMessageBox">
-            <div className="errorIcon">✕</div>
+            <button
+              type="button"
+              className="errorIcon"
+              onClick={clearErrorMessage}
+              aria-label="Close error message"
+            >
+              ✕
+            </button>
             <p>{errorMessage}</p>
           </div>
         </>
