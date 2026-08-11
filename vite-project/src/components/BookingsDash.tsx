@@ -1,11 +1,10 @@
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { createPortal } from "react-dom";
-// import { bookingService } from "../services/bookingService";
+import api from "../lib/axiosClient";
 import "../style/BookingDash.css";
 
 interface BookingDashProps {
@@ -61,8 +60,9 @@ export function BookingDash({ renterId }: BookingDashProps) {
  useEffect(() => {
     async function load() {
       try {
-        const bookings = await bookingService.fetchBookings(userId);
-        setUpcomingBookings(bookings);
+        const response = await api.get(`/api/bookings/user/${userId}`);
+        const bookings = response.data?.data ?? response.data ?? [];
+        setUpcomingBookings(Array.isArray(bookings) ? bookings : []);
       } catch (err) {
         setUpcomingBookings([]);
       }
@@ -112,12 +112,9 @@ export function BookingDash({ renterId }: BookingDashProps) {
   setCancelError("");
 
   try {
-    const url = `${import.meta.env.VITE_BACKEND_URL}/api/bookings/cancelBooking`;
     const payload = { drivewayId, gameDate, bookingId };
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    
 
-    const resp = await axios.post(url, payload, { headers, timeout: 5000 });
+    await api.post("/api/bookings/cancelBooking", payload, { timeout: 5000 });
 
 
     // remove from UI immediately

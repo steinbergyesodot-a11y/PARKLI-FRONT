@@ -72,7 +72,7 @@ export function useLogin() {
 
       // Call login API
       const response = await authService.login({ email, password });
-      const token = response.token;
+      const token = response.data.token;
 
       // Save JWT
       localStorage.setItem("authToken", token);
@@ -116,9 +116,20 @@ export function useLogin() {
 
     try {
       const google = (window as any).google;
+      const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim();
+
+      if (!google?.accounts?.oauth2) {
+        throw new Error("Google Sign-In is not available right now. Please refresh and try again.");
+      }
+
+      if (!googleClientId) {
+        throw new Error(
+          "Google login is not configured. Add VITE_GOOGLE_CLIENT_ID to your .env file, restart Vite, and ensure http://localhost:5173 is allowed in Google OAuth Authorized JavaScript origins."
+        );
+      }
 
       const client = google.accounts.oauth2.initTokenClient({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        client_id: googleClientId,
         scope: "email profile",
         callback: async (response: any) => {
           try {

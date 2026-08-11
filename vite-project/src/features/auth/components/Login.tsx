@@ -53,13 +53,11 @@ export function Login() {
           </button>
         </div>
 
-        {errorMessage && (
-          <p className="error-msg" aria-live="polite">
-            {errorMessage}
-          </p>
-        )}
 
-        <button className="login-btn" type="submit" disabled={loading}>
+        <button 
+        className="login-btn"
+        type="submit"
+        disabled={loading}>
           {loading ? (
             <div className="spinner-wrapper">
               <div className="spinner"></div>
@@ -69,6 +67,12 @@ export function Login() {
             "Log In"
           )}
         </button>
+
+          {errorMessage && (
+            <p className="error-msg" aria-live="polite">
+              {errorMessage}
+            </p>
+          )}
 
         <div className="divider-line"></div>
 
