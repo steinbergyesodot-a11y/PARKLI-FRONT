@@ -4,6 +4,58 @@
 
 }
 
+/* Dashboard-style loading state for driveway details */
+.dashboard-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 100px 20px;
+  width: 100%;
+  min-height: 300px;
+  color: #333;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.dashboard-spinner {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+}
+
+.dashboard-spinner::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid #e0e0e0;
+  border-color: #007bff #007bff #e0e0e0 #e0e0e0;
+  animation: spin 1.2s linear infinite;
+}
+
+.driveway-detailed-loading-state {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 
 
@@ -215,22 +267,30 @@
   opacity: 1;
 }
 
-.walkInfo{
+.detailPageContainer .walkInfo,
+.detailPageContainer .priceInfo {
     font-size: 1.3rem;
     display: flex;
+    align-items: center;
     gap: 2vw;
     font-family: 'Times New Roman', Times, serif;
-        color: rgba(0, 0, 0, 0.76);
-
+    color: rgba(0, 0, 0, 0.76);
 }
 
-.walkIcon{
+.detailPageContainer .walkInfo span,
+.detailPageContainer .priceInfo span {
+  display: inline-flex;
+  align-items: center;
+  font-size: inherit;
+}
+
+.detailPageContainer .walkIcon {
     font-size: 1.3rem;
 }
 
 
 
-.moneyIcon{
+.detailPageContainer .moneyIcon {
     font-size: 1.2rem;
 }
 

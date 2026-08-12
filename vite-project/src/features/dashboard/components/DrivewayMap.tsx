@@ -28,6 +28,8 @@ interface Coordinates {
 }
 
 const GEO_CACHE_KEY = 'dashboard_geocode_cache_v1';
+const WRIGLEY_FIELD_CENTER: Coordinates = { lat: 41.9484384, lng: -87.6553327 };
+const WRIGLEY_RADIUS_KM = 3;
 
 const mapContainerStyle = {
   width: '100%',
@@ -116,8 +118,8 @@ function hashSeed(seed: string): number {
 }
 
 function fallbackCoordinates(seed: string): Coordinates {
-  const baseLat = 41.9484;
-  const baseLng = -87.6555;
+  const baseLat = WRIGLEY_FIELD_CENTER.lat;
+  const baseLng = WRIGLEY_FIELD_CENTER.lng;
   const hash = hashSeed(seed);
   const latOffset = ((hash % 100) / 100 - 0.5) * 0.014;
   const lngOffset = (((Math.floor(hash / 100) % 100) / 100) - 0.5) * 0.014;
@@ -126,6 +128,22 @@ function fallbackCoordinates(seed: string): Coordinates {
     lat: baseLat + latOffset,
     lng: baseLng + lngOffset,
   };
+}
+
+function getDistanceInKm(pointA: Coordinates, pointB: Coordinates): number {
+  const earthRadiusKm = 6371;
+  const latDiffRadians = ((pointB.lat - pointA.lat) * Math.PI) / 180;
+  const lngDiffRadians = ((pointB.lng - pointA.lng) * Math.PI) / 180;
+  const latARadians = (pointA.lat * Math.PI) / 180;
+  const latBRadians = (pointB.lat * Math.PI) / 180;
+
+  const haversineA =
+    Math.sin(latDiffRadians / 2) * Math.sin(latDiffRadians / 2) +
+    Math.cos(latARadians) * Math.cos(latBRadians) *
+      Math.sin(lngDiffRadians / 2) * Math.sin(lngDiffRadians / 2);
+  const haversineC = 2 * Math.atan2(Math.sqrt(haversineA), Math.sqrt(1 - haversineA));
+
+  return earthRadiusKm * haversineC;
 }
 
 function getMarkerPalette(price: number, minPrice: number, maxPrice: number) {
@@ -235,13 +253,23 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
     };
   }, [safeDriveways]);
 
-  const defaultCenter = useMemo(() => ({ lat: 41.9484, lng: -87.6555 }), []);
+  const defaultCenter = useMemo(() => WRIGLEY_FIELD_CENTER, []);
+  const visibleLocations = useMemo(
+    () =>
+      locations.filter((location) =>
+        getDistanceInKm(
+          { lat: location.lat, lng: location.lng },
+          WRIGLEY_FIELD_CENTER
+        ) <= WRIGLEY_RADIUS_KM
+      ),
+    [locations]
+  );
   const mapCenter = useMemo(() => {
-    if (locations.length === 0) {
+    if (visibleLocations.length === 0) {
       return defaultCenter;
     }
 
-    const totals = locations.reduce(
+    const totals = visibleLocations.reduce(
       (accumulator, location) => ({
         lat: accumulator.lat + location.lat,
         lng: accumulator.lng + location.lng,
@@ -250,25 +278,25 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
     );
 
     return {
-      lat: totals.lat / locations.length,
-      lng: totals.lng / locations.length,
+      lat: totals.lat / visibleLocations.length,
+      lng: totals.lng / visibleLocations.length,
     };
-  }, [defaultCenter, locations]);
+  }, [defaultCenter, visibleLocations]);
   const mapStats = useMemo(() => {
-    if (locations.length === 0) {
+    if (visibleLocations.length === 0) {
       return null;
     }
 
-    const prices = locations.map((location) => location.price);
+    const prices = visibleLocations.map((location) => location.price);
     const totalPrice = prices.reduce((sum, value) => sum + value, 0);
 
     return {
       minPrice: Math.min(...prices),
       maxPrice: Math.max(...prices),
       avgPrice: Math.round(totalPrice / prices.length),
-      totalSpots: locations.length,
+      totalSpots: visibleLocations.length,
     };
-  }, [locations]);
+  }, [visibleLocations]);
 
   if (loading) {
     return (
@@ -284,6 +312,15 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
       <div className="map-error">
         <div>📍 No driveways to display</div>
         <div>Check back later for available locations</div>
+      </div>
+    );
+  }
+
+  if (visibleLocations.length === 0) {
+    return (
+      <div className="map-error">
+        <div>📍 No pins near Wrigley Field</div>
+        <div>Try broadening your search area or filters</div>
       </div>
     );
   }
@@ -309,10 +346,10 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           center={mapCenter}
-          zoom={13}
+          zoom={15}
           options={mapOptions}
         >
-          {locations.map((location) => (
+          {visibleLocations.map((location) => (
             <Marker
               key={location.id}
               position={{ lat: location.lat, lng: location.lng }}
@@ -323,8 +360,6 @@ export function DrivewayMap({ driveways }: DrivewayMapProps) {
                   mapStats?.minPrice ?? location.price,
                   mapStats?.maxPrice ?? location.price
                 ),
-                scaledSize: new google.maps.Size(52, 70),
-                anchor: new google.maps.Point(26, 70),
               }}
             />
           ))}

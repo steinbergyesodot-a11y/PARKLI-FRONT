@@ -4,7 +4,4 @@ export const dashboardApi = {
   getAllDriveways: function () {
     return api.get('/api/driveways');
   },
-
-  
-
 };

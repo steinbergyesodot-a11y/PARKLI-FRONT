@@ -41,8 +41,9 @@ export function DrivewayDetailed(){
         return (
   <>
     {isLoading && (
-      <div style={{position:'fixed',left:0,top:0,right:0,bottom:0,background:'rgba(255,255,255,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:9999}}>
-        <div style={{padding:14,background:'#fff',borderRadius:10,boxShadow:'0 6px 20px rgba(0,0,0,0.12)'}}>Loading driveway…</div>
+      <div className="dashboard-loading-state driveway-detailed-loading-state">
+        <div className="dashboard-spinner" aria-hidden="true"></div>
+        <div>Loading driveway…</div>
       </div>
     )}
 
@@ -125,12 +126,12 @@ export function DrivewayDetailed(){
 
           <p className="walkInfo">
             <RiWalkFill className="walkIcon" />
-            <div>{driveway?.walk} Min</div>
+            <span>{driveway?.walk} Min</span>
           </p>
 
           <p className="priceInfo">
             <GrMoney className="moneyIcon" />
-            <div><MdAttachMoney /> {driveway?.price} (USD)</div>
+            <span><MdAttachMoney /> {driveway?.price} (USD)</span>
           </p>
 
           <p className="ratingInfo">
