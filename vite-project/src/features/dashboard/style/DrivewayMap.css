@@ -101,9 +101,30 @@
   text-align: center;
 }
 
+.leaflet-map {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
 .price-marker-icon {
   background: transparent;
   border: none;
+}
+
+.price-marker-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.22);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .price-marker-bubble {
@@ -155,6 +176,25 @@
 .map-info-window strong {
   color: #2563eb;
   font-size: 1rem;
+}
+
+.map-popup-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.map-popup-link:hover {
+  background: #1d4ed8;
+  color: #ffffff;
 }
 
 @media (max-width: 900px) {
